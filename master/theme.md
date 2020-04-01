@@ -14,7 +14,7 @@
 
 #### 获取内置颜色
 
-通过`get`或魔术方法可以获取颜色代码，当获取的颜色不存在时，会返回参数的原始值。
+通过`Color::get`或魔术方法可以获取颜色代码，当通过`Color::get`获取的颜色不存在时，会返回参数的原始值。
 
 ```php
 <?php
@@ -73,9 +73,9 @@ echo Admin::color()->darken('#5c6bc6', 10); // 输出 #5261bc
 ```
 
 #### 颜色透明化
-通过`Color::alpha`方法可以获取设置颜色的透明度。
+通过`Color::alpha`方法可以设置颜色的透明度。
 
-`Color::darken`方法接收两个参数：
+`Color::alpha`方法接收两个参数：
 
 - `$name` `string` 颜色别名
 - `$alpha` `float` 透明度，`0 ~ 1`之间的值，值越小透明度越高
@@ -122,6 +122,95 @@ Admin::script(
 	console.log(primary);  // 打印 #5c6bc6
 JS
 );
+```
+
+#### 颜色淡化
+
+通过`Dcat.color.lighten`方法或魔术方法可以获取淡化后的颜色的16进制颜色代码。
+
+`color.lighten`方法接收两个参数：
+
+- `name` `string` 颜色别名
+- `amt` `int` 颜色偏差值，值越大颜色越`淡`
+
+```php
+Admin::script(
+    <<<JS
+    var primary = Dcat.color.lighten('primary', 10)
+    
+    console.log(primary); // 输出 #6675d0
+JS    
+);
+```
+
+也支持直接传颜色代码
+
+```js
+var primary = Dcat.color.lighten('5c6bc6', 10);
+    
+console.log(primary); // 输出 #6675d0
+```
+
+#### 颜色深化
+
+通过`Dcat.color.darken`方法或魔术方法可以获取深化后的颜色的16进制颜色代码。
+
+`color.darken`方法接收两个参数：
+
+- `name` `string` 颜色别名
+- `amt` `int` 颜色偏差值，值越大颜色越`深`
+
+```php
+Admin::script(
+    <<<JS
+    var primary = Dcat.color.darken('primary', 10)
+    
+    console.log(primary); // 输出 #5261bc
+JS    
+);
+```
+
+也支持直接传颜色代码
+
+```php
+var primary = Dcat.color.darken('5c6bc6', 10)
+
+console.log(primary); // 输出 #5261bc
+```
+
+#### 颜色透明化
+通过`Dcat.color.alpha`方法可以设置颜色的透明度。
+
+`color.alpha`方法接收两个参数：
+
+- `$name` `string` 颜色别名
+- `$alpha` `float` 透明度，`0 ~ 1`之间的值，值越小透明度越高
+
+```php
+Admin::script(
+    <<<JS
+    var primary = Dcat.color.alpha('primary', 0.1)
+    
+    console.log(primary); // 输出 rgba(92, 107, 198, 0.1)
+JS    
+);
+```
+
+也支持直接传颜色代码
+
+```php
+var primary = Dcat.color.alpha('#5c6bc6', 0.1)
+    
+console.log(primary); // 输出 rgba(92, 107, 198, 0.1)
+```
+
+
+#### 获取所有内置颜色
+
+通过`Dcat.color.all`方法可以获取所有内置颜色的16进制代码，此方法返回一个键值对对象。
+
+```js
+var allColors = Dcat.color.all();
 ```
 
 
