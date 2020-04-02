@@ -53,36 +53,6 @@ $grid->content->view('admin.fields.content');
 <label>其他字段：{{ $model->title }}</label>
 ```
 
-### 列编辑
-
-通过`editable.js`的帮助，可以让你在表格中直接编辑数据，使用方法如下
-```php
-$grid->title()->editable();
-
-$grid->title()->editable('textarea');
-
-$grid->title()->editable('select', [1 => 'option1', 2 => 'option2', 3 => 'option3']);
-
-// select 支持传递闭包作为参数，该闭包接收参数为当前行对应的模型
-$grid->title()->editable('select', function($row) {
-    if ($row->title === 'test') {
-        return ['test1', 'test2'];
-    }
-    return ['test3', 'test4'];
-});
-
-$grid->birth()->editable('date');
-
-$grid->published_at()->editable('datetime');
-
-$grid->year->editable('year');
-
-$grid->month->editable('month');
-
-$grid->day->editable('day');
-
-```
-![]({{public}}/assets/img/screenshots/grid-column-editable.png)
 
 
 ### 开关
@@ -335,6 +305,44 @@ $grid->website->qrcode(function () {
 ```php
 $grid->website->copyable();
 ```
+
+
+### 可排序
+
+通过`Column::orderable`可以开启字段可排序功能，此功能需要在你的模型类中`use ModelTree`，并且需要继承`Spatie\EloquentSortable\Sortable`接口。
+
+下面以权限模型为例：
+```php
+<?php
+
+namespace Dcat\Admin\Models;
+
+use Dcat\Admin\Traits\HasDateTimeFormatter;
+use Dcat\Admin\Traits\ModelTree;
+use Spatie\EloquentSortable\Sortable;
+
+class Permission extends Model implements Sortable
+{
+    use HasDateTimeFormatter,
+        ModelTree {
+            ModelTree::boot as treeBoot;
+        }
+        
+    ...    
+}        
+```
+
+使用
+```php
+$grid->order->orderable();
+```
+
+效果
+<a href="{{public}}/assets/img/screenshots/grid-display-orderable.png" target="_blank">
+    <img  src="{{public}}/assets/img/screenshots/grid-display-orderable.png" style="box-shadow:0 1px 6px 1px rgba(0, 0, 0, 0.12)" width="100%">
+</a>
+
+
 
 ## 帮助方法
 
