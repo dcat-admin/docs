@@ -377,7 +377,12 @@ PRIMARY KEY (`id`)
 对应的数据模以及数据仓库分别为:
 
 ```php
-// 模型
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+
 class User extends Model
 {
     public function profile()
@@ -385,6 +390,14 @@ class User extends Model
         return $this->hasOne(Profile::class);
     }
 }
+```
+
+```php
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
 
 class Profile extends Model
 {
@@ -393,26 +406,34 @@ class Profile extends Model
         return $this->belongsTo(User::class);
     }
 }
+```
+数据仓库
+```php
+<?php
 
-// 数据仓库
+namespace App\Admin\Repositories;
+
+use Dcat\Admin\Repositories\EloquentRepository;
 use App\Models\User as UserModel;
 
 class User extends EloquentRepository
 {
     protected $eloquentClass = UserModel::class;
 }
-
 ```
 
-通过下面的代码可以关联在一个grid里面:
 
+#### 三种关联数据表的方法
+
+通过以下三种方式的代码可以关联`profile`表数据:
+
+方式一：直接使用数据仓库关联
 ```php
+use App\Admin\Repositories\User;
 use Dcat\Admin\Grid;
 
-$grid = Grid::make(new User(), function (Grid $grid) {
-    // 关联 profile 表数据
-    $grid->model()->with('profile');
-    
+// 关联 profile 表数据
+$grid = Grid::make(new User('profile'), function (Grid $grid) {    
     $grid->id('ID')->sortable();
     
     $grid->name();
@@ -429,6 +450,36 @@ $grid = Grid::make(new User(), function (Grid $grid) {
     $grid->updated_at();
 });
 ```
+
+方式二：使用`Model::with`方法关联
+```php
+use App\Models\User;
+use Dcat\Admin\Grid;
+
+// 关联 profile 表数据
+$grid = Grid::make(User::with('profile'), function (Grid $grid) {    
+    $grid->id('ID')->sortable();
+    
+    ...
+});
+```
+
+方式三：使用`Grid\Model`方法关联
+```php
+use App\Admin\Repositories\User;
+use Dcat\Admin\Grid;
+
+
+$grid = Grid::make(new User(), function (Grid $grid) {
+	// 关联 profile 表数据
+	$grid->model()->with('profile');
+    
+    $grid->id('ID')->sortable();
+    
+    ...
+});
+```
+
 
 ### 一对多
 
@@ -457,6 +508,12 @@ PRIMARY KEY (`id`)
 对应的数据模和数据仓库分别为:
 
 ```php
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+
 class Post extends Model
 {
     public function comments()
@@ -464,6 +521,14 @@ class Post extends Model
         return $this->hasMany(Comment::class);
     }
 }
+```
+
+```php
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
 
 class Comment extends Model
 {
@@ -472,16 +537,29 @@ class Comment extends Model
         return $this->belongsTo(Post::class);
     }
 }
+```
 
-// 数据仓库
+```php
+<?php
+
+namespace App\Admin\Repositories;
+
 use App\Models\Post as PostModel;
+use Dcat\Admin\Repositories\EloquentRepository;
 
 class Post extends EloquentRepository
 {
     protected $eloquentClass = PostModel::class;
 }
+```
+
+```php
+<?php
+
+namespace App\Admin\Repositories;
 
 use App\Models\Comment as CommentModel;
+use Dcat\Admin\Repositories\EloquentRepository;
 
 class Comment extends EloquentRepository
 {
@@ -489,20 +567,22 @@ class Comment extends EloquentRepository
 }
 ```
 
-通过下面的代码可以让两个模型在grid里面互相关联:
+同样这里支持上述的三种方式关联数据，限于篇幅这里不再重复写所有用法
+
+Post表格
 
 ```php
-// Post
-$grid = Grid::make(new Post(), function (Grid $grid) {
-    // 关联 comment 表数据
-    $grid->model()->with('comments');
-    
+use App\Admin\Repositories\Post;
+
+// 关联 comment 表数据
+$grid = Grid::make(new Post(['comments']), function (Grid $grid) {
     $grid->id('id')->sortable();
     $grid->title();
     $grid->content();
     
     $grid->comments('评论数')->display(function ($comments) {
         $count = count($comments);
+        
         return "<span class='label label-warning'>{$count}</span>";
     });
     
@@ -511,14 +591,16 @@ $grid = Grid::make(new Post(), function (Grid $grid) {
 });
 ```
 
+Comment表格
+
 ```php
-// Comment
+use App\Admin\Repositories\Comment;
 
 // 关联 post 表数据
 $grid = new Grid(new Comment('post'));
 
 $grid->id('id');
-$grid->post()->title();
+$grid->post()->get('title');
 $grid->content();
 
 $grid->created_at()->sortable();
@@ -562,7 +644,15 @@ CREATE TABLE `role_users` (
 
 对应的数据模和数据仓库分别为:
 
+
+User 模型
 ```php
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+
 class User extends Model
 {
     public function roles()
@@ -570,6 +660,14 @@ class User extends Model
         return $this->belongsToMany(Role::class);
     }
 }
+```
+Role 模型
+```php
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
 
 class Role extends Model
 {
@@ -578,9 +676,16 @@ class Role extends Model
         return $this->belongsToMany(User::class);
     }
 }
+```
 
-// 数据仓库
+数据仓库
+```php
+<?php
+
+namespace App\Admin\Repositories;
+
 use App\Models\User as UserModel;
+use Dcat\Admin\Repositories\EloquentRepository;
 
 class User extends EloquentRepository
 {
@@ -588,10 +693,11 @@ class User extends EloquentRepository
 }
 ```
 
-通过下面的代码可以让两个模型在grid里面互相关联:
-
+同样这里支持上述的三种方式关联数据，限于篇幅这里不再重复写所有用法
 
 ```php
+use App\Admin\Repositories\User;
+
 // 关联 role 表数据
 $grid = Grid::make(new User('roles'), function (Grid $grid) {
     $grid->id('ID')->sortable();
@@ -604,3 +710,8 @@ $grid = Grid::make(new User('roles'), function (Grid $grid) {
     $grid->updated_at();
 });
 ```
+
+
+
+
+
