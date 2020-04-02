@@ -233,11 +233,12 @@ $grid->showRowSelector();
 #### 设置选择中行的标题字段key
 如不设置，默认取 `name`、 `title`、 `username`中的一个。
 ```php
-$grid->first_name;
+$grid->full_name;
+$grid->age;
 
 ...
 
-$grid->rowSelector()->titleKey('first_name');
+$grid->rowSelector()->titleColumn('full_name');
 ```
 
 #### 设置checkbox选择框颜色

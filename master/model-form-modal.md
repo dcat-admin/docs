@@ -1,6 +1,6 @@
 # 表单弹窗
 
-通过`Form::modal`方法可以快速构建一个表单弹窗，仅需增加数行代码。
+通过`Form::dialog`方法可以快速构建一个表单弹窗，仅需增加数行代码。
 
 > {tip} 表单弹窗的实现原理是：通过`create`和`edit`页面获取构建好的表单`HTML`字符，然后使用弹窗插件把这部分`HTML`字符渲染出来。
 如果期间需要加载新的`js`脚本，则会等待脚本加载完毕再执行表单初始化`js`代码。
@@ -26,18 +26,16 @@ class ModalFormController extends Controller
 
     protected function build()
     {
-        Form::modal('新增角色')
+        Form::dialog('新增角色')
             ->click('.create-form') // 绑定点击按钮
             ->url('auth/roles/create') // 表单页面链接，此参数会被按钮中的 “data-url” 属性替换。。
             ->width('700px') // 指定弹窗宽度，可填写百分比，默认 720px
             ->height('650px') // 指定弹窗高度，可填写百分比，默认 690px
-            ->success('LA.reload()') // 新增成功后刷新页面
-            ->render();
+            ->success('Dcat.reload()'); // 新增成功后刷新页面
 
-        Form::modal('编辑角色')
+        Form::dialog('编辑角色')
             ->click('.edit-form')
-            ->success('LA.reload()') // 编辑成功后刷新页面
-            ->render();
+            ->success('Dcat.reload()'); // 编辑成功后刷新页面
 
         // 当需要在同个“class”的按钮中绑定不同的链接时，把链接放到按钮的“data-url”属性中即可
         $editPage = admin_base_path('auth/roles/1/edit');
@@ -145,14 +143,14 @@ class RoleController
 #### 设置弹窗标题
 
 ```php
-$modal = Form::modal('标题');
+$modal = Form::dialog('标题');
 ```
 
 #### 绑定点击按钮
 通过`ModalForm::click`方法可以绑定点击按钮，绑定后当点击该按钮时会弹出弹窗
 
 ```php
-Form::modal('标题')
+Form::dialog('标题')
     ->click('#click-button');
 ```
 
@@ -160,7 +158,7 @@ Form::modal('标题')
 
 如果是创建类型的表单，则可以通过以下方法设置获取表单模板的url
 ```php
-Form::modal('新增角色')
+Form::dialog('新增角色')
     ->click('.create-form')
     ->url('auth/roles/create');
 ```
@@ -169,10 +167,9 @@ Form::modal('新增角色')
 
 这个时候通过`ModalForm::url`方法设置的一个链接已经无法满足需求了，因而需要在点击按钮的`data-url`属性上保存url：
 ```php
-Form::modal('编辑角色')
+Form::dialog('编辑角色')
     ->click('.edit-form')
-    ->success('LA.reload()') // 编辑成功后刷新页面
-    ->render();
+    ->success('Dcat.reload()'); // 编辑成功后刷新页面
 
     // 当需要在同个“class”的按钮中绑定不同的链接时，把链接放到按钮的“data-url”属性中即可
     $editPage1 = admin_base_path('auth/roles/1/edit');
@@ -190,7 +187,7 @@ return "
 通过`success`方法可以设置表单保存成功之后执行的`js`代码，在这段`js`代码作用域内有一个`response`变量，通过这个变量可以获取服务端返回的`json`数据。
 
 ```php
-Form::modal('编辑角色')
+Form::dialog('编辑角色')
    ->click('.edit-form')
    ->success(
        <<<JS
@@ -198,13 +195,12 @@ Form::modal('编辑角色')
 console.log(response);
 
 // 提示成功信息
-LA.success(response.message || '保存成功');
+Dcat.success(response.message || '保存成功');
 
 // 保存成功之后刷新页面
-LA.reload();
+Dcat.reload();
 JS        
-   )
-   ->render();
+   );
 ```
 
 #### 表单保存失败回调
@@ -212,15 +208,14 @@ JS
 通过`error`方法可以设置表单保存失败之后执行的`js`代码，在这段`js`代码作用域内有一个`response`变量，通过这个变量可以获取服务端返回的`json`数据。
 
 ```php
-Form::modal('编辑角色')
+Form::dialog('编辑角色')
    ->click('.edit-form')
    ->error(
        <<<JS
 // 打印服务端响应数据       
 console.log(response);
 JS        
-   )
-   ->render();
+   );
 ```
 
 #### 表单保存之后回调
@@ -229,7 +224,7 @@ JS
 - `response` 服务端返回的`json`数据
 
 ```php
-Form::modal('编辑角色')
+Form::dialog('编辑角色')
    ->click('.edit-form')
    ->saved(
        <<<JS
@@ -242,8 +237,7 @@ if (success) {
     console.log('保存失败');
 }
 JS        
-   )
-   ->render();
+   );
 ```
 
 #### 强制刷新
@@ -251,25 +245,22 @@ JS
 每次点击按钮都重新从服务端拉取新的模板数据
 
 ```php
-Form::modal('编辑角色')
+Form::dialog('编辑角色')
     ->click('.edit-form')
-    ->forceRefresh()
-    ->render();
+    ->forceRefresh();
 ```
 
 #### 设置弹窗宽高
 
 ```php
-Form::modal('编辑角色')
+Form::dialog('编辑角色')
     ->click('.edit-form')
-    ->dimensions('50%', '400px')
-    ->render();
+    ->dimensions('50%', '400px');
     
 // 或
-Form::modal('编辑角色')
+Form::dialog('编辑角色')
     ->click('.edit-form')
     ->width('50%')
-    ->height('400px')
-    ->render();
+    ->height('400px');
 ```
 
