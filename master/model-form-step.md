@@ -50,7 +50,7 @@ protected function form()
             // 事件
             $step->shown(function () {
                 return <<<JS
-LA.info('兴趣爱好');
+Dcat.info('兴趣爱好');
 console.log('兴趣爱好', args);
 JS;
             });
@@ -146,7 +146,7 @@ $form->multipleSteps()->leaving(<<<JS
      // 获取当前页面的步骤索引
      var index = args.index; 
                  
-     LA.info("你将要离开第 " + (index + 1) + " 个页面");
+     Dcat.info("你将要离开第 " + (index + 1) + " 个页面");
      
      // args变量是一个js对象，包含当前事件对象、当前步骤选项、表单对象和表单值等字段。
      console.log("leaving", args);
@@ -182,7 +182,7 @@ $form->multipleSteps()->shown(<<<JS
      // 获取当前页面的步骤索引
      var index = args.index; 
                  
-     LA.info("当前显示的是第 " + (index + 1) + " 个页面");
+     Dcat.info("当前显示的是第 " + (index + 1) + " 个页面");
      
      // args变量的值与“leaving”事件的值相同。
      console.log("shown", args);
@@ -217,7 +217,7 @@ $form->multipleSteps()->add('基本信息', function (Form\StepForm $step) {
     
     $step->leaving(<<<JS
     
-    LA.info("你将要离开 基本信息 页面");
+    Dcat.info("你将要离开 基本信息 页面");
     
     // args变量是一个js对象，包含当前事件对象、当前步骤选项、表单对象和表单值等字段。
     console.log("离开 基本信息", args);
@@ -262,7 +262,7 @@ $form->multipleSteps()->add('基本信息', function (Form\StepForm $step) {
     
     $step->shown(<<<JS
     
-    LA.info("当前步骤是 基本信息");
+    Dcat.info("当前步骤是 基本信息");
     
     // args变量的值与“leaving”事件的值相同。
     console.log("显示 基本信息", args);

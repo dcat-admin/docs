@@ -79,11 +79,11 @@ CSS
 
 ### 在模板中添加js代码
 
-要在模板中添加的`js`代码需要放在`LA.ready`方法内执行，这样才能保证你的`js`代码在所有`js`脚本加载完成之后执行。
+要在模板中添加的`js`代码需要放在`Dcat.ready`方法内执行，这样才能保证你的`js`代码在所有`js`脚本加载完成之后执行。
 
 ```html
 <script>
-LA.ready(function () {
+Dcat.ready(function () {
    console.log('所有js都加载完成了'); 
 });
 </script>

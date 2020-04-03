@@ -9,7 +9,7 @@
 <a name="start"></a>
 ## 开始安装
 
-> {tip} 如果安装过程中出现`composer`安装过慢或安装失败的情况，请运行命令`composer config -g repo.packagist composer https://mirrors.aliyun.com/composer/`把`composer`镜像更换为阿里云镜像。
+> {tip} 如果安装过程中出现`composer`下载过慢或安装失败的情况，请运行命令`composer config -g repo.packagist composer https://mirrors.aliyun.com/composer/`把`composer`镜像更换为阿里云镜像。
 
 首先需要安装`laravel`，如已安装可以跳过此步骤
 ```bash
@@ -34,7 +34,7 @@ php artisan admin:publish
 
 然后运行下面的命令完成安装：
 
-> {tip} 执行这一步命令可能会报以下错误“Specified key was too long ... 767 bytes”，如果出现这个报错，则在`app/Providers/AppServiceProvider.php`文件的`boot`方法中加上代码`\Schema::defaultStringLength(191);`，再重新运行一遍`php artisan admin:install`命令即可。
+> {tip} 执行这一步命令可能会报以下错误`Specified key was too long ... 767 bytes`，如果出现这个报错，请在`app/Providers/AppServiceProvider.php`文件的`boot`方法中加上代码`\Schema::defaultStringLength(191);`，再重新运行一遍`php artisan admin:install`命令即可。
 
 ```
 php artisan admin:install

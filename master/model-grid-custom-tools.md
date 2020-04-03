@@ -2,14 +2,17 @@
 
 ## 工具按钮
 
-在`model-grid`的头部默认有`批量删除`和`刷新`两个操作工具，如果有更多的操作需求，`Grid` 提供了自定义工具的功能,下面的示例添加一个性别分类选择的按钮组工具。
+在`model-grid`的头部默认有`批量删除`和`刷新`两个操作工具，如果有更多的操作需求，系统提供了自定义工具的功能,下面的示例添加一个性别分类选择的按钮组工具。
 
-先定义工具类`app/Admin/Extensions/Tools/UserGender.php`：
+
+### 自定义工具栏按钮
+
+先定义工具类`app/Admin/Extensions/Tools/UserGender.php`继承工具类的基类`Dcat\Admin\Grid\Tools\AbstractTool`：
 
 ```php
 <?php
 
-namespace App\Admin\Extensions\Tools;
+namespace App\Admin\Grid\Tools;
 
 use Dcat\Admin\Admin;
 use Dcat\Admin\Grid\Tools\AbstractTool;
@@ -25,7 +28,7 @@ class UserGender extends AbstractTool
 $('input:radio.user-gender').change(function () {
     var url = "$url".replace('_gender_', $(this).val());
 
-    LA.reload(url);
+    Dcat.reload(url);
 });
 JS;
     }
@@ -43,14 +46,13 @@ JS;
         return view('admin.tools.gender', compact('options'));
     }
 }
-
 ```
 
 视图`admin.tools.gender`文件为`resources/views/admin/tools/gender.blade.php`:
 ```html
 <div class="btn-group" data-toggle="buttons">
     @foreach($options as $option => $label)
-    <label class="btn btn-default btn-sm {{ \Request::get('gender', 'all') == $option ? 'active' : '' }}">
+    <label class="btn btn-default {{ \Request::get('gender', 'all') == $option ? 'active' : '' }}">
         <input type="radio" class="user-gender" value="{{ $option }}">{{$label}}
     </label>
     @endforeach
@@ -71,8 +73,92 @@ if (in_array(Request::get('gender'), ['m', 'f'])) {
 
 可以参考上面的方式来添加自己的工具。
 
+### 进阶用法
 
-### tools用法
+如果你的工具按钮需要与后端API进行交互，则可以参考以下方式定义：
+
+> {tip} `AbstractTool`类是属于`Dcat\Admin\Actions\Action`的子类，本质也是动作类的一种，更详细用法请参考[动作类基本使用](action.md)。
+
+
+```php
+<?php
+
+namespace App\Admin\Grid\Tools;
+
+use Dcat\Admin\Grid\Tools\AbstractTool;
+use Illuminate\Support\Facades\Request;
+
+class SendMessage extends AbstractTool
+{
+    /**
+     * 按钮样式定义，默认 btn btn-white waves-effect
+     * 
+     * @var string 
+     */
+    protected $style = 'btn btn-white waves-effect';
+    
+    
+    /**
+     * 按钮文本
+     * 
+     * @return string|void
+     */
+    public function title()
+    {
+        return '发送提醒';
+    }
+    
+    /**
+     *  确认弹窗，如果不需要则返回空即可
+     * 
+     * @return array|string|void
+     */
+    public function confirm()
+    {
+        // 只显示标题
+//        return '您确定要发送新的提醒消息吗？';
+        
+        // 显示标题和内容
+        return ['您确定要发送新的提醒消息吗？', '确认信息内容，如没有可以留空'];
+    }
+    
+    /**
+     * 处理请求
+     * 如果你的类中包含了此方法，则点击按钮后会自动向后端发起ajax请求，并且会通过此方法处理请求逻辑
+     * 
+     * @param Request $request
+     */
+    public function handle(Request $request)
+    {
+        // 你的代码逻辑
+        
+        return $this->response()->success('发送成功')->refresh();
+    }
+    
+    /**
+     * 设置请求参数
+     * 
+     * @return array|void
+     */
+    public function parameters()
+    {
+        return [
+            
+        ];
+    }
+}
+```
+
+使用
+
+```php
+use App\Admin\Grid\Tools\SendMessage;
+
+$grid->actions(new SendMessage());
+```
+
+
+### 添加工具类
 
 `Grid::tools` 方法允许传入 `string`，`array`, `AbstractTool` 和 `闭包`等类型参数，下面是演示。
 
@@ -95,7 +181,10 @@ $grid->tools(function (Grid\Tools $tools) {
 
 ## 批量操作
 
-目前默认实现了批量删除操作的功能，如果要关掉批量删除操作：
+### 禁用批量删除
+
+系统默认开启了批量删除操作的功能，如果要禁用批量删除操作：
+
 ```php
 $grid->tools(function ($tools) {
     $tools->batch(function ($batch) {
@@ -112,17 +201,21 @@ $grid->batchActions(function (Grid\Tools\BatchActions $batch) {
 });
 ```
 
-如果要添加自定义的批量操作，可以参考下面的例子。
+### 自定义批量操作
 
-下面是扩展一个对文章批量发布的功能：
+下面通过扩展一个对文章批量发布的功能来演示自定义批量操作的功能：
 
-先定义操作类`app/Admin/Extensions/Tools/ReleasePost.php`：
+先定义操作类`app/Admin/Extensions/Tools/ReleasePost.php`，继承`Dcat\Admin\Grid\BatchAction`：
+
+> {tip} `BatchAction`类是属于`Dcat\Admin\Actions\Action`的子类，本质也是动作类的一种，更详细用法请参考[动作类基本使用](action.md)。
+
 ```php
 <?php
 
 namespace App\Admin\Extensions\Tools;
 
 use Dcat\Admin\Grid\BatchAction;
+use Illuminate\Http\Request;
 
 class ReleasePost extends BatchAction
 {
@@ -134,30 +227,37 @@ class ReleasePost extends BatchAction
         $this->action = $action;
     }
     
-    public function script()
+    // 确认弹窗信息
+    public function confirm()
     {
-        return <<<JS
+        return '您确定要发布已选中的文章吗？';
+    }
+    
+    // 处理请求
+    public function handle(Request $request)
+    {
+        // 获取选中的文章ID数组
+        $keys = $this->getKey();
         
-$('{$this->elementClass()}').on('click', function() {
-	// 获取选中的id数组
-	var idArray = {$this->getSelectedKeysScript()}
-	
-    $.ajax({
-        method: 'post',
-        url: '{$this->resource()}/release',
-        data: {
-            _token:LA.token,
-            ids: idArray.join(),
-            action: {$this->action}
-        },
-        success: function () {
-            LA.reload();
-            LA.success('操作成功');
+        // 获取请求参数
+        $action = $request->get('action');
+        
+        foreach (Post::find($keys) as $post) {
+            $post->released = $action;
+            $post->save();
         }
-    });
-});
-JS;
-
+        
+        $message = $action ? '文章发布成功' : '文章下线成功';
+        
+        return $this->response()->success($message)->refresh();
+    }
+    
+    // 设置请求参数
+    public function parameters()
+    {
+        return [
+            'action' => $this->action,
+        ];
     }
 }
 ```
@@ -184,29 +284,3 @@ $grid->tools(function ($tools) {
     });
 });
 ```
-
-这样批量操作下拉按钮下面就会添加两个操作项，最后一步就是添加一个接口来处理批量操作的请求了，接口代码如下：
-```php
-
-class PostController extends Controller
-{
-    ...
-    
-    public function release(Request $request)
-    {
-        foreach (Post::find($request->get('ids')) as $post) {
-            $post->released = $request->get('action');
-            $post->save();
-        }
-    }
-    
-    ...
-}
-```
-
-然后添加路由指向上面的接口：
-```php
-$router->post('posts/release', 'PostController@release');
-```
-
-这样整个流程就完成了。
