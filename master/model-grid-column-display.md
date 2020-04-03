@@ -141,26 +141,95 @@ $grid->pictures()->display(function ($pictures) {
 ```
 
 ### 显示label标签
+
+支持`Dcat\Admin\Color`类中内置的所有颜色
+
 ```php
+use Dcat\Admin\Admin;
+
 $grid->name()->label();
 
-// 设置颜色，默认`success`,可选`danger`、`warning`、`info`、`primary`、`default`、`success`、`custom`、`purple`、`blue`、`inverse`、`tear`
+// 设置颜色，直接传别名
 $grid->name()->label('danger');
 
-// 接收数组
-$grid->keywords()->label();
+// 也可以这样使用
+$grid->name()->label(Admin::color()->danger());
+
+// 也可以直接传颜色代码
+$grid->name()->label('#222');
+```
+
+给不同的值设置不同的颜色
+```php
+use Dcat\Admin\Admin;
+
+$grid->state->label([
+	1 => 'primary',
+	2 => 'danger',
+	3 => 'success',
+	4 => Admin::color()->info(),
+]);
 ```
 
 ### 显示badge标签
+
+支持`Dcat\Admin\Color`类中内置的所有颜色
+
 ```php
 $grid->name()->badge();
 
-// 设置颜色，默认`red`,可选`red`、`yellow`、`aqua`、`green`、`gray`、`custom`、`purple`、`blue`、`inverse`、`tear`
+// 设置颜色，直接传别名
 $grid->name()->badge('danger');
 
-// 接收数组
-$grid->keywords()->badge();
+// 也可以这样使用
+$grid->name()->badge(Admin::color()->danger());
+
+// 也可以直接传颜色代码
+$grid->name()->badge('#222');
 ```
+
+给不同的值设置不同的颜色
+```php
+use Dcat\Admin\Admin;
+
+$grid->state->badge([
+	1 => 'primary',
+	2 => 'danger',
+	3 => 'success',
+	4 => Admin::color()->info(),
+]);
+```
+
+### 显示chip标签
+
+支持`Dcat\Admin\Color`类中内置的所有颜色
+
+```php
+$grid->name()->chip();
+
+// 设置颜色，直接传别名
+$grid->name()->chip('danger');
+
+// 也可以这样使用
+$grid->name()->chip(Admin::color()->danger());
+
+// 也可以直接传颜色代码
+$grid->name()->chip('#222');
+```
+
+给不同的值设置不同的颜色
+
+```php
+use Dcat\Admin\Admin;
+
+$grid->state->chip([
+	1 => 'primary',
+	2 => 'danger',
+	3 => 'success',
+	4 => Admin::color()->info(),
+]);
+```
+
 
 ### 列展开
 `expand`方法可以把内容隐藏，点击按钮的时候显示在表格下一行

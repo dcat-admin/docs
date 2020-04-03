@@ -233,7 +233,7 @@ class IndexController
 
 `Dcat\Admin\Actions\Action` 类方法说明
 
-### make
+### 创建实例 (make)
 
 此方法是一个静态方法，用于实例化动作类
 
@@ -241,13 +241,13 @@ class IndexController
 $action = MyAction::make($param1, $param2...);
 ```
 
-### handle
+### 处理请求 (handle)
 
 当`Action`类中包含此方法之时，目标元素会被绑定通过`event`属性设置的事件（默认为`click`）。如果事件被触发，则会向服务器发起请求，而`handle`方法则可以处理并响应此请求。
  
 > {tip} 如果没有此方法，则目标元素不会被绑定事件。
 
-### response
+### 响应 (response)
 
 此方法用于获取`Response`对象，然后响应前端发起的请求，此方法仅在`handle`方法内有效。
 
@@ -300,7 +300,7 @@ $this->response()->warning('警告');
 $this->response()->redirect('auth/users');
 ```
 
-#### 跳转(location)
+#### 跳转 (location)
 
 此方法接收一个`string`类型参数
 

@@ -63,6 +63,9 @@ $grid->actions(function (Grid\Displayers\Actions $actions) {
 
 
 先定义行操作类继承`Dcat\Admin\Grid\RowAction`
+
+> {tip} 动作类更详细的用法，请参考[动作基本使用](action.md)以及[数据表格动作](action-grid.md)。
+
 ```php
 <?php
 
@@ -121,6 +124,8 @@ $grid->actions(new CheckRow());
 ### 操作按钮需要与API交互
 
 如果你的操作类需要与后台接口交互，则可以在你的操作类中加上`handle`方法，这样就可以很方便的在同一个类里面处理完所有逻辑
+
+> {tip} 动作类更详细的用法，请参考[动作基本使用](action.md)以及[数据表格动作](action-grid.md)。
 
 ```php
 <?php
@@ -181,8 +186,6 @@ class Copy extends RowAction
 
         // 获取 parameters 方法传递的参数
         $username = $request->get('username');
-
-        /* @var Model $model */
         $model = $request->get('model');
 
         // 复制数据

@@ -186,7 +186,7 @@ class CategoryController extends AdminController
 
 如果在树状表格中使用了搜索功能（`Grid::filter`、`Grid\Column::filter`、`Grid::quickSearch`），为了让用户能搜索到想要的数据，则会<b>取消只查最顶级数据的操作</b>。
 
-> {note} 使用 [查询过滤](model-grid-filters.md)、[列过滤器](model-grid-column-filter.md)、[快捷搜索](model-grid-quick-search.md) 等搜索功能都会<b>取消只查最顶级数据的操作</b>，只有 [筛选器](model-grid-selector.md) 和 [范围查询scope](model-grid-filters.md#scope) 等功能例外。
+> {tip} 使用 [查询过滤](model-grid-filters.md)、[列过滤器](model-grid-column-filter.md)、[快捷搜索](model-grid-quick-search.md) 等搜索功能都会<b>取消只查最顶级数据的操作</b>，只有 [筛选器](model-grid-selector.md) 和 [范围查询scope](model-grid-filters.md#scope) 等功能例外。
 
 
 例如下面的代码开启了快捷搜索
