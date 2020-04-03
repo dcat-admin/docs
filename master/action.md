@@ -328,7 +328,7 @@ $this->response()->download('auth/users?_export_=1');
 
 此方法可接收一个`string`、`Renderable`、`Htmlable`类型参数，可以与`success`、`error`、`warning`等方法同时使用
 
-> {tip} 响应的`HTML`字符默认会被置入动作按钮元素上，如果需要自己控制，则覆写`Action::handleHtmlResponse`方法即可。
+> {tip} 响应的`HTML`字符默认会被置入动作按钮元素上，如果需要自己控制，则覆写[handleHtmlResponse](#handleHtmlResponse)方法即可。
 
 ```php
 $this->response()->html('<a>a标签</a>');
@@ -348,7 +348,7 @@ JS
 );
 ```
 
-### parameters
+### 设置请求数据 (parameters)
 
 通过这个方法可以设置动作发起请求时需要附带的参数
 
@@ -380,7 +380,7 @@ class MyAction extends Action
 
 ```
 
-### confirm
+### 确认弹窗 (confirm)
 
 设置确认信息，此方法要求返回一个`string`类型参数。
 
@@ -394,7 +394,16 @@ public function confirm()
 }
 ```
 
-### actionScript
+显示弹窗标题和内容
+
+```php
+public function confirm()
+{
+	return ['你确定要删除此行内容吗？', '弹窗内容'];
+}
+```
+
+### 发起请求之前执行的JS代码 (actionScript)
 
 设置动作执行的前置`js`代码，当按钮绑定的事件被触发后，发起请求之前会执行通过此方法设置的`js`代码。
 
@@ -409,28 +418,50 @@ JS
 }
 ```
 
-### buildRequestScript
+### 与API交互的JS代码 (buildRequestScript)
 
-生成与服务器交互的`js`代码，有需要可以覆写此方法
+此方法要求返回与服务器交互的`js`代码，有需要可以覆写此方法
 
+```php
+protected function buildRequestScript()
+{
+	$parameters = json_encode($this->parameters());
+    
+	return <<<JS
+function request() {
+	target.attr('working', 1);
+	Object.assign(data, {$parameters});
+	{$this->buildActionPromise()}
+	{$this->handleActionPromise()}
+}
 
-### handleHtmlResponse
+if (data['confirm']) {
+	Dcat.confirm(data['confirm'][0], data['confirm'][1], request);
+} else {
+	request()
+}
+JS;
+}
+```
+
+<a name="handleHtmlResponse"></a>
+### 处理服务器响应的HTML代码 (handleHtmlResponse)
 
 处理服务器响应的`HTML`代码
 
 ```php
 protected function handleHtmlResponse()
-    {
+{
         return <<<'JS'
 console.log('打印HTML代码', response.html);
 
 // 附加到页面中
 $('xxx').html(response.html)
 JS;
-    }
+}
 ```
 
-### authorize
+### 权限 (authorize)
 
 此方法用于判断登录用户的操作权限，默认返回`true`
 
@@ -441,7 +472,7 @@ protected function authorize($user): bool
 }
 ```
 
-### failedAuthorization
+### 无权限响应 (failedAuthorization)
 
 此方法用于设置鉴权失败的响应内容，如果需要则可覆写此方法
 
@@ -453,7 +484,7 @@ public function failedAuthorization()
 ```
 
 
-### disable
+### 隐藏或显示 (disable)
 
 设置显示或隐藏此动作
 
@@ -462,11 +493,11 @@ public function failedAuthorization()
 MyAction::make()->disable();
 
 // 显示
-MyAction::make()->disable(true);
+MyAction::make()->disable(false);
 ```
 
 
-### allowed
+### 判断是否显示 (allowed)
 
 判断动作是否允许显示
 ```php
@@ -475,7 +506,7 @@ if (MyAction::make()->allowed()) {
 }
 ```
 
-### setKey
+### 设置主键 (setKey)
 
 设置数据主键
 
@@ -485,7 +516,7 @@ $id = ...;
 MyAction::make()->setKey($id);
 ```
 
-### key
+### 获取主键值 (getKey)
 
 获取数据主键，此方法在`handle`方法内也同样可用
 
@@ -499,7 +530,7 @@ class MyAction extends Action
 {
     public function handle(Request $request) 
     {
-        $id = $this->key();
+        $id = $this->getKey();
         
         ...
         
@@ -514,15 +545,15 @@ class MyAction extends Action
 ```
 
 
-### elementClass
+### 获取目标元素样式 (getElementClass)
 
 获取动作目标元素（按钮）的`class`
 
 ```php
-$class = MyAction::make()->elementClass();
+$class = MyAction::make()->getElementClass();
 ```
 
-### selector
+### 获取目标元素的Css选择器 (selector)
 
 获取动作目标元素（按钮）的CSS选择器
 
@@ -536,7 +567,7 @@ JS
 );
 ```
 
-### addHtmlClass
+### 追加样式 (addHtmlClass)
 
 追加获取动作目标元素（按钮）的`class`
 
@@ -546,7 +577,7 @@ MyAction::make()->addHtmlClass('btn btn-primary');
 MyAction::make()->addHtmlClass(['btn', 'btn-primary']);
 ```
 
-### html
+### 设置目标元素的HTML (html)
 
 此方法用于设置动作目标元素的`HTML`代码，如有需要可以覆写
 
@@ -559,12 +590,12 @@ HTML;
 }
 ```
 
-### addScript
+### 添加JS代码 (script)
 
 此方法用于在`render`方法执行完毕之前添加`JS`代码
 
 ```php
-protected function addScript()
+protected function script()
 {
 	return <<<JS
 console.log('...')
@@ -572,30 +603,15 @@ JS;
 }
 ```
 
-### setHtmlAttribute
+### 设置目标元素的HTML属性 (setHtmlAttribute)
 
 设置目标元素的`HTML`标签属性
 
 ```php
 MyAction::make()->setHtmlAttribute('name', $value);
 
+// 批量设置
 MyAction::make()->setHtmlAttribute(['name' => $value]);
 
 ```
-
-### setupHtmlAttributes
-
-此方法用于在`render`方法执行完毕之前给目标元素设置属性
-
-```php
-protected function setupHtmlAttributes()
-{
-	$this->setHtmlAttribute('data-target', 'xxx');
-
-	// 覆写时别忘了调用父级方法
-	parent::setupHtmlAttributes();
-}
-```
-
-
 
