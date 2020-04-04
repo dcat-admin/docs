@@ -16,5 +16,3 @@
 ### 图标
 访问`http://localhost:8000/admin/helpers/icons`可以查看已支持的图标列表。
 
-### 路由
-访问`http://localhost:8000/admin/helpers/routes`可以查看已注册的路由列表。

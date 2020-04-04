@@ -1,6 +1,6 @@
 # 自定义登陆
 
-如果不使用`dcat-admin`内置的认证登陆逻辑，可以参考下面的方式自定义登陆认证逻辑
+如果不使用`Dcat Admin`内置的认证登陆逻辑，可以参考下面的方式自定义登陆认证逻辑
 
 首先要先定义一个`user provider`，用来获取用户身份, 比如`app/Providers/CustomUserProvider.php`：
 

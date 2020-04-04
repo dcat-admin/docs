@@ -66,7 +66,6 @@
   - [Markdown](widgets-markdown.md)
   - [卡片](widgets-box.md)
   - [表格](widgets-table.md)
-- ## [CSS/JavaScript](assets.md)
 - ## [区块（section）](section.md)
 - ## [权限控制](permission.md)
 - ## [菜单](menu.md)
