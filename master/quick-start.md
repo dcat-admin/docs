@@ -1,7 +1,25 @@
 # 快速开始
 
-## 数据表结构
-用`Laravel`自带的`users`表举例,表结构为：
+
+在日常开发中，我们可以用代码生成器一键生成增删改查页面代码，非常的方便快捷。
+
+
+下面的内容将会给大家介绍代码生成器的使用方法，以及增删改查页面的基本构成。通过学习下面的内容将可以帮助大家快速理解这个系统的基本使用方法。
+
+## 代码生成器
+
+### 创建数据表
+
+安装完`Laravel`之后会内置一个`users`表的`migration`文件(如果不了解`migration`文件作用，请参考文档[数据库迁移](https://learnku.com/docs/laravel/7.x/migrations/7496))，文件路径为`database/migrations/2014_10_12_000000_create_users_table.php`。
+
+然后我们运行以下命令，在`MySQL`中创建这个数据表
+
+```php
+php artisan migrate
+```
+
+运行完之后可以看到数据库中已经多了一个`users`表，结构如下
+
 ```sql
 CREATE TABLE `users` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
@@ -13,133 +31,61 @@ CREATE TABLE `users` (
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   PRIMARY KEY (`id`),
   UNIQUE KEY `users_email_unique` (`email`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci
-```
-对应的数据模型为文件 `App\User.php`
-
-`dcat-admin`可以通过使用以下几步来快速生成`users`表的`CURD`操作页面：
-
-
-## 创建数据仓库
-创建文件`app/Admin/Repositories/User.php`并添加如下内容
-
-> {tip} 如果你的数据来自`MySQL`，则`数据仓库`不是必须的，你也可以直接使用`Model`。
-
-```php
-<?php
-
-namespace App\Admin\Repositories;
-
-use Dcat\Admin\Repositories\EloquentRepository;
-use App\User as UserModel;
-
-class User extends EloquentRepository
-{
-    /**
-     * @var string
-     */
-    protected $eloquentClass = UserModel::class;
-    
-    /**
-     * 设置表格查询的字段，默认查询所有字段
-     * 
-     * @return array
-     */
-    public function getGridColumns(){
-        return ['id', 'name', 'email', 'created_at', 'updated_at'];
-    }
-}
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
 ```
 
-## 创建控制器
+### 一键生成增删改查页面
 
-创建控制器文件`app/Admin/Controllers/UserController.php`，并写入如下内容：
-```php
-<?php
+> {tip} 如果你的开发环境不是`windows`，请注意要给项目目录设置读写权限，否则可能出现无法生成代码的情况。
 
-namespace App\Admin\Controllers;
+**1.**首先打开地址`http://你的域名/admin/helpers/scaffold`，进入代码生成器页面；
 
-use Dcat\Admin\Form;
-use Dcat\Admin\Grid;
-use Dcat\Admin\Show;
-use App\Admin\Repositories\User;
-use Dcat\Admin\Controllers\AdminController;
+**2.**由于前面已经创建好了数据表，所以这里我们可以直接通过页面左上角的第二个下拉选框选择`users`表，选择之后会自动填充字段信息，效果如下
 
-class UserController extends AdminController
-{
-    /**
-	 * Title for current resource.
-	 *
-	 * @var string
-	 */
-	protected $title = '用户';
-    
-    /**
-     * Make a grid builder.
-     *
-     * @return Grid
-     */
-    protected function grid()
-    {
-        return Grid::make(new User(), function (Grid $grid) {
-            $grid->id->bold()->sortable();
-            $grid->email;
-            $grid->created_at;
-            $grid->updated_at->sortable();
-            
-            $grid->filter(function (Grid\Filter $filter) {
-                $filter->equal('id');
-            });
-        });
-    }
+<a href="{{public}}/assets/img/screenshots/quick-start-1.png" target="_blank">
+    <img src="{{public}}/assets/img/screenshots/quick-start-1.png" style="box-shadow:0 1px 6px 1px rgba(0, 0, 0, 0.12)" width="100%" >
+</a>
 
-    /**
-     * Make a show builder.
-     *
-     * @param mixed $id
-     * @return Show
-     */
-    protected function detail($id)
-    {
-        return Show::make($id, new User(), function (Show $show) {
-            $show->id;
-            $show->email;
-            $show->created_at;
-            $show->updated_at;
-        });
-    }
+**3.**修改控制器名称，这里已经填上了默认的名称`App\Admin\Controllers\UsersController`，我们把控制器名称改为`App\Admin\Controllers\UserController`，符合`Larave`的命名规范
 
-    /**
-     * Make a form builder.
-     *
-     * @return Form
-     */
-    protected function form()
-    {
-        return Form::make(new User(), function (Form $form) {
-            $form->display('id');
-            $form->text('email');
-            
-            $form->display('created_at');
-            $form->display('updated_at');
-        });
-    }
-}
+**4.**修改模型名称为`App\User`
+
+**5.**由于`migration`文件、数据表、以及模型文件(使用内置的`App\User`即可)都已经有了，所以此处我们可以把这三个选项给去掉
+
+**6.**填写字段翻译
+
+最后呈现效果如下
+
+<a href="{{public}}/assets/img/screenshots/quick-start-2.png" target="_blank">
+    <img src="{{public}}/assets/img/screenshots/quick-start-2.png" style="box-shadow:0 1px 6px 1px rgba(0, 0, 0, 0.12)" width="100%" >
+</a>
+
+最后点击创建按钮即可，创建的文件如下
+
+```
+app/Admin
+├── Controllers
+│   └── UserController.php  # 控制器
+└── Repositories            # 数据仓库
+│   └── User.php
+resouces/lang/{当前语言}
+└── user.php                # 语言包
 ```
 
+### 添加路由配置
 
-## 添加路由配置
-
-在`dcat-admin`的路由配置文件`app/Admin/routes.php`里添加一行：
+打开路由配置文件`app/Admin/routes.php`，往里面添加一行：
 ```
 $router->resource('users', 'UserController');
 ```
 
-## 添加左侧菜单
+到此，就可以打开浏览器输入地址`http://你的域名/admin/users`访问刚刚创建完的页面了
 
-打开`http://localhost:8000/admin/auth/menu`，添加对应的menu, 然后就能在后台管理页面的左侧边栏看到用户管理页面的链接入口了。
+### 添加左侧菜单
 
-> 其中`uri`填写不包含路由前缀的的路径部分，比如完整路径是`http://localhost:8000/admin/demo/users`, 那么就填`demo/users`，如果要添加外部链接，只要填写完整的url即可，比如`http://dcat-admin.org/`.
+打开`http://你的域名/admin/auth/menu`，添加对应的menu, 然后就能在后台管理页面的左侧边栏看到用户管理页面的链接入口了。
+
+> 其中`uri`填写不包含路由前缀的的路径部分，比如完整路径是`http://你的域名/admin/demo/users`, 那么就填`demo/users`，如果要添加外部链接，只要填写完整的url即可，比如`http://dcat-admin.org/`.
 
 ### 菜单翻译
 
@@ -155,9 +101,154 @@ $router->resource('users', 'UserController');
 ],
 ```
 
-## 完成
-一个简单的`CURD`功能页面就构建完成了，打开浏览器访问`http://localhost:8000/admin/users`即可。
-
-剩下的工作就是构建数据表格和表单了，打开 `app/Admin/Contollers/UserController.php`,找到`form()`和`grid()`方法，然添加构建代码。
+### 完成
+这样一个简单的`CURD`功能就构建完成了，剩下的工作就是深度构建数据表格和表单了，打开 `app/Admin/Contollers/UserController.php`,找到`form()`和`grid()`方法，然添加构建代码。
 更多详细使用请查看[数据表格](model-grid.md)和[数据表单](model-form.md)。
+
+
+## 增删该查功能简易说明
+
+为了便于大家理解增删改查功能的基本用法，下面将给大家简单介绍前面使用生成器生成的代码。
+
+### 控制器
+
+`Dcat Admin`的增删改查页面代码是非常简洁和易懂的，对开发者非常的友好，只需极少的代码即可构建出一个功能完善的后台系统，并且非常简单灵活和易于扩展。
+
+打开`app/Admin/Controllers/UserController.php`可以看到如下代码
+
+```php
+<?php
+
+namespace App\Admin\Controllers;
+
+use App\Admin\Repositories\User;
+use Dcat\Admin\Form;
+use Dcat\Admin\Grid;
+use Dcat\Admin\Show;
+use Dcat\Admin\Controllers\AdminController;
+
+class UserController extends AdminController
+{
+    /**
+     * Make a grid builder.
+     *
+     * @return Grid
+     */
+    protected function grid()
+    {
+        return Grid::make(new User(), function (Grid $grid) {
+            // 这里的字段会自动使用翻译文件
+            $grid->id->sortable();
+            $grid->name;
+            $grid->email;
+            $grid->email_verified_at;
+            $grid->password;
+            $grid->remember_token;
+            $grid->created_at;
+            $grid->updated_at->sortable();
+        
+            $grid->filter(function (Grid\Filter $filter) {
+                $filter->equal('id');
+        
+            });
+        });
+    }
+
+    /**
+     * Make a show builder.
+     *
+     * @param mixed $id
+     *
+     * @return Show
+     */
+    protected function detail($id)
+    {
+        return Show::make($id, new User(), function (Show $show) {
+            // 这里的字段会自动使用翻译文件
+            $show->id;
+            $show->name;
+            $show->email;
+            $show->email_verified_at;
+            $show->password;
+            $show->remember_token;
+            $show->created_at;
+            $show->updated_at;
+        });
+    }
+
+    /**
+     * Make a form builder.
+     *
+     * @return Form
+     */
+    protected function form()
+    {
+        return Form::make(new User(), function (Form $form) {
+            // 这里的字段会自动使用翻译文件
+            $form->display('id');
+            $form->text('name');
+            $form->text('email');
+            $form->text('email_verified_at');
+            $form->text('password');
+            $form->text('remember_token');
+        
+            $form->display('created_at');
+            $form->display('updated_at');
+        });
+    }
+}
+```
+
+
+### 数据仓库
+
+`Dcat Admin` 构建页面并不直接依赖于`Model`，而是引入了数据仓库的概念，让页面的构建不再与数据的读写产生强耦合关系。
+
+数据仓库是`Dcat Admin`中对数据增删改查操作接口的具体实现，更详细用法请参考[数据仓库](model-repository.md)。
+
+> {tip} 如果你的数据来自`MySQL`，那么你也可以直接使用`Model`，底层会自动把`Model`转化为数据仓库实例。这里为了便于大家理解其中的概念，所以创建了数据仓库文件。
+
+我们打开刚刚生成的文件`app/Admin/Repositories/User.php`，可以看到只有如下内容，非常简单
+
+```php
+<?php
+
+namespace App\Admin\Repositories;
+
+use Dcat\Admin\Repositories\EloquentRepository;
+use App\User as UserModel;
+
+class User extends EloquentRepository
+{
+    protected $eloquentClass = UserModel::class;
+}
+```
+
+### 语言包
+
+每个控制器都可以生成自己对应的语言包，并且[数据表格](model-grid.md)、[数据表单](model-form.md)和[数据详情](model-show.md)功能都会自动读取里面的翻译。
+
+下面我们打开`UserController`对应的语言包文件`resouces/lang/{当前语言}/user.php`
+
+```php
+<?php 
+return [
+    // labels是自定义标签翻译
+    'labels' => [
+        // 这个是页面 title 翻译
+        'User' => '用户',
+    ],
+    // 表字段翻译
+    'fields' => [
+        'name' => '名称',
+        'email' => '邮箱',
+        'email_verified_at' => '验证时间',
+        'password' => '密码',
+        'remember_token' => 'remember_token',
+    ],
+    'options' => [
+    ],
+];
+
+```
 

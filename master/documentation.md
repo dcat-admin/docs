@@ -4,7 +4,6 @@
   - [安装](installation.md)
   - [开发前必读](notice.md)
   - [快速开始](quick-start.md)
-  - [页面内容和布局](content-layout.md)
   - [主题与颜色](theme.md)
   - [JS组件](js.md)
 - ## 数据表格
