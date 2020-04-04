@@ -163,7 +163,9 @@ $grid->name()->label('#222');
 ```php
 use Dcat\Admin\Admin;
 
-$grid->state->label([
+$grid->state->using([1 => '未处理', 2 => '已处理', ...])->label([
+    'default' => 'primary', // 设置默认颜色，不设置则默认为 default
+    
 	1 => 'primary',
 	2 => 'danger',
 	3 => 'success',
@@ -192,8 +194,10 @@ $grid->name()->badge('#222');
 ```php
 use Dcat\Admin\Admin;
 
-$grid->state->badge([
-	1 => 'primary',
+$grid->state->using([1 => '未处理', 2 => '已处理', ...])->badge([
+    'default' => 'primary', // 设置默认颜色，不设置则默认为 default	
+    
+    1 => 'primary',
 	2 => 'danger',
 	3 => 'success',
 	4 => Admin::color()->info(),
@@ -222,7 +226,9 @@ $grid->name()->chip('#222');
 ```php
 use Dcat\Admin\Admin;
 
-$grid->state->chip([
+$grid->state->using([1 => '未处理', 2 => '已处理', ...])->chip([
+    'default' => 'primary', // 设置默认颜色，不设置则默认为 primary
+    
 	1 => 'primary',
 	2 => 'danger',
 	3 => 'success',
@@ -616,7 +622,7 @@ $grid->config()
     ->display($view)
     ->expand($this->getExpandHandler('config'))
     ->else()
-    ->showEmpty();
+    ->emptyString();
 ```
 上面写法等同于
 ```php
@@ -628,7 +634,7 @@ $grid->config()
         $column->display($view)->expand($this->getExpandHandler('config'));
     })
     ->else(function (Grid\Column $column) {
-        $column->showEmpty();
+        $column->emptyString();
     });
 ```
 

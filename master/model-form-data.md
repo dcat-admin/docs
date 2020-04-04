@@ -2,13 +2,18 @@
 
 ## 模型与数据仓库
 
-`Dcat Admin`中表单对数据的操作并非直接依赖于`Eloquent Model`，而是依赖于`Repository`提供的数据操作接口。
-
-> {tip} `Repository`提供更简单更清晰数据操作接口，开发者可以通过实现不同的数据操作接口轻松支持多数据源，具体使用方法请参照[数据仓库](model-repository.md)。
+`Dcat Admin`中表单对数据的操作并非直接依赖于`Model`，而是依赖数据仓库(`Repository`)，关于数据仓库的详细介绍请参考文档[数据仓库](model-repository.md)。
 
 
 ## 数据来自模型
+
+> {tip} 如果你的数据来自`Model`，那么你也可以直接使用`Model`实例，底层会自动把`Model`转化为数据仓库实例。
+
+
+
 当数据源支持模型时，只需创建一个非常简单的`Repository`类既可：
+
+
 ```php
 <?php
 
@@ -40,7 +45,7 @@ $form = new Form(new Movie);
 
 ## 数据来自外部API
 
-当下面用`豆瓣电影`的API为例子，来展示`Repository`的写操作相关接口：
+下面以`豆瓣电影`的API为例子，来展示`Repository`的表单数据读写操作相关接口的用法：
 
 ```php
 <?php

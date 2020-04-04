@@ -262,6 +262,75 @@ $content->row(function (Row $row) {
 ----------------------------------
 ```
 
+### 构建无菜单栏页面 (full)
+
+通过以上方法构建的页面默认是带有左边菜单栏和顶部导航栏的，
+但有时候我们会需要构建一个没有菜单栏和顶部导航栏的完整页面，如登陆页面，或需要在IFRAME中加载的页面等等。
+
+
+这时候就可以用 `Content::full` 这个方法了，调用了此方法后渲染出来的页面是不带菜单栏和顶部导航栏的，并且还可以使用 `Dcat Admin` 中的所有的功能和组件的，可以显著地提高效率。
+
+下面将通过登录页的实现来演示此功能的用法
+
+控制器
+```php
+use Dcat\Admin\Layout\Content;
+
+class AuthController extends Controller
+{
+    public function getLogin(Content $content)
+    {
+        if ($this->guard()->check()) {
+            return redirect($this->redirectPath());
+        }
+		// 使用full方法构建登陆页面
+        return $content->full()->body(view($this->view));
+    }
+	
+	...
+}	
+```
+
+下面是登陆功能的模板内容，因为控制器中使用了`Content::full`方法构建页面，所以不需要在模板中写`head`，也不需要关心引入哪些静态资源，只需写当前页面的HTML即可，并且还可以使用`Dcat Admin`中的所有功能，如下面用到的表单提交功能。
+
+```html
+<style>
+    html body {background: #fff;}
+</style>
+
+<link rel="stylesheet" href="{{ admin_asset('@admin/css/pages/authentication.css') }}">
+
+<section class="row flexbox-container">
+	<!-- 这里是你的登陆页面HTML代码 -->
+	...
+</section>
+
+<script>
+    Dcat.ready(function () {
+        // ajax表单提交
+        $('#login-form').form({
+            validate: true,
+            success: function (data) {
+                if (! data.status) {
+                    Dcat.error(data.message);
+
+                    return false;
+                }
+
+                Dcat.success(data.message);
+
+                location.href = data.redirect;
+
+                return false;
+            }
+        });
+    });
+</script>
+```
+
+这个登陆页面使用了`ajax`表单提交功能，并且附带了按钮`loading`效果，比原来的登陆功能用户体验更好，大家可以[点这里体验](http://103.39.211.179:8080/admin/auth/login)。
+
+
 ### 事件
 
 系统会在`Dcat\Admin\Layout\Content`类被实例化时和`render()`方法被调用时触发以下两个事件，开发者可以在这两个事件中改变或添加一些行为。

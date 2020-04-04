@@ -1,4 +1,4 @@
-# Form组件使用
+# 表单字段的使用
 
 在`model-form`中内置了大量的form组件来帮助你快速的构建form表单
 
@@ -6,25 +6,25 @@
 ## 公共方法
 
 <a name="value"></a>
-### 设置保存值
+### 设置表单值 (value)
 ```php
 $form->text('title')->value('text...');
 ```
 
 <a name="default"></a>
-### 设置默认值
+### 设置默认值 (default)
 ```php
 $form->text('title')->default('text...');
 ```
 
 <a name="help"></a>
-### 设置help信息
+### 设置提示信息 (help)
 ```php
 $form->text('title')->help('help...');
 ```
 
 <a name="attr"></a>
-### 设置属性
+### 设置属性 (attribute)
 ```php
 $form->text('title')->attribute(['data-title' => 'title...']);
 
@@ -32,7 +32,7 @@ $form->text('title')->attribute('data-title', 'title...');
 ```
 
 <a name="required"></a>
-### 设置为必填
+### 设置为必填 (required)
 ```php
 $form->text('title')->required();
 
@@ -41,30 +41,30 @@ $form->text('title')->required(false);
 ```
 
 <a name="disable"></a>
-### 设置为不可编辑
+### 设置为不可编辑 (disable)
 ```php
 $form->text('title')->disable();
 ```
 
 <a name="placeholder"></a>
-### 设置placeholder
+### 设置占位符 (placeholder)
 ```php
 $form->text('title')->placeholder('请输入。。。');
 ```
 
 <a name="setWidth"></a>
-### 设置宽度
+### 设置宽度 (width)
 ```php
-$form->text('title')->setWidth(8, 2);
+$form->text('title')->width(8, 2);
 ```
 
 <a name="rules"></a>
-### 设置验证规则
+### 设置验证规则 (rules)
 具体使用可参考[表单验证](model-form-validation.md)。
 
 
 <a name="saving"></a>
-### 处理待保存的数据
+### 处理待保存的数据 (saving)
 `saving`方法可以更改待保存到数据库的数据。如下面的例子，原本表单提交的是一个以“,”隔开的字符串，我们可以把这个值转化成`json`格式保存到数据库
 ```php
 $form->mutipleFile('files')->saving(function ($paths) {
@@ -77,7 +77,7 @@ $form->mutipleFile('files')->saving(function ($paths) {
 ```
 
 <a name="customFormat"></a>
-### 处理待渲染的数据
+### 处理待渲染的数据 (customFormat)
 `customFormat`方法可以改变从外部注入到表单的字段值。
 
 如上面的例子，我们把原本是以“,”隔开的字符串改为`json`格式保存到数据库，那么从数据库中取出的值也是`json`，这个时候直接注入到表单后并不能被表单识别，所以需要通过`customFormat`方法把这个值重新转回以“,”隔开的字符串。
@@ -109,9 +109,9 @@ $form->textare('contents')->hideInModal();
 
 
 <a name="tab"></a>
-## model-form-tab
+## 选项卡表单 (tab)
 
-如果表单元素太多,会导致form页面太长, 这种情况下可以使用tab来分隔form:
+如果表单元素太多,会导致表单页面太长, 这种情况下可以使用`tab`方法来分隔表单:
 
 ```php
 
@@ -139,7 +139,7 @@ $form->tab('Basic info', function ($form) {
 ```
 
 <a name="text"></a>
-## text
+## 文本 (text)
 
 ```php
 $form->text($column, [$label]);
@@ -149,7 +149,7 @@ $form->text($column, [$label])->rules('required|min:10');
 ```
 
 <a name="select"></a>
-## select
+## 下拉选框单选 (select)
 ```php
 $form->select($column[, $label])->options([1 => 'foo', 2 => 'bar', 'val' => 'Option name']);
 ```
@@ -239,7 +239,7 @@ public function users(Request $request)
 ```
 
 <a name="selectload"></a>
-## select 联动
+## 下拉选框联动
 
 `select`组件支持父子关系的单向联动：
 ```php
@@ -276,7 +276,7 @@ public function city(Request $request)
 ```
 
 <a name="multipleSelect"></a>
-## multipleSelect
+## 下拉选框多选 (multipleSelect)
 
 > {tip} 注入这个字段的数据（从数据库查出来的）可以是一个以“,”隔开的字符串或数组。
 
@@ -366,7 +366,7 @@ public function users(Request $request)
 ```
 
 <a name="selectResource"></a>
-## selectResource
+## 资源选择 (selectResource)
 
 选择数据源，选择弹窗里面的表格数据。
 > {tip} 注入这个字段的数据（从数据库查出来的）可以是一个以“,”隔开的字符串或数组。
@@ -439,7 +439,7 @@ protected function miniGrid()
 ```
 
 <a name="listbox"></a>
-## listbox
+## 多选盒 (listbox)
 
 使用方法和`multipleSelect`类似。
 
@@ -450,13 +450,13 @@ $form->listbox($column[, $label])->options([1 => 'foo', 2 => 'bar', 'val' => 'Op
 ```
 
 <a name="textarea"></a>
-## textarea
+## 长文本 (textarea)
 ```php
 $form->textarea($column[, $label])->rows(10);
 ```
 
 <a name="radio"></a>
-## radio
+## 单选 (radio)
 ```php
 $form->radio($column[, $label])->options(['m' => 'Female', 'f'=> 'Male'])->default('m');
 
@@ -465,7 +465,7 @@ $form->radio($column[, $label])->options(['m' => 'Female', 'f'=> 'Male'])->stack
 ```
 
 <a name="checkbox"></a>
-## checkbox
+## 多选 (checkbox)
 
 `checkbox`能处理两种数据存储情况，参考[多选框](#多选框)
 
@@ -478,43 +478,37 @@ $form->checkbox($column[, $label])->options([1 => 'foo', 2 => 'bar', 'val' => 'O
 ```
 
 <a name="email"></a>
-## email
+## 邮箱 (email)
 ```php
 $form->email($column[, $label]);
 ```
 
 <a name="password"></a>
-## password
+## 密码 (password)
 ```php
 $form->password($column[, $label]);
 ```
 
 <a name="url"></a>
-## url输入框
+## 链接 (url)
 ```php
 $form->url($column[, $label]);
 ```
 
 <a name="ip"></a>
-## ip
+## IP地址 (ip)
 ```php
 $form->ip($column[, $label]);
 ```
 
 <a name="mobile"></a>
-## mobile
+## 手机 (mobile)
 ```php
 $form->mobile($column[, $label])->options(['mask' => '999 9999 9999']);
 ```
 
-<a name="color"></a>
-## color
-```php
-$form->color($column[, $label])->default('#ccc');
-```
-
 <a name="time"></a>
-## time
+## 时间 (time)
 ```php
 $form->time($column[, $label]);
 
@@ -523,7 +517,7 @@ $form->time($column[, $label])->format('HH:mm:ss');
 ```
 
 <a name="date"></a>
-## date
+## 日期 (date)
 ```php
 $form->date($column[, $label]);
 
@@ -532,7 +526,7 @@ $form->date($column[, $label])->format('YYYY-MM-DD');
 ```
 
 <a name="datetime"></a>
-## datetime
+## 时间日期 (datetime)
 ```php
 $form->datetime($column[, $label]);
 
@@ -541,28 +535,28 @@ $form->datetime($column[, $label])->format('YYYY-MM-DD HH:mm:ss');
 ```
 
 <a name="timeRange"></a>
-## timeRange
+## 时间范围 (timeRange)
 `$startTime`、`$endTime`为开始和结束时间字段:
 ```php
 $form->timeRange($startTime, $endTime, 'Time Range');
 ```
 
 <a name="dateRange"></a>
-## dateRange
+## 日期范围 (dateRange)
 `$startDate`、`$endDate`为开始和结束日期字段:
 ```php
 $form->dateRange($startDate, $endDate, 'Date Range');
 ```
 
 <a name="datetimeRange"></a>
-## datetimeRange
+## 时间日期范围 (datetimeRange)
 `$startDateTime`、`$endDateTime`为开始和结束时间日期:
 ```php
 $form->datetimeRange($startDateTime, $endDateTime, 'DateTime Range');
 ```
 
 <a name="currency"></a>
-## currency
+## 单位符号 (currency)
 ```php
 $form->currency($column[, $label]);
 
@@ -571,19 +565,19 @@ $form->currency($column[, $label])->symbol('￥');
 ```
 
 <a name="number"></a>
-## number
+## 数字 (number)
 ```php
 $form->number($column[, $label]);
 ```
 
 <a name="rate"></a>
-## rate
+## 费率 (rate)
 ```php
 $form->rate($column[, $label]);
 ```
 
 <a name="file"></a>
-## file
+## 文件上传 (file)
 
 使用文件上传功能之前需要先完成上传配置。文件上传配置以及内置方法请参考:[图片/文件上传](model-form-upload.md).
 
@@ -602,7 +596,7 @@ $form->file($column[, $label])->removable();
 ```
 
 <a name="image"></a>
-## image
+## 图片上传 (image)
 
 使用图片上传功能之前需要先完成上传配置。图片上传配置以及内置方法请参考:[图片/文件上传](model-form-upload.md).
 
@@ -625,7 +619,7 @@ $form->image($column[, $label])->insert($watermark, 'center');
 ```
 
 <a name="multipleImage"></a>
-## multipleImage/multipleFile
+## 多图和多文件上传 (multipleImage/multipleFile)
 
 多图片上传表单继承自单图上传表单，多文件上传表单继承自单文件上传表单。
 
@@ -657,7 +651,7 @@ $form->multipleFile($column[, $label])->customPrepare(function ($paths) {
 ```
 
 <a name="map"></a>
-## map
+## 地图 (map)
 
 地图组件引用了网络资源，默认关闭,如果要开启这个组件参考[form组件管理](model-form-field-management.md)
 
@@ -667,7 +661,7 @@ $form->map($latitude, $longitude, $label);
 ```
 
 <a name="slider"></a>
-## slider
+## 滑动条 (slider)
 可以用来数字类型字段的选择，比如年龄：
 ```php
 $form->slider($column[, $label])->options(['max' => 100, 'min' => 1, 'step' => 1, 'postfix' => 'years old']);
@@ -675,7 +669,7 @@ $form->slider($column[, $label])->options(['max' => 100, 'min' => 1, 'step' => 1
 更多options请参考:https://github.com/IonDen/ion.rangeSlider#settings
 
 <a name="editor"></a>
-## editor
+## 富文本编辑器 (editor)
 
 编辑器组件引用了网络资源，默认关闭,如果要开启这个组件参考[form组件管理](model-form-field-management.md).
 
@@ -684,20 +678,20 @@ $form->editor($column[, $label]);
 ```
 
 <a name="hidden"></a>
-## hidden
+## 隐藏输入框 (hidden)
 ```php
 $form->hidden($column);
 ```
 
 <a name="switch"></a>
-## switch
+## 切换按钮 (switch)
 开关表单保存到数据库的默认值
 ```php
 $form->switch($column[, $label]);
 ```
 
 <a name="display"></a>
-## display
+## 仅显示 (display)
 只显示字段，不做任何操作：
 ```php
 $form->display($column[, $label]);
@@ -710,20 +704,20 @@ $form->display($column[, $label])->with(function ($value) {
 ```
 
 <a name="divider"></a>
-## divider
+## 分割线 (divider)
 ```php
 $form->divider();
 ```
 
 <a name="html"></a>
-## html
+## 自定义内容 (html)
 插入html内容，参数可以是实现了`Htmlable`、`Renderable`或者实现了`__toString()`方法的类
 ```php
 $form->html('你的html内容', $label = '');
 ```
 
 <a name="tags"></a>
-## tags
+## 标签 (tags)
 插入逗号(,)隔开的字符串`tags`
 ```php
 $form->tags('keywords');
@@ -754,14 +748,14 @@ $form->tags('tags', '文章标签')
 `saving` 方法接收一个「参数为 tags 的提交值，返回值为修改后的 tags 提交值」的闭包，可以用于实现自动创建新 tag 或其它功能。
 
 <a name="icon"></a>
-## icon
+## 图表选择器 (icon)
 选择`font-awesome`图标
 ```php
 $form->icon('icon');
 ```
 
 <a name="tree"></a>
-## tree
+## 树形选择器 (tree)
 树形结构表单
 
 ```php
@@ -787,7 +781,10 @@ $form->tree('permissions')
 ```
 
 <a name="table"></a>
-## table
+## 表格表单 (table)
+
+> {tip} 表格表单不支持图片和文件上传表单。
+
 如果某一个字段存储的是json格式的二维数组，可以使用table表单组件来实现快速的编辑：
 
 ```php
@@ -813,7 +810,9 @@ public function setExtraAttribute($extra)
 
 
 <a name="onemany"></a>
-## 一对多
+## 一对多 (hasMany)
+
+> {tip} 一对多表单暂不支持图片和文件上传表单，后续版本会增加这个功能。
 
 一对多内嵌表格，用于处理一对多的关系，下面是个简单的例子：
 
@@ -885,7 +884,7 @@ $form->textarea('bio')->rules('required');
 
 $form->hasMany('paintings', function (Form\NestedForm $form) {
     $form->text('title');
-    $form->image('body');
+    $form->textarea('body');
     $form->datetime('completed_at');
 });
 
@@ -900,7 +899,9 @@ $form->hasMany('paintings', '画作', function (Form\NestedForm $form) {
 ```
 
 <a name="embeds"></a>
-## 内嵌
+## 内嵌 (embeds)
+
+> {tip} 内嵌表单不支持图片和文件上传表单。
 
 用于处理`mysql`的`JSON`类型字段数据或者`mongodb`的`object`类型数据，也可以将多个field的数据值以`JSON`字符串的形式存储在`mysql`的字符串类型字段中
 

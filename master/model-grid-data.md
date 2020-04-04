@@ -1,16 +1,15 @@
 # 表格数据源
 
-表格数据是通过 `Dcat\Admin\Contracts\Repository::get` 接口获取的。
+表格对数据的读取操作并非直接依赖于`Model`，而是依赖数据仓库(`Repository`)，关于数据仓库的详细介绍请参考文档[数据仓库](model-repository.md)。
 
-如果你的数据源是 `MySQL`，则可以直接使用 `Dcat\Admin\Repositories\EloquentRepository`，
-`EloquentRepository` 已实现了对 `Eloquent Model` 的支持。
+> {tip} 表格的数据是通过 `Dcat\Admin\Contracts\Repository::get` 接口获取的。
 
-如果数据来自其他源，则只需重新实现 `Dcat\Admin\Contracts\Repository::get` 接口即可。
-
-> {tip} `Repository`提供更简单更清晰数据操作接口，开发者可以通过实现不同的数据操作接口轻松支持多数据源，具体使用方法请参照[数据仓库](model-repository.md)。
 
 <a name="model"></a>
 ## 数据来自模型
+
+> {tip} 如果你的数据来自`Model`，那么你也可以直接使用`Model`实例，底层会自动把`Model`转化为数据仓库实例。
+
 
 当数据源支持`Eloquent Model`时，只需创建一个简单的`Repository`类继承`Dcat\Admin\Repositories\EloquentRepository`即可
 ```php

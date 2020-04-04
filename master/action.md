@@ -64,7 +64,7 @@ use Dcat\Admin\Admin;
 use Dcat\Admin\Widgets\Table;
 use Dcat\Admin\Actions\Action;
 use Dcat\Admin\Actions\Response;
-use Dcat\Admin\Models\HasPermissions;
+use Dcat\Admin\Traits\HasPermissions;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;

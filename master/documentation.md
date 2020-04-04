@@ -2,8 +2,8 @@
 - ## 入门
   - [简介](introduction.md)
   - [安装](installation.md)
-  - [开发前必读](notice.md)
   - [快速开始](quick-start.md)
+  - [开发前必读](notice.md)
   - [主题与颜色](theme.md)
   - [JS组件](js.md)
 - ## 数据表格
@@ -26,9 +26,9 @@
 - ## 数据表单
   - [基本使用](model-form.md)
   - [图片/文件上传](model-form-upload.md)
-  - [Form组件使用](model-form-fields.md)
-  - [Form组件管理](model-form-field-management.md)
-  - [表单数据源](model-form-data.md)
+  - [字段的使用](model-form-fields.md)
+  - [字段的管理](model-form-field-management.md)
+  - [数据源](model-form-data.md)
   - [表单弹窗](model-form-modal.md)
   - [表单分步](model-form-step.md)
   - [表单验证](model-form-validation.md)
@@ -45,11 +45,11 @@
 - ## [模型树](model-tree.md)
 - ## [数据仓库](model-repository.md)
 - ## 动作
- - [基本使用](action.md)
- - [数据表格](action-grid.md)
- - [数据表单](action-form.md)
- - [数据详情](action-show.md)
- - [模型树](action-tree.md)
+  - [基本使用](action.md)
+  - [数据表格](action-grid.md)
+  - [数据表单](action-form.md)
+  - [数据详情](action-show.md)
+  - [模型树](action-tree.md)
 - ## [多语言](trans.md)
 - ## [开发扩展](extend.md)
 - ## 页面组件
