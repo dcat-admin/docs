@@ -5,7 +5,21 @@
 
 这个是`Laravel7`升级后带来的坑，原因请参考[日期序列化](https://learnku.com/docs/laravel/7.x/upgrade/7445#date-serialization)。
 
-在本项目中解决这个问题很简单，只需在你的`Model`中引入
+在本项目中解决这个问题很简单，只需在你的`Model`中引入`Dcat\Admin\Traits\HasDateTimeFormatter`这个`trait`即可。
+
+```php
+<?php
+
+namespace App\Models;
+
+use Dcat\Admin\Traits\HasDateTimeFormatter;
+use Illuminate\Database\Eloquent\Model;
+
+class MyModel extends Model
+{
+    use HasDateTimeFormatter;
+}
+```
 
 
 ## 关于前端资源问题
