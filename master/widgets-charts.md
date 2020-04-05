@@ -283,6 +283,7 @@ class MyController
     <img src="{{public}}/assets/img/screenshots/widget-bar2.png"  style="box-shadow:0 1px 6px 1px rgba(0, 0, 0, 0.12)" width="100%" >
 </a>
 
+<a href="js"></a>
 ### 设置图表配置为可执行JS代码
 
 如果你需要在图表配置加入可执行的JS代码，可参考以下方式
