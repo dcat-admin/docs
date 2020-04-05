@@ -101,7 +101,7 @@ HTML
 $navbar->right(view('...'));
 ```
 
-添加下拉菜单
+## 添加下拉菜单
 
 ```html
 <ul class="nav navbar-nav">

@@ -1,6 +1,13 @@
 # 常见问题汇总
 
 
+## Laravel7出现时间显示为UTC格式
+
+这个是`Laravel7`升级后带来的坑，原因请参考[日期序列化](https://learnku.com/docs/laravel/7.x/upgrade/7445#date-serialization)。
+
+在本项目中解决这个问题很简单，只需在你的`Model`中引入
+
+
 ## 关于前端资源问题
 
 `Dcat Admin`是支持前端资源按需加载的，开发者无需担心安装组件过多影响页面加载速度。
