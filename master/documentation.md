@@ -6,6 +6,7 @@
   - [开发前必读](notice.md)
   - [主题与颜色](theme.md)
   - [JS组件](js.md)
+  - [常见问题](qa.md)
 - ## 数据表格
   - [基本使用](model-grid.md)
   - [列的使用和扩展](model-grid-column.md)
@@ -73,5 +74,4 @@
 - ## [开发工具](helpers.md)
 - ## [自定义登陆认证](custom-authentication.md)
 - ## [自定义头部导航](custom-navbar.md)
-- ## [常见问题](qa.md)
 - ## [Change log](change-log.md)

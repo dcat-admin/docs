@@ -25,15 +25,16 @@ $url = admin_url('auth/users');
 $path = admin_base_path('auth/users');
 ```
 
-### admin_alert
+### admin_toastr
 
-在页面刷新后弹出一个`layer`提示窗，参数：
+在页面刷新后弹出一个`toastr`提示窗，参数：
+
 - `$message` 提示窗内容
 - `$type` 提示窗类型，默认`success`，支持`success`、`info`、`warning`、`error`
-- `$offset` 提示窗位置，支持`t`、`b`、`rt`、`rb`
+- `$options` toastr配置参数
 
 ```php
-admin_alert('更新成功', 'success', 'rt');
+admin_alert('更新成功', 'success');
 ```
 
 ### admin_success
@@ -67,12 +68,15 @@ admin_info('标题', '内容');
 ### admin_asset
 
 获取静态资源的完整链接：
+
+> {tip} 此函数支持别名.
+
 ```html
 // 引入css
-<link rel="stylesheet" href="{{ admin_asset("vendor/dcat-admin/dcat-admin/main.min.css") }}">
+<link rel="stylesheet" href="{{ admin_asset("@admin/dcat-admin/main.min.css") }}">
 
 // 引入js
-<script src="{{ admin_asset('vendor/dcat-admin/dcat-admin/main.min.js')}}"></script>
+<script src="{{ admin_asset('@admin/dcat-admin/main.min.js')}}"></script>
 ```
 
 ### admin_trans_field

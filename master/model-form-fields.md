@@ -684,7 +684,7 @@ $form->hidden($column);
 ```
 
 <a name="switch"></a>
-## 切换按钮 (switch)
+## 开关 (switch)
 开关表单保存到数据库的默认值
 ```php
 $form->switch($column[, $label]);
