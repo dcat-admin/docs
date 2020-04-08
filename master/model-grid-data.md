@@ -128,7 +128,7 @@ $grid->categories;
 <a name="example"></a>
 ### 示例
 
-如果数据是来自外部的API，只需要覆写`Repository`中的`get`方法既可, 下面的例子用`豆瓣电影`的API获取并展示数据：
+如果数据是来自外部的API，只需要覆写`Repository`中的`get`方法既可, 具体用法可参考下面的示例，采用`豆瓣电影`API获取并展示数据：
 
 > {tip} 通过`$model->getFilter()->input()`方法可以获取过滤器定义的字段值，请尽量不要通过`request()`方法去获取过滤器筛选参数值，因为当页面中有多个表格时可能无法获取到值。关于过滤器定义请参考[查询过滤](model-grid-filters.md)。
 
@@ -162,50 +162,44 @@ class ComingSoon extends Repository
      */
     public function get(Grid\Model $model)
     {
-        // 获取当前页数
-        $currentPage = $model->getCurrentPage();
-        // 获取每页显示行数
-        $perPage = $model->getPerPage();
-        
-        // 获取排序字段
-        list($orderColumn, $orderType) = $model->getSort();
+        // 当前页数
+		$currentPage = $model->getCurrentPage();
+		// 每页显示行数
+		$perPage = $model->getPerPage();
 
-        // 获取"scope"筛选值
-        $city = $model->getFilter()->input(Grid\Filter\Scope::QUERY_NAME, '广州');
-        // 如果设置了其他过滤器字段，也可以通过“input”方法获取值，如：
-        $title = $model->getFilter()->input('title');
-        if ($title !== null) {
-            // 执行你的筛选逻辑
-        }
+		// 获取排序字段
+		[$orderColumn, $orderType] = $model->getSort();
 
-        $start = ($currentPage - 1) * $perPage;
+		// 获取"scope"筛选值
+		$city = $model->filter()->input(Grid\Filter\Scope::QUERY_NAME, '广州');
+		
+		// 如果设置了其他过滤器字段，也可以通过“input”方法获取值，如：
+		$title = $model->filter()->input('title');
+		if ($title !== null) {
+			// 执行你的筛选逻辑
+			
+		}
 
-        $client = new \GuzzleHttp\Client();
+		$start = ($currentPage - 1) * $perPage;
 
-        $response = $client->get("{$this->api}?city=$city&start=$start&count=$perPage");
-        $data = json_decode((string)$response->getBody(), true);
+		$client = new \GuzzleHttp\Client();
 
-        // 实例化分页类
-        $paginator = new LengthAwarePaginator(
-            $data['subjects'] ?? [],
-            $data['total'] ?? 0,
-            $perPage, // 传入每页显示行数
-            $currentPage // 传入当前页码
-        );
+		$response = $client->get("{$this->api}?{$this->apiKey}&city=$city&start=$start&count=$perPage");
+		$data = json_decode((string)$response->getBody(), true);
 
-        // 设置当前页面路径
-        $paginator->setPath(\url()->current());
-
-        return $paginator;
+		return $model->makePaginator(
+			$data['total'] ?? 0,
+			$data['subjects'] ?? []
+		);
     }
 
 }
 ```
 <a name="grid-model"></a>
-### $grid->model() 内置方法
+### Grid\Model 常用方法
 
 <a name="getCurrentPage"></a>
-#### getCurrentPage
+#### 获取当前页数 (getCurrentPage)
 获取当前页码
 - 返回值： `int|null` 如果不允许分页返回null
 ```php
@@ -213,7 +207,7 @@ $page = $model->getCurrentPage();
 ```
 
 <a name="getPerPage"></a>
-#### getPerPage
+#### 获取每页显示行数 (getPerPage)
 获取每页显示行数
 - 返回值： `int|null` 如果不允许分页返回null
 ```php
@@ -221,7 +215,7 @@ $limit = $model->getPerPage();
 ```
 
 <a name="getSort"></a>
-#### getSort
+#### 获取排序字段 (getSort)
 获取排序字段
 - 返回值： `array` `[$orderColumn, 'desc'|'asc']` || `[null, null]`
 
@@ -232,16 +226,16 @@ list($orderColumn, $orderType) = $model->getSort();
 ```
 
 <a name="getFilter"></a>
-#### getFilter
-获取过滤器对象
+#### 获取过滤器对象 (filter)
+获取过滤器对象，通过过滤器对象可以获取到搜索表单的值，用法如下
 - 返回值 `Dcat\Admin\Grid\Filter`
 
 ```php
 // 获取"scope"筛选值
-$city = $model->getFilter()->input(Grid\Filter\Scope::QUERY_NAME, '广州');
+$city = $model->filter()->input(Grid\Filter\Scope::QUERY_NAME, '广州');
 
 // 如果设置了其他过滤器字段，也可以通过“input”方法获取值，如：
-$title = $model->getFilter()->input('title');
+$title = $model->filter()->input('title');
 if ($title !== null) {
     // 执行你的筛选逻辑
 }
@@ -254,4 +248,4 @@ if ($title !== null) {
 如果来源数据需要执行比较复杂的SQL语句获取，那么有两个办法, 第一个办法就是上面的方法，覆盖掉`Repository`的`get`方法实现
 
 
-第二个方式是在数据库中建立视图和model绑定（未测试过，理论上可行）
+第二个方式是在数据库中建立视图和`model`绑定（未测试过，理论上可行）
