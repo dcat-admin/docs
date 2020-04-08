@@ -366,7 +366,7 @@ public function users(Request $request)
 ```
 
 <a name="selectResource"></a>
-## 资源选择 (selectResource)
+## 弹窗选择 (selectResource)
 
 选择数据源，选择弹窗里面的表格数据。
 > {tip} 注入这个字段的数据（从数据库查出来的）可以是一个以“,”隔开的字符串或数组。
