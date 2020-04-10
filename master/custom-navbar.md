@@ -16,30 +16,6 @@ Admin::navbar(function (Navbar $navbar) {
 
 `left`和`right`方法分别用来在头部的左右两边添加内容，方法参数可以是任何可以渲染的对象(实现了`Htmlable`、`Renderable`接口或者包含`__toString()`方法的对象)或字符串
 
-## 添加搜索框示例
-
-举个例子，比如在左边添加一个搜索条，先创建一个blade视图`resources/views/search-bar.blade.php`：
-```php
-use Dcat\Admin\Layout\Navbar;
-use Dcat\Admin\Admin;
-
-Admin::navbar(function (Navbar $navbar) {
-    $navbar->right(
-        <<<HTML
-<ul class="nav navbar-nav float-right">
-    <li class="nav-item nav-search"><a class="nav-link nav-link-search"><i class="ficon feather icon-search"></i></a>
-      <div class="search-input">
-            <div class="search-input-icon"><i class="feather icon-search primary"></i></div>
-            <input class="input" type="text" placeholder="Explore Vuexy..." tabindex="-1" data-search="laravel-search-list">
-            <div class="search-input-close"><i class="feather icon-x"></i></div>
-            <ul class="search-list search-list-main ps"><div class="ps__rail-x" style="left: 0px; bottom: 0px;"><div class="ps__thumb-x" tabindex="0" style="left: 0px; width: 0px;"></div></div><div class="ps__rail-y" style="top: 0px; right: 0px;"><div class="ps__thumb-y" tabindex="0" style="top: 0px; height: 0px;"></div></div></ul>
-      </div>
-    </li>
-</ul>
-HTML
-    );
-});
-```
 
 
 ## 添加下拉面板
@@ -130,4 +106,4 @@ $navbar->right(view('...'));
 $navbar->right(view('...'));
 ```
 
-更多的组件可以参考[Vuexy](https://pixinvent.com/demo/vuexy-vuejs-admin-dashboard-template/demo-1/)
+更多的组件可以参考[AdminLTE3](https://github.com/ColorlibHQ/AdminLTE)。

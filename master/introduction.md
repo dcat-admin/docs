@@ -19,6 +19,7 @@
 ## 技术栈
 
 - [Laravel](https://laravel.com/)
+- [AdminLTE3](https://github.com/ColorlibHQ/AdminLTE)
 - [Bootstrap4](https://getbootstrap.net/)
 - jQuery3
 
@@ -60,7 +61,7 @@
 
 
 调整：
-- 采用[vuexy](https://pixinvent.com/demo/vuexy-vuejs-admin-dashboard-template/landing/)(`bootstrap4`+`jQuery3`)构建前端页面
+- 采用[AdminLTE3](https://github.com/ColorlibHQ/AdminLTE)(`bootstrap4`+`jQuery3`)构建前端页面
 - 使用`PJAX`构建无刷新页面，并且支持前端资源按需加载，开发者无需再担心安装组件过多会影响页面加载速度
 - 采用松耦合的页面构建与数据操作设计，构建页面不再需要关心数据操作接口的具体实现
 - 调整了表单提交方式，改为`ajax`提交
