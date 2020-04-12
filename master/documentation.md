@@ -35,6 +35,7 @@
   - [表单验证](model-form-validation.md)
   - [表单回调](model-form-callback.md)
   - [表单初始化](model-form-init.md)
+  - [工具表单](widgets-form.md)
   - [表单字段翻译](model-form-trans.md)
 - ## 数据详情
   - [基本使用](model-show.md)
@@ -56,7 +57,6 @@
 - ## 页面组件
   - [图表](widgets-charts.md)
   - [数据统计卡片](widgets-data-card.md)
-  - [工具表单](widgets-form.md)
   - [下拉菜单](widgets-dropdown.md)
   - [单/复选框](widgets-checkbox.md)
   - [选项卡](widgets-tab.md)

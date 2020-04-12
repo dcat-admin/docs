@@ -2,7 +2,7 @@
 
 通过`Form::resolving`方法设置的回调函数会在`Dcat\Admin\Form`类被实例化时触发；
 
-通过`Form::composing`方法设置的回调函数会在`render()`方法被调用时触发；
+通过`Form::composing`方法设置的回调函数会在`render()`方法被调用时（渲染页面时）触发；
 
 开发者可以在这两个事件中改变`Form`的一些设置或行为，比如需要禁用掉某些操作，可以在`app/Admin/bootstrap.php`加入下面的代码：
 
