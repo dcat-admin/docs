@@ -46,13 +46,11 @@ CREATE TABLE `users` (
     <img src="{{public}}/assets/img/screenshots/quick-start-1.png" style="box-shadow:0 1px 6px 1px rgba(0, 0, 0, 0.12)" width="100%" >
 </a>
 
-**3.**修改控制器名称，这里已经填上了默认的名称`App\Admin\Controllers\UsersController`，我们把控制器名称改为`App\Admin\Controllers\UserController`，符合`Larave`的命名规范
+**3.**修改模型名称为`App\User`
 
-**4.**修改模型名称为`App\User`
+**4.**由于`migration`文件、数据表、以及模型文件(使用内置的`App\User`即可)都已经有了，所以此处我们可以把这三个选项给去掉
 
-**5.**由于`migration`文件、数据表、以及模型文件(使用内置的`App\User`即可)都已经有了，所以此处我们可以把这三个选项给去掉
-
-**6.**填写字段翻译
+**5.**填写字段翻译
 
 最后呈现效果如下
 

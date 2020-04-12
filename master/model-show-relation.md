@@ -43,26 +43,42 @@ class User extends EloquentRepository
 }
 ```
 
-那么可以用下面的方式显示post所属的用户的详细：
+那么可以用下面的方式显示`post`所属的用户的详细：
 
 ```php
-use App\Admin\Repositories\User;
+use App\Models\User;
 
 $show->author(function ($model) {
-    $show = new Show(new User);
+    return Show::make($model->author_id, new User(), function (Show $show) {
+        $show->resource('/users');
     
-    $show->setId($model->author_id);
-    $show->resource('/users');
-
-    $show->id();
-    $show->name();
-    $show->email();
-    
-    return $show;
+        $show->id();
+        $show->name();
+        $show->email();
+    });
 });
 ```
 
-注意：为了能够正常使用这个面板右上角的工具，必须用`resource`方法设置用户资源的url访问路径
+> {tip} 为了能够正常使用这个面板右上角的工具，必须用`resource`方法设置用户资源的url访问路径。
+
+如果你的关联模型还需要有其他的条件查询，则可以参考以下方式
+```php
+use App\Models\User;
+
+$show->author(function ($model) {
+    // 模型设置查询条件
+    $userModel = User::where('state', $model->state);
+
+    return Show::make($model->author_id, $userModel, function (Show $show) {
+        $show->resource('/users');
+    
+        $show->id();
+        $show->name();
+        $show->email();
+    });
+});
+```
+
 
 ## 一对多
 一对多会以[数据表格](model-grid.md)的方式呈现，下面是简单的例子

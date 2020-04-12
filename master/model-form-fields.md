@@ -148,6 +148,25 @@ $form->text($column, [$label]);
 $form->text($column, [$label])->rules('required|min:10');
 ```
 
+<a name="hidden"></a>
+## 隐藏字段 (hidden)
+
+通过`hidden`方法可以给你的表单设置一个隐藏字段。
+
+```php
+$form->hidden('author_id')->value(Admin::user()->getKey());
+```
+
+通常可以结合`saving`事件使用
+```php
+$form->hidden('author_id');
+
+$form->saving(function (Form $form) {
+    $form->author_id = Admin::user()->getKey();
+});
+```
+
+
 <a name="select"></a>
 ## 下拉选框单选 (select)
 ```php
@@ -459,9 +478,6 @@ $form->textarea($column[, $label])->rows(10);
 ## 单选 (radio)
 ```php
 $form->radio($column[, $label])->options(['m' => 'Female', 'f'=> 'Male'])->default('m');
-
-// 竖排
-$form->radio($column[, $label])->options(['m' => 'Female', 'f'=> 'Male'])->stacked();
 ```
 
 <a name="checkbox"></a>
@@ -472,9 +488,6 @@ $form->radio($column[, $label])->options(['m' => 'Female', 'f'=> 'Male'])->stack
 `options()`方法用来设置选择项:
 ```php
 $form->checkbox($column[, $label])->options([1 => 'foo', 2 => 'bar', 'val' => 'Option name']);
-
-// 竖排
-$form->checkbox($column[, $label])->options([1 => 'foo', 2 => 'bar', 'val' => 'Option name'])->stacked();
 ```
 
 <a name="email"></a>
@@ -675,12 +688,6 @@ $form->slider($column[, $label])->options(['max' => 100, 'min' => 1, 'step' => 1
 
 ```php
 $form->editor($column[, $label]);
-```
-
-<a name="hidden"></a>
-## 隐藏输入框 (hidden)
-```php
-$form->hidden($column);
 ```
 
 <a name="switch"></a>
