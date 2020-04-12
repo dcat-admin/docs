@@ -106,7 +106,7 @@ $router->resource('users', 'UserController');
 更多详细使用请查看[数据表格](model-grid.md)和[数据表单](model-form.md)。
 
 
-## 增删该查功能简易说明
+## 增删改查功能简易说明
 
 为了便于大家理解增删改查功能的基本用法，下面将给大家简单介绍前面使用生成器生成的代码。
 
