@@ -55,6 +55,8 @@ php artisan admin:action
 
 修改 `Action` 类如下
 
+> {tip} 如果你的动作类中需要通过构造方法传递参数，则一定要给构造方法的所有参数都设置一个默认值！
+
 ```php
 <?php
 
@@ -405,58 +407,46 @@ public function confirm()
 
 ### 发起请求之前执行的JS代码 (actionScript)
 
-设置动作执行的前置`js`代码，当按钮绑定的事件被触发后，发起请求之前会执行通过此方法设置的`js`代码。
+设置动作执行的前置`js`代码，当按钮绑定的事件被触发后，发起请求之前会执行通过此方法设置的`js`代码，此方法要求返回一个`js`的匿名函数。
+
+`js`匿名函数接收以下三个参数：
+
+- `data` `object` 需要传递给接口的数据对象
+- `target` `object` 动作按钮的`jQuery`对象
+- `action` `object` 动作的管理对象
 
 ```php
 protected function actionScript()
 {
 	return <<<JS
-console.log('发起请求之前', target);
-
-// return 在这里return可以终止执行后面的操作	
-JS	
-}
-```
-
-### 与API交互的JS代码 (buildRequestScript)
-
-此方法要求返回与服务器交互的`js`代码，有需要可以覆写此方法
-
-```php
-protected function buildRequestScript()
-{
-	$parameters = json_encode($this->parameters());
+function (data, target, action) {
+    console.log('发起请求之前', data, target, action);
     
-	return <<<JS
-function request() {
-	target.attr('working', 1);
-	Object.assign(data, {$parameters});
-	{$this->buildActionPromise()}
-	{$this->handleActionPromise()}
+    // return false; 在这里return false可以终止执行后面的操作	
+    
+    // 更改传递到接口的主键值
+    action.options.key = 123;
 }
-
-if (data['confirm']) {
-	Dcat.confirm(data['confirm'][0], data['confirm'][1], request);
-} else {
-	request()
-}
-JS;
+JS	
 }
 ```
 
 <a name="handleHtmlResponse"></a>
 ### 处理服务器响应的HTML代码 (handleHtmlResponse)
 
-处理服务器响应的`HTML`代码
+处理服务器响应的`HTML`代码，此方法要求返回一个`js`匿名函数。
 
 ```php
 protected function handleHtmlResponse()
 {
         return <<<'JS'
-console.log('打印HTML代码', response.html);
+function (target, html, data) {
+    // target 参数是动作按钮的JQ对象
+    // html 参数是接口返回HTML字符串
+    // data 参数是接口返回的完整数据的json对象
 
-// 附加到页面中
-$('xxx').html(response.html)
+    target.html(html);
+}
 JS;
 }
 ```

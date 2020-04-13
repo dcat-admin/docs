@@ -221,7 +221,8 @@ class ReleasePost extends BatchAction
 {
     protected $action;
 
-    public function __construct($title, $action = 1)
+    // 注意action的构造方法参数一定要给默认值
+    public function __construct($title = null, $action = 1)
     {
         $this->title = $title;
         $this->action = $action;
@@ -283,4 +284,63 @@ $grid->tools(function ($tools) {
     	$batch->add(new ReleasePost('文章下线', 0));
     });
 });
+```
+
+#### 获取复选框选中的ID数组
+
+通过`getSelectedKeysScript`方法可以获取到复选框选中的ID数组，用法如下
+
+```php
+<?php
+
+namespace App\Admin\Extensions\Tools;
+
+use Dcat\Admin\Grid\BatchAction;
+use Illuminate\Http\Request;
+
+class ReleasePost extends BatchAction
+{
+    protected $action;
+
+    public function __construct($title, $action = 1)
+    {
+        $this->title = $title;
+        $this->action = $action;
+    }
+    
+    // 确认弹窗信息
+    public function confirm()
+    {
+        return '您确定要发布已选中的文章吗？';
+    }
+    
+    // 处理请求
+    public function handle(Request $request)
+    {
+        ...
+    }
+    
+    /**
+     * 设置动作发起请求前的回调函数，返回false可以中断请求. 
+     * 
+     * @return string
+     */
+    public function actionScript(){
+        $warning = __('No data selected!');
+
+        return <<<JS
+function (data, target, action) { 
+    var key = {$this->getSelectedKeysScript()}
+    
+    if (key.length === 0) {
+        Dcat.warning('{$warning}');
+        return false;
+    }
+    
+    // 设置主键为复选框选中的行ID数组
+    action.options.key = key;
+}
+JS;
+    }
+}
 ```

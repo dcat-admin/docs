@@ -306,7 +306,7 @@ interface TreeRepository
     public function store(Form $form)
     {
         // 获取待新增的数据
-        $attributes = $form->getUpdates();
+        $attributes = $form->updates();
         
         // 执行你的新增逻辑
     
@@ -336,7 +336,7 @@ interface TreeRepository
     public function update(Form $form)
     {
         // 获取待编辑的数据
-        $attributes = $form->getUpdates();
+        $attributes = $form->updates();
         
         // 执行你的编辑逻辑
     
@@ -520,7 +520,7 @@ class Category implements Repository, TreeRepository
 ```
 
 ## 模型
-`Dcat Admin`已经内置了对`Eloquent`的支持，如果你的数据源是支持`Model`的，那么只需继承`Dcat\Admin\Repositories\EloquentRepository`类即可实现对数据的`CURD`操作，如：
+`Dcat Admin`已经内置了对`Eloquent model`的支持，如果你的数据源是支持`Model`的，那么只需继承`Dcat\Admin\Repositories\EloquentRepository`类即可实现对数据的`CURD`操作，如：
 ```php
 <?php
 
@@ -554,4 +554,61 @@ class Movie extends EloquentRepository
     
 }
 ```
+
+## QueryBuilder
+
+如果你的数据支持`QueryBuilder`查询，但不方便建模型类（比如需要动态查表数据），则可以继承`Dcat\Admin\Repositories\QueryBuilderRepository`类。
+
+> {tip} 注意，`QueryBuilderRepository`默认是不支持`Model`的关联模型、软删除、模型树以及字段排序等功能，如果需要这些功能，请自定实现上述相关接口即可。
+
+```php
+<?php
+
+namespace App\Admin\Repositories;
+
+use Dcat\Admin\Repositories\QueryBuilderRepository;
+
+class MyRepository extends QueryBuilderRepository
+{
+    // 设置你的主键名称
+    protected $keyName = 'id';
+    
+    // 设置创建时间字段
+    protected $createdAtColumn = 'created_at';
+    
+     // 设置更新时间字段
+    protected $updatedAtColumn = 'updated_at';
+    
+    // 返回表名
+    public function getTable()
+    {
+        return 'your_table_name';
+    }
+    
+    // 返回你的主键名称
+    public function getKeyName()
+    {
+        return $this->keyName;
+    }
+    
+    // 通过这个方法可以指定查询的字段，默认"*"
+    public function getGridColumns()
+    {
+        return [$this->getKeyName(), 'name', 'title', 'created_at'];
+    }
+    
+    // 通过这个方法可以指定表单页查询的字段，默认"*"
+    public function getFormColumns()
+    {
+        return [$this->getKeyName(), 'name', 'title', 'created_at'];
+    }
+    
+   // 通过这个方法可以指定数据详情页查询的字段，默认"*"
+    public function getDetailColumns()
+    {
+        return ['*'];
+    }
+}
+```
+
 

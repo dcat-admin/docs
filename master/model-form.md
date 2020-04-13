@@ -306,7 +306,7 @@ $form->saving(function (Form $form) {
 ```php
 $form->saved(function (Form $form) {
 
-    $data = $form->getUpdates();
+    $data = $form->updates();
     
 });
 ```

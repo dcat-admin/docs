@@ -96,7 +96,7 @@ $form->saved(function (Form $form) {
     $username = $form->model()->username;
     
     // 获取最终保存的数组
-    $form->getUpdates();
+    $form->updates();
 
 });
 ```

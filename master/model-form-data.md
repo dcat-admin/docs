@@ -92,7 +92,7 @@ class ComingSoon extends Repository
         $id = $form->builder()->getResourceId();
 
         // 获取要修改的数据
-        $attributes = $form->getUpdates();
+        $attributes = $form->updates();
 
         // TODO
         // 这里写你的修改逻辑
