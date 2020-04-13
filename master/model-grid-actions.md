@@ -110,7 +110,8 @@ JS;
         // 获取当前行数据的用户名
         $username = $this->row->username;
         
-        $this->setHtmlAttribute(['data-id' => $id, 'email' => $username]);
+        // 这里需要添加一个class, 和上面script方法对应
+        $this->setHtmlAttribute(['data-id' => $id, 'email' => $username, 'class' => 'grid-check-row']);
 
         return parent::html();
     }
