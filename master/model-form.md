@@ -51,7 +51,7 @@ $form = Admin::form(new Movie, function (Form $form) {
     $form->switch('released', '发布？');
     
     // 添加日期时间选择框
-    $form->dateTime('release_at', '发布时间');
+    $form->datetime('release_at', '发布时间');
     
     // 两个时间显示
     $form->display('created_at', '创建时间');
