@@ -225,14 +225,17 @@ $form->removeIgnoredFields(['column1',]);
 
 #### 设置宽度
 
+此处的宽度值是一个`1-12`之间的数字
+
 ```php
-$form->setWidth(10, 2);
+$form->width(10, 2);
 ```
 
 #### 设置表单提交的action
 
+
 ```php
-$form->setAction('admin/users');
+$form->action('auth/users');
 ```
 
 #### 判断是否是新增

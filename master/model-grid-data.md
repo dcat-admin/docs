@@ -131,7 +131,8 @@ $grid->categories;
 
 如果数据是来自外部的API，只需要覆写`Repository`中的`get`方法既可, 具体用法可参考下面的示例，采用`豆瓣电影`API获取并展示数据：
 
-> {tip} 通过`$model->getFilter()->input()`方法可以获取过滤器定义的字段值，请尽量不要通过`request()`方法去获取过滤器筛选参数值，因为当页面中有多个表格时可能无法获取到值。关于过滤器定义请参考[查询过滤](model-grid-filters.md)。
+> {tip} 需要注意的是分页和不分页的情况下`get`方法返回的参数值类型是不同的，具体使用可参考[数据仓库 - get](model-repository.md#get)。
+
 
 ```php
 <?php
@@ -189,8 +190,8 @@ class ComingSoon extends Repository
 		$data = json_decode((string)$response->getBody(), true);
 
 		return $model->makePaginator(
-			$data['total'] ?? 0,
-			$data['subjects'] ?? []
+            $data['total'] ?? 0, // 传入总记录数
+            $data['subjects'] ?? [] // 传入数据二维数组
 		);
     }
 
@@ -254,7 +255,7 @@ $quickSearch = $model->grid()->quickSearch()->value();
 <a name="sql"></a>
 ## 数据来自复杂SQL查询
 
-如果来源数据需要执行比较复杂的SQL语句获取，那么有两个办法, 第一个办法就是上面的方法，覆盖掉`Repository`的`get`方法实现
+如果来源数据需要执行比较复杂的SQL语句获取，那么有两个办法, 第一个办法就是上面的方法，覆盖掉`Repository`的`get`方法实现。
 
+> {tip} 需要注意的是分页和不分页的情况下`get`方法返回的参数值类型是不同的，具体使用可参考[数据仓库 - get](model-repository.md#get)。
 
-第二个方式是在数据库中建立视图和`model`绑定（未测试过，理论上可行）

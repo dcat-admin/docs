@@ -228,6 +228,7 @@ interface TreeRepository
     }
 ```
 
+<a name="get"></a>
 ### get
 此接口要求返回数据表格`Grid`的数据，用于数据表格展示，要求返回一个`array`、`Illuminate\Support\Collection`或`LengthAwarePaginator`类型值。
 
@@ -251,16 +252,10 @@ interface TreeRepository
         $response = $client->get("{$this->api}?{$this->apiKey}&city=$city&start=$start&count=$perPage");
         $data = json_decode((string)$response->getBody(), true);
 
-        $paginator = new LengthAwarePaginator(
-            $data['subjects'] ?? [],
-            $data['total'] ?? 0,
-            $perPage, // 传入每页显示行数
-            $currentPage // 传入当前页码
+        return $model->makePaginator(
+            $data['total'] ?? 0, // 传入总记录数
+            $data['subjects'] ?? [] // 传入数据二维数组
         );
-
-        $paginator->setPath(\url()->current());
-
-        return $paginator;
     }
 ```
 

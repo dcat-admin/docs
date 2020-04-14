@@ -21,6 +21,44 @@ $grid->disableQuickEditButton();
 $grid->disableViewButton();
 ```
 
+### 切换行操作按钮显示方式
+
+全局默认的行操作按钮显示方式可以通过配置参数`admin.grid.grid_action_class`参数进行配置，目前支持的航操作按钮显示方式有以下两种：
+
+- `Dcat\Admin\Grid\Displayers\DropdownActions` 下拉菜单方式
+- `Dcat\Admin\Grid\Displayers\Actions` 图标展开方式
+
+```php
+    ...
+
+    'grid' => [
+
+        /*
+        |--------------------------------------------------------------------------
+        | The global Grid action display class.
+        |--------------------------------------------------------------------------
+        */
+        'grid_action_class' => Dcat\Admin\Grid\Displayers\DropdownActions::class,
+    ],
+    
+    ...
+```
+
+在控制器中切换显示方式
+```php
+use Dcat\Admin\Grid;
+
+public function grid()
+{
+    return Grid(new Model(), function (Grid $grid) {
+        $grid->setActionClass(Grid\Displayers\Actions::class);
+        
+        ...
+    });
+}
+```
+
+
 
 ### 获取当前行数据
 

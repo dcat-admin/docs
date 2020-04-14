@@ -441,10 +441,9 @@ $grid = Grid::make(new User('profile'), function (Grid $grid) {
     
     $grid->column('profile.age');
     $grid->column('profile.gender');
-    
-    //or
-    $grid->profile()->age();
-    $grid->profile()->gender();
+    // 或者
+    $grid->profile('年龄')->get('age');
+    $grid->profile('性别')->get('gender');
     
     $grid->created_at();
     $grid->updated_at();
