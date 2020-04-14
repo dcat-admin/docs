@@ -1,6 +1,7 @@
 # 表格数据源
 
-表格对数据的读取操作并非直接依赖于`Model`，而是依赖数据仓库(`Repository`)，关于数据仓库的详细介绍请参考文档[数据仓库](model-repository.md)。
+数据仓库(`Repository`)是一个提供特定接口对数据进行读写操作的抽象接口，通过数据仓库的引入，可以让页面的构建不再关心数据读写功能的具体实现。只需要实现特定的操作接口即可轻松切换数据源，关于数据仓库的详细用法请参考文档[数据仓库](model-repository.md)。
+
 
 > {tip} 表格的数据是通过 `Dcat\Admin\Contracts\Repository::get` 接口获取的。
 
@@ -239,6 +240,14 @@ $title = $model->filter()->input('title');
 if ($title !== null) {
     // 执行你的筛选逻辑
 }
+```
+
+#### 获取快捷搜索表单值
+
+通过以下方式可以获取到快捷搜索表单值
+
+```php
+$quickSearch = $model->grid()->quickSearch()->value();
 ```
 
 

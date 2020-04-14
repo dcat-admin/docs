@@ -290,6 +290,8 @@ $grid->tools(function ($tools) {
 
 通过`getSelectedKeysScript`方法可以获取到复选框选中的ID数组，用法如下
 
+> {tip} `getSelectedKeysScript`方法返回的是`js`代码，只能在`js`代码中使用。
+
 ```php
 <?php
 
@@ -331,12 +333,12 @@ class ReleasePost extends BatchAction
         return <<<JS
 function (data, target, action) { 
     var key = {$this->getSelectedKeysScript()}
-    
+
     if (key.length === 0) {
         Dcat.warning('{$warning}');
         return false;
     }
-    
+
     // 设置主键为复选框选中的行ID数组
     action.options.key = key;
 }
