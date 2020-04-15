@@ -362,8 +362,6 @@ interface TreeRepository
 ### destroy
 单行/批量删除数据方法，成功返回`true`，失败返回`false`。
 
-> {tip} 如果需要返回错误信息
-
 ```php
     public function destroy(Form $form, array $deletingData)
     {
