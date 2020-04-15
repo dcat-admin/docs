@@ -99,12 +99,12 @@ $form->mutipleFile('files')->saving(function ($paths) {
 
 ### 在弹窗中隐藏
 
-如果不想在弹窗中显示某个字段，可以使用`Form\Field::hideInModal`方法
+如果不想在弹窗中显示某个字段，可以使用`Form\Field::hideInDialog`方法
 
 ```php
 $form->display('id');
 $form->text('title');
-$form->textare('contents')->hideInModal();
+$form->textare('contents')->hideInDialog();
 ```
 
 

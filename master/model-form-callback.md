@@ -67,6 +67,9 @@ $form->saved(function (Form $form) {
 
 ```php
 $form->deleting(function (Form $form) {
+	// 获取待删除行数据，这里获取的是一个二维数组
+	$data = $form->model()->toArray();
+
     // 跳转
     return $form->redirect('auth/user', [
         'message' => '删除失败',
@@ -80,12 +83,54 @@ $form->deleting(function (Form $form) {
 
 删除后回调
 
+> {tip} 删除
+
 ```php
 $form->deleted(function (Form $form) {
-    // ...
+    // 获取待删除行数据，这里获取的是一个二维数组
+	$data = $form->model()->toArray();
 });
 ```
 
+### uploading
+
+图片、文件上传事件
+
+> {tip} 文件上传是一个独立的api请求，这个事件内`redirect`方法是无效的。
+
+```php
+use Dcat\Admin\Form;
+use Dcat\Admin\Contracts\UploadField as UploadFieldInterface;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+
+$form->uploading(function (Form $form, UploadFieldInterface $field, UploadedFile $file) {
+	// $file 即是当前上传的完整文件
+});
+```
+
+### uploaded
+
+图片、文件上传完毕事件
+
+> {tip} 文件上传是一个独立的api请求，这个事件内`redirect`方法是无效的。
+
+```php
+use Dcat\Admin\Form;
+use Dcat\Admin\Contracts\UploadField as UploadFieldInterface;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+
+$form->uploaded(function (Form $form, UploadFieldInterface $field, UploadedFile $file, $response) {
+	// $file 即是当前上传的完整文件
+	
+	$response = (array) $response->getData();
+	
+	// 文件上传成功
+	if ($response['status']) {
+		// 文件访问地址
+		$url = $response['url'];
+	}
+});
+```
 
 ### 获取模型中的数据
 ```php
@@ -123,8 +168,6 @@ $form->creating(function (Form $form) {
 ### 返回字段验证出错信息
 
 ```php
-
-// 跳转并提示错误信息
 $form->creating(function (Form $form) {
     if (...) { // 你的验证逻辑
         $form->responseValidationMessages('title', 'title格式错误');
