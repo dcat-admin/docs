@@ -17,14 +17,15 @@
     <a><img src="https://img.shields.io/badge/laravel-5.5+-59a9f8.svg?style=flat" ></a>
 </p>
 
-## 技术栈
+### 技术栈
 
 - [Laravel](https://laravel.com/)
 - [AdminLTE3](https://github.com/ColorlibHQ/AdminLTE)
 - [Bootstrap4](https://getbootstrap.net/)
 - jQuery3
 
-## 特性
+
+### 特性
 
 - 简洁易懂的功能接口，对后端开发者极其友好
 - 用户管理（可拆卸）
@@ -48,7 +49,7 @@
 
 
 
-## 新版本预告
+### 新版本预告
 
 `Dcat Admin`计划在`2.0`版本上线插件市场功能，将对整个扩展功能进行重构，以提升用户体验。
 新的扩展系统将可以让用户只需在管理页面点点鼠标即可完成插件的`安装`、`更新`和`卸载`等操作。
@@ -58,7 +59,7 @@
 
 
 
-## 与Laravel Admin的异同
+### 与Laravel Admin的异同
 
 `Dcat Admin`是基于`Laravel Admin`二次开发而成的后台构建工具，整体风格与`Laravel Admin`一脉相承，只是在功能细节上做了大量的调整。
 
@@ -93,11 +94,11 @@
 - 新增菜单缓存功能
 - ...
 
-## 交流
+### 交流
 
 **QQ群** 704661955
 
-## 加入我们
+### 加入我们
 
 如果您对这个项目感兴趣，可以通过以下联系方式联系我。欢迎贡献代码、贡献文档或者撰写教程文章，也欢迎其他方式的贡献。
 
