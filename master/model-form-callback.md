@@ -8,7 +8,12 @@
 
 ```php
 $form->creating(function (Form $form) {
-    ...
+    if (...) { // 验证逻辑
+		$form->responseValidationMessages('title', 'title格式错误');
+		
+		// 如有多个错误信息，第二个参数可以传数组
+		$form->responseValidationMessages('content', ['content格式错误', 'content不能为空']);
+	}
 });
 ```
 
@@ -18,7 +23,12 @@ $form->creating(function (Form $form) {
 
 ```php
 $form->editing(function (Form $form) {
-    ...
+    if (...) { // 验证逻辑
+		$form->responseValidationMessages('title', 'title格式错误');
+		
+		// 如有多个错误信息，第二个参数可以传数组
+		$form->responseValidationMessages('content', ['content格式错误', 'content不能为空']);
+	}
 });
 ```
 
@@ -156,14 +166,13 @@ $form->saved(function (Form $form) {
     $username = $form->model()->username;
     
     // 获取最终保存的数组
-    $form->updates();
-
+    $updates = $form->updates();
 });
 ```
 
 ### 页面跳转
 
-可在任意回调事件内使用
+> {tip} 此方法在`creating`、`editing`、`uploading`、`uploaded`事件中均不可用。
 
 ```php
 // 跳转并提示成功信息
@@ -172,7 +181,7 @@ $form->saved(function (Form $form) {
 });
 
 // 跳转并提示错误信息
-$form->creating(function (Form $form) {
+$form->saved(function (Form $form) {
     return $form->redirect('auth/user', [
         'message' => '系统错误',
         'status' => false,
@@ -182,17 +191,41 @@ $form->creating(function (Form $form) {
 
 ### 仅返回错误信息但不跳转
 
+通过`error`方法可以在提交表单时返回错误提示信息
+
+> {tip} 此方法在`creating`、`editing`、`uploading`、`uploaded`事件中均不可用。
+
 ```php
-$form->creating(function (Form $form) {
+$form->saving(function (Form $form) {
     return $form->error('系统异常');
 });
 ```
 
 ### 返回字段验证出错信息
 
+通过`responseValidationMessages`方法可以很方便的返回字段验证出错信息。
+
+普通使用
+```php
+protected function form()
+{
+	return Form::make(new Model(), function (Form $form) {
+		if (...) { // 验证逻辑
+			$form->responseValidationMessages('title', 'title格式错误');
+			
+			// 如有多个错误信息，第二个参数可以传数组
+			$form->responseValidationMessages('content', ['content格式错误', 'content不能为空']);
+		}
+	});
+}
+```
+
+在事件中使用
+> {tip} 此方法仅在`creating`和`editing`事件中可用
+
 ```php
 $form->creating(function (Form $form) {
-    if (...) { // 你的验证逻辑
+    if (...) { // 验证逻辑
         $form->responseValidationMessages('title', 'title格式错误');
         
         // 如有多个错误信息，第二个参数可以传数组
