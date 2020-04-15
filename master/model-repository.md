@@ -360,7 +360,9 @@ interface TreeRepository
 
 
 ### destroy
-此接口用于删除数据时查询原始记录，需要返回二维数组。
+单行/批量删除数据方法，成功返回`true`，失败返回`false`。
+
+> {tip} 如果需要返回错误信息
 
 ```php
     public function destroy(Form $form, array $deletingData)
@@ -372,7 +374,6 @@ interface TreeRepository
         
         // 执行你的逻辑
     
-        // 注意这里需要返回二维数组
         return true;
     }
 ```

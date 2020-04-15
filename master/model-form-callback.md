@@ -50,14 +50,27 @@ $form->saving(function (Form $form) {
 
 ### saved
 
-保存后回调
+保存后回调，此事件新增和修改操作共用，通过第二个参数`$result`可以判断数据是否保存成功。
+
+> {tip} 新增页面下，`$result`的值是新增记录的自增ID
 
 ```php
-$form->saved(function (Form $form) {
+$form->saved(function (Form $form, $result) {
     // 判断是否是新增操作
     if ($form->isCreating()) {
-    
+    	// 自增ID
+    	$newId = $result;
+    	// 也可以这样获取自增ID
+    	$newId = $form->getKey();
+    	
+    	if (! $newId) {
+    		return $form->error('数据保存失败');
+    	}
+    	
+    	return;
     }
+    
+    // 修改操作
 });
 ```
 
@@ -66,14 +79,18 @@ $form->saved(function (Form $form) {
 删除前回调
 
 ```php
-$form->deleting(function (Form $form) {
+$form->deleting(function (Form $form, $result) {
 	// 获取待删除行数据，这里获取的是一个二维数组
 	$data = $form->model()->toArray();
+	
+	// 通过 $result 可以判断数据是否删除成功
+	if (! $result) {
+		return $this->error('数据删除失败');
+	}
 
     // 跳转
     return $form->redirect('auth/user', [
-        'message' => '删除失败',
-        'status' => false,
+        'message' => '操作成功',
     ]);
     
 });
@@ -81,12 +98,10 @@ $form->deleting(function (Form $form) {
 
 ### deleted
 
-删除后回调
-
-> {tip} 删除
+删除后回调，通过第二个参数`$result`可以判断数据是否删除成功。
 
 ```php
-$form->deleted(function (Form $form) {
+$form->deleted(function (Form $form, $result) {
     // 获取待删除行数据，这里获取的是一个二维数组
 	$data = $form->model()->toArray();
 });
@@ -162,6 +177,14 @@ $form->creating(function (Form $form) {
         'message' => '系统错误',
         'status' => false,
     ]);
+});
+```
+
+### 仅返回错误信息但不跳转
+
+```php
+$form->creating(function (Form $form) {
+    return $form->error('系统异常');
 });
 ```
 

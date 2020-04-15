@@ -1,6 +1,7 @@
 # Dcat Admin
 
-`Dcat Admin` 是一个基于[laravel-admin](https://www.laravel-admin.org/)二次开发而成的后台构建工具，只需极少的代码即可构建出一个功能完善且颜值极高的后台系统。
+
+`Dcat Admin`是一个基于[laravel-admin](https://www.laravel-admin.org/)二次开发而成的后台构建工具，只需极少的代码即可构建出一个功能完善且颜值极高的后台系统。支持页面一键生成CURD页面，内置丰富的后台常用组件，开箱即用，让开发者告别冗杂的HTML代码。
 
 <p align="center">
     <a href="https://github.com/jqhph/dcat-admin/blob/master/LICENSE"><img src="https://img.shields.io/badge/license-MIT-7389D8.svg?style=flat" ></a>
@@ -25,6 +26,7 @@
 
 ## 特性
 
+- 简洁易懂的功能接口，对后端开发者极其友好
 - 用户管理（可拆卸）
 - RBAC权限管理（可拆卸），支持无限极权限节点
 - 菜单管理（可拆卸）
@@ -41,7 +43,8 @@
 - 无限层级树状页面构建工具，支持用拖拽的方式实现数据的层级、排序等操作
 - 内置 40+ 种常用页面组件（如图表、下拉菜单、Tab卡片、提示工具、提示卡片等）
 - Section功能（类似`Wordpress`的过滤器Filter）
-- 异步文件上传表单，支持分块上传
+- 多应用（`暂未实现`）
+- 插件市场，只需轻轻点击鼠标即可完成插件的安装、更新和卸载等操作（`暂未实现`）
 
 
 
