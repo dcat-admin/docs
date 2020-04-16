@@ -385,7 +385,7 @@ public function users(Request $request)
 ```
 
 <a name="selectResource"></a>
-## 弹窗选择 (selectResource)
+## 弹窗选择器 (selectResource)
 
 选择数据源，选择弹窗里面的表格数据。
 > {tip} 注入这个字段的数据（从数据库查出来的）可以是一个以“,”隔开的字符串或数组。
@@ -419,41 +419,37 @@ public function users(Request $request)
 
 `auth/users`页面实现代码如下：
 ```php
-/**
- * Index interface.
- *
- * @return Content
- */
-public function index(Content $content)
-{
-    if (request('_mini')) {
-        return $content->body($this->miniGrid());
-    }
+<?php
 
-    ...
-}
+use Dcat\Admin\Models\Administrator;
+use Dcat\Admin\IFrameGrid;
+use Dcat\Admin\Grid;
+use Dcat\Admin\Controllers\AdminController;
 
-protected function miniGrid()
+class UserController extends AdminController
 {
-    $grid = new MiniGrid(new Administrator());
+    protected function iFrameGrid()
+    {
+        $grid = new IFrameGrid(new Administrator());
+        
+        // 指定行选择器选中时显示的值的字段名称
+        // 指定行选择器选中时显示的值的字段名称
+        // 指定行选择器选中时显示的值的字段名称
+        // 如果表格数据中带有 “name”、“title”或“username”字段，则可以不用设置
+        $grid->rowSelector()->titleColumn('username');
+
+        $grid->id->sortable();
+        $grid->username;
+        $grid->name;
     
-    // 指定行选择器选中时显示的值的字段名称
-    // 指定行选择器选中时显示的值的字段名称
-    // 指定行选择器选中时显示的值的字段名称
-    // 如果表格数据中带有 “name”、“title”或“username”字段，则可以不用设置
-    $grid->setRowSelectorOptions(['label_name' => 'username']);
-
-    $grid->id->sortable();
-    $grid->username;
-    $grid->name;
-
-    $grid->filter(function (Grid\Filter $filter) {
-        $filter->equal('id');
-        $filter->like('username');
-        $filter->like('name');
-    });
-
-    return $grid;
+        $grid->filter(function (Grid\Filter $filter) {
+            $filter->equal('id');
+            $filter->like('username');
+            $filter->like('name');
+        });
+    
+        return $grid;
+    }
 }
 ```
 

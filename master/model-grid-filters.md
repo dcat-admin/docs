@@ -49,12 +49,15 @@ $grid->filter(function (Grid\Filter $filter) {
 
 
 ### panel
+
+> {tip} 这个功能暂时没有适配，后续版本中会增加这个功能。
+
 ```php
 use Dcat\Admin\Grid;
 
 $grid->filter(function (Grid\Filter $filter) {
     // 更改为 panel 布局
-    $grid->panel();
+    $filter->panel();
     
     ...
 });
@@ -351,7 +354,7 @@ $filter->equal('column')->inputmask($options = [], $icon = 'pencil');
 ```
 
 <a name="selectResource"></a>
-### selectResource
+### 弹窗选择器(selectResource)
 选择数据源，选择弹窗里面的表格数据。
 
 ```php
@@ -383,43 +386,38 @@ $filter->in('user_id')
 
 `pages/users`页面实现：
 ```php
-/**
- * Index interface.
- *
- * @return Content
- */
-public function index(Content $content)
-{
-    if (request('_mini')) {
-        return $content->body($this->miniGrid());
-    }
+<?php
 
-    ...
-}
+use Dcat\Admin\Models\Administrator;
+use Dcat\Admin\IFrameGrid;
+use Dcat\Admin\Grid;
+use Dcat\Admin\Controllers\AdminController;
 
-protected function miniGrid()
+class UserController extends AdminController
 {
-    $grid = new MiniGrid(new Administrator());
+    protected function iFrameGrid()
+    {
+        $grid = new IFrameGrid(new Administrator());
+        
+        // 指定行选择器选中时显示的值的字段名称
+        // 指定行选择器选中时显示的值的字段名称
+        // 指定行选择器选中时显示的值的字段名称
+        // 如果表格数据中带有 “name”、“title”或“username”字段，则可以不用设置
+        $grid->rowSelector()->titleColumn('username');
+
+        $grid->id->sortable();
+        $grid->username;
+        $grid->name;
     
-    // 指定行选择器选中时显示的值的字段名称
-    // 指定行选择器选中时显示的值的字段名称
-    // 指定行选择器选中时显示的值的字段名称
-    // 如果表格数据中带有 “name”、“title”或“username”字段，则可以不用设置
-    $grid->setRowSelectorOptions(['label' => 'username']);
-
-    $grid->id->sortable();
-    $grid->username;
-    $grid->name;
-
-    $grid->filter(function (Grid\Filter $filter) {
-        $filter->equal('id');
-        $filter->like('username');
-        $filter->like('name');
-    });
-
-    return $grid;
+        $grid->filter(function (Grid\Filter $filter) {
+            $filter->equal('id');
+            $filter->like('username');
+            $filter->like('name');
+        });
+    
+        return $grid;
+    }
 }
-
 ```
 
 <a name="select"></a>
