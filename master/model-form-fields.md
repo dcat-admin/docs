@@ -659,7 +659,7 @@ $form->multipleFile($column[, $label])->limit(5);
 多图/文件上传的时候提交的数据为以“,”隔开的文件路径字符串。当然你可以通过以下方式把数据在保存进数据库之前改为你想要的格式：
 ```php
 // 转化为json格式保存到数据库
-$form->multipleFile($column[, $label])->customPrepare(function ($paths) {
+$form->multipleFile($column[, $label])->saving(function ($paths) {
     $paths = Helper::array($paths);
     
     return json_encode($paths);
