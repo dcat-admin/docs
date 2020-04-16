@@ -417,6 +417,14 @@ public function users(Request $request)
     });       
 ```
 
+然后设置你的路由`app/Admin/routes.php`
+
+> {tip} 这里的添加路由只是示例，如果是新增的控制器需要加路由，如果路由已经存在则不需要再添加。
+
+```php
+$router->resource('auth/users', 'UserController');
+```
+
 `auth/users`页面实现代码如下：
 ```php
 <?php

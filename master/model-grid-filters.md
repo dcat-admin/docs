@@ -384,6 +384,12 @@ $filter->in('user_id')
 <img style="box-shadow:0 1px 6px 1px rgba(0, 0, 0, 0.12)" width="100%" src="{{public}}/assets/img/screenshots/grid-filter-select-resource.png">
 
 
+然后设置你的路由`app/Admin/routes.php`
+
+```php
+$router->resource('pages/users', 'UserController');
+```
+
 `pages/users`页面实现：
 ```php
 <?php
