@@ -596,7 +596,7 @@ Comment表格
 use App\Admin\Repositories\Comment;
 
 // 关联 post 表数据
-$grid = new Grid(new Comment('post'));
+$grid = new Grid(new Comment(['post']));
 
 $grid->id('id');
 $grid->post()->get('title');
