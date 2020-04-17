@@ -433,7 +433,7 @@ use App\Admin\Repositories\User;
 use Dcat\Admin\Grid;
 
 // 关联 profile 表数据
-$grid = Grid::make(new User('profile'), function (Grid $grid) {    
+$grid = Grid::make(new User(['profile']), function (Grid $grid) {    
     $grid->id('ID')->sortable();
     
     $grid->name();
@@ -456,7 +456,7 @@ use App\Models\User;
 use Dcat\Admin\Grid;
 
 // 关联 profile 表数据
-$grid = Grid::make(User::with('profile'), function (Grid $grid) {    
+$grid = Grid::make(User::with(['profile']), function (Grid $grid) {    
     $grid->id('ID')->sortable();
     
     ...
@@ -471,7 +471,7 @@ use Dcat\Admin\Grid;
 
 $grid = Grid::make(new User(), function (Grid $grid) {
 	// 关联 profile 表数据
-	$grid->model()->with('profile');
+	$grid->model()->with(['profile']);
     
     $grid->id('ID')->sortable();
     
