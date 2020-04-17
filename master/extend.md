@@ -158,7 +158,7 @@ public $assets = __DIR__.'/../resources/assets';
 我们需要在`Dcat Admin`启动的时候在页面里引入这两个文件，需要在`src/GankServiceProvider.php`的`boot`方法加入下面的代码：
 
 ```php
-use use Encore\Admin\Admin;
+use Dcat\Admin\Admin;
 
 ...
 
