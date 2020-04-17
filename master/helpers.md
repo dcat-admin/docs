@@ -1,6 +1,7 @@
 # 开发工具
 
-`Dcat Admin`提供了一些开发工具以帮助开发者提升开发效率，如果需要禁用开发工具，则把`app.debug`参数或`admin.helpers.enable`的值设置为`false`即可。
+`Dcat Admin`提供了一些开发工具以帮助开发者提升开发效率。
+如果需要禁用开发工具，则把配置文件中的`app.debug`或`admin.helpers.enable`的参数值设置为`false`即可。
 
 
 ### 代码生成器
