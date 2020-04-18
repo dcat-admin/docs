@@ -118,16 +118,6 @@ badge()方法的参数参考Field::badge()
 $show->gender()->using(['f' => '女', 'm' => '男']);
 ```
 
-#### 图片轮播
-如果字段值为图片数组，可以用下面的调用显示为图片轮播组件
-
-```php
-$show->field('images')->carousel();
-
-// 设置显示尺寸和图片服务器
-$show->field('images')->carousel($width = 300, int $height = 200, $server);
-```
-
 #### 显示文件尺寸
 如果字段数据是表示文件大小的字节数，可以通过调用filezise方法来显示更有可读性的文字
 

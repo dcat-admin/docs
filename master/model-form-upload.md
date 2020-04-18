@@ -197,10 +197,12 @@ $form->file('file')->threads(5);
 ### 自定义上传接口 (url)
 通过`url`可以设置自定义上传接口
 ```php
-$form->file('file')->url('users/upload');
+$form->file('file')->url('users/files');
 ```
 
 系统提供了`Dcat\Admin\Traits\HasUploadedFile`这个`trait`来帮助开发者更轻松地处理上传文件，用法如下
+
+> {tip} `Since v1.0.1` 自定义了上传接口之后，上传文件和删除文件功能默认都在**同一个接口**内处理，并且删除完文件之后需要点击提交按钮对表单数据进行保存。
 
 ```php
 <?php
@@ -209,12 +211,20 @@ namespace App\Admin\Controllers;
 
 use Dcat\Admin\Traits\HasUploadedFile;
 
-class UploadController
+class FileController
 {
     use HasUploadedFile;
 
-    public function upload()
+    public function handle()
     {
+        $disk = $this->disk('local');
+        
+        // 判断是否是删除文件请求
+        if ($this->isDeleteRequest()) {
+            // 删除文件并响应
+            return $this->deleteFileAndResponse($disk);
+        }
+        
         // 获取上传的文件
         $file = $this->file();
 
@@ -224,12 +234,12 @@ class UploadController
         $dir = 'my-images';
         $newName = $column.'-我的文件名称.'.$file->getClientOriginalExtension();
 
-        $result = $this->disk('local')->putFileAs($dir, $file, $newName);
+        $result = $disk->putFileAs($dir, $file, $newName);
 
         $path = "{$dir}/$newName";
 
         return $result
-            ? $this->responseUploaded($path, $this->disk('local')->url($path))
+            ? $this->responseUploaded($path, $disk->url($path))
             : $this->responseErrorMessage('文件上传失败');
     }
 }
@@ -238,7 +248,7 @@ class UploadController
 在你的路由文件`app\Admin\routes.php`中加上
 
 ```php
-$router->any('users/upload', 'UploadController@upload');
+$router->any('users/files', 'FileController@handle');
 ```
 
 

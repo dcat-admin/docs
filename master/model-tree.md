@@ -54,15 +54,12 @@ class Category extends Model
     use ModelTree;
 
     protected $table = 'demo_categories';
-
-    public function __construct(array $attributes = [])
-    {
-        parent::__construct($attributes);
-        
-        $this->setParentColumn('pid');
-        $this->setOrderColumn('sort');
-        $this->setTitleColumn('name');
-    }
+    
+    protected $parentColumn = 'pid';
+    
+    protected $orderColumn = 'sort';
+    
+    protected $titleColumn = 'name';
 }
 ```
 
