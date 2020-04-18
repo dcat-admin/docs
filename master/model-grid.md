@@ -126,9 +126,21 @@ $grid->model()->where('id', '>', 100);
 
 $grid->model()->orderBy('id', 'desc');
 
+// 回收站数据
 $grid->model()->onlyTrashed();
 
 ...
+```
+
+同时也可以使用以下方式
+
+```php
+protected function grid()
+{
+    return Grid::make(Model::with('...')->where(...), function (Grid $grid) {
+        ...
+    });
+}
 ```
 
 其它查询方法可以参考`eloquent`的查询方法.

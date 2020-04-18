@@ -48,7 +48,7 @@ class Setting extends Form
     }
 
     /**
-     * The data of the form.
+     * 返回表单数据，如不需要可以删除此方法
      *
      * @return array
      */
@@ -96,4 +96,158 @@ class UserController extends Controller
     }
 }
 ```
+
+<a name="modal"></a>
+### 在弹窗中显示
+
+工具表单是支持在`modal`弹窗中显示的，可以结合[动作(action)](action.md)一起使用。下面通过一个数据表格修改密码的行操作功能来展示弹窗结合工具表单的用法：
+
+
+使用命令生成工具表单`php artisan admin:form ResetPassword`，然后修改表单文件如下
+
+```php
+<?php
+
+namespace App\Admin\Forms;
+
+use Dcat\Admin\Models\Administrator;
+use Dcat\Admin\Widgets\Form;
+use Symfony\Component\HttpFoundation\Response;
+
+class ResetPassword extends Form
+{
+    // 增加一个自定义属性保存用户ID
+    protected $id;
+
+    // 构造方法的参数必须设置默认值
+    public function __construct($id = null)
+    {
+        $this->id = $id;
+
+        parent::__construct();
+    }
+
+    // 处理请求
+    public function handle(array $input)
+    {
+        $id = $input['id'] ?? null;
+        $password = $input['password'] ?? null;
+
+        if (! $id) {
+            return $this->error('参数错误');
+        }
+
+        $user = Administrator::query()->find($id);
+
+        if (! $user) {
+            return $this->error('用户不存在');
+        }
+
+        $user->update(['password' => bcrypt($password)]);
+
+        return $this->success('密码修改成功');
+    }
+
+    public function form()
+    {
+        $this->password('password')->required();
+        // 密码确认表单
+        $this->password('password_confirm')->same('password');
+
+        // 设置隐藏表单，传递用户id
+        $this->hidden('id')->value($this->id);
+    }
+
+    // 返回表单数据，如不需要可以删除此方法
+    public function default()
+    {
+        return [
+            'password'         => '',
+            'password_confirm' => '',
+        ];
+    }
+}
+```
+
+然后运行`php artisan admin:action`命令，选择选项`2`，生成数据表格行操作类，并修改如下：
+
+```php
+<?php
+
+namespace App\Admin\Actions\Grid;
+
+use App\Admin\Forms\ResetPassword as ResetPasswordForm;
+use Dcat\Admin\Admin;
+use Dcat\Admin\Grid\RowAction;
+
+class ResetPassword extends RowAction
+{
+    /**
+     * @return string
+     */
+	protected $title = '设置密码';
+
+    public function render()
+    {
+        $id = "reset-pwd-{$this->getKey()}";
+
+        // 模态窗
+        $this->modal($id);
+
+        return <<<HTML
+<span class="grid-expand" data-toggle="modal" data-target="#{$id}">
+   <a href="javascript:void(0)">修改密码</a>
+</span>
+HTML;
+    }
+
+    protected function modal($id)
+    {
+        // 工具表单
+        $form = new ResetPasswordForm($this->getKey());
+
+        // 在弹窗标题处显示当前行的用户名
+        $username = $this->row->username;
+
+        // 刷新页面时移除模态窗遮罩层
+        Admin::script('Dcat.onPjaxComplete(function () {
+            $(".modal-backdrop").remove();
+        }, true)');
+
+        // 通过 Admin::html 方法设置模态窗HTML
+        Admin::html(
+            <<<HTML
+<div class="modal fade" id="{$id}">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">修改密码 - {$username}</h4>
+         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      </div>
+      <div class="modal-body">
+        {$form->render()}
+      </div>
+    </div>
+  </div>
+</div>
+HTML
+        );
+    }
+}
+```
+
+使用
+
+```php
+use App\Admin\Actions\Grid\ResetPassword;
+
+$grid->actions(new ResetPassword());
+```
+
+效果
+
+<a href="{{public}}/assets/img/screenshots/modal-widget-form.png" target="_blank">
+    <img class="img img-full" src="{{public}}/assets/img/screenshots/modal-widget-form.png">
+</a>
+
 

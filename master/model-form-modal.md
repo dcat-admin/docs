@@ -1,11 +1,14 @@
 # 表单弹窗
 
-通过`Form::dialog`方法可以快速构建一个表单弹窗，仅需增加数行代码。
+
+## 数据表单弹窗
+
+通过`Form::dialog`方法可以快速构建一个基于数据表单的表单弹窗，仅需增加数行代码。
 
 > {tip} 表单弹窗的实现原理是：通过`create`和`edit`页面获取构建好的表单`HTML`字符，然后使用弹窗插件把这部分`HTML`字符渲染出来。
 如果期间需要加载新的`js`脚本，则会等待脚本加载完毕再执行表单初始化`js`代码。
 
-## 简单示例
+### 简单示例
 
 #### 开启表单弹窗
 ```php
@@ -136,7 +139,7 @@ class RoleController
     <img style="box-shadow:0 1px 6px 1px rgba(0, 0, 0, 0.12)" width="100%" src="{{public}}/assets/img/screenshots/form-modal.png">
 </a>
 
-## 功能接口
+### 功能接口
 
 表单弹窗必须绑定一个可点击的页面元素，通过点击这个元素弹出弹窗。
 
@@ -263,4 +266,15 @@ Form::dialog('编辑角色')
     ->width('50%')
     ->height('400px');
 ```
+
+
+## 工具表单弹窗
+
+数据表单的弹窗功能通常需要结合一个资源控制器去实现，相对会比较复杂一点，所以系统也内置了另外一种更简便的表单弹窗功能，使用方法请参考[工具表单-弹窗](widgets-form.md#modal)。
+
+
+<a href="{{public}}/assets/img/screenshots/modal-widget-form.png" target="_blank">
+    <img class="img img-full" src="{{public}}/assets/img/screenshots/modal-widget-form.png">
+</a>
+
 
