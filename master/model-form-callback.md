@@ -170,6 +170,17 @@ $form->saved(function (Form $form) {
 });
 ```
 
+### 修改模型中的数据
+修改模型中的数据需要配合隐藏表单使用。举例：
+```php
+$form->hidden('author_id');
+
+$form->saving(function (Form $form) {
+
+    $form->author_id = 1;
+});
+```
+
 ### 页面跳转
 
 > {tip} 此方法在`creating`、`editing`、`uploading`、`uploaded`事件中均不可用。
