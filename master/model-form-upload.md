@@ -311,4 +311,10 @@ $form->image($column[, $label])->insert($watermark, 'center');
 // 上传宽度为100-300像素之间的图片
 $form->image('img')->dimensions(['min_width' = 100, 'max_width' => 300]);
 ```
+<a name="referer"></a>
+## 图片防盗链
+图片请求默认会去掉 `referer` 字段，如果有防盗链要求，可以在配置文件(`config/admin.php`)中设置：
 
+```
+ "disable_no_referrer_meta" => true
+```
