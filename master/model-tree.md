@@ -55,10 +55,13 @@ class Category extends Model
 
     protected $table = 'demo_categories';
     
+    // 父级ID字段名称，默认值为 parent_id
     protected $parentColumn = 'pid';
     
+    // 排序字段名称，默认值为 order
     protected $orderColumn = 'sort';
     
+    // 标题字段名称，默认值为 title
     protected $titleColumn = 'name';
 }
 ```
