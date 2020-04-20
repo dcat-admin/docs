@@ -50,8 +50,8 @@ class PostController extends Controller
 
 ## 基本使用方法
 
-### 内容转义
-为了防止XSS攻击, 默认输出的内容都会使用HTML转义，如果你不想转义输出HTML，可以调用unescape方法：
+### HTML内容转义
+为了防止XSS攻击, 默认输出的内容都会使用HTML转义，如果你不想转义输出`HTML`，可以调用`unescape`方法：
 
 ```php
 $show->avatar()->unescape()->as(function ($avatar) {
