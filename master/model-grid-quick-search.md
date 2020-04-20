@@ -162,3 +162,13 @@ $grid->column('user_status', '用户状态');
 ```php
 $model->whereIn('user_status', [1, 2, 3]);
 ```
+
+## 禁止自动提交
+
+快捷搜索默认是开启自动提交功能的，如果你不需要自动提交，可以通过以下方式禁用这个功能
+
+> {tip} 禁用了自动提交功能之后需要通过按回车(`Enter`)键进行搜索。
+
+```php
+$grid->quickSearch()->auto(false);
+```

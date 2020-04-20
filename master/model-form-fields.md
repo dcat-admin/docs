@@ -688,7 +688,7 @@ $form->slider($column[, $label])->options(['max' => 100, 'min' => 1, 'step' => 1
 <a name="editor"></a>
 ## 富文本编辑器 (editor)
 
-系统集成了`TinyMCE`编辑器，具体配置等的使用可以参考[官方文档](https://www.tiny.cloud/docs)或[中文文档](http://tinymce.ax-z.cn/)。
+系统集成了`TinyMCE`编辑器作为内置编辑器。
 
 #### 基本使用
 ```php
@@ -703,7 +703,9 @@ $form->editor($column[, $label]);
 $form->editor('content')->languageUrl(url('TinyMCE/langs/de.js'));
 ```
 
-#### 设置编辑器配置
+#### 编辑器配置
+
+具体配置等的使用可以参考[官方文档](https://www.tiny.cloud/docs)或[中文文档](http://tinymce.ax-z.cn/)
 
 ```php
 <?php
@@ -721,6 +723,15 @@ JS
     ),
 ]);
 ```
+
+#### 设置高度
+
+默认值为`400``
+
+```php
+$form->editor('content')->height('600');
+```
+
 
 #### 只读
 

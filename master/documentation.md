@@ -71,4 +71,4 @@
 - ## [开发工具](helpers.md)
 - ## [自定义登陆认证](custom-authentication.md)
 - ## [自定义头部导航](custom-navbar.md)
-- ## [Change log](change-log.md)
+- ## [更新日志](change-log.md)
