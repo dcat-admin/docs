@@ -688,11 +688,88 @@ $form->slider($column[, $label])->options(['max' => 100, 'min' => 1, 'step' => 1
 <a name="editor"></a>
 ## 富文本编辑器 (editor)
 
-编辑器组件引用了网络资源，默认关闭,如果要开启这个组件参考[form组件管理](model-form-field-management.md).
+系统集成了`TinyMCE`编辑器，具体配置等的使用可以参考[官方文档](https://www.tiny.cloud/docs)或[中文文档](http://tinymce.ax-z.cn/)。
 
+#### 基本使用
 ```php
 $form->editor($column[, $label]);
 ```
+
+#### 设置语言包
+
+默认支持简体中文和英文两种语言，如需其他语言可以通过以下方式设置语言包地址。
+
+```php
+$form->editor('content')->languageUrl(url('TinyMCE/langs/de.js'));
+```
+
+#### 设置编辑器配置
+
+```php
+<?php
+
+use Dcat\Admin\Support\JavaScript;
+
+$form->editor('content')->options([
+    'toolbar' => [],
+    'setup' => JavaScript::make(
+        <<<JS
+function (editor) {
+    console.log('编辑器初始化成功', editor)
+}
+JS
+    ),
+]);
+```
+
+#### 只读
+
+```php
+$form->editor('content')->readOnly();
+
+// 或
+$form->editor('content')->disable();
+```
+
+#### 图片上传
+
+设置图片上传`disk`配置，默认上传到`admin.upload.disk`指定的配置
+
+```php
+// 上传到oss
+$form->editor('content')->disk('oss');
+```
+
+设置图片上传目录，默认为`tinymce/images`
+```php
+$form->editor('content')->imageDirectory('editor/images');
+```
+
+自定义上传接口，接口返回格式需要是`{"location": "图片url"}`
+```php
+$form->editor('content')->imageUrl('editor/upload-image');
+```
+
+
+#### 全局设置
+
+如果你需要对编辑器进行全局设置，可以在`app\Admin\bootstrap.php`加上以下代码
+
+```php
+<?php
+
+use Dcat\Admin\Form\Field\Editor;
+
+Editor::resolving(function (Editor $editor) {
+    // 设置默认配置
+    $editor->options([...]);
+    
+    // 设置编辑器图片默认上传到七牛云
+    $editor->disk('qiniu');
+});
+```
+
+
 
 <a name="switch"></a>
 ## 开关 (switch)
