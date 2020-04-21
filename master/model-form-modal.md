@@ -106,7 +106,7 @@ class RoleController
      */
     protected function form()
     {
-        return Admin::form(new Role, function (Form $form) {
+        return Form::make(new Role(), function (Form $form) {
             $form->display('id', 'ID');
             
             $form->text('slug', trans('admin.slug'))->required()->prepareForSave(function ($value) {

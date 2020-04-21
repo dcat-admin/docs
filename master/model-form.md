@@ -26,7 +26,7 @@ use App\Admin\Repositories\Movie;
 use Dcat\Admin\Form;
 use Dcat\Admin\Admin;
 
-$form = Admin::form(new Movie, function (Form $form) {
+$form = Form::make(new Movie(), function (Form $form) {
     // 显示记录id
     $form->display('id', 'ID');
     
@@ -71,7 +71,7 @@ use App\Admin\Repositories\Movie;
 use Dcat\Admin\Form;
 use Dcat\Admin\Admin;
 
-$form = Admin::form(new Movie, function (Form $form) {
+$form = Form::make(new Movie, function (Form $form) {
     // 显示记录id
     $form->display('id', 'ID');
 
@@ -85,7 +85,7 @@ $form = Admin::form(new Movie, function (Form $form) {
 
 在闭包内可以获取到当前模型的数据（编辑）
 ```php
-Admin::form(new Movie, function (Form $form) {
+Form::make(new Movie, function (Form $form) {
     // 显示记录id
     $form->display('id', 'ID');
 
@@ -105,7 +105,7 @@ Admin::form(new Movie, function (Form $form) {
 如果表单的渲染需要获取关联模型的数据，需要在实例化数据仓库时传入模型上设置的关联名称
 ```php
 // 关联"permissions"
-return Admin::form(new Role('permissions'), function (Form $form) {
+return Form::make(new Role('permissions'), function (Form $form) {
     $form->display('id', 'ID');
 
     $form->text('slug', trans('admin.slug'))->required();
@@ -271,7 +271,7 @@ if ($form->isDeleting()) {
 新增页面无效
 
 ```php
-return Admin::form(new User, function (Form $form) {
+return Form::make(new User, function (Form $form) {
     $id = $form->getKey();
     
     ...
@@ -404,7 +404,7 @@ class User extends \Dcat\Admin\Repositories\EloquentRepository
 use App\Admin\Repositories\User;
 
 // 注意这里实例化`User`时必须传入"profile"，否则将无法关联profiles表数据
-$form = Admin::form(new User('profile'), function (Form $form) {
+$form = Form::make(new User('profile'), function (Form $form) {
     $form->display('id');
     
     $form->text('name');
