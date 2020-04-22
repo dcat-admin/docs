@@ -334,6 +334,42 @@ $form->creating(function (Form $form) {
 });
 ```
 
+### 返回字段验证出错信息
+
+通过`responseValidationMessages`方法可以很方便的返回字段验证出错信息，而不需要使用`Laravel validation`功能。
+
+普通使用
+```php
+protected function form()
+{
+	return Form::make(new Model(), function (Form $form) {
+		if (...) { // 验证逻辑
+			$form->responseValidationMessages('title', 'title格式错误');
+			
+			// 如有多个错误信息，第二个参数可以传数组
+			$form->responseValidationMessages('content', ['content格式错误', 'content不能为空']);
+		}
+	});
+}
+```
+
+在事件中使用
+> {tip} 此方法仅在`submitted`事件中可用
+
+```php
+$form->submitted(function (Form $form) {
+	// 接收表单参数
+	$title = $form->title;
+
+    if (...) { // 验证逻辑
+        $form->responseValidationMessages('title', 'title格式错误');
+        
+        // 如有多个错误信息，第二个参数可以传数组
+        $form->responseValidationMessages('content', ['content格式错误', 'content不能为空']);
+    }
+});
+```
+
 
 ## 关联模型
 
@@ -418,4 +454,8 @@ $form = Admin::form(new User('profile'), function (Form $form) {
 });
 
 ```
+
+### 一对多
+
+一对多的使用请参考文档[表单字段的使用-一对多](model-form-fields.md#onemany)
 

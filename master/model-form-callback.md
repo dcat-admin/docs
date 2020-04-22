@@ -214,7 +214,7 @@ $form->saving(function (Form $form) {
 
 ### 返回字段验证出错信息
 
-通过`responseValidationMessages`方法可以很方便的返回字段验证出错信息。
+通过`responseValidationMessages`方法可以很方便的返回字段验证出错信息，而不需要使用`Laravel validation`功能。
 
 普通使用
 ```php
@@ -232,10 +232,13 @@ protected function form()
 ```
 
 在事件中使用
-> {tip} 此方法仅在`creating`和`editing`事件中可用
+> {tip} 此方法仅在`submitted`事件中可用
 
 ```php
-$form->creating(function (Form $form) {
+$form->submitted(function (Form $form) {
+	// 接收表单参数
+	$title = $form->title;
+
     if (...) { // 验证逻辑
         $form->responseValidationMessages('title', 'title格式错误');
         

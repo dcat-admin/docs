@@ -993,9 +993,25 @@ $form->display('updated_at', 'Updated At');
 // 也可以设置label
 
 $form->hasMany('paintings', '画作', function (Form\NestedForm $form) {
-    
+    ...
 });
 ```
+
+另外，`hasMany`字段其实也可以把内容保存为`json`格式，可以代替`table`字段的使用
+```php
+use Dcat\Admin\Support\Helper;
+
+$form->hasMany('paintings', function (Form\NestedForm $form) {
+    $form->text('title');
+    $form->textarea('body');
+    $form->datetime('completed_at');
+})->customFormat(function ($v) {
+	return Helper::array($v);
+})->saving(function ($v) {
+	return json_encode($v);
+});
+```
+
 
 <a name="embeds"></a>
 ## 内嵌 (embeds)
