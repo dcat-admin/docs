@@ -8,6 +8,9 @@
 
 ## 表结构和模型
 要使用`model-tree`，要遵守约定的表结构：
+
+> {tip} `parent_id`字段一定要默认为`0`！！！
+
 ```sql
 CREATE TABLE `demo_categories` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
