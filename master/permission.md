@@ -10,6 +10,24 @@
 
 如果要访问前缀是`/admin/users`的所有路径，那么`HTTP路径`填写`/users*`，如果权限包括多个访问路径，换行填写每条路径。
 
+## 跳过权限验证
+
+可以把需要跳过权限验证的接口加入到配置文件`admin.auth.except`参数中
+
+```php
+	'auth' => [
+        ...
+
+        // All method to path like: auth/users/*/edit
+        // or specific method to path like: get:auth/users.
+        'except' => [
+            'auth/login',
+            'auth/logout',
+        ],
+
+    ],
+```
+
 ## 页面控制
 
 如果你要在页面中控制用户的权限，可以参考下面的例子
@@ -19,7 +37,9 @@
 比如现在有一个场景，对文章发布模块做权限管理，以创建文章为例
 
 首先创建一项权限，进入`http://localhost/admin/auth/permissions`，权限标识（slug）填写`create-post`，权限名称填写`创建文章`，这样权限就创建好了。
+
 第二步可以把这个权限直接附加给个人或者角色，在用户编辑页面可以直接把上面创建好的权限附加给当前编辑用户，也可以在编辑角色页面附加给某个角色。
+
 第三步，在创建文章控制器里面添加控制代码：
 ```php
 use Dcat\Admin\Auth\Permission;
