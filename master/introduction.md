@@ -8,10 +8,6 @@
     <a href="https://travis-ci.org/jqhph/dcat-admin">
         <img src="https://travis-ci.org/jqhph/dcat-admin.svg?branch=master" alt="Build Status">
     </a>
-    <a href="https://styleci.io/repos/182349597">
-        <img src="https://github.styleci.io/repos/182349597/shield" alt="StyleCI">
-    </a>
-    <a href="https://packagist.org/packages/dcat/laravel-admin" ><img src="https://poser.pugx.org/dcat/laravel-admin/v/stable" /></a> 
     <a href="https://packagist.org/packages/dcat/laravel-admin"><img src="https://img.shields.io/packagist/dt/dcat/laravel-admin.svg?color=" /></a> 
     <a><img src="https://img.shields.io/badge/php-7.1+-59a9f8.svg?style=flat" /></a> 
     <a><img src="https://img.shields.io/badge/laravel-5.5+-59a9f8.svg?style=flat" ></a>
@@ -27,24 +23,27 @@
 
 ### 特性
 
-- 用户管理（可拆卸）
-- RBAC权限管理（可拆卸），支持无限极权限节点
-- 菜单管理（可拆卸）
-- 使用PJAX构建无刷新页面，并且支持按需加载静态资源，可以无限扩展组件而不影响整体性能
+- 用户管理
+- RBAC权限管理，支持无限极权限节点
+- 菜单管理
+- 使用pjax构建无刷新页面，支持**按需加载**静态资源，可以无限扩展组件而不影响整体性能
 - 松耦合的页面构建与数据操作设计，可轻松切换数据源
+- 支持主题切换功能，内置多种主题色
+- 可轻松构建无菜单栏的独立页面（如可用于构建弹窗选择器等功能）
 - 插件功能
 - 可视化代码生成器，可根据数据表一键生成增删改查页面
 - 数据表格构建工具，内置丰富的表格常用功能（如组合表头、数据导出、搜索、快捷创建、批量操作等）
 - 树状表格功能构建工具，支持分页和点击加载
-- 数据表单构建工具，内置丰富的表单类型，支持异步提交
+- 数据表单构建工具，内置丰富的表单类型，支持表单异步提交
 - 分步表单构建工具
 - 弹窗表单构建工具
 - 数据详情页构建工具
 - 无限层级树状页面构建工具，支持用拖拽的方式实现数据的层级、排序等操作
-- 内置丰富的常用页面组件（如图表、下拉菜单、Tab卡片、提示工具、提示卡片等）
-- Section功能（类似`Wordpress`的过滤器Filter）
-- 多应用（`暂未实现`）
-- 插件市场，只需轻轻点击鼠标即可完成插件的安装、更新和卸载等操作（`暂未实现`）
+- 内置丰富的常用页面组件（如图表、数据统计卡片、下拉菜单、Tab卡片、提示工具等）
+- `Section`功能（类似`Wordpress`的`Filter`和`blade`模板的`section`标签）
+- 异步文件上传表单，支持分块多线程上传
+- 多应用(多后台)(`暂未实现`)
+- 插件市场，只需在管理页面轻轻点击鼠标即可完成插件的安装、更新和卸载等操作(`暂未实现`)
 
 
 
