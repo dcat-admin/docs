@@ -100,33 +100,6 @@ Form::make(new Movie, function (Form $form) {
 });
 ```
 
-### 获取关联模型数据
-
-如果表单的渲染需要获取关联模型的数据，需要在实例化数据仓库时传入模型上设置的关联名称
-```php
-// 关联"permissions"
-return Form::make(new Role('permissions'), function (Form $form) {
-    $form->display('id', 'ID');
-
-    $form->text('slug', trans('admin.slug'))->required();
-    $form->text('name', trans('admin.name'))->required();
-    
-    $form->tree('permissions')
-        ->nodes(function () {
-            $permissionModel = config('admin.database.permissions_model');
-            $permissionModel = new $permissionModel;
-
-            return $permissionModel->allNodes();
-        })
-        ->customFormat(function ($v) {
-            if (!$v) return [];
-
-            return array_column($v, 'id');
-        });
-
-    ...
-});
-```
 
 ## 自定义工具
 
@@ -401,6 +374,12 @@ PRIMARY KEY (`id`)
 对应的数据模分别为:
 
 ```php
+<?php
+
+namespace App\Admin\Models;
+
+use Illuminate\Database\Eloquent\Model;
+
 class User extends Model
 {
     public function profile()
@@ -439,7 +418,7 @@ class User extends \Dcat\Admin\Repositories\EloquentRepository
 ```php
 use App\Admin\Repositories\User;
 
-// 注意这里实例化`User`时必须传入"profile"，否则将无法关联profiles表数据
+// 注意这里实例化数据仓库`User`时必须传入"profile"，否则将无法关联"profiles"表数据
 $form = Form::make(new User('profile'), function (Form $form) {
     $form->display('id');
     
@@ -452,10 +431,104 @@ $form = Form::make(new User('profile'), function (Form $form) {
     $form->datetime('created_at');
     $form->datetime('updated_at');
 });
-
 ```
+
+如果你不想使用数据仓库，也可以直接使用模型
+```php
+use App\Admin\Models\User;
+
+// 注意这里是直接使用模型，没有使用数据仓库
+$form = Form::make(User::with('profile'), function (Form $form) {
+    $form->display('id');
+    
+    ...
+});
+```
+
 
 ### 一对多
 
 一对多的使用请参考文档[表单字段的使用-一对多](model-form-fields.md#onemany)
+
+### 多对多
+
+
+下面以项目内置的`角色管理`模块的**角色绑定权限**功能为例来演示多对多关联模型的用法
+
+模型`Role`
+```php
+<?php
+
+namespace Dcat\Admin\Models;
+
+use Dcat\Admin\Traits\HasDateTimeFormatter;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+
+class Role extends Model
+{
+    use HasDateTimeFormatter;
+
+    /**
+     * 定义你的关联模型.
+     *
+     * @return BelongsToMany
+     */
+    public function permissions(): BelongsToMany
+    {
+        $pivotTable = 'admin_role_permissions'; // 中间表
+
+        $relatedModel = Permission::class; // 关联模型类名
+
+        return $this->belongsToMany($relatedModel, $pivotTable, 'role_id', 'permission_id');
+    }
+}
+```
+
+```php
+use Dcat\Admin\Models\Permission;
+
+// 实例化数据仓库时传入 permissions，则会自动关联关联模型的数据
+// 这里传入 permissions 关联权限模型的数据
+$repository = new Role(['permissions']);
+
+return Form::make($repository, function (Form $form) {
+    $form->display('id', 'ID');
+
+    $form->text('slug', trans('admin.slug'))->required();
+    $form->text('name', trans('admin.name'))->required();
+    
+    // 这里的数据会自动保存到关联模型中
+    $form->tree('permissions')
+        ->nodes(function () {
+            return (new Permission())->allNodes();
+        })
+        ->customFormat(function ($v) {
+            if (!$v) return [];
+
+            return array_column($v, 'id');
+        });
+
+    ...
+});
+```
+
+如果你不想使用数据仓库，也可以直接使用模型
+```php
+use Dcat\Admin\Models\Role;
+
+// 注意这里是直接使用模型，没有使用数据仓库
+$form = Form::make(Role::with('permissions'), function (Form $form) {
+    $form->display('id');
+    
+    ...
+});
+```
+
+最终效果如下
+
+<a href="{{public}}/assets/img/screenshots/role-mtm.png" target="_blank">
+    <img class="img img-full" src="{{public}}/assets/img/screenshots/role-mtm.png">
+</a>
+
 
