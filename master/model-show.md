@@ -35,7 +35,7 @@ class PostController extends Controller
     {
         return $content->header('Post')
             ->description('详情')
-            ->body(Admin::show($id, new Post, function (Show $show) {
+            ->body(Show::make($id, new Post(), function (Show $show) {
                 $show->id('ID');
                 $show->title('标题');
                 $show->content('内容');
