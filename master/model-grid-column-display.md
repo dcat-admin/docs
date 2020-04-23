@@ -387,7 +387,7 @@ $grid->website->copyable();
 通过`Column::orderable`可以开启字段可排序功能，此功能需要在你的模型类中`use ModelTree`或`use SortableTrait`，并且需要继承`Spatie\EloquentSortable\Sortable`接口。
 
 
-### SortableTrait
+#### SortableTrait
 
 如果你的数据不是层级结构数据，可以直接使用`use SortableTrait`，更多用法可参考[eloquent-sortable](https://github.com/spatie/eloquent-sortable)。
 
