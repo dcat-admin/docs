@@ -384,9 +384,50 @@ $grid->website->copyable();
 
 ### 可排序
 
-通过`Column::orderable`可以开启字段可排序功能，此功能需要在你的模型类中`use ModelTree`，并且需要继承`Spatie\EloquentSortable\Sortable`接口。
+通过`Column::orderable`可以开启字段可排序功能，此功能需要在你的模型类中`use ModelTree`或`use SortableTrait`，并且需要继承`Spatie\EloquentSortable\Sortable`接口。
 
-下面以权限模型为例：
+
+### SortableTrait
+
+如果你的数据不是层级结构数据，可以直接使用`use SortableTrait`，更多用法可参考[eloquent-sortable](https://github.com/spatie/eloquent-sortable)。
+
+模型
+```php
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+use Spatie\EloquentSortable\Sortable;
+use Spatie\EloquentSortable\SortableTrait;
+
+class MyModel extends Model implements Sortable
+{
+    use SortableTrait;
+
+    protected $sortable = [
+        // 设置排序字段名称
+        'order_column_name' => 'order',
+        // 是否在创建时自动排序，此参数建议设置为true
+        'sort_when_creating' => true,
+    ];
+}
+```
+
+使用
+```php
+$grid->model()->orderBy('order');
+
+$grid->order->orderable();
+```
+
+
+#### ModelTree
+
+如果你的数据是层级结构数据，可以直接使用`use Model`，下面以权限模型为例来演示用法
+
+> {tip} `ModelTree`实际上也是继承了[eloquent-sortable](https://github.com/spatie/eloquent-sortable)的功能。
+
 ```php
 <?php
 
@@ -416,8 +457,6 @@ $grid->order->orderable();
 <a href="{{public}}/assets/img/screenshots/grid-display-orderable.png" target="_blank">
     <img  src="{{public}}/assets/img/screenshots/grid-display-orderable.png" style="box-shadow:0 1px 6px 1px rgba(0, 0, 0, 0.12)" width="100%">
 </a>
-
-
 
 ## 帮助方法
 
