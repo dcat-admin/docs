@@ -64,11 +64,14 @@ $form->text('title')->width(8, 2);
 
 
 <a name="saving"></a>
-### 保存前转换表单数据格式 (saving)
-`saving`方法可以更改待保存到数据库的数据。如下面的例子，原本表单提交的是一个以“,”隔开的字符串，我们可以把这个值转化成`json`格式保存到数据库
+### 保存前转换数据格式 (saving)
+
+通过`saving`方法可以更改待保存数据的格式。
+
 ```php
+use Dcat\Admin\Support\Helper;
+
 $form->mutipleFile('files')->saving(function ($paths) {
-    // 把“,”隔开的字符串转化为数组
     $paths = Helper::array($paths);
     
     // 最终转化为json保存到数据库
@@ -78,22 +81,19 @@ $form->mutipleFile('files')->saving(function ($paths) {
 
 <a name="customFormat"></a>
 ### 格式化待渲染的数据 (customFormat)
-`customFormat`方法可以改变从外部注入到表单的字段值。
+通过`customFormat`方法可以改变从外部注入到表单的字段值。
 
-如上面的例子，我们把原本是以“,”隔开的字符串改为`json`格式保存到数据库，那么从数据库中取出的值也是`json`，这个时候直接注入到表单后并不能被表单识别，所以需要通过`customFormat`方法把这个值重新转回以“,”隔开的字符串。
+如下例子中，`mutipleFile`字段要求待渲染的字段值为数组格式，我们可以通过`customFormat`方法把从数据库查出的字段值转化为`array`格式
 ```php
+use Dcat\Admin\Support\Helper;
+
 $form->mutipleFile('files')->saving(function ($paths) {
     $paths = Helper::array($paths);
     
     return json_encode($paths);
 })->customFormat(function ($paths) {
-    if (!$paths) return '';
-    
-    // 转化为数组
-    $paths = json_decode($paths, true);
-    
-    // 转为以“,”隔开的字符串
-    return join(',', $paths);
+    // 转为数组
+    return Helper::array($paths);
 });
 ```
 
