@@ -665,6 +665,8 @@ $form->multipleFile($column[, $label])->saving(function ($paths) {
 
 系统集成了`TinyMCE`编辑器作为内置编辑器。
 
+> {tip} `Since v1.1.0`
+
 #### 基本使用
 ```php
 $form->editor($column[, $label]);
@@ -761,6 +763,8 @@ Editor::resolving(function (Editor $editor) {
 ## Markdown编辑器 (markdown)
 
 系统集成了`editor-md`编辑器作为内置Markdown编辑器。
+
+> {tip} `Since v1.2.0`
 
 #### 基本使用
 ```php
