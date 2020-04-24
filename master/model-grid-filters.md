@@ -30,6 +30,8 @@ $grid->filter(function($filter){
 
 默认布局方式为`rightSide`
 
+> {tip} Since v1.2.0
+
 ### rightSide
 ```php
 use Dcat\Admin\Grid;
@@ -57,7 +59,8 @@ $grid->filter(function (Grid\Filter $filter) {
     // 更改为 panel 布局
     $filter->panel();
     
-    ...
+    // 注意切换为panel布局方式时需要重新调整表单字段的宽度
+    $filter->equal('id')->width(3);
 });
 ```
 效果

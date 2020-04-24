@@ -99,7 +99,7 @@ class UserController extends Controller
 
 ### 自定义表单保存的后续行为
 
-> {tip} `Since 1.2.0`
+> {tip} Since 1.2.0
 
 ```php
 <?php
