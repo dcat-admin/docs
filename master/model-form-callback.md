@@ -125,11 +125,16 @@ $form->deleted(function (Form $form, $result) {
 
 ```php
 use Dcat\Admin\Form;
+use Dcat\Admin\Form\Field;
 use Dcat\Admin\Contracts\UploadField as UploadFieldInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 $form->uploading(function (Form $form, UploadFieldInterface $field, UploadedFile $file) {
 	// $file 即是当前上传的完整文件
+	
+	/* @var Field $field */
+	// 获取文件上传字段名称
+	$column = $field->column();
 });
 ```
 
@@ -141,11 +146,16 @@ $form->uploading(function (Form $form, UploadFieldInterface $field, UploadedFile
 
 ```php
 use Dcat\Admin\Form;
+use Dcat\Admin\Form\Field;
 use Dcat\Admin\Contracts\UploadField as UploadFieldInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 $form->uploaded(function (Form $form, UploadFieldInterface $field, UploadedFile $file, $response) {
 	// $file 即是当前上传的完整文件
+	
+	/* @var Field $field */
+	// 获取文件上传字段名称
+	$column = $field->column();
 	
 	$response = (array) $response->getData();
 	

@@ -390,7 +390,9 @@ Dcat.ready(function () {
 
             Dcat.success(data.message);
 
-            location.href = data.redirect;
+			if (data.redirect) {
+			    Dcat.reload(data.redirect)
+			}
 
             // 中止后续逻辑（默认逻辑）
             return false;

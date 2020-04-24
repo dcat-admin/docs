@@ -185,6 +185,21 @@ $grid->column('full_name')->display(function () {
 });
 ```
 
+### 显示表格边框
+
+通过`withBorder`方式可以让表格显示边框
+
+> {tip} `Since v1.2.0`
+
+```php
+$grid->withBorder();
+```
+
+效果
+<a href="http://103.39.211.179:8080/admin/reports" target="_blank">
+    <img style="box-shadow:0 1px 6px 1px rgba(0, 0, 0, 0.12)" width="100%" src="{{public}}/assets/img/screenshots/grid-combination.png">
+</a>
+
 ### 设置表格外层容器
 ```php
  // 更改表格外层容器

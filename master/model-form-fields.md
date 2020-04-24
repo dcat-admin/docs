@@ -64,7 +64,7 @@ $form->text('title')->width(8, 2);
 
 
 <a name="saving"></a>
-### 处理待保存的数据 (saving)
+### 保存前转换表单数据格式 (saving)
 `saving`方法可以更改待保存到数据库的数据。如下面的例子，原本表单提交的是一个以“,”隔开的字符串，我们可以把这个值转化成`json`格式保存到数据库
 ```php
 $form->mutipleFile('files')->saving(function ($paths) {
@@ -77,7 +77,7 @@ $form->mutipleFile('files')->saving(function ($paths) {
 ```
 
 <a name="customFormat"></a>
-### 处理待渲染的数据 (customFormat)
+### 格式化待渲染的数据 (customFormat)
 `customFormat`方法可以改变从外部注入到表单的字段值。
 
 如上面的例子，我们把原本是以“,”隔开的字符串改为`json`格式保存到数据库，那么从数据库中取出的值也是`json`，这个时候直接注入到表单后并不能被表单识别，所以需要通过`customFormat`方法把这个值重新转回以“,”隔开的字符串。
@@ -209,7 +209,7 @@ $form->select('user_id')->options(function ($id) {
     if ($user) {
         return [$user->id => $user->name];
     }
-})->ajax('/admin/api/users');
+})->ajax('api/users');
 ```
 
 <sub>注：如果你修改了`config/admin.php`配置文件中`route.prefix`的值，此处的接口路由应该修改为`config('admin.route.prefix').'/api/users'`。</sub>
@@ -297,10 +297,15 @@ public function city(Request $request)
 <a name="multipleSelect"></a>
 ## 下拉选框多选 (multipleSelect)
 
-> {tip} 注入这个字段的数据（从数据库查出来的）可以是一个以“,”隔开的字符串或数组。
+> {tip} 注入这个字段的数据（从数据库查出来的）可以是一个以`,`隔开的字符串，也可以是`json`或数据。
 
 ```php
-$form->multipleSelect($column[, $label])->options([1 => 'foo', 2 => 'bar', 'val' => 'Option name']);
+$form->multipleSelect($column[, $label])
+	->options([1 => 'foo', 2 => 'bar', 'val' => 'Option name'])
+	->saving(function ($value) {
+		// 转化成json字符串保存到数据库
+		return json_encode($value);
+	});
 
 // 使用ajax并显示所选项目：
 
@@ -336,7 +341,7 @@ $form->select('friends')->options(function ($ids) {
 
     return User::find($ids)->pluck('name', 'id');
     
-})->ajax('/admin/api/users');
+})->ajax('api/users');
 ```
 
 <sub>注：如果你修改了`config/admin.php`配置文件中`route.prefix`的值，此处的接口路由应该修改为`config('admin.route.prefix').'/api/users'`。</sub>
@@ -387,8 +392,9 @@ public function users(Request $request)
 <a name="selectResource"></a>
 ## 弹窗选择器 (selectResource)
 
-选择数据源，选择弹窗里面的表格数据。
-> {tip} 注入这个字段的数据（从数据库查出来的）可以是一个以“,”隔开的字符串或数组。
+通过`selectResource`表单可以构建一个弹窗选择器，可以从弹窗里面选择表格数据，并且支持数据筛选等操作。
+
+> {tip} 注入这个字段的数据（从数据库查出来的）可以是一个以`,`隔开的字符串，也可以是`json`或数据。
 
 ```php
  $form->selectResource('user')
@@ -466,7 +472,7 @@ class UserController extends AdminController
 
 使用方法和`multipleSelect`类似。
 
-> {tip} 注入这个字段的数据（从数据库查出来的）可以是一个以“,”隔开的字符串或数组。
+> {tip} 注入这个字段的数据（从数据库查出来的）可以是一个以`,`隔开的字符串，也可以是`json`或数据。
 
 ```php
 $form->listbox($column[, $label])->options([1 => 'foo', 2 => 'bar', 'val' => 'Option name']);
@@ -487,12 +493,19 @@ $form->radio($column[, $label])->options(['m' => 'Female', 'f'=> 'Male'])->defau
 <a name="checkbox"></a>
 ## 多选 (checkbox)
 
-`checkbox`能处理两种数据存储情况，参考[多选框](#多选框)
-
 `options()`方法用来设置选择项:
 ```php
-$form->checkbox($column[, $label])->options([1 => 'foo', 2 => 'bar', 'val' => 'Option name']);
+$form->checkbox($column[, $label])
+	->options([1 => 'foo', 2 => 'bar', 'val' => 'Option name'])
+	->saving(function ($value) {
+		// 转化成json字符串保存到数据库
+		return json_encode($value);
+	});
 ```
+
+
+
+
 
 <a name="email"></a>
 ## 邮箱 (email)
@@ -572,26 +585,6 @@ $form->dateRange($startDate, $endDate, 'Date Range');
 $form->datetimeRange($startDateTime, $endDateTime, 'DateTime Range');
 ```
 
-<a name="currency"></a>
-## 单位符号 (currency)
-```php
-$form->currency($column[, $label]);
-
-// 设置单位符号
-$form->currency($column[, $label])->symbol('￥');
-```
-
-<a name="number"></a>
-## 数字 (number)
-```php
-$form->number($column[, $label]);
-```
-
-<a name="rate"></a>
-## 费率 (rate)
-```php
-$form->rate($column[, $label]);
-```
 
 <a name="file"></a>
 ## 文件上传 (file)
@@ -640,7 +633,7 @@ $form->image($column[, $label])->insert($watermark, 'center');
 
 多图片上传表单继承自单图上传表单，多文件上传表单继承自单文件上传表单。
 
-> {tip} 注入这个字段的数据（从数据库查出来的）可以是一个以“,”隔开的字符串或数组。
+> {tip} 注入这个字段的数据（从数据库查出来的）可以是一个以`,`隔开的字符串，也可以是`json`或数据。
 
 ```php
 // 多图
@@ -666,24 +659,6 @@ $form->multipleFile($column[, $label])->saving(function ($paths) {
 });
 
 ```
-
-<a name="map"></a>
-## 地图 (map)
-
-地图组件引用了网络资源，默认关闭,如果要开启这个组件参考[form组件管理](model-form-field-management.md)
-
-地图控件，用来选择经纬度,`$latitude`, `$longitude`为经纬度字段，`Laravel`的`locale`设置为`zh_CN`的时候使用腾讯地图，否则使用Google地图：
-```php
-$form->map($latitude, $longitude, $label);
-```
-
-<a name="slider"></a>
-## 滑动条 (slider)
-可以用来数字类型字段的选择，比如年龄：
-```php
-$form->slider($column[, $label])->options(['max' => 100, 'min' => 1, 'step' => 1, 'postfix' => 'years old']);
-```
-更多options请参考:https://github.com/IonDen/ion.rangeSlider#settings
 
 <a name="editor"></a>
 ## 富文本编辑器 (editor)
@@ -726,7 +701,7 @@ JS
 
 #### 设置高度
 
-默认值为`400``
+默认值为`400`
 
 ```php
 $form->editor('content')->height('600');
@@ -782,12 +757,127 @@ Editor::resolving(function (Editor $editor) {
 
 
 
-<a name="switch"></a>
+<a name="markdown"></a>
+## Markdown编辑器 (markdown)
+
+系统集成了`editor-md`编辑器作为内置Markdown编辑器。
+
+#### 基本使用
+```php
+$form->markdown($column[, $label]);
+```
+
+#### 设置语言包
+
+默认支持简体中文和英文两种语言，如需其他语言可以通过以下方式设置语言包地址。
+
+```php
+$form->markdown('content')->languageUrl(admin_asset('@admin/dcat/plugins/editor-md/languages/zh-tw.js'));
+```
+
+#### 编辑器配置
+
+具体配置等的使用可以参考[官方文档](https://pandao.github.io/editor.md/)
+
+```php
+<?php
+
+use Dcat\Admin\Support\JavaScript;
+
+$form->markdown('content')->options([
+    'onpreviewing' => JavaScript::make(
+        <<<JS
+function() {
+	// console.log("onpreviewing =>", this, this.id, this.settings);
+	// on previewing you can custom css .editormd-preview-active
+}
+JS
+    ),
+]);
+```
+
+#### 设置高度
+
+默认值为`500`
+
+```php
+$form->markdown('content')->height('600');
+```
+
+
+#### 只读
+
+```php
+$form->markdown('content')->readOnly();
+
+// 或
+$form->markdown('content')->disable();
+```
+
+
+#### 图片上传
+
+设置图片上传`disk`配置，默认上传到`admin.upload.disk`指定的配置
+
+```php
+// 上传到oss
+$form->markdown('content')->disk('oss');
+```
+
+设置图片上传目录，默认为`markdown/images`
+```php
+$form->markdown('content')->imageDirectory('markdown/images');
+```
+
+自定义上传接口，接口返回格式需要是`{"success": 1, "url": "图片url"}`
+```php
+$form->markdown('content')->imageUrl('markdown/upload-image');
+```
+
+#### 全局设置
+
+如果你需要对编辑器进行全局设置，可以在`app\Admin\bootstrap.php`加上以下代码
+
+```php
+<?php
+
+use Dcat\Admin\Form\Field\Markdown;
+
+Markdown::resolving(function (Markdown $markdown) {
+    // 设置默认配置
+    $markdown->options([...]);
+    
+    // 设置编辑器图片默认上传到七牛云
+    $markdown->disk('qiniu');
+});
+```
+
+
 ## 开关 (switch)
 开关表单保存到数据库的默认值
 ```php
 $form->switch($column[, $label]);
 ```
+
+
+<a name="map"></a>
+## 地图 (map)
+
+地图组件引用了网络资源，默认关闭,如果要开启这个组件参考[form组件管理](model-form-field-management.md)
+
+地图控件，用来选择经纬度,`$latitude`, `$longitude`为经纬度字段，`Laravel`的`locale`设置为`zh_CN`的时候使用腾讯地图，否则使用Google地图：
+```php
+$form->map($latitude, $longitude, $label);
+```
+
+<a name="slider"></a>
+## 滑动条 (slider)
+可以用来数字类型字段的选择，比如年龄：
+```php
+$form->slider($column[, $label])->options(['max' => 100, 'min' => 1, 'step' => 1, 'postfix' => 'years old']);
+```
+更多options请参考:https://github.com/IonDen/ion.rangeSlider#settings
+
 
 <a name="display"></a>
 ## 仅显示 (display)
@@ -800,6 +890,28 @@ $form->display($column[, $label]);
 $form->display($column[, $label])->with(function ($value) {
     return "<img src="$value" />";
 });
+```
+
+
+<a name="currency"></a>
+## 单位符号 (currency)
+```php
+$form->currency($column[, $label]);
+
+// 设置单位符号
+$form->currency($column[, $label])->symbol('￥');
+```
+
+<a name="number"></a>
+## 数字 (number)
+```php
+$form->number($column[, $label]);
+```
+
+<a name="rate"></a>
+## 费率 (rate)
+```php
+$form->rate($column[, $label]);
 ```
 
 <a name="divider"></a>

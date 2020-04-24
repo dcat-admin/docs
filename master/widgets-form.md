@@ -97,6 +97,71 @@ class UserController extends Controller
 }
 ```
 
+### 自定义表单保存的后续行为
+
+> {tip} `Since 1.2.0`
+
+```php
+<?php
+
+namespace App\Admin\Forms;
+
+use Dcat\Admin\Widgets\Form;
+use Symfony\Component\HttpFoundation\Response;
+
+class Setting extends Form
+{
+    ...
+    
+    /**
+ 	 * 设置表单保存成功后执行的JS
+ 	 * 
+	 * @return string|void
+	 */
+	protected function buildSuccessScript()
+	{
+	    return <<<JS
+		// data 为接口返回数据
+		if (! data.status) {
+			Dcat.error(data.message);
+
+			return false;
+		}
+
+		Dcat.success(data.message);
+
+		if (data.redirect) {
+			Dcat.reload(data.redirect)
+		}
+
+		// 中止后续逻辑（默认逻辑）
+		return false;
+JS;
+	}
+
+	/**
+	 * 设置表单保存失败后执行的JS
+	 * 
+	 * @return string|void
+	 */
+	protected function buildErrorScript()
+	{
+		return <<<JS
+		var errorData = JSON.parse(response.responseText);
+		
+		if (errorData) {
+			Dcat.error(errorData.message);
+		} else {
+			console.log('提交出错', response.responseText);
+		}
+		
+		// 终止后续逻辑执行（默认逻辑）
+		return false;
+JS;
+	}
+}
+```
+
 <a name="modal"></a>
 ### 在弹窗中显示
 

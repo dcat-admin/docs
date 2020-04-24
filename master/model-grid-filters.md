@@ -50,8 +50,6 @@ $grid->filter(function (Grid\Filter $filter) {
 
 ### panel
 
-> {tip} 这个功能暂时没有适配，后续版本中会增加这个功能。
-
 ```php
 use Dcat\Admin\Grid;
 
