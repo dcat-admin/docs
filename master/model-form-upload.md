@@ -172,17 +172,21 @@ $form->file('file')->disableChunked();
 ```
 
 <a name="chunkSize"></a>
-### chunkSize
-分块大小，单位为“KB”，默认“5MB”
+### 分块大小(chunkSize)
+分块大小，单位为`KB`，默认`5MB`
 ```php
 // 设置为 1MB
 $form->file('file')->chunkSize(1024);
 ```
 
 <a name="maxSize"></a>
-### maxSize
-设置单个文件最大大小，单位为“KB”
+### 文件大小(maxSize)
+设置单个文件最大大小，单位为`Kb`，默认大小为`10M`。
+
+> {tip} 同时应该保证`php.ini`配置文件的`upload_max_filesize`参数值必须大于这个方法设置的值。
+
 ```php
+// 设置单个文件最大为1Mb
 $form->file('file')->maxSize(1024);
 ```
 
