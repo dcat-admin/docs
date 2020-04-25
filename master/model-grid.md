@@ -229,6 +229,9 @@ $grid->showCreateButton();
 
 ```php
 $grid->enableDialogCreate();
+
+// 设置弹窗宽高，默认值为 '700px', '670px'
+$grid->setDialogFormDimensions('50%', '50%);
 ```
 
 
@@ -315,6 +318,10 @@ $grid->showEditButton();
 $grid->disableQuickEditButton();
 // 显示快捷编辑按钮
 $grid->showQuickEditButton();
+
+// 设置弹窗宽高，默认值为 '700px', '670px'
+$grid->setDialogFormDimensions('50%', '50%);
+
 
 // 禁用删除按钮
 $grid->disableDeleteButton();
