@@ -19,7 +19,7 @@
   - [查询过滤](model-grid-filters.md)
   - [列过滤器](model-grid-column-filter.md)
   - [快捷搜索](model-grid-quick-search.md)
-  - [筛选器](model-grid-selector.md)
+  - [规格筛选器](model-grid-selector.md)
   - [数据导出](model-grid-export.md)
   - [快捷创建](model-grid-quick-create.md)
   - [事件](model-grid-events.md)
