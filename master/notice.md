@@ -343,7 +343,7 @@ use Dcat\Admin\Layout\Content;
 
 Content::resolving(function (Content $content) {
     
-    $content->setView('app.admin.content');
+    $content->view('app.admin.content');
     
 });
 ```
@@ -356,7 +356,7 @@ use Dcat\Admin\Layout\Content;
 
 Content::composing(function (Content $content) {
     
-    $content->setView('app.admin.content');
+    $content->view('app.admin.content');
     
 });
 ```
