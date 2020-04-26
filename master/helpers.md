@@ -8,6 +8,8 @@
 
 代码生成器可以通过界面一键生成增删改查代码，支持根据已有数据表生成增删改查代码，打开浏览器访问`http://localhost:8000/admin/helpers/scaffold`即可使用。
 
+> {tip} 如果你的开发环境不是`windows`系统，请给整个项目`777`权限，否则可能无法生成文件。
+
 
 ### 扩展包管理
 `Dcat Admin`支持可视化管理扩展包，只要通过`composer`安装进来的扩展包都能在管理界面中看到，支持通过界面启用和导入扩展包，打开浏览器访问`http://localhost:8000/admin/helpers/extensions`即可使用。

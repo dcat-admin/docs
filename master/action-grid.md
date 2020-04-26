@@ -1,6 +1,7 @@
 # 数据表格动作
 
 ## 表格动作基类 (GridAction)
+
 所有数据表格相关的动作类，包括[工具栏按钮](model-grid-custom-tools.md)(`AbstractTool`)、
 [行操作](model-grid-actions.md)(`RowAction`)、[批量操作](model-grid-custom-tools.md#batch)(`BatchAction`)
 等等操作按钮的基类都继承自`Dcat\Admin\Grid\GridAction`类，而`GridAction`则继承自[动作类基类](action.md)(`Action`)。

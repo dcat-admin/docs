@@ -2,7 +2,7 @@
 
 通过`Dcat\Admin\Widgets\Tab`方法可以快速构建`tab`选项卡。
 
-## 基本用法
+### 基本用法
 
 ```php
 <?php
@@ -20,7 +20,14 @@ $tab->addLink('跳转链接', 'http://xxx');
 return $content->body($tab->withCard());
 ```
 
-## 垂直 (vertical)
+### 切换显示模式
+
+```php
+// 主题色
+$tab = Tab::make()->theme();
+```
+
+### 垂直 (vertical)
 
 通过`vertical`方法可以让选项卡标题栏呈垂直排列。
 
@@ -37,7 +44,8 @@ $tab->add('选项2', 'html');
 return $content->body($tab->withCard()->vertical());
 ```
 
-效果
+
+
 
 
 

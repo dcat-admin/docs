@@ -23,7 +23,7 @@ Form::forget(['map', 'editor']);
 
 ## 扩展自定义组件
 
-> {tip} 扩展自定义Form组件后IDE默认是不会自动补全的，这时候可以通过`php artisan admin::ide-helper`生成IDE提示文件，具体请参考[IDE自动补全](helpers-ide.md)。
+> {tip} 扩展自定义Form组件后IDE默认是不会自动补全的，这时候可以通过`php artisan admin::ide-helper`生成IDE提示文件。
 
 
 ### 集成富文本编辑器wangEditor
