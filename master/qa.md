@@ -1,7 +1,5 @@
 # 常见问题汇总
 
-
-
 ### 如何设置语言为简体中文？
 
 打开配置文件`config/app.php`，设置`locale`参数的值为`zh-CN`。
@@ -22,12 +20,41 @@ use Illuminate\Database\Eloquent\Model;
 
 class MyModel extends Model
 {
-    use HasDateTimeFormatter;
+     use HasDateTimeFormatter;
 }
 ```
 
-
 ### 重写登陆页面和登陆逻辑
+
+方式一，重写登陆控制器方法：
+
+默认的登陆控制器用的是`App\Admin\AuthController`这个类，可以通过配置参数`admin.auth.controller`进行修改
+
+```php
+<?php
+
+namespace App\Admin\Controllers;
+
+use Dcat\Admin\Controllers\AuthController as BaseAuthController;
+
+class AuthController extends BaseAuthController
+{
+    // 自定义登陆view模板
+    protected $view = 'admin.login';
+	
+	// 重写你的登陆页面逻辑
+	public function getLogin(Content $content)
+    {
+        ...
+    }
+
+    ...
+}
+
+```
+
+
+方式二，覆写路由：
 
 在路由文件`app/Admin/routes.php`中，覆盖掉登陆页面和登陆逻辑的路由，即可实现自定义的功能
 
@@ -42,22 +69,18 @@ Route::group([
     $router->post('auth/login', 'AuthController@postLogin');
     
 });
-
 ```
 
 在自定义的路由器AuthController中的`getLogin`、`postLogin`方法里分别实现自己的登陆页面和登陆逻辑。
 
-参考控制器文件[AuthController.php](https://github.com/z-song/dcat-admin/blob/master/src/Controllers/AuthController.php)，视图文件[login.blade.php](https://github.com/z-song/dcat-admin/blob/master/views/login.blade.php)
 
 ### 更新新版本后出现异常
 
 如果遇到更新之后,部分组件不能正常使用,那有可能是`dcat-admin`自带的静态资源有更新了,需要运行命令`php artisan admin:publish --force`来重新发布前端资源，发布之后不要忘记清理浏览器缓存.
 
-
 ### 无法上传文件或图片
 
 如果出现无法上传文件或图片的问题，大概率是因为没有配置好文件系统的配置，具体请参考[图片/文件上传](model-form-upload.md)。
-
 
 ### 关于前端资源加载问题
 
@@ -100,4 +123,3 @@ Admin::js('path/to/your/js');
 
 `jQuery`虽然不是前卫的技术，但是实用性并不差，前后端分离能实现的功能，`jQuery`也一样能实现。而且在这个项目里面，你还能更快、更省事、更容易上手。
 如果你是想要提升前端技术，或是展示自己的前端技术水平，那么推荐去尝试下`Laravel nova`。
-

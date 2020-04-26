@@ -297,7 +297,7 @@ public function city(Request $request)
 <a name="multipleSelect"></a>
 ## 下拉选框多选 (multipleSelect)
 
-> {tip} 注入这个字段的数据（从数据库查出来的）可以是一个以`,`隔开的字符串，也可以是`json`或数据。
+> {tip} 注入这个字段的数据（从数据库查出来的）可以是一个以`,`隔开的字符串，也可以是`json`字符串或`array`数组。
 
 ```php
 $form->multipleSelect($column[, $label])
@@ -394,7 +394,7 @@ public function users(Request $request)
 
 通过`selectResource`表单可以构建一个弹窗选择器，可以从弹窗里面选择表格数据，并且支持数据筛选等操作。
 
-> {tip} 注入这个字段的数据（从数据库查出来的）可以是一个以`,`隔开的字符串，也可以是`json`或数据。
+> {tip} 注入这个字段的数据（从数据库查出来的）可以是一个以`,`隔开的字符串，也可以是`json`字符串或`array`数组。
 
 ```php
  $form->selectResource('user')
@@ -472,7 +472,7 @@ class UserController extends AdminController
 
 使用方法和`multipleSelect`类似。
 
-> {tip} 注入这个字段的数据（从数据库查出来的）可以是一个以`,`隔开的字符串，也可以是`json`或数据。
+> {tip} 注入这个字段的数据（从数据库查出来的）可以是一个以`,`隔开的字符串，也可以是`json`字符串或`array`数组。
 
 ```php
 $form->listbox($column[, $label])->options([1 => 'foo', 2 => 'bar', 'val' => 'Option name']);
@@ -633,7 +633,7 @@ $form->image($column[, $label])->insert($watermark, 'center');
 
 多图片上传表单继承自单图上传表单，多文件上传表单继承自单文件上传表单。
 
-> {tip} 注入这个字段的数据（从数据库查出来的）可以是一个以`,`隔开的字符串，也可以是`json`或数据。
+> {tip} 注入这个字段的数据（从数据库查出来的）可以是一个以`,`隔开的字符串，也可以是`json`字符串或`array`数组。
 
 ```php
 // 多图
