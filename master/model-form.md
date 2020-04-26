@@ -60,7 +60,8 @@ $form = Form::make(new Movie(), function (Form $form) {
 ```
 
 ## 数据仓库
-表单对数据的操作并非直接依赖于`Eloquent Model`，而是依赖于`Repository`提供的数据操作接口。具体请参考[表单数据源](model-form-data.md)。
+
+数据仓库(`Repository`)是一个提供特定接口对数据进行读写操作的类，通过数据仓库的引入，可以让页面的构建不再关心数据读写功能的具体实现。只需要实现特定的操作接口即可轻松切换数据源，关于数据仓库的详细用法请参考文档[数据仓库](model-repository.md)。
 
 
 ## 表单定义
@@ -267,7 +268,9 @@ $form->saving(function (Form $form) {
 ```php
 $form->saving(function (Form $form) {
     // 修改
-    $username = $form->input('username', 'Marry');
+    $form->input('username', 'Marry');
+    // 或
+    $form->username = 'Marry';
     
     // 删除
     $form->deleteInput('username');

@@ -467,6 +467,12 @@ class UserController extends AdminController
 }
 ```
 
+效果
+
+<a href="{{public}}/assets/img/screenshots/select-resource.png" target="_blank">
+    <img  src="{{public}}/assets/img/screenshots/select-resource.png" style="box-shadow:0 1px 6px 1px rgba(0, 0, 0, 0.12)" width="100%">
+</a>
+
 <a name="listbox"></a>
 ## 多选盒 (listbox)
 
