@@ -161,7 +161,7 @@ Field\Text::macro('len', function (int $length, ?string $error = null) {
     // 前端验证逻辑扩展
     Admin::script(
                 <<<'JS'
-Dcat.extendValidator('len', function ($el) {
+Dcat.validator.extend('len', function ($el) {
     return $el.val().length != $el.attr('data-len');
 });
 JS
