@@ -316,9 +316,59 @@ $form->image($column[, $label])->insert($watermark, 'center');
 $form->image('img')->dimensions(['min_width' = 100, 'max_width' => 300]);
 ```
 <a name="referer"></a>
-## 图片防盗链
-图片请求默认会去掉 `referer` 字段，如果有防盗链要求，可以在配置文件(`config/admin.php`)中设置：
 
+
+## 把图片/文件路径保存在其他数据表
+
+通过下面的方法可以把图片或文件的路径保存在单独的附件表，而当前的图片/文件字段只保存ID
+
+> {tip} 这里的示例用的是单图上传表单，如果是多图的话可以按这个思路自行调整。
+
+
+图片/文件表结构
+```sql
+CREATE TABLE `images` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `path` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 ```
- "disable_no_referrer_meta" => true
+使用
+```php
+$form->image('image1')
+    ->saving(function ($value) use ($form) {
+        if ($form->isEditing() && ! $value) {
+            // 编辑页面，删除图片逻辑
+            Image::destroy($form->model()->image1);
+
+            return;
+        }
+
+        // 新增或编辑页面上传图片
+        if ($value) {
+            $model = Image::where('path', $value)->first();
+        }
+
+        if (empty($model)) {
+            $model = new Image();
+        }
+
+        $model->path = $value;
+
+        $model->save();
+
+        return $model->getKey();
+    })
+    ->customFormat(function ($v) {
+        if (! $v) {
+            return;
+        }
+
+        return Image::find((array) $v)->pluck('path')->toArray();
+    });
 ```
+
+
+

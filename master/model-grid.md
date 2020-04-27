@@ -103,7 +103,7 @@ class MovieController extends AdminController
 ## 基本使用方法
 
 ### 添加列
-> {tip} 通过`$grid->username('用户名');`的方式添加列时IDE默认是没有自动补全的，这时候可以通过`php artisan admin::ide-helper`生成IDE提示文件。
+> {tip} 通过`$grid->username('用户名');`的方式添加列时IDE默认是没有自动补全的，这时候可以通过`php artisan admin:ide-helper`生成IDE提示文件。
 
 ```php
 // 直接通过字段名`username`添加列

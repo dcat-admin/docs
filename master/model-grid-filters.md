@@ -681,7 +681,7 @@ Filter::extend('customBetween', Filter\Between::class);
 ```
 
 使用：
->扩展过滤器方法后IDE默认是不会自动补全的，这时候可以通过`php artisan admin::ide-helper`生成IDE提示文件。
+>扩展过滤器方法后IDE默认是不会自动补全的，这时候可以通过`php artisan admin:ide-helper`生成IDE提示文件。
 
 ```php
 $filter->customBetween('created_at')->datetime();

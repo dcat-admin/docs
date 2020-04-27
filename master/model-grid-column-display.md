@@ -561,7 +561,7 @@ $grid->images()->display(function ($images) {
 ## 扩展列的显示功能
 
 可以通过两种方式扩展列功能，第一种是通过匿名函数的方式。
->扩展列功能方法后IDE默认是不会自动补全的，这时候可以通过`php artisan admin::ide-helper`生成IDE提示文件。
+>扩展列功能方法后IDE默认是不会自动补全的，这时候可以通过`php artisan admin:ide-helper`生成IDE提示文件。
 
 ### 匿名函数
 在`app/Admin/bootstrap.php`加入以下代码:

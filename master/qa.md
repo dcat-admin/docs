@@ -93,6 +93,14 @@ Admin::css('path/to/your/css');
 Admin::js('path/to/your/js');
 ```
 
+
+### 图片防盗链
+图片请求默认会去掉 `referer` 字段，如果有防盗链要求，可以在配置文件(`config/admin.php`)中设置：
+
+```
+ "disable_no_referrer_meta" => true
+```
+
 ### 为何不开发成前后端分离项目？
 
 最近有许多同学问我为什么不采用前后端分离方案？现在`vue`和`react`这么好用，为啥还要用`jQuery`呢？回答这个问题之前首先要搞清楚两种方案的优劣势
