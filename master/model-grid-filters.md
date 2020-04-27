@@ -220,16 +220,16 @@ $filter->where('search', function ($query) {
 
 `sql: ... WHERE `rate` >= 6 AND `created_at` = {$input}`:
 ```php
-$filter->where(function ($query) {
+$filter->where('Text', function ($query) {
 
     $query->whereRaw("`rate` >= 6 AND `created_at` = {$this->input}");
 
-}, 'Text');
+});
 ```
 
 关系查询，查询对应关系`profile`的字段：
 ```php
-$filter->where(function ($query) {
+$filter->where('mobile', function ($query) {
 
     $query->whereHas('profile', function ($query) {
         $query->where('address', 'like', "%{$this->input}%")->orWhere('email', 'like', "%{$this->input}%");
