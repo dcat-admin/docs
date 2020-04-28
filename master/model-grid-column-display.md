@@ -299,7 +299,7 @@ $nodes = (new $permissionModel)->allNodes();
 $grid->permissions->showTreeInDialog($nodes);
 
 // 也可以传入闭包
-$grid->permissions->showTreeInDialog(function (Grid\Displayers\Tree $tree) use (&$nodes, $roleModel) {
+$grid->permissions->showTreeInDialog(function (Grid\Displayers\DialogTree $tree) use (&$nodes, $roleModel) {
     // 设置所有节点
     $tree->nodes($nodes);
     
