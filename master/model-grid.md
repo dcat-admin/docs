@@ -285,7 +285,7 @@ $grid->rowSelector()->click();
 
 #### 设置选中行的背景颜色
 ```php
-use Dcat\Admin\Widgets\Color;
+use Dcat\Admin\Color;
 
 $grid->rowSelector()->background(Color::dark20());
 ```
