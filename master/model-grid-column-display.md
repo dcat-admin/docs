@@ -304,7 +304,9 @@ $grid->permissions->showTreeInDialog(function (Grid\Displayers\DialogTree $tree)
     $tree->nodes($nodes);
     
     // 设置节点数据字段名称，默认"id"，"name"，"parent_id"
-    $tree->columnNames('id', 'name', 'parent_id');
+    $tree->setIdColumn('id');
+    $tree->setTitleColumn('title');
+    $tree->setParentColumn('parent_id');
 
     // $this->roles 可以获取当前行的字段值
     foreach (array_column($this->roles, 'slug') as $slug) {
