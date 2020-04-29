@@ -66,7 +66,7 @@ $grid->tools(new UserGender());
 
 在`model-grid`定义中接收到`gender`参数后，做好数据查询就可以了：
 ```php
-if (in_array($gender = request->get('gender'), ['m', 'f'])) {
+if (in_array($gender = request()->get('gender'), ['m', 'f'])) {
     $grid->model()->where('gender', $gender);
 }
 ```
