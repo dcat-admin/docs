@@ -78,9 +78,15 @@ Route::group([
 
 如果遇到更新之后,部分组件不能正常使用,那有可能是`dcat-admin`自带的静态资源有更新了,需要运行命令`php artisan admin:publish --force`来重新发布前端资源，发布之后不要忘记清理浏览器缓存.
 
-### 无法上传文件或图片
+### 文件上传失败或无法访问？
 
-如果出现无法上传文件或图片的问题，大概率是因为没有配置好文件系统的配置，具体请参考[图片/文件上传](model-form-upload.md)。
+如果你发现无法上传文件，那么通常有几下几点原因：
+
+1. `Laravel`文件上传配置不正确，请参考文档[图片/文件上传](https://learnku.com/docs/dcat-admin/1.x/picture-file-upload/8106)。如果你不了解`laravel`文件上传功能，请阅读文档[Laravel - 文件存储](https://learnku.com/docs/laravel/7.x/filesystem/7485)
+2. 文件过大，需要调整`php.ini`的`upload_max_filesize`参数
+3. 文件上传目录没有写权限
+
+如果你的文件上传成功了，却无法正常访问，那么可能是`.env`配置文件中的`APP_URL`参数没有设置正确。
 
 ### 关于前端资源加载问题
 

@@ -1,6 +1,6 @@
 # 图片/文件上传
 
-[model-form](model-form.md)通过以下的调用来生成form元素，支持本地和云存储的文件上传。
+[model-form](model-form.md)通过以下的调用来生成图片/文件上传表单，支持本地和云存储的文件上传。
 
 > {tip} 上传组件是基于[webuploader](https://fex.baidu.com/webuploader/)实现的，具体的使用配置可参考[webuploader官方文档](https://fex.baidu.com/webuploader/document.html)。
 
@@ -108,21 +108,21 @@ $form->file('file')->disk('qiniu');
 ## 公共方法
 
 <a name="disk"></a>
-### disk
+### 存储驱动 (disk)
 修改文件上传源
 ```php
 $form->file('file')->disk('your disk name');
 ```
 
 <a name="move"></a>
-### move
+### 上传路径 (move)
 修改上传路径
 ```php
 $form->file('file')->move('public/upload/image1/');
 ```
 
 <a name="name"></a>
-### name
+### 文件名称 (name)
 修改上传文件名称
 ```php
 $form->file('file')->name('test.text');
@@ -133,10 +133,21 @@ $form->image('picture')->name(function ($file) {
 ```
 
 <a name="uniqueName"></a>
-### uniqueName
+### 随机名称 (uniqueName)
 使用随机生成文件名 (md5(uniqid()).extension)
 ```php
 $form->image('picture')->uniqueName();
+```
+
+<a name="disableRemove"></a>
+### 禁止从服务器删除 (disableRemove)
+
+点击文件删除按钮默认会把服务器的文件删除，通过`disableRemove`方法可以禁用这个功能。
+
+> {tip} 禁用这个功能之后点击删除按钮只会移除页面上的文件，而不会直接从服务器删除。
+
+```php
+$form->file($column[, $label])->disableRemove();
 ```
 
 <a name="storagePermission"></a>
@@ -146,13 +157,6 @@ $form->image('picture')->uniqueName();
 $form->image('picture')->storagePermission(777);
 ```
 
-<a name="disableRemove"></a>
-### disableRemove
-禁止删除按钮
-```php
-// 禁止删除按钮
-$form->file($column[, $label])->disableRemove();
-```
 
 <a name="accept"></a>
 ### 限制上传文件类型
@@ -370,5 +374,15 @@ $form->image('image1')
     });
 ```
 
+
+## 文件上传失败或无法访问？
+
+如果你发现无法上传文件，那么通常有几下几点原因：
+
+1. `Laravel`文件上传配置不正确，请检查`admin.upload.disk`参数。如果你不了解`laravel`文件上传功能，请阅读文档[Laravel - 文件存储](https://learnku.com/docs/laravel/7.x/filesystem/7485)
+2. 文件过大，需要调整`php.ini`的`upload_max_filesize`参数
+3. 文件上传目录没有写权限
+
+如果你的文件上传成功了，却无法正常访问，那么可能是`.env`配置文件中的`APP_URL`参数没有设置正确。
 
 
