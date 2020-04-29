@@ -52,7 +52,7 @@ JS;
 ```html
 <div class="btn-group" data-toggle="buttons">
     @foreach($options as $option => $label)
-    <label class="btn btn-default {{ \Request::get('gender', 'all') == $option ? 'active' : '' }}">
+    <label class="btn btn-default {{ request()->get('gender', 'all') == $option ? 'active' : '' }}">
         <input type="radio" class="user-gender" value="{{ $option }}">{{$label}}
     </label>
     @endforeach
@@ -66,8 +66,8 @@ $grid->tools(new UserGender());
 
 在`model-grid`定义中接收到`gender`参数后，做好数据查询就可以了：
 ```php
-if (in_array(Request::get('gender'), ['m', 'f'])) {
-    $grid->model()->where('gender', Request::get('gender'));
+if (in_array($gender = request->get('gender'), ['m', 'f'])) {
+    $grid->model()->where('gender', $gender);
 }
 ```
 
