@@ -83,6 +83,14 @@ $form->saved(function (Form $form, $result) {
     // 修改操作
 });
 ```
+> {tip} `$form->repository()->eloquent()`為當前新增或編輯後的eloquent
+
+```php
+$form->saved(function (Form $form, $result) {
+    // 在表單保存後獲取eloquent
+    $form->repository()->eloquent()->update(['data' => 'new']);
+});
+```
 
 ### deleting
 
