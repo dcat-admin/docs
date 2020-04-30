@@ -99,6 +99,31 @@ Admin::css('path/to/your/css');
 Admin::js('path/to/your/js');
 ```
 
+### 谷歌字体加载过慢？
+
+如果出现谷歌字体加载过慢的情况下，可以把谷歌字体下载到你自己的服务器，然后在`app/Admin/bootstrap.php`中加入以下代码，让系统从你自己的服务器中加载字体
+
+```php
+Admin::asset()->alias(
+	'@nunito', 
+	null, 
+	asset('你的服务器字体路径/nunito.css?family=Nunito:200,200i,300,300i,400,400i,600,600i,800,800i,900,900i')
+);
+Admin::asset()->alias(
+	'@montserrat', 
+	null, 
+	asset('你的服务器字体路径/montserrat.css?family=Montserrat:300,400,500,600')
+);
+```
+
+
+如果你完全不想使用这两种字体，可以加入以下代码
+```php
+Admin::asset()->alias('@nunito', null, '');
+Admin::asset()->alias('@montserrat', null, '');
+```
+
+
 
 ### 图片防盗链
 图片请求默认会去掉 `referer` 字段，如果有防盗链要求，可以在配置文件(`config/admin.php`)中设置：
