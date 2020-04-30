@@ -116,7 +116,7 @@ $form->tools(function (Form\Tools $tools) {
     $tools->disableDelete();
 
     // 添加一个按钮, 参数可以是字符串, 匿名函数, 或者实现了Renderable或Htmlable接口的对象实例
-    $tools->add('<a class="btn btn-sm btn-danger"><i class="fa fa-trash"></i>&nbsp;&nbsp;delete</a>');
+    $tools->append('<a class="btn btn-sm btn-danger"><i class="fa fa-trash"></i>&nbsp;&nbsp;delete</a>');
 });
 
 // 去除整个工具栏内容
