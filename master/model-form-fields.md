@@ -212,6 +212,22 @@ $form->select('user_id')->options(function ($id) {
 })->ajax('api/users');
 ```
 
+使用model方法在編輯時載入資料：
+```php
+$form->select('user_id')->model(User::class, 'id', 'name');
+```
+上面的代碼跟下面這個是一樣的
+```php
+$form->select('user_id')->options(function ($id) {
+    $user = User::find($id);
+
+    if ($user) {
+        return [$user->id => $user->name];
+    }
+});
+```
+
+
 <sub>注：如果你修改了`config/admin.php`配置文件中`route.prefix`的值，此处的接口路由应该修改为`config('admin.route.prefix').'/api/users'`。</sub>
 
 API `/admin/api/users`接口的代码：
