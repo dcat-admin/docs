@@ -112,10 +112,12 @@ class ShowCurrentAdminUser extends Action
     protected function handleHtmlResponse()
     {
         return <<<'JS'
-var $modal = $(target.data('target')); 
-
-$modal.find('.modal-body').html(response.html)
-$modal.modal('show')
+function (target, html, data) {
+    var $modal = $(target.data('target')); 
+    
+    $modal.find('.modal-body').html(html)
+    $modal.modal('show')
+}        
 JS;
     }
 
