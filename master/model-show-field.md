@@ -54,6 +54,9 @@ $show->tag->explode('|')->label();
 ```
 
 #### prepend
+
+`prepend` 方法用于给 `string` 或 `array` 类型的值前面插入内容。
+
 ```php
 // 当字段值是一个字符串
 $show->email->prepend('mailto:');
@@ -62,13 +65,44 @@ $show->email->prepend('mailto:');
 $show->arr->prepend('first item');
 ```
 
+从`v1.2.5`版本开始，`prepend`方法允许传入闭包参数
+```php
+$grid->email->prepend(function ($value, $original) {
+    // $value 是当前字段值
+    // $original 是当前字段从数据库中查询出来的原始值
+    
+    // 获取其他字段值
+    $username = $this->username;
+    
+    return "[{$username}]";
+});
+```
+
+
 #### append
+
+
+`prepend` 方法用于给 `string` 或 `array` 类型的值后面插入内容。
+
 ```php
 // 当字段值是一个字符串
 $show->email->append('@gmail.com');
 
 // 当字段值是一个数组
 $show->arr->append('last item');
+```
+
+从`v1.2.5`版本开始，`append`方法允许传入闭包参数
+```php
+$show->email->prepend(function ($value, $original) {
+    // $value 是当前字段值
+    // $original 是当前字段从数据库中查询出来的原始值
+    
+    // 获取其他字段值
+    $username = $this->username;
+    
+    return "[{$username}]";
+});
 ```
 
 #### image
@@ -112,10 +146,32 @@ $show->rate()->badge();
 badge()方法的参数参考Field::badge()
 
 #### using
-如果字段gender的取值为f、m，分别需要用女、男来显示
+如果字段gender的取值为`f`、`m`，分别需要用女、男来显示
 
 ```php
 $show->gender()->using(['f' => '女', 'm' => '男']);
+```
+
+#### dot
+
+通过`dot`方法可以在列文字前面加上一个带颜色的圆点
+
+> {tip} `Since v1.2.5` 支持`Dcat\Admin\Color`类中内置的所有颜色
+
+```php
+use Dcat\Admin\Admin;
+
+$show->state
+	->using([1 => '未处理', 2 => '已处理', ...])
+	->dot(
+		[
+			1 => 'primary',
+			2 => 'danger',
+			3 => 'success',
+			4 => Admin::color()->info(),
+		], 
+	    'primary' // 第二个参数为默认值
+	);
 ```
 
 #### 显示文件尺寸

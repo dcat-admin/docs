@@ -57,16 +57,28 @@ $grid->content->view('admin.fields.content');
 
 ### 开关
 
-> {tip} 注意：在`grid`中对某字段设置`switch`默认的保存结果是`0`或`1`，如需保存其他值请在`Model`、`Repository`或`Form`中修改。
 
 快速将列变成开关组件，使用方法如下：
 ```php
 $grid->status()->switch();
 ```
+这个功能需要你在`form`表单方法中同样设置一个`status`字段
+
+```php
+$form->hidden('status')->saving(function ($v) {
+    return $v ? '打开' : '关闭';
+});
+
+// 或者
+$form->switch('status')->saving(function ($v) {
+    return $v ? '打开' : '关闭';
+});
+```
+
 
 ### 开关组
 
-> {tip} 注意：在`grid`中对某字段设置`switchGroup`默认的保存结果是`0`或`1`，如需保存其他值请在`Model`、`Repository`或`Form`中修改。
+> {tip} 注意：在`grid`中对某字段设置`switchGroup`默认的保存结果是`0`或`1`，如需修改可以通过`$form->hidden(xxx)->saving(...)`方法修改。
 
 快速将列变成开关组件组，使用方法如下：
 ```php
@@ -77,9 +89,23 @@ $grid->switch_group->switchGroup([
     'image.show' => '显示图片', // 更新对应关联模型
 ]);
 // 或
-// 不写label会自动从翻译文件翻译，具体使用请参照“字段翻译”章节
+// 不写label会自动从翻译文件翻译，具体使用请参照 “字段翻译” 章节
 $grid->switch_group->switchGroup(['is_new', 'is_hot', 'published']);
 ```
+
+这个功能需要你在`form`表单方法中同样设置对应的字段
+
+```php
+$form->switch('hot')->saving(function ($v) {
+    return $v ? '打开' : '关闭';
+});
+
+$form->switch('new')->saving(function ($v) {
+    return $v ? '打开' : '关闭';
+});
+```
+
+
 ![]({{public}}/assets/img/screenshots/grid-column-switch-group.png)
 
 
@@ -204,37 +230,33 @@ $grid->state->using([1 => '未处理', 2 => '已处理', ...])->badge([
 ]);
 ```
 
-### 显示chip标签
+### 圆点前缀 (dot)
 
-支持`Dcat\Admin\Color`类中内置的所有颜色
+通过`dot`方法可以在列文字前面加上一个带颜色的圆点
 
-```php
-$grid->name()->chip();
-
-// 设置颜色，直接传别名
-$grid->name()->chip('danger');
-
-// 也可以这样使用
-$grid->name()->chip(Admin::color()->danger());
-
-// 也可以直接传颜色代码
-$grid->name()->chip('#222');
-```
-
-给不同的值设置不同的颜色
+> {tip} `Since v1.2.5` 支持`Dcat\Admin\Color`类中内置的所有颜色
 
 ```php
 use Dcat\Admin\Admin;
 
-$grid->state->using([1 => '未处理', 2 => '已处理', ...])->chip([
-    'default' => 'primary', // 设置默认颜色，不设置则默认为 primary
-    
-	1 => 'primary',
-	2 => 'danger',
-	3 => 'success',
-	4 => Admin::color()->info(),
-]);
+$grid->state
+	->using([1 => '未处理', 2 => '已处理', ...])
+	->dot(
+		[
+			1 => 'primary',
+			2 => 'danger',
+			3 => 'success',
+			4 => Admin::color()->info(),
+		], 
+	    'primary' // 第二个参数为默认值
+	);
 ```
+
+效果
+
+<a href="{{public}}/assets/img/screenshots/grid-column-dot.png" target="_blank">
+    <img style="box-shadow:0 1px 6px 1px rgba(0, 0, 0, 0.12)" width="150px" src="{{public}}/assets/img/screenshots/grid-column-dot.png">
+</a>
 
 
 ### 列展开
@@ -350,6 +372,19 @@ $grid->email->prepend('mailto:');
 $grid->arr->prepend('first item');
 ```
 
+从`v1.2.5`版本开始，`prepend`方法允许传入闭包参数
+```php
+$grid->email->prepend(function ($value, $original) {
+    // $value 是当前字段值
+    // $original 是当前字段从数据库中查询出来的原始值
+    
+    // 获取其他字段值
+    $username = $this->username;
+    
+    return "[{$username}]";
+});
+```
+
 ### append
 `prepend` 方法用于给 `string` 或 `array` 类型的值后面插入内容。
 
@@ -359,6 +394,19 @@ $grid->email->append('@gmail.com');
 
 // 当字段值是一个数组
 $grid->arr->append('last item');
+```
+
+从`v1.2.5`版本开始，`append`方法允许传入闭包参数
+```php
+$grid->email->prepend(function ($value, $original) {
+    // $value 是当前字段值
+    // $original 是当前字段从数据库中查询出来的原始值
+    
+    // 获取其他字段值
+    $username = $this->username;
+    
+    return "[{$username}]";
+});
 ```
 
 ### 列字符串或数组截取

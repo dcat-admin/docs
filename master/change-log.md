@@ -1,5 +1,93 @@
 # 更新日志
 
+### v1.2.5
+
+**发布时间** `2020-04-30`
+
+#### 功能新增以及优化部分
+
+**1.从服务器删除文件时增加确认弹窗**
+
+最近收到一些同学的反馈，图片删除操作太危险，容易造成误删的情况，因此这个版本中我们加上了删除文件时需要点击确认弹窗的功能
+
+
+<a href="https://cdn.learnku.com/uploads/images/202004/30/38389/VQTvmDch4u.png!large" target="_blank">
+    <img class="img img-full" src="https://cdn.learnku.com/uploads/images/202004/30/38389/VQTvmDch4u.png!large">
+</a>
+
+
+如果你不想让用户从服务器删除文件，可以使用`disableRemove`方法，这样用户就只能替换文件而不能直接删除
+
+> 这个方法在旧版本中也能使用，但有部分同学没发现这个用法，所以这里说明一下
+
+```php
+$form->image('my_img')->disableRemove();
+```
+
+**2.`Grid\Column::prepand`、`Grid\Column::append`方法增加支持闭包类型参数**
+
+```php
+$grid->email->prepend(function ($value, $original) {
+    // $value 是当前字段值
+    // $original 是当前字段从数据库中查询出来的原始值
+    
+    // 获取其他字段值
+    $username = $this->username;
+    
+    return "[{$username}]";
+});
+```
+
+**3.增加`Grid\Column::dot`方法**
+
+通过`dot`方法可以在列文字前面加上一个带颜色的圆点
+
+```php
+use Dcat\Admin\Admin;
+
+$grid->state
+	->using([1 => '未处理', 2 => '已处理', ...])
+	->dot(
+		[
+			1 => 'primary',
+			2 => 'danger',
+			3 => 'success',
+			4 => Admin::color()->info(),
+		], 
+	    'primary' // 默认颜色
+	);
+```
+效果
+
+<a href="{{public}}/assets/img/screenshots/grid-column-dot.png" target="_blank">
+    <img style="box-shadow:0 1px 6px 1px rgba(0, 0, 0, 0.12)" width="150px" src="{{public}}/assets/img/screenshots/grid-column-dot.png">
+</a>
+
+
+**4.`Show\Field::prepand`、`Show\Field::append`方法支持闭包类型参数**
+
+**5.`Show\Field::dot`方法**
+
+**6.调整表格过滤器`panel`布局方式的间距**
+
+**7.数据表格`quickSearch`移除重置按钮，适配低版本浏览器**
+
+**8.代码生成器生成的模型自动兼容`Laravel7`的时间格式显示异常问题**
+
+**9.优化`EloquentRepository`的删除功能**
+
+**10.`Show\Field::image`支持显示多图**
+
+#### Bug修复部分
+
+1. 修复数据表格`quickSearch`的`orWhere`查询污染默认条件问题
+2. 修复`Form::number`字段编辑页面默认值不为`0`问题
+3. 修复`select2`下拉选框不兼容`editor-md`组件问题
+4. 修复`Form::table`表单下`select2`下拉选框`remoteOptions`功能编辑选中异常问题
+5. 修复树状表格编辑后跳转回列表时`url`参数异常问题
+6. 修复文件上传字段名称为`file`时编辑异常问题
+7. 修复单文件上传成功文件数量提示异常问题
+
 
 ### v1.2.0
 

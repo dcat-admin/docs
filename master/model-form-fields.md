@@ -862,11 +862,20 @@ Markdown::resolving(function (Markdown $markdown) {
 });
 ```
 
-
+<a name="switch"></a>
 ## 开关 (switch)
-开关表单保存到数据库的默认值
+
+使用
 ```php
 $form->switch($column[, $label]);
+```
+
+开关表单保存到数据库的默认值为`1`和`0`，如果需要更改保存到数据库的值，可以这样使用
+
+```php
+$form->switch($column[, $label])->saving(function ($v) {
+    return $v ? '打开' : '关闭';
+});
 ```
 
 
