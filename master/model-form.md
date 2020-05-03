@@ -162,19 +162,57 @@ $form->disableEditingCheck();
 $form->disableCreatingCheck();
 ```
 
-## 其它方法
+## 常用方法
 
-#### 设置外层容器
+### 分块布局
+
+如果你的表单中字段非常多，那么可以通过以下方式让你的表单分块布局
+
 ```php
- // 更改表格外层容器
-$form->wrap(function (Renderable $view) {
-    $tab = Tab::make();
-    
-    $tab->add('示例', $view);
-    $tab->add('代码', $this->code(), true);
+$form->display('id');
+$form->text('name');
+$form->text('title');
+$form->text('author');
+$form->textarea('content');
 
-    return $tab;
+$form->datetimeRange('start', 'end', '开始');
+
+// 设置默认卡片宽度
+$form->setDefaultBlockWidth(8);
+
+// 分块显示
+$form->block(4, function (Form\BlockForm $form) {
+    $form->title('测试');
+
+    $form->text('title')->default('test');
+    $form->select('author')->options(['test']);
+    $form->radio('state')->options([0 => '待处理', 1 => '已处理', 2 => '已拒绝'])->default(0);
 });
+```
+
+效果
+<a href="{{public}}/assets/img/screenshots/block-form.png" target="_blank">
+    <img class="img img-full" src="{{public}}/assets/img/screenshots/block-form.png">
+</a>
+
+
+### 返回字段验证出错信息
+
+通过`responseValidationMessages`方法可以很方便的返回字段验证出错信息，而不需要使用`Laravel validation`功能。
+
+普通使用
+```php
+protected function form()
+{
+	return Form::make(new Model(), function (Form $form) {
+		if (...) { // 验证逻辑
+			$form->responseValidationMessages('title', 'title格式错误');
+			
+			// 如有多个错误信息，第二个参数可以传数组
+			$form->responseValidationMessages('content', ['content格式错误', 'content不能为空']);
+		}
+	});
+}
 ```
 
 #### 去掉提交按钮:
@@ -310,23 +348,19 @@ $form->creating(function (Form $form) {
 });
 ```
 
-### 返回字段验证出错信息
 
-通过`responseValidationMessages`方法可以很方便的返回字段验证出错信息，而不需要使用`Laravel validation`功能。
 
-普通使用
+#### 设置外层容器
 ```php
-protected function form()
-{
-	return Form::make(new Model(), function (Form $form) {
-		if (...) { // 验证逻辑
-			$form->responseValidationMessages('title', 'title格式错误');
-			
-			// 如有多个错误信息，第二个参数可以传数组
-			$form->responseValidationMessages('content', ['content格式错误', 'content不能为空']);
-		}
-	});
-}
+ // 更改表格外层容器
+$form->wrap(function (Renderable $view) {
+    $tab = Tab::make();
+    
+    $tab->add('示例', $view);
+    $tab->add('代码', $this->code(), true);
+
+    return $tab;
+});
 ```
 
 在事件中使用
