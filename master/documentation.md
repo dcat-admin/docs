@@ -2,6 +2,7 @@
 - ## 入门
   - [简介](introduction.md)
   - [安装](installation.md)
+  - [版本升级](update.md)
   - [快速开始](quick-start.md)
   - [开发前必读](notice.md)
   - [主题与颜色](theme.md)
