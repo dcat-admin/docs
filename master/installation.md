@@ -92,35 +92,3 @@ app/Admin
 ### 语言包
 语言包文件在`/resources/lang`目录下。
 
-## 版本升级须知
-
-升级命令
-```bash
-composer update dcat/laravel-admin
-```
-
-升级成功之后一般需要重新发布语言包、配置文件、前端静态资源等文件
-```bash
-php artisan admin:publish --force
-```
-
-只更新语言包
-```bash
-php artisan admin:publish --force --lang
-```
-
-只更新配置文件
-```bash
-php artisan admin:publish --force --config
-```
-
-
-只更新前端静态资源
-```bash
-php artisan admin:publish --force --assets
-```
-
-只更新数据库迁徙文件(这个一般不需要更新)
-```bash
-php artisan admin:publish --force --migrations
-```
