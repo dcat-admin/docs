@@ -215,18 +215,18 @@ protected function form()
 }
 ```
 
-#### 去掉提交按钮:
+### 去掉提交按钮:
 
 ```php
 $form->disableSubmitButton();
 ```
 
-#### 去掉重置按钮:
+### 去掉重置按钮:
 ```php
 $form->disableResetButton();
 ```
 
-#### 忽略掉不需要保存的字段
+### 忽略掉不需要保存的字段
 
 ```php
 $form->ignore(['column1', 'column2', 'column3']);
@@ -235,7 +235,7 @@ $form->ignore(['column1', 'column2', 'column3']);
 $form->removeIgnoredFields(['column1',]);
 ```
 
-#### 设置宽度
+### 设置宽度
 
 此处的宽度值是一个`1-12`之间的数字
 
@@ -243,14 +243,14 @@ $form->removeIgnoredFields(['column1',]);
 $form->width(10, 2);
 ```
 
-#### 设置表单提交的action
+### 设置表单提交的action
 
 
 ```php
 $form->action('auth/users');
 ```
 
-#### 判断是否是新增
+### 判断是否是新增
 
 新增页面和保存新增数据都可以用这个方法判断
 
@@ -260,7 +260,7 @@ if ($form->isCreating()) {
 }
 ```
 
-#### 判断是否是编辑
+### 判断是否是编辑
 
 编辑页面和保存编辑数据都可以用这个方法判断
 
@@ -270,7 +270,7 @@ if ($form->isEditing()) {
 }
 ```
 
-#### 判断是否是删除
+### 判断是否是删除
 
 ```php
 if ($form->isDeleting()) {
@@ -278,7 +278,7 @@ if ($form->isDeleting()) {
 }
 ```
 
-#### 获取ID
+### 获取ID
 
 新增页面无效
 
@@ -290,7 +290,7 @@ return Form::make(new User, function (Form $form) {
 });
 ```
 
-#### 获取表单提交的数据
+### 获取表单提交的数据
 
 ```php
 $form->saving(function (Form $form) {
@@ -301,7 +301,7 @@ $form->saving(function (Form $form) {
 });
 ```
 
-#### 修改或删除表单提交的数据
+### 修改或删除表单提交的数据
 
 ```php
 $form->saving(function (Form $form) {
@@ -316,7 +316,7 @@ $form->saving(function (Form $form) {
 ```
 
 
-#### 获取最终保存的数据
+### 获取最终保存的数据
 
 此方法仅在`saved`回调有效。
 
@@ -329,7 +329,7 @@ $form->saved(function (Form $form) {
 ```
 
 <a name="redirect"></a>
-#### 页面跳转
+### 页面跳转
 
 跳转到指定页面，此方法仅在[表单回调](model-form-callback.md)事件内可用
 
@@ -350,7 +350,7 @@ $form->creating(function (Form $form) {
 
 
 
-#### 设置外层容器
+### 设置外层容器
 ```php
  // 更改表格外层容器
 $form->wrap(function (Renderable $view) {
