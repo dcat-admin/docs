@@ -76,13 +76,13 @@ class Category extends Model
 
 namespace App\Admin\Controllers\Demo;
 
-use App\Http\Controllers\Controller;
 use App\Models\Category;
 use Dcat\Admin\Layout\Row;
 use Dcat\Admin\Layout\Content;
 use Dcat\Admin\Tree;
+use Dcat\Admin\Controllers\AdminController;
 
-class CategoryController extends Controller
+class CategoryController extends AdminController
 {
     public function index(Content $content)
     {

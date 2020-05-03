@@ -67,7 +67,7 @@ class MovieController extends AdminController
             $grid->id('ID')->sortable();
             
             // 第二列显示title字段，由于title字段名和Grid对象的title方法冲突，所以用Grid的column()方法代替
-            $grid->title;
+            $grid->column('title');
             
             // 第三列显示director字段，通过display($callback)方法设置这一列的显示内容为users表中对应的用户名
             $grid->director->display(function($userId) {
