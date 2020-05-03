@@ -1123,24 +1123,33 @@ class Painting extends Model
 
 构建表单代码如下：
 ```php
-$form->display('id', 'ID');
+use App\Models\Demo\Painter;
 
-$form->text('username')->rules('required');
-$form->textarea('bio')->rules('required');
+// 这里需要显式地指定关联关系
+$builder = Painter::with('paintings');
 
-$form->hasMany('paintings', function (Form\NestedForm $form) {
-    $form->text('title');
-    $form->textarea('body');
-    $form->datetime('completed_at');
-});
+// 如果你使用的是数据仓库，则可以这样指定关联关系
+// $repository = new Painter(['paintings']);
 
-$form->display('created_at', 'Created At');
-$form->display('updated_at', 'Updated At');
-
-// 也可以设置label
-
-$form->hasMany('paintings', '画作', function (Form\NestedForm $form) {
-    ...
+return Form::make($builder, function (Form $form) {
+    $form->display('id', 'ID');
+    
+    $form->text('username')->rules('required');
+    $form->textarea('bio')->rules('required');
+    
+    $form->hasMany('paintings', function (Form\NestedForm $form) {
+        $form->text('title');
+        $form->textarea('body');
+        $form->datetime('completed_at');
+    });
+    
+    $form->display('created_at', 'Created At');
+    $form->display('updated_at', 'Updated At');
+    
+    // 也可以设置label
+    // $form->hasMany('paintings', '画作', function (Form\NestedForm $form) {
+    //    ...
+    // });
 });
 ```
 

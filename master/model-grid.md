@@ -173,6 +173,8 @@ $grid->column_not_in_table->display(function () {
 });
 ```
 
+### 获取当前行数据
+
 `display()`方法接收的匿名函数绑定了当前行的数据对象，可以在里面调用当前行的其它字段数据
 
 ```php
