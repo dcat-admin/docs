@@ -135,7 +135,7 @@ $show->comments(function ($model) {
     
     $grid->model()->where('post_id', $model->id);
     
-    $grid->resource('/admin/comments');
+    $grid->resource('comments');
 
     $grid->id();
     $grid->content()->limit(10);
