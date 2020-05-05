@@ -67,7 +67,7 @@ $show->arr->prepend('first item');
 
 从`v1.2.5`版本开始，`prepend`方法允许传入闭包参数
 ```php
-$grid->email->prepend(function ($value, $original) {
+$show->email->prepend(function ($value, $original) {
     // $value 是当前字段值
     // $original 是当前字段从数据库中查询出来的原始值
     
