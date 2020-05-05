@@ -2,9 +2,21 @@
 
 
 ## 一对一
-`users`表和上面的`posts`表为一对一关联关系，通过`posts.author_id`字段关联，`users`表结构如下：
+`users`表和上面的`posts`表为一对一关联关系，通过`posts.author_id`字段关联，`users`和`post`表结构如下：
 
 ```sql
+CREATE TABLE `posts` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `author_id` int(10) unsigned NOT NULL ,
+  `title` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `content` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `rate` int(255) COLLATE utf8_unicode_ci NOT NULL,
+  `release_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
 CREATE TABLE `users` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
@@ -85,8 +97,18 @@ $show->author(function ($model) {
 如果你只是简单的展示关联表信息，也可以这么写
 
 ```php
-$show->field('author.id', '作者ID');
-$show->field('author.name', '作者名称');
+// 如果你用的是模型，可以这样指定关联关系
+$model = Post::with('author');
+
+// 如果你用的是数据仓库，可以这样指定关联关系
+// $repository = new Post(['author']);
+
+return Show::make($id, $model, function (Show $show) {
+    $show->field('author.id', '作者ID');
+    $show->field('author.name', '作者名称');
+    
+    ...
+});
 ```
 
 
