@@ -1,5 +1,6 @@
 # 关联关系
 
+
 ## 一对一
 `users`表和上面的`posts`表为一对一关联关系，通过`posts.author_id`字段关联，`users`表结构如下：
 
@@ -78,6 +79,14 @@ $show->author(function ($model) {
         $show->email();
     });
 });
+```
+
+### 简单方式
+如果你只是简单的展示关联表信息，也可以这么写
+
+```php
+$show->field('author.id', '作者ID');
+$show->field('author.name', '作者名称');
 ```
 
 
