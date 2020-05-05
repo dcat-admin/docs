@@ -70,6 +70,7 @@ $show->author(function ($model) {
     $userModel = User::where('state', $model->state);
 
     return Show::make($model->author_id, $userModel, function (Show $show) {
+        // 设置路由
         $show->resource('/users');
     
         $show->id();
@@ -135,6 +136,7 @@ $show->comments(function ($model) {
     
     $grid->model()->where('post_id', $model->id);
     
+    // 设置路由
     $grid->resource('comments');
 
     $grid->id();
@@ -235,6 +237,7 @@ $show->permissions(function ($model) {
             ->where('role_id', '=', $model->id);
     });
 
+    // 设置路由
     $grid->resource('auth/permissions');
 
     $grid->id;
