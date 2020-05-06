@@ -4,6 +4,8 @@
 
 `Dcat Admin`支持主题切换功能，目前内置了四种主题色：`indigo`、`blue`、`blue-light`、`green`，可通过配置参数`admin.layout.color`进行切换。
 
+> {tip} `v1.3.0`版本新增配色`blue-dark` 
+
 打开配置文件`config/admin.php`
 ```php
      'layout' => [
@@ -17,12 +19,98 @@
 
 部分主题色预览
 
-<a href="{{public}}/assets/img/screenshots/roles-blue.png" target="_blank">
-    <img  src="{{public}}/assets/img/screenshots/roles-blue.png" style="box-shadow:0 1px 6px 1px rgba(0, 0, 0, 0.12)" width="100%">
+<a href="{{public}}/assets/img/screenshots/users-blue-dark.png" target="_blank">
+    <img  src="{{public}}/assets/img/screenshots/users-blue-dark.png" style="box-shadow:0 1px 6px 1px rgba(0, 0, 0, 0.12)" width="100%">
 </a>
-<a href="{{public}}/assets/img/users.png" target="_blank">
-    <img  src="{{public}}/assets/img/users.png" style="box-shadow:0 1px 6px 1px rgba(0, 0, 0, 0.12)" width="100%">
+<a href="{{public}}/assets/img/screenshots/users-green.png" target="_blank">
+    <img  src="{{public}}/assets/img/screenshots/users-green.png" style="box-shadow:0 1px 6px 1px rgba(0, 0, 0, 0.12)" width="100%">
 </a>
+
+
+<a name="custom"></a>
+### 自定义主题配色
+
+> {tip} Since `v1.3.0` - 需要注意的是，如果自定义了主题之后，每次更新新版本，都需要重新编译一次你的自定义主题！！！
+
+开发者可以通过这个功能随意添加自己想要的主题配色，在使用这个功能之前需要先安装[NodeJs](http://nodejs.cn/)，没安装的同学前往[http://nodejs.cn/](http://nodejs.cn/)下载安装即可。
+
+安装完`NodeJs`之后可打开命令行运行`npm -v`测试一下是否安装成功。
+
+```bash
+npm -v
+```
+
+如果正常返回版本号，则说明已安装成功，然后运行以下命令编译自定义主题的文件，只需输入主题的名称和主题颜色代码(`十六进制`)即可。
+这里我们以生成一个`orange`主题为例
+
+> {tip} 这个命令第一次运行时需要较长时间，请耐心等待。如果运行失败，请尝试给`vendor`目录写权限。
+
+```bash
+php artisan admin:minify orange --color fbbd08 --publish
+```
+
+上面的命令的意思是生成一个`orange`主题，颜色代码为`#fbbd08`，并且生成之后自动发布静态资源。如果编译成功，命令行会输出以下内容
+```bash
+...
+
+ DONE  Compiled successfully in 48001ms8:24:28 PM
+
+
+                                              Asset      Size  Chunks
+               Chunk Names
+               /resources/dist/adminlte/adminlte.js  29.7 KiB       0  [emitted]
+               /resources/dist/adminlte/adminlte
+           /resources/dist/adminlte/adminlte.js.map  87.8 KiB       0  [emitted]
+ [dev]         /resources/dist/adminlte/adminlte
+               /resources/dist/dcat/extra/action.js   3.7 KiB       1  [emitted]
+               /resources/dist/dcat/extra/action
+           /resources/dist/dcat/extra/action.js.map  12.9 KiB       1  [emitted]
+ [dev]         /resources/dist/dcat/extra/action
+          /resources/dist/dcat/extra/grid-extend.js  4.87 KiB       2  [emitted]
+               /resources/dist/dcat/extra/grid-extend
+      /resources/dist/dcat/extra/grid-extend.js.map  21.7 KiB       2  [emitted]
+ [dev]         /resources/dist/dcat/extra/grid-extend
+    /resources/dist/dcat/extra/resource-selector.js   5.8 KiB       3  [emitted]
+               /resources/dist/dcat/extra/resource-selector
+/resources/dist/dcat/extra/resource-selector.js.map    24 KiB       3  [emitted]
+ [dev]         /resources/dist/dcat/extra/resource-selector
+               /resources/dist/dcat/extra/upload.js  17.2 KiB       4  [emitted]
+               /resources/dist/dcat/extra/upload
+           /resources/dist/dcat/extra/upload.js.map  66.8 KiB       4  [emitted]
+ [dev]         /resources/dist/dcat/extra/upload
+                /resources/dist/dcat/js/dcat-app.js  88.8 KiB       5  [emitted]
+               /resources/dist/dcat/js/dcat-app
+            /resources/dist/dcat/js/dcat-app.js.map   164 KiB       5  [emitted]
+ [dev]         /resources/dist/dcat/js/dcat-app
+        resources/dist/adminlte/adminlte-orange.css   656 KiB       0  [emitted]
+        [big]  /resources/dist/adminlte/adminlte
+        resources/dist/dcat/css/dcat-app-orange.css    43 KiB       0  [emitted]
+               /resources/dist/adminlte/adminlte
+      resources/dist/dcat/extra/markdown-orange.css  1.72 KiB       0  [emitted]
+               /resources/dist/adminlte/adminlte
+          resources/dist/dcat/extra/step-orange.css  8.56 KiB       0  [emitted]
+               /resources/dist/adminlte/adminlte
+        resources/dist/dcat/extra/upload-orange.css  6.42 KiB       0  [emitted]
+               /resources/dist/adminlte/adminlte
+               
+
+Copied Directory [\dcat-admin\resources\dist] To [\public\vendors\dcat-admin]
+Publishing complete.
+Compiled views cleared!
+```
+
+主题文件编译成功之后，还需要在`app/Admin/bootstrap.php`中加入以下代码
+
+```php
+Dcat\Admin\Color::extend('orange', [
+    'primary'        => '#fbbd08',
+    'primary-darker' => '#fbbd08',
+    'link'           => '#fbbd08',
+]);
+```
+
+最后把你的配置参数`admin.layout.color`的值设置为`orange`就行了。
+
 
 ### 菜单深色模式
 

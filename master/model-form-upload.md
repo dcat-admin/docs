@@ -275,11 +275,22 @@ $form->file('file')->disableAutoSave();
 ```
 
 <a name="options"></a>
-### options
+### 配置 (options)
 自定义[webuploader](https://fex.baidu.com/webuploader/document.html)配置
 ```php
 $form->file('file')->options(['disableGlobalDnd' => true]);
 ```
+
+### 可排序 (sortable)
+
+此方法仅针对多图/文件上传表单有效
+
+> {tip} Since `v1.3.0`
+
+```php
+$form->multipleImage('images')->sortable();
+```
+
 
 <a name="imagefun"></a>
 ## 图片上传内置方法

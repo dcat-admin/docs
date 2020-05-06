@@ -679,8 +679,15 @@ $form->multipleFile($column[, $label])->saving(function ($paths) {
     
     return json_encode($paths);
 });
-
 ```
+
+
+> {tip} Since `v1.3.0` - 增加可排序功能支持
+
+```php
+$form->multipleImage('images')->sortable();
+```
+
 
 <a name="editor"></a>
 ## 富文本编辑器 (editor)
