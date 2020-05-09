@@ -27,7 +27,7 @@
 
 
 ```php
-php artisan admin:extend dcat-admin-extension/gank --namespace=Dcat\Admin\Extension\Gank
+php artisan admin:extend dcat-admin-extensions/gank --namespace=Dcat\Admin\Extension\Gank
 ```
 
 其中`dcat-admin-extensions/gank`是包名，`namespace`选项是这个包使用的顶级命名空间，运行这个命令之后, 将会在在`config/admin.php`中设置的扩展目录中生成目录`dcat-admin-extensions/gank`和下面的文件结构：
