@@ -24,6 +24,9 @@ class MyModel extends Model
 }
 ```
 
+### 如何从laravel-admin迁移到dcat-admin？
+[Dcat Admin 教程 - 如何从 Laravel admin 迁移到 dcat admin？](https://learnku.com/articles/44235)
+
 ### 重写登陆页面和登陆逻辑
 
 方式一，重写登陆控制器方法：
