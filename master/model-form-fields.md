@@ -905,9 +905,8 @@ $form->switch($column[, $label])->saving(function ($v) {
 <a name="map"></a>
 ## 地图 (map)
 
-地图组件引用了网络资源，默认关闭,如果要开启这个组件参考[form组件管理](model-form-field-management.md)
-
-地图控件，用来选择经纬度,`$latitude`, `$longitude`为经纬度字段，`Laravel`的`locale`设置为`zh_CN`的时候使用腾讯地图，否则使用Google地图：
+地图控件，用来选择经纬度,`$latitude`, `$longitude`为经纬度字段，
+需要在 `config/admin.php` 文件中修改 `map_provider` 的值（目前支持的地图为："tencent", "google", "yandex"，不同地图需要自己申请相应的 KEY 并在 .env 文件中声明：
 ```php
 $form->map($latitude, $longitude, $label);
 ```
@@ -1001,7 +1000,7 @@ $form->tags('tags', '文章标签')
 `saving` 方法接收一个「参数为 tags 的提交值，返回值为修改后的 tags 提交值」的闭包，可以用于实现自动创建新 tag 或其它功能。
 
 <a name="icon"></a>
-## 图表选择器 (icon)
+## 图标选择器 (icon)
 选择`font-awesome`图标
 ```php
 $form->icon('icon');

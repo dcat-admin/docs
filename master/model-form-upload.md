@@ -393,6 +393,7 @@ $form->image('image1')
 1. `Laravel`文件上传配置不正确，请检查`admin.upload.disk`参数。如果你不了解`laravel`文件上传功能，请阅读文档[Laravel - 文件存储](https://learnku.com/docs/laravel/7.x/filesystem/7485)
 2. 文件过大，需要调整`php.ini`的`upload_max_filesize`参数
 3. 文件上传目录没有写权限
+4. `php`没有安装或没有开启`fileinfo`扩展
 
 如果你的文件上传成功了，却无法正常访问，那么可能是`.env`配置文件中的`APP_URL`参数没有设置正确。
 
