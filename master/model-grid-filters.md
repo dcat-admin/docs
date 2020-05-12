@@ -367,7 +367,7 @@ $filter->equal('user_id')
         if (!$v) return $v;
         $userModel = config('admin.database.users_model');
 
-        return $userModel::findOrFail($v)->pluck('name', 'id');
+        return $userModel::find($v)->pluck('name', 'id');
     });
 
 // 多选
@@ -378,7 +378,7 @@ $filter->in('user_id')
         if (!$v) return $v;
         $userModel = config('admin.database.users_model');
 
-        return $userModel::findOrFail($v)->pluck('name', 'id');
+        return $userModel::find($v)->pluck('name', 'id');
     });
 ```
 

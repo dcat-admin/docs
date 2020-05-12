@@ -108,7 +108,7 @@ $create->tags('column_name', 'placeholder...')->options([
         if (!$v) return $v;
         $userModel = config('admin.database.users_model');
 
-        return $userModel::findOrFail($v)->pluck('name', 'id');
+        return $userModel::find($v)->pluck('name', 'id');
     });
     
 // 设置为多选

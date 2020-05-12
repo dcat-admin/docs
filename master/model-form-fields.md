@@ -419,7 +419,7 @@ public function users(Request $request)
         if (!$v) return $v;
         $userModel = config('admin.database.users_model');
 
-        return $userModel::findOrFail($v)->pluck('name', 'id');
+        return $userModel::find($v)->pluck('name', 'id');
     });
     
 // 设置为多选
@@ -1064,7 +1064,7 @@ public function setExtraAttribute($extra)
 <a name="onemany"></a>
 ## 一对多 (hasMany)
 
-> {tip} 一对多表单暂不支持图片和文件上传表单，后续版本会增加这个功能。
+> {tip} Since `v1.3.4`版本起支持图片以及文件上传表单。
 
 一对多内嵌表格，用于处理一对多的关系，下面是个简单的例子：
 

@@ -89,3 +89,34 @@ $show->panel()
         $tools->showQuickEdit();
     });
 ```
+
+### 多列布局
+
+使用
+
+> {tip} Since `v1.3.4`
+
+```php
+$show->row(function (Show\Row $show) {
+    $show->width(3)->id;
+    $show->width(3)->name;
+    $show->width(5)->email;
+});
+
+$show->row(function (Show\Row $show) {
+    $show->width(5)->email_verified_at;
+    $show->created_at;
+    $show->updated_at;
+});
+
+$show->row(function (Show\Row $show) {
+    $show->width(3)->field('profile.first_name');
+    $show->field('profile.last_name');
+    $show->width(3)->field('profile.postcode');
+});
+```
+
+效果
+<a href="{{public}}/assets/img/screenshots/show-rows.png" target="_blank">
+    <img class="img img-full" src="{{public}}/assets/img/screenshots/show-rows.png">
+</a>

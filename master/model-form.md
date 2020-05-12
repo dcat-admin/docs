@@ -164,6 +164,29 @@ $form->disableCreatingCheck();
 
 ## 常用方法
 
+### 多列布局
+
+使用
+```php
+$form->row(function (Form\Row $form) {
+    $form->width(4)->text('username')->required();
+	$form->width(3)->text('title');
+	...
+});
+
+$form->row(function (Form\Row $form) {
+	...
+});
+
+...
+```
+效果
+<a href="{{public}}/assets/img/screenshots/form-rows.png" target="_blank">
+    <img class="img img-full" src="{{public}}/assets/img/screenshots/form-rows.png">
+</a>
+
+
+
 ### 分块布局
 
 如果你的表单中字段非常多，那么可以通过以下方式让你的表单分块布局
@@ -385,6 +408,9 @@ $form->submitted(function (Form $form) {
 
 
 ### 一对一
+
+> {tip} Since `v1.3.4`版本起支持图片以及文件上传表单。
+
 `users`表和`profiles`表通过`profiles.user_id`字段生成一对一关联
 
 ```sql
