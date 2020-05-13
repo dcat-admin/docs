@@ -671,14 +671,27 @@ $form->multipleFile($column[, $label]);
 $form->multipleFile($column[, $label])->limit(5);
 ```
 
-多图/文件上传的时候提交的数据为以“,”隔开的文件路径字符串。当然你可以通过以下方式把数据在保存进数据库之前改为你想要的格式：
+多图/文件上传的时候提交的数据是一个`array`数组，你可以通过以下方式把数据在保存进数据库之前改为你想要的格式：
 ```php
 // 转化为json格式保存到数据库
 $form->multipleFile($column[, $label])->saving(function ($paths) {
-    $paths = Helper::array($paths);
+    // 可以转化为由 , 隔开的字符串格式
+    // return implode(',', $paths);
     
+    // 也可以转化为json
     return json_encode($paths);
 });
+```
+
+当然，如果你想保存为其他任意格式都是可以的，只是如果要保存其他格式，需要通过用`customFormat`方法把数据转化为一维数组展示，如：
+```php
+$form->multipleFile($column[, $label])
+    ->customFormat(function ($paths) {
+        return explode('|', $paths);
+    })
+    ->saving(function ($paths) {
+        return implode('|', $paths);
+    });
 ```
 
 
