@@ -16,13 +16,12 @@ namespace App\Admin\Grid\Tools;
 
 use Dcat\Admin\Admin;
 use Dcat\Admin\Grid\Tools\AbstractTool;
-use Illuminate\Support\Facades\Request;
 
 class UserGender extends AbstractTool
 {
     protected function script()
     {
-        $url = Request::fullUrlWithQuery(['gender' => '_gender_']);
+        $url = request()->fullUrlWithQuery(['gender' => '_gender_']);
 
         return <<<JS
 $('input:radio.user-gender').change(function () {
@@ -86,7 +85,7 @@ if (in_array($gender = request()->get('gender'), ['m', 'f'])) {
 namespace App\Admin\Grid\Tools;
 
 use Dcat\Admin\Grid\Tools\AbstractTool;
-use Illuminate\Support\Facades\Request;
+use Illuminate\Http\Request;
 
 class SendMessage extends AbstractTool
 {

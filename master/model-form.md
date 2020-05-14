@@ -574,6 +574,7 @@ return Form::make($repository, function (Form $form) {
         ->customFormat(function ($v) {
             if (!$v) return [];
 
+            // 这一步非常重要，需要把数据库中查出来的二维数组转化成一维数组
             return array_column($v, 'id');
         });
 

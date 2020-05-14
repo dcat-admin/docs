@@ -112,6 +112,8 @@ class Copy extends AbstractTool
 	}
 
     /**
+     * 权限判断，如不需要可以删除此方法 
+     * 
      * @param Model|Authenticatable|HasPermissions|null $user
      *
      * @return bool
@@ -122,6 +124,8 @@ class Copy extends AbstractTool
     }
 
     /**
+     * 返回请求接口的参数，如不需要可以删除此方法
+     * 
      * @return array
      */
     protected function parameters()
