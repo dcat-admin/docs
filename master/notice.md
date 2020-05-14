@@ -18,7 +18,7 @@
 <?php
 
 use Illuminate\Contracts\Support\Renderable;
-use Admin;
+use Dcat\Admin\Admin;
 
 class Card implements Renderable
 {

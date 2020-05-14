@@ -129,6 +129,11 @@ $form->disableDeleteButton();
 
 ```
 
+### 自定义复杂工具按钮
+
+请参考文档[表单动作](action-form.md)
+
+
 ## 表单底部
 使用下面的方法去掉form底部的元素
 

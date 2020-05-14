@@ -115,5 +115,10 @@ $tree->query(function ($model) {
 });
 ```
 
+## 自定义工具栏按钮
+
+请参考文档[模型树动作](action-tree.md)
+
+
 
 

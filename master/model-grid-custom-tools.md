@@ -154,7 +154,7 @@ class SendMessage extends AbstractTool
 ```php
 use App\Admin\Grid\Tools\SendMessage;
 
-$grid->actions(new SendMessage());
+$grid->tools(new SendMessage());
 ```
 
 

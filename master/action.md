@@ -17,6 +17,9 @@ php artisan admin:action
 ```
 
 运行成功之后会看到命令窗口出现如下信息，让开发者选择一个 `Action` 类的类型，这里我们输入 `0` 就行
+
+> {tip} `default`类型的动作类，可以用在页面的任意位置。
+
 ```bash
  Which type of action would you like to make?:
   [0] default
@@ -86,7 +89,7 @@ class ShowCurrentAdminUser extends Action
     protected $modalId = 'show-current-user';
 
     /**
-     * 处理当前动作的请求
+     * 处理当前动作的请求接口，如果不需要请直接删除
      *
      * @param Request $request
      *
@@ -164,16 +167,17 @@ HTML;
     }
 
     /**
-     * 确认信息，如果此方法返回不为空，则点击按钮之后会弹出确认框
+     * 确认弹窗信息，如不需要可以删除此方法 
      *
      * @return string|void
      */
     public function confirm()
     {
+        // return ['Confirm?', 'contents'];
     }
 
     /**
-     * 动作权限判断，返回false则表示无权限
+     * 动作权限判断，返回false则表示无权限，如果不需要可以删除此方法
      *
      * @param Model|Authenticatable|HasPermissions|null $user
      *
@@ -185,7 +189,7 @@ HTML;
     }
 
     /**
-     * 通过这个方法可以设置动作发起请求时需要附带的参数
+     * 通过这个方法可以设置动作发起请求时需要附带的参数，如果不需要可以删除此方法
      *
      * @return array
      */

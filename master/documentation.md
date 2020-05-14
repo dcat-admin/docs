@@ -25,6 +25,8 @@
   - [快捷创建](model-grid-quick-create.md)
   - [事件](model-grid-events.md)
   - [字段翻译](model-grid-trans.md)
+  - [头部和脚部](model-grid-header.md)
+  - [软删除](model-grid-softdelete.md)
 - ## 数据表单
   - [基本使用](model-form.md)
   - [图片/文件上传](model-form-upload.md)
