@@ -1172,6 +1172,12 @@ return Form::make($builder, function (Form $form) {
 });
 ```
 
+效果
+
+<a href="{{public}}/assets/img/screenshots/has-many.png" target="_blank">
+    <img  src="{{public}}/assets/img/screenshots/has-many.png" style="box-shadow:0 1px 6px 1px rgba(0, 0, 0, 0.12)" width="100%">
+</a>
+
 另外，`hasMany`字段其实也可以把内容保存为`json`格式，可以代替`table`字段的使用
 ```php
 use Dcat\Admin\Support\Helper;
@@ -1186,6 +1192,24 @@ $form->hasMany('paintings', function (Form\NestedForm $form) {
 	return json_encode($v);
 });
 ```
+
+<a name="has-many-table"></a>
+### 表格模式 (table)
+
+如果你想要显示表格模式，可以这样使用
+
+```php
+use Dcat\Admin\Support\Helper;
+
+$form->hasMany('paintings', function (Form\NestedForm $form) {
+    ...
+})->mode('table');
+```
+效果
+
+<a href="{{public}}/assets/img/screenshots/has-many-table.png" target="_blank">
+    <img  src="{{public}}/assets/img/screenshots/has-many-table.png" style="box-shadow:0 1px 6px 1px rgba(0, 0, 0, 0.12)" width="100%">
+</a>
 
 
 <a name="embeds"></a>
