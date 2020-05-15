@@ -1203,7 +1203,7 @@ use Dcat\Admin\Support\Helper;
 
 $form->hasMany('paintings', function (Form\NestedForm $form) {
     ...
-})->mode('table');
+})->useTable();
 ```
 效果
 
