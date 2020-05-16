@@ -13,6 +13,9 @@ $form->text('title')->value('text...');
 
 <a name="default"></a>
 ### 设置默认值 (default)
+
+此方法仅在新增页面有效，如果编辑页面也需要设置默认值，可以使用`value`方法。
+
 ```php
 $form->text('title')->default('text...');
 ```
