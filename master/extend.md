@@ -27,7 +27,7 @@
 
 
 ```php
-php artisan admin:extend dcat-admin-extensions/gank --namespace=Dcat\Admin\Extension\Gank
+php artisan admin:extend dcat-admin-extensions/gank --namespace="Dcat\Admin\Extension\Gank"
 ```
 
 其中`dcat-admin-extensions/gank`是包名，`namespace`选项是这个包使用的顶级命名空间，运行这个命令之后, 将会在在`config/admin.php`中设置的扩展目录中生成目录`dcat-admin-extensions/gank`和下面的文件结构：
@@ -488,12 +488,12 @@ class GankController extends Controller
 打开你的项目中`composer.json`文件，在加入下面的配置
 
 ```
-"repositories": {
-    "dcat-admin-extensions/gank": {
+"repositories": [
+    {
         "type": "path",
         "url": "app/Admin/Extensions/dcat-admin-extensions/gank"
     }
-}
+]
 ```
 然后运行`composer require dcat-admin-extensions/gank @dev`完成安装，如果有静态文件需要发布，运行下面的命令:
 
