@@ -388,7 +388,7 @@ class IndexController
 }
 ```
 
-
+<a name="admincontroller"></a>
 ## AdminController
 
 通过上面页面布局的相关内容的学习，我们明白了`Dcat Admin`的页面组成构建的方法，那么一个增删改查功能究竟是怎么实现的呢？我们可以看到一个由代码生成器生成的增删改查控制器代码大概如下所示
