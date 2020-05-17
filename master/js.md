@@ -415,6 +415,69 @@ Dcat.ready(function () {
 </script>
 ```
 
+
+### 高阶用法
+
+如果你想要实现更细粒度的控制，可以通过类似下面这种方式自己绑定提交按钮，然后提交表单
+
+```js
+var $form = $('#login-form');
+
+// 禁用默认提交
+$form.on('submit', function () {
+    return false;
+});
+
+// ajax表单提交
+function submit() {
+    Dcat.Form({
+        form: $form,
+        success: function (data) {
+            if (! data.status) {
+                Dcat.error(data.message);
+
+                return false;
+            }
+
+            Dcat.success(data.message);
+
+            location.href = data.redirect;
+
+            return false;
+        },
+        error: function () {
+            // 非200状态码响应错误
+        }
+    });
+}
+
+// h5表单验证
+function validateForm() {
+    $form.validator('validate');
+
+    // 如果出现错误，则返回false
+    if ($form.find('.has-error').length > 0) {
+        return false;
+    }
+
+    return true;
+}
+
+// 绑定登陆按钮点击事件
+$form.find('[type="submit"],.submit').click(function (e) {
+    // 表单验证
+    if (validateForm() === false) {
+        return false;
+    }
+
+    // 提交表单
+    submit();
+
+    return false;
+});
+```
+
+
 <a name="validate"></a>
 ### 表单验证
     
