@@ -6,6 +6,7 @@
   - [快速开始](quick-start.md)
   - [开发前必读](notice.md)
   - [主题与颜色](theme.md)
+  - [自定义页面](custom-page.md)
   - [JS组件](js.md)
   - [常见问题](qa.md)
 - ## 数据表格
