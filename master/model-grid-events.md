@@ -53,7 +53,7 @@ Grid::composing(function (Grid $grid) {
 }, true);
 ```
 
-### 获取数据之前
+### fetching回调
 
 通过 `Grid::fetching` 方法可以监听表格获取数据之前事件，此事件在 `composing` 事件之后触发。
 
@@ -74,7 +74,7 @@ Grid::composing(function (Grid $grid) {
 });
 ```
 
-### 获取数据之后
+### rows回调
 
 通过 `Grid::rows` 方法可以监听表格获取数据之后事件。
 
@@ -98,3 +98,38 @@ $grid->rows(function (Collection $rows) {
     }
 });
 ```
+
+### collection回调
+
+这个方法和`display`回调不同的是，它可以批量修改数据, 参考下面实例中的几个使用场景：
+
+```php
+use Illuminate\Database\Eloquent\Collection;
+
+$grid->model()->collection(function (Collection $collection) {
+
+    // 1. 可以给每一列加字段，类似上面display回调的作用
+    foreach($collection as $item) {
+        $item['full_name'] = $item['first_name'] . ' ' . $item['last_name'];
+    }
+
+    // 2. 给表格加一个序号列
+    foreach($collection as $index => $item) {
+        $item['number'] = $index;
+    }
+
+    // 3. 从外部接口获取数据填充到模型集合中
+    $ids = $collection->pluck('id');
+    $data = getDataFromApi($ids);
+    foreach($collection as $index => $item) {
+        $item['column_name'] = $data[$index];
+    }
+
+    // 最后一定要返回集合对象
+    return $collection;
+});
+```
+
+`$collection`表示当前这一个表格数据的模型集合， 你可以根据你的需要来读取或者修改它的数据。
+
+

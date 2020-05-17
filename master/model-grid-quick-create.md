@@ -19,6 +19,17 @@ $grid->quickCreate(function (Grid\Tools\QuickCreate $create) {
 });
 ```
 
+### 设置提交地址
+
+> {tip} Since `v1.4.0`
+
+```php
+$grid->quickCreate(function (Grid\Tools\QuickCreate $create) {
+    $create->action('auth/users');
+    $create->method('GET');
+});
+```
+
 
 表单支持的表单项有下面的几种类型
 

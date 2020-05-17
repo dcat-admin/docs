@@ -1,7 +1,52 @@
 # 列的显示和扩展
 
 
-`model-grid`内置了很多对于列的操作方法，可以通过这些方法很灵活的操作列数据。
+数据表格内置了很多对于列的操作方法，可以通过这些方法很灵活的操作列数据。
+
+
+
+## 根据条件显示不同的组件
+有些情况我们需要根据某个条件去判断是否使用列的某个显示功能：
+> {tip} 需要注意的是，`Grid\Column::if`只对列的显示相关功能有效，其他方法如表头的相关操作都不能使用此方法！
+
+```php
+$grid->config()
+    ->if(function ($column) {
+        return $column->getValue();
+    })
+    ->display($view)
+    ->expand($this->getExpandHandler('config'))
+    ->else()
+    ->emptyString();
+```
+上面写法等同于
+```php
+$grid->config()
+    ->if(function ($column) {
+        return $$column->getValue() || $this->status > 1;
+    })
+    ->then(function (Grid\Column $column) {
+        $column->display($view)->expand($this->getExpandHandler('config'));
+    })
+    ->else(function (Grid\Column $column) {
+        $column->emptyString();
+    });
+```
+
+支持多个`if`
+```php
+$grid->title
+    ->if(...)
+    ->then(...)
+    ->else(...)
+    
+    ->if(...)
+    ->then(...)
+    ->else(...);
+```
+
+
+
 
 ## 列显示
 
@@ -53,101 +98,6 @@ $grid->content->view('admin.fields.content');
 <label>其他字段：{{ $model->title }}</label>
 ```
 
-
-
-### 开关
-
-
-快速将列变成开关组件，使用方法如下：
-```php
-$grid->status()->switch();
-```
-这个功能需要你在`form`表单方法中同样设置一个`status`字段
-
-```php
-$form->hidden('status')->saving(function ($v) {
-    return $v ? '打开' : '关闭';
-});
-
-// 或者
-$form->switch('status')->saving(function ($v) {
-    return $v ? '打开' : '关闭';
-});
-```
-
-
-### 开关组
-
-> {tip} 注意：在`grid`中对某字段设置`switchGroup`默认的保存结果是`0`或`1`，如需修改可以通过`$form->hidden(xxx)->saving(...)`方法修改。
-
-快速将列变成开关组件组，使用方法如下：
-```php
-$grid->switch_group->switchGroup([
-    'hot'        => '热门',
-    'new'        => '最新',
-    'recommend'  => '推荐',
-    'image.show' => '显示图片', // 更新对应关联模型
-]);
-// 或
-// 不写label会自动从翻译文件翻译，具体使用请参照 “字段翻译” 章节
-$grid->switch_group->switchGroup(['is_new', 'is_hot', 'published']);
-```
-
-这个功能需要你在`form`表单方法中同样设置对应的字段
-
-```php
-$form->switch('hot')->saving(function ($v) {
-    return $v ? '打开' : '关闭';
-});
-
-$form->switch('new')->saving(function ($v) {
-    return $v ? '打开' : '关闭';
-});
-```
-
-
-![]({{public}}/assets/img/screenshots/grid-column-switch-group.png)
-
-
-### 下拉选框
-
-```php
-$grid->options()->select([
-    1 => 'Sed ut perspiciatis unde omni',
-    2 => 'voluptatem accusantium doloremque',
-    3 => 'dicta sunt explicabo',
-    4 => 'laudantium, totam rem aperiam',
-]);
-```
-
-`select` 也支持参数为闭包，使用方法和`editable`的`select`类似。
-
-![]({{public}}/assets/img/screenshots/grid-column-select.png)
-
-### 单选框
-```php
-$grid->options()->radio([
-    1 => 'Sed ut perspiciatis unde omni',
-    2 => 'voluptatem accusantium doloremque',
-    3 => 'dicta sunt explicabo',
-    4 => 'laudantium, totam rem aperiam',
-]);
-```
-
-`radio` 也支持参数为闭包，使用方法和`editable`的`select`类似。
-
-### 多选框
-```php
-$grid->options()->checkbox([
-    1 => 'Sed ut perspiciatis unde omni',
-    2 => 'voluptatem accusantium doloremque',
-    3 => 'dicta sunt explicabo',
-    4 => 'laudantium, totam rem aperiam',
-]);
-```
-
-`checkbox` 也支持参数为闭包，使用方法和`editable`的`select`类似。
-![]({{public}}/assets/img/screenshots/grid-column-checkbox.png)
 
 
 ### 图片
@@ -259,7 +209,7 @@ $grid->state
 </a>
 
 
-### 列展开
+### 列展开 (expand)
 `expand`方法可以把内容隐藏，点击按钮的时候显示在表格下一行
 ```php
 $grid->content
@@ -287,7 +237,7 @@ $grid->content->expand(function (Grid\Displayers\Expand $expand) {
 ```
 
 
-### 弹出模态框
+### 弹出模态框 (modal)
 `modal`方法可以把内容隐藏，点击按钮的时候显示在表格下一行
 ```php
 $grid->content
@@ -299,7 +249,7 @@ $grid->content
     });
 ```
 
-### 进度条
+### 进度条 (progressBar)
 `progressBar`进度条
 ```php
 $grid->rate->progressBar();
@@ -343,7 +293,7 @@ $grid->permissions->showTreeInDialog(function (Grid\Displayers\DialogTree $tree)
     <img style="box-shadow:0 1px 6px 1px rgba(0, 0, 0, 0.12)" width="100%" src="{{public}}/assets/img/screenshots/grid-column-tree.png">
 </a>
 
-### 内容映射using
+### 内容映射 (using)
 ```php
 $grid->status->using([0 => '未激活', 1 => '正常']);
 
@@ -409,7 +359,7 @@ $grid->email->prepend(function ($value, $original) {
 });
 ```
 
-### 列字符串或数组截取
+### 字符串或数组截取 (limit)
 
 ```php
 // 最多显示50个字符
@@ -419,20 +369,20 @@ $grid->contents->limit(50, '...');
 $grid->tags->limit(3);
 ```
 
-### 列二维码
+### 列二维码 (qrcode)
 ```php
 $grid->website->qrcode(function () {
     return $this->url;
 }, 200, 200);
 ```
 
-### 可复制
+### 可复制 (copyable)
 ```php
 $grid->website->copyable();
 ```
 
 
-### 可排序
+### 可排序 (orderable)
 
 通过`Column::orderable`可以开启字段可排序功能，此功能需要在你的模型类中`use ModelTree`或`use SortableTrait`，并且需要继承`Spatie\EloquentSortable\Sortable`接口。
 
@@ -471,7 +421,6 @@ $grid->model()->orderBy('order');
 $grid->order->orderable();
 ```
 
-
 #### ModelTree
 
 如果你的数据是层级结构数据，可以直接使用`use Model`，下面以权限模型为例来演示用法
@@ -507,6 +456,107 @@ $grid->order->orderable();
 <a href="{{public}}/assets/img/screenshots/grid-display-orderable.png" target="_blank">
     <img  src="{{public}}/assets/img/screenshots/grid-display-orderable.png" style="box-shadow:0 1px 6px 1px rgba(0, 0, 0, 0.12)" width="100%">
 </a>
+
+
+### 链接 (link)
+
+将字段显示为一个链接。
+
+```php
+// link方法不传参数时，链接的`href`和`text`都是当前列的值
+$grid->column('homepage')->link();
+
+// 传入闭包
+$grid->column('homepage')->link(function ($value) {
+    return admin_url('users/'.$value);
+});
+```
+
+<a name="action"></a>
+### 行操作 (action)
+
+> {tip} Since `v1.4.0`，在使用这个方法之前，请先阅读[自定义操作-行操作](model-grid-actions.md)
+
+这个功能可以将某一列显示为一个**行操作**的按钮，比如下面所示是一个标星和取消标星的列操作，
+点击这一列的星标图标之后, 后台会切换字段的状态，页面图标也跟着切换，具体实现代码如下：
+
+
+```php
+<?php
+
+namespace App\Admin\Extensions\Grid\RowAction;
+
+use Dcat\Admin\Grid\RowAction;
+use Illuminate\Http\Request;
+
+class Star extends RowAction
+{
+    public function html()
+    {
+        $icon = ($this->row->{$this->getColumnName()}) ? 'fa-star' : 'fa-star-o';
+
+        return <<<HTML
+<i class="{$this->getElementClass()} fa {$icon}"></i>
+HTML;
+    }
+
+    public function handle(Request $request)
+    {
+        try {
+            $class = $request->class;
+            $column = $request->column;
+            $id = $this->getKey();
+
+            $model = $class::find($id);
+            $model->{$column} = (int) !$model->{$column};
+            $model->save();
+
+            return $this->response()->success("success")->refresh();
+        } catch (\Exception $e) {
+            return $this->response()->error($e->getMessage());
+        }
+    }
+
+    public function parameters()
+    {
+        return [
+            'class' => $this->modelClass(),
+            'column' => $this->getColumnName(),
+        ];
+    }
+
+    public function getColumnName()
+    {
+        return $this->column->getName();
+    }
+
+    public function modelClass()
+    {
+        return get_class($this->parent->model()->eloquent()->repository()->eloquent());
+    }
+}
+```
+
+使用
+
+```php
+protected function grid()
+{
+    $grid = new Grid(new $this->model());
+
+    $grid->column('star', '-')->action(Star::class);  // here
+    $grid->column('id', 'ID')->sortable()->bold();
+    
+    return $grid;
+}
+```
+
+效果
+
+<a href="{{public}}/assets/img/screenshots/action-star.png" target="_blank">
+    <img  src="{{public}}/assets/img/screenshots/action-star.png" style="box-shadow:0 1px 6px 1px rgba(0, 0, 0, 0.12)" width="140px">
+</a>
+
 
 ## 帮助方法
 
@@ -698,45 +748,4 @@ Column::define('status', Dcat\Admin\Grid\Displayers\SwitchDisplay::class);
 $grid->title();
 $grid->status();
 ```
-
-## 根据条件判断是否使用列的显示功能
-有些情况我们需要根据某个条件去判断是否使用列的某个显示功能：
-> {tip} 需要注意的是，`Grid\Column::if`只对列的显示相关功能有效，其他方法如表头的相关操作都不能使用此方法！
-
-```php
-$grid->config()
-    ->if(function () {
-        return $this->config ? true : false;
-    })
-    ->display($view)
-    ->expand($this->getExpandHandler('config'))
-    ->else()
-    ->emptyString();
-```
-上面写法等同于
-```php
-$grid->config()
-    ->if(function () {
-        return $this->config ? true : false;
-    })
-    ->then(function (Grid\Column $column) {
-        $column->display($view)->expand($this->getExpandHandler('config'));
-    })
-    ->else(function (Grid\Column $column) {
-        $column->emptyString();
-    });
-```
-
-支持多个`if`
-```php
-$grid->title
-    ->if(...)
-    ->then(...)
-    ->else(...)
-    
-    ->if(...)
-    ->then(...)
-    ->else(...);
-```
-
 

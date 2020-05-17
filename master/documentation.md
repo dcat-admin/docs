@@ -8,6 +8,7 @@
   - [主题与颜色](theme.md)
   - [自定义页面](custom-page.md)
   - [JS组件](js.md)
+  - [多应用](multi-app.md)
   - [常见问题](qa.md)
 - ## 数据表格
   - [基本使用](model-grid.md)
@@ -24,6 +25,7 @@
   - [规格筛选器](model-grid-selector.md)
   - [数据导出](model-grid-export.md)
   - [快捷创建](model-grid-quick-create.md)
+  - [行内编辑](model-grid-editable.md)
   - [事件](model-grid-events.md)
   - [字段翻译](model-grid-trans.md)
   - [头部和脚部](model-grid-header.md)
@@ -76,6 +78,7 @@
 - ## [自定义登陆认证](custom-authentication.md)
 - ## [自定义头部导航](custom-navbar.md)
 - ## 更新日志
+  - [v1.4.0](v1-4-0.md)
   - [v1.3.4](v1-3-4.md)
   - [v1.3.2](v1-3-2.md)
   - [v1.3.0](v1-3-0.md)
