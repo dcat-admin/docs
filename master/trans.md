@@ -148,3 +148,19 @@ return [
     ],
 ];
 ```
+
+
+## 默认面包屑翻译
+
+例如你的访问路径是`/admin/my-users`，控制器是`MyUserController`，那么则可以在控制器对应的翻译文件中加上
+
+```php
+return [
+    'labels' => [
+        'my-users' => '用户',
+    ],
+    ...
+];
+```
+
+

@@ -389,6 +389,176 @@ class IndexController
 ```
 
 
+## AdminController
+
+通过上面页面布局的相关内容的学习，我们明白了`Dcat Admin`的页面组成构建的方法，那么一个增删改查功能究竟是怎么实现的呢？我们可以看到一个由代码生成器生成的增删改查控制器代码大概如下所示
+
+```php
+use App\Admin\Repositories\User;
+use Dcat\Admin\Form;
+use Dcat\Admin\Grid;
+use Dcat\Admin\Show;
+use Dcat\Admin\Controllers\AdminController;
+
+class UserController extends AdminController
+{
+    // 数据表格
+    protected function grid()
+    {
+        return Grid::make(new User(), function (Grid $grid) {
+            ...
+        });
+    }
+
+    // 数据详情
+    protected function detail($id)
+    {
+        return Show::make($id, new User(), function (Show $show) {
+            ...
+        });
+    }
+
+    // 表单
+    protected function form()
+    {
+        return Form::make(new User(), function (Form $form) {
+            ...
+        });
+    }
+}
+```
+上面的代码主要包含了`grid`、`detail`和`form`，从这些代码中，我们并没有办法改变一个页面的布局，那这个页面究竟是怎么构建的？我们又如何更改页面的布局？我们不妨打开`AdminController`看一看
+
+```php
+<?php
+
+namespace Dcat\Admin\Controllers;
+
+use Dcat\Admin\IFrameGrid;
+use Dcat\Admin\Layout\Content;
+use Illuminate\Routing\Controller;
+
+class AdminController extends Controller
+{
+    // 页面标题
+    protected $title;
+
+    // 页面描述信息
+    protected $description = [
+        //        'index'  => 'Index',
+        //        'show'   => 'Show',
+        //        'edit'   => 'Edit',
+        //        'create' => 'Create',
+    ];
+
+    // 返回页面标题
+    protected function title()
+    {
+        return $this->title ?: admin_trans_label();
+    }
+
+    // 返回描述信息
+    protected function description()
+    {
+        return $this->description;
+    }
+
+    // 列表页
+    public function index(Content $content)
+    {
+        if (request(IFrameGrid::QUERY_NAME)) {
+            return $content->perfectScrollbar()->body($this->iFrameGrid());
+        }
+
+        return $content
+            ->title($this->title())
+            ->description($this->description()['index'] ?? trans('admin.list'))
+            ->body($this->grid());
+    }
+
+    // 详情页
+    public function show($id, Content $content)
+    {
+        return $content
+            ->title($this->title())
+            ->description($this->description()['show'] ?? trans('admin.show'))
+            ->body($this->detail($id));
+    }
+
+    // 编辑页
+    public function edit($id, Content $content)
+    {
+        return $content
+            ->title($this->title())
+            ->description($this->description()['edit'] ?? trans('admin.edit'))
+            ->body($this->form()->edit($id));
+    }
+
+    // 新增页
+    public function create(Content $content)
+    {
+        return $content
+            ->title($this->title())
+            ->description($this->description()['create'] ?? trans('admin.create'))
+            ->body($this->form());
+    }
+
+    // 修改接口
+    public function update($id)
+    {
+        return $this->form()->update($id);
+    }
+
+    // 新增接口
+    public function store()
+    {
+        return $this->form()->store();
+    }
+
+    // 删除/批量删除接口
+    public function destroy($id)
+    {
+        return $this->form()->destroy($id);
+    }
+}
+```
+
+现在是不是就可以明白整个页面的组成部分了呢？其实系统内很多代码都是见名知意、简单易懂的，很多时候我们只需要通过阅读代码就可以知道用法。
+例如我们要更改页面标题，通过阅读这段代码，就可以得知可以通过重写`title`方法或更改翻译文件的方式实现，是不是非常简单？
+
+下面我们通过列表页 + 数据统计卡片的布局方式来演示一下更改页面布局的实际应用
+
+```php
+use App\Admin\Metrics\Examples\NewDevices;
+use App\Admin\Metrics\Examples\NewUsers;
+use App\Admin\Metrics\Examples\TotalUsers;
+use Dcat\Admin\Layout\Content;
+use Dcat\Admin\Layout\Row;
+
+public function index(Content $content)
+{
+    if (request(IFrameGrid::QUERY_NAME)) {
+        return $content->perfectScrollbar()->body($this->iFrameGrid());
+    }
+
+    return $content
+        ->title($this->title())
+        ->description($this->description()['index'] ?? trans('admin.list'))
+        ->body(function (Row $row) {
+            $row->column(4, new TotalUsers());
+            $row->column(4, new NewUsers());
+            $row->column(4, new NewDevices());
+        })
+        ->body($this->grid());
+}
+```
+
+实现效果如下
+
+<a href="{{public}}/assets/img/screenshots/users-blue-dark.png" target="_blank">
+    <img  src="{{public}}/assets/img/screenshots/users-blue-dark.png" style="box-shadow:0 1px 6px 1px rgba(0, 0, 0, 0.12)" width="100%">
+</a>
+
 
 <a name="bootstrap-styles"></a>
 ## Bootstrap4公共样式
