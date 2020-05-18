@@ -71,5 +71,81 @@ return [
 
 目前只能通过路由前缀区分不同应用，如果你想要更改应用的前缀，可以打开配置文件`new-admin.php`找到`route.prefix`参数进行更改即可
 
+### 更改菜单
+
+如果你想要在新应用中展示不同的菜单，可以参考以下方法
+
+1.首先需要创建新的菜单表以及其关联表
+```sql
+CREATE TABLE `new_admin_menu` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `parent_id` int(11) NOT NULL DEFAULT '0',
+  `order` int(11) NOT NULL DEFAULT '0',
+  `title` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `icon` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `uri` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE `new_admin_permission_menu` (
+  `permission_id` int(11) NOT NULL,
+  `menu_id` int(11) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  UNIQUE KEY `admin_permission_menu_permission_id_menu_id_index` (`permission_id`,`menu_id`) USING BTREE
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+CREATE TABLE `new_admin_role_permissions` (
+  `role_id` int(11) NOT NULL,
+  `permission_id` int(11) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  UNIQUE KEY `admin_role_permissions_role_id_permission_id_index` (`role_id`,`permission_id`) USING BTREE
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+```
+
+2.创建新的菜单模型
+```php
+<?php
+
+namespace App\Models;
+
+use Dcat\Admin\Models\Menu;
+
+class NewMenu extend Menu
+{
+    protected $table = 'new_admin_menu';
+}
+```
+
+3.打开新应用的配置文件`config/new-admin.php`，然后修改以下参数
+```php
+return [
+    ...
+	
+	'database' => [
+
+	  ...
+
+	  // 写入新的模型和菜单表
+	  'menu_table' => 'new_admin_menu',
+	  'menu_model' => App\Models\NewMenu::class,
+
+      ...
+	  
+	  // 新的中间表
+	  'role_menu_table' => 'new_admin_role_menu',
+	  'permission_menu_table' => 'new_admin_permission_menu',
+	],
+];
+```
+
+这样新的应用就可以使用独立的菜单功能了
+
+### 更改用户和权限
+
+可以参考以上更改菜单的方式
 
 
