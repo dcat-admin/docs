@@ -114,7 +114,7 @@ namespace App\Models;
 
 use Dcat\Admin\Models\Menu;
 
-class NewMenu extend Menu
+class NewMenu extends Menu
 {
     protected $table = 'new_admin_menu';
 }
