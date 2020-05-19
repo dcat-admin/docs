@@ -458,7 +458,7 @@ class User extends EloquentRepository
 }
 ```
 
-
+<a name="relation"></a>
 #### 三种关联数据表的方法
 
 通过以下三种方式的代码可以关联`profile`表数据:
@@ -602,7 +602,7 @@ class Comment extends EloquentRepository
 }
 ```
 
-同样这里支持上述的三种方式关联数据，限于篇幅这里不再重复写所有用法
+同样这里支持上述的[三种方式关联数据](#relation)，限于篇幅这里不再重复写所有用法
 
 Post表格
 
@@ -728,7 +728,7 @@ class User extends EloquentRepository
 }
 ```
 
-同样这里支持上述的三种方式关联数据，限于篇幅这里不再重复写所有用法
+同样这里支持上述的[三种方式关联数据](#relation)，限于篇幅这里不再重复写所有用法
 
 ```php
 use App\Admin\Repositories\User;
