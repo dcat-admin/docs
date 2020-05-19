@@ -58,9 +58,9 @@ EOT;
 
 新建视图文件`resources/views/admin/wang-editor.blade.php`：
 ```php
-<div class="form-group {!! !$errors->has($label) ?: 'has-error' !!}">
+<div class="{{$viewClass['form-group']}} {!! !$errors->has($label) ?: 'has-error' !!}">
 
-    <label for="{{$id}}" class="col-sm-2 control-label">{{$label}}</label>
+    <label for="{{$id}}" class="{{$viewClass['label']}} control-label">{{$label}}</label>
 
     <div class="{{$viewClass['field']}}">
 
@@ -129,11 +129,11 @@ class CKEditor extends Field
 
 新建view `resources/views/admin/ckeditor.blade.php`:
 ```php
-<div class="form-group {!! !$errors->has($errorKey) ?: 'has-error' !!}">
+<div class="{{$viewClass['form-group']}} {!! !$errors->has($label) ? '' : 'has-error' !!}">
 
-    <label for="{{$id}}" class="col-sm-2 control-label">{{$label}}</label>
+    <label for="{{$id}}" class="{{$viewClass['label']}} control-label">{{$label}}</label>
 
-    <div class="col-sm-6">
+    <div class="{{$viewClass['field']}}">
 
         @include('admin::form.error')
 
@@ -222,11 +222,11 @@ EOT;
 
 ```php
 
-<div class="form-group {!! !$errors->has($label) ?: 'has-error' !!}">
+<div class="{{$viewClass['form-group']}} {!! !$errors->has($label) ?: 'has-error' !!}">
 
-    <label for="{{$id}}" class="col-sm-2 control-label">{{$label}}</label>
+    <label for="{{$id}}" class="{{$viewClass['label']}} control-label">{{$label}}</label>
 
-    <div class="col-sm-6">
+    <div class="{{$viewClass['field']}}">
 
         @include('admin::form.error')
 
