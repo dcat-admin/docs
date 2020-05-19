@@ -1,25 +1,5 @@
 # 表单字段的管理
 
-## 移除已有组件
-
-找到文件`app/Admin/bootstrap.php`,如果文件不存在，请新建该文件
-
-```php
-<?php
-
-use Dcat\Admin\Form;
-
-Form::forget('map');
-Form::forget('editor');
-
-// or
-
-Form::forget(['map', 'editor']);
-
-```
-
-这样就去掉了这两个组件，可以通过该方式去掉其它组件。
-
 
 ## 扩展自定义组件
 
