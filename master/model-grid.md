@@ -287,9 +287,9 @@ $grid->rowSelector()->click();
 
 #### 设置选中行的背景颜色
 ```php
-use Dcat\Admin\Color;
+use Dcat\Admin\Admin;
 
-$grid->rowSelector()->background(Color::dark20());
+$grid->rowSelector()->background(Admin::color()->dark20());
 ```
 
 #### 设置checkbox选择框形状

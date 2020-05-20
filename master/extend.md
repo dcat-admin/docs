@@ -155,17 +155,15 @@ public $assets = __DIR__.'/../resources/assets';
     
 安装完成之后，文件将会复制到`public/vendor/dcat-admin-extensions/gank`目录中。
 
-我们需要在`Dcat Admin`启动的时候在页面里引入这两个文件，需要在`src/GankServiceProvider.php`的`boot`方法加入下面的代码：
+然后我们可以在需要使用这些静态资源的地方加上下面的代码即可
+
+> {tip} 因为`Dcat Admin`支持静态资源按需加载，所以不推荐直接在`ServiceProvider`或者是`bootstrap.php`中引入静态资源，这样会拖慢所有页面的加载时间。
 
 ```php
 use Dcat\Admin\Admin;
 
-...
-
-Admin::booting(function () {
-    Admin::js('vendor/dcat-admin-extensions/gank/phpinfo/foo.js');
-    Admin::css('vendor/dcat-admin-extensions/gank/phpinfo/bar.css');
-});
+Admin::js('vendor/dcat-admin-extensions/gank/phpinfo/foo.js');
+Admin::css('vendor/dcat-admin-extensions/gank/phpinfo/bar.css');
 ```
 
 这样就完成了静态资源的引入，在`gank`这个扩展中，由于没有静态资源需要引入，所以可以忽略掉这一步。
