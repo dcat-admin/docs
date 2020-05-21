@@ -107,3 +107,42 @@ $navbar->right(view('...'));
 ```
 
 更多的组件可以参考[AdminLTE3](https://github.com/ColorlibHQ/AdminLTE)。
+
+
+## 修改默认用户面板
+
+打开`app/Admin/bootstrap.php`，写入
+
+```php
+admin_inject_section(\AdminSection::NAVBAR_USER_PANEL, function () {
+	return view('admin.partials.navbar-user-panel', ['user' => Admin::user()]);
+});
+```
+
+`navbar-user-panel.blade.php`视图内容
+```php
+@if($user)
+<li class="dropdown dropdown-user nav-item">
+    <a class="dropdown-toggle nav-link dropdown-user-link" href="#" data-toggle="dropdown">
+        <div class="user-nav d-sm-flex d-none">
+            <span class="user-name text-bold-600">{{ $user->name }}</span>
+            <span class="user-status"><i class="fa fa-circle text-success"></i> {{ trans('admin.online') }}</span>
+        </div>
+        <span>
+            <img class="round" src="{{ $user->getAvatar() }}" alt="avatar" height="40" width="40" />
+        </span>
+    </a>
+    <div class="dropdown-menu dropdown-menu-right">
+        <a href="{{ admin_url('auth/setting') }}" class="dropdown-item">
+            <i class="feather icon-user"></i> {{ trans('admin.setting') }}
+        </a>
+
+        <div class="dropdown-divider"></div>
+
+        <a class="dropdown-item" href="{{ admin_url('auth/logout') }}">
+            <i class="feather icon-power"></i> {{ trans('admin.logout') }}
+        </a>
+    </div>
+</li>
+@endif
+```
