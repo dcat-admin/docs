@@ -191,6 +191,35 @@ $form->row(function (Form\Row $form) {
 </a>
 
 
+<a name="tab"></a>
+## 选项卡表单 (tab)
+
+如果表单元素太多,会导致表单页面太长, 这种情况下可以使用`tab`方法来分隔表单:
+
+```php
+
+$form->tab('Basic info', function (Form $form) {
+    
+    $form->text('username');
+    $form->email('email');
+    
+})->tab('Profile', function (Form $form) {
+                       
+   $form->image('avatar');
+   $form->text('address');
+   $form->mobile('phone');
+   
+})->tab('Jobs', function (Form $form) {
+                         
+     $form->hasMany('jobs', function () {
+         $form->text('company');
+         $form->date('start_date');
+         $form->date('end_date');
+     });
+
+  })
+```
+
 
 ### 分块布局
 
