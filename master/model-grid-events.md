@@ -109,21 +109,27 @@ use Illuminate\Database\Eloquent\Collection;
 $grid->model()->collection(function (Collection $collection) {
 
     // 1. 可以给每一列加字段，类似上面display回调的作用
-    foreach($collection as &$item) {
+    $collection->transform(function ($item) {
         $item['full_name'] = $item['first_name'] . ' ' . $item['last_name'];
-    }
+
+        return $item;
+    });
 
     // 2. 给表格加一个序号列
-    foreach($collection as $index => &$item) {
+    $collection->transform(function ($item, $index) {
         $item['number'] = $index;
-    }
+
+        return $item;
+    });
 
     // 3. 从外部接口获取数据填充到模型集合中
     $ids = $collection->pluck('id');
     $data = getDataFromApi($ids);
-    foreach($collection as $index => &$item) {
+    $collection->transform(function ($item, $index) use ($data) {
         $item['column_name'] = $data[$index];
-    }
+
+        return $item;
+    });
 
     // 最后一定要返回集合对象
     return $collection;

@@ -192,12 +192,11 @@ $form->row(function (Form\Row $form) {
 
 
 <a name="tab"></a>
-## 选项卡表单 (tab)
+### 选项卡表单 (tab)
 
 如果表单元素太多,会导致表单页面太长, 这种情况下可以使用`tab`方法来分隔表单:
 
 ```php
-
 $form->tab('Basic info', function (Form $form) {
     
     $form->text('username');
