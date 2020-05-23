@@ -27,6 +27,7 @@ $grid->disableViewButton();
 
 - `Dcat\Admin\Grid\Displayers\DropdownActions` 下拉菜单方式
 - `Dcat\Admin\Grid\Displayers\Actions` 图标展开方式
+- `Dcat\Admin\Grid\Displayers\ContextMenuActions` 鼠标右键显示下拉菜单 (Since `v1.4.5`)
 
 ```php
     ...

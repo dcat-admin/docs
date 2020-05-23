@@ -674,7 +674,7 @@ use Dcat\Admin\Grid\Column;
 
 // 第二个参数为 `Column` 对象， 第三个参数是自定义参数
 Column::extend('color', function ($value, $column, $color) {
-    return "<span style='color: $color'>$value</span>"
+    return "<span style='color: $color'>$value</span>";
 });
 ```
 然后在`model-grid`中使用这个扩展：

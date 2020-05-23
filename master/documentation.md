@@ -78,6 +78,7 @@
 - ## [自定义登陆认证](custom-authentication.md)
 - ## [自定义头部导航](custom-navbar.md)
 - ## 更新日志
+  - [v1.4.5](v1-4-5.md)
   - [v1.4.0](v1-4-0.md)
   - [v1.3.4](v1-3-4.md)
   - [v1.3.2](v1-3-2.md)

@@ -191,7 +191,7 @@ $grid->column('full_name')->display(function () {
 
 通过`withBorder`方式可以让表格显示边框
 
-> {tip} `Since v1.2.0`
+> {tip} Since `v1.2.0`
 
 ```php
 $grid->withBorder();
@@ -201,6 +201,40 @@ $grid->withBorder();
 <a href="http://103.39.211.179:8080/admin/reports" target="_blank">
     <img style="box-shadow:0 1px 6px 1px rgba(0, 0, 0, 0.12)" width="100%" src="{{public}}/assets/img/screenshots/grid-combination.png">
 </a>
+
+
+> {tip} Since `v1.4.5`
+ 
+禁用边框模式
+```php
+$grid->withBorder(false);
+```
+
+<a name="outline"></a>
+### 设置工具栏按钮样式
+
+> {tip} Since `v1.4.5`
+
+从这个`v1.4.5`工具栏按钮默认显示`outline`模式，效果如下
+
+
+用法
+```php
+$grid->toolsWithOutline();
+
+// 禁止
+$grid->toolsWithOutline(false);
+```
+
+禁用`outline`后的效果
+
+
+
+如果你希望某个按钮不使用`outline`模式，可以在按钮的`class`属性中加上`disable-outline`
+```php
+$grid->tools('<a class="btn btn-primary disable-outline">测试按钮</a>');
+```
+
 
 ### 设置表格外层容器
 ```php
