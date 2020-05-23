@@ -97,20 +97,9 @@ $form->saved(function (Form $form, $result) {
 删除前回调
 
 ```php
-$form->deleting(function (Form $form, $result) {
-	// 获取待删除行数据，这里获取的是一个二维数组
+$form->deleting(function (Form $form) {
+    // 获取待删除行数据，这里获取的是一个二维数组
 	$data = $form->model()->toArray();
-	
-	// 通过 $result 可以判断数据是否删除成功
-	if (! $result) {
-		return $this->error('数据删除失败');
-	}
-
-    // 跳转
-    return $form->redirect('auth/user', [
-        'message' => '操作成功',
-    ]);
-    
 });
 ```
 
@@ -120,8 +109,16 @@ $form->deleting(function (Form $form, $result) {
 
 ```php
 $form->deleted(function (Form $form, $result) {
-    // 获取待删除行数据，这里获取的是一个二维数组
+	// 获取待删除行数据，这里获取的是一个二维数组
 	$data = $form->model()->toArray();
+	
+	// 通过 $result 可以判断数据是否删除成功
+	if (! $result) {
+		return $this->error('数据删除失败');
+	}
+
+    // 返回删除成功提醒，此处跳转参数无效
+    return $form->success('删除成功');
 });
 ```
 
