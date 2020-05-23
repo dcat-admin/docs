@@ -891,11 +891,19 @@ $form->switch($column[, $label])->saving(function ($v) {
 <a name="map"></a>
 ## 地图 (map)
 
-地图控件，用来选择经纬度,`$latitude`, `$longitude`为经纬度字段，
-需要在 `config/admin.php` 文件中修改 `map_provider` 的值（目前支持的地图为："tencent", "google", "yandex"，不同地图需要自己申请相应的 KEY 并在 .env 文件中声明：
+地图控件，用来选择经纬度,`$latitude`, `$longitude`为经纬度字段。
+
+使用这个功能需要在 `config/admin.php` 文件中修改 `map_provider` 的值（目前支持的地图为："tencent", "google", "yandex"，不同地图需要自己申请相应的 KEY 并在 .env 文件中配置，然后需要在`app/Admin/bootstrap.php`中加入以下代码
+```php
+Form\Field\Map::collectAssets();
+```
+
+使用
+
 ```php
 $form->map($latitude, $longitude, $label);
 ```
+
 
 <a name="slider"></a>
 ## 滑动条 (slider)
