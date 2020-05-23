@@ -5,6 +5,38 @@
 在`model-grid`的头部默认有`批量删除`和`刷新`两个操作工具，如果有更多的操作需求，系统提供了自定义工具的功能,下面的示例添加一个性别分类选择的按钮组工具。
 
 
+<a name="outline"></a>
+### 设置工具栏按钮样式
+
+> {tip} Since `v1.4.5`
+
+从这个`v1.4.5`工具栏按钮默认显示`outline`模式，效果如下
+
+
+用法
+```php
+$grid->toolsWithOutline();
+
+// 禁止
+$grid->toolsWithOutline(false);
+```
+
+效果
+<a href="{{public}}/assets/img/screenshots/outline.png" target="_blank">
+    <img style="box-shadow:0 1px 6px 1px rgba(0, 0, 0, 0.12)" width="100%" src="{{public}}/assets/img/screenshots/outline.png">
+</a>
+
+禁用`outline`后的效果
+
+<a href="{{public}}/assets/img/screenshots/n-outline.png" target="_blank">
+    <img style="box-shadow:0 1px 6px 1px rgba(0, 0, 0, 0.12)" width="100%" src="{{public}}/assets/img/screenshots/n-outline.png">
+</a>
+
+如果你希望某个按钮不使用`outline`模式，可以在按钮的`class`属性中加上`disable-outline`
+```php
+$grid->tools('<a class="btn btn-primary disable-outline">测试按钮</a>');
+```
+
 ### 自定义工具栏按钮
 
 先定义工具类`app/Admin/Extensions/Tools/UserGender.php`继承工具类的基类`Dcat\Admin\Grid\Tools\AbstractTool`：

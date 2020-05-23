@@ -226,9 +226,16 @@ $grid->toolsWithOutline();
 $grid->toolsWithOutline(false);
 ```
 
+效果
+<a href="{{public}}/assets/img/screenshots/outline.png" target="_blank">
+    <img style="box-shadow:0 1px 6px 1px rgba(0, 0, 0, 0.12)" width="100%" src="{{public}}/assets/img/screenshots/outline.png">
+</a>
+
 禁用`outline`后的效果
 
-
+<a href="{{public}}/assets/img/screenshots/n-outline.png" target="_blank">
+    <img style="box-shadow:0 1px 6px 1px rgba(0, 0, 0, 0.12)" width="100%" src="{{public}}/assets/img/screenshots/n-outline.png">
+</a>
 
 如果你希望某个按钮不使用`outline`模式，可以在按钮的`class`属性中加上`disable-outline`
 ```php
