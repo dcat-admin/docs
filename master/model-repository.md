@@ -304,7 +304,7 @@ interface TreeRepository
         
         // 执行你的新增逻辑
     
-        // 返回新增记录id或bool值
+        // 返回新增记录id或bool值 如果新增失败可返回 false，也可以抛出异常，会自动捕获异常消息用于弹窗提示
         return 1;
     }
 ```
@@ -334,7 +334,7 @@ interface TreeRepository
         
         // 执行你的编辑逻辑
     
-        // 返回成功
+        // 返回成功 如果修改失败可返回 false，也可以抛出异常，会自动捕获异常消息用于弹窗提示
         return true;
     }
 ```
@@ -359,7 +359,7 @@ interface TreeRepository
 
 
 ### destroy
-单行/批量删除数据方法，成功返回`true`，失败返回`false`。
+单行/批量删除数据方法，成功返回`true`，失败返回`false`。也可以抛出异常，会自动捕获异常消息用于弹窗提示
 
 ```php
     public function destroy(Form $form, array $deletingData)
