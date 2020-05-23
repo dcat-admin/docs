@@ -12,10 +12,14 @@
 ```php
 $grid->config()
     ->if(function ($column) {
+        // 获取当前行其他字段值
+        $username = $this->username;
+        
+    	// $column->getValue() 是当前字段的值
         return $column->getValue();
     })
     ->display($view)
-    ->expand($this->getExpandHandler('config'))
+    ->copyable()
     ->else()
     ->emptyString();
 ```
@@ -23,10 +27,10 @@ $grid->config()
 ```php
 $grid->config()
     ->if(function ($column) {
-        return $$column->getValue() || $this->status > 1;
+        return $column->getValue();
     })
     ->then(function (Grid\Column $column) {
-        $column->display($view)->expand($this->getExpandHandler('config'));
+        $column->display($view)->copyable();
     })
     ->else(function (Grid\Column $column) {
         $column->emptyString();
