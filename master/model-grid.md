@@ -516,11 +516,9 @@ $grid = Grid::make(new User(['profile']), function (Grid $grid) {
     $grid->name();
     $grid->email();
     
+    // 显示一对一数据
     $grid->column('profile.age');
     $grid->column('profile.gender');
-    // 或者
-    $grid->profile('年龄')->get('age');
-    $grid->profile('性别')->get('gender');
     
     $grid->created_at();
     $grid->updated_at();
@@ -675,9 +673,9 @@ use App\Admin\Repositories\Comment;
 // 关联 post 表数据
 $grid = new Grid(new Comment(['post']));
 
-$grid->id('id');
-$grid->post()->get('title');
-$grid->content();
+$grid->column('id');
+$grid->column('post.title');
+$grid->column('content');
 
 $grid->created_at()->sortable();
 $grid->updated_at();
