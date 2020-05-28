@@ -1029,7 +1029,7 @@ $form->tree('permissions')
 <a name="table"></a>
 ## 表格表单 (table)
 
-> {tip} 表格表单不支持图片和文件上传表单。
+> {tip} Since `v1.3.4`版本起支持图片以及文件上传表单。
 
 如果某一个字段存储的是json格式的二维数组，可以使用table表单组件来实现快速的编辑：
 
@@ -1159,20 +1159,6 @@ return Form::make($builder, function (Form $form) {
     <img  src="{{public}}/assets/img/screenshots/has-many.png" style="box-shadow:0 1px 6px 1px rgba(0, 0, 0, 0.12)" width="100%">
 </a>
 
-另外，`hasMany`字段其实也可以把内容保存为`json`格式，可以代替`table`字段的使用
-```php
-use Dcat\Admin\Support\Helper;
-
-$form->hasMany('paintings', function (Form\NestedForm $form) {
-    $form->text('title');
-    $form->textarea('body');
-    $form->datetime('completed_at');
-})->customFormat(function ($v) {
-	return Helper::array($v);
-})->saving(function ($v) {
-	return json_encode($v);
-});
-```
 
 <a name="has-many-table"></a>
 ### 表格模式 (table)

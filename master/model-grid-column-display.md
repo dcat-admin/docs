@@ -673,7 +673,7 @@ $grid->images()->display(function ($images) {
 use Dcat\Admin\Grid\Column;
 
 // 第二个参数为 `Column` 对象， 第三个参数是自定义参数
-Column::extend('color', function ($value, $column, $color) {
+Column::extend('color', function ($value, $color) {
     return "<span style='color: $color'>$value</span>";
 });
 ```
