@@ -629,3 +629,32 @@ $form = Form::make(Role::with('permissions'), function (Form $form) {
 </a>
 
 
+### 关联模型名称为驼峰风格
+
+如果你的关联模型名称的命名是**驼峰**风格，那么使用的时候需要转化为**下划线**风格命名
+
+
+例如
+```php
+class User extend Model
+{
+    public function userProfile()
+    {
+        return ...;
+    }
+}
+```
+
+使用
+```php
+return Form::make(User::with(['userProfile']), function (Form $form) {
+
+    ...
+    
+    // 注意这里必须使用下划线风格命名，否则将无法显示编辑数据
+    $form->text('user_profile.postcode');
+    $form->text('user_profile.address');
+    
+});
+```
+
