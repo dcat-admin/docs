@@ -140,11 +140,10 @@ $form->image('picture')->uniqueName();
 ```
 
 <a name="disableRemove"></a>
-### 禁止从服务器删除 (disableRemove)
+### 禁止从服务器删除 (覆盖上传)
 
-点击文件删除按钮默认会把服务器的文件删除，通过`disableRemove`方法可以禁用这个功能。
+通过`disableRemove`方法可以禁止用户删除服务器上的文件，可以实现图片覆盖上传效果。
 
-> {tip} 禁用这个功能之后点击删除按钮只会移除页面上的文件，而不会直接从服务器删除。
 
 ```php
 $form->file($column[, $label])->disableRemove();
