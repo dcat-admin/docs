@@ -660,7 +660,9 @@ $form->multipleFile($column[, $label])->saving(function ($paths) {
 ```php
 $form->multipleFile($column[, $label])
     ->customFormat(function ($paths) {
-        return explode('|', $paths);
+        return collect($paths)->map(function ($value) {
+        	return explode('|', $value);
+        })->flatten()->toArray();
     })
     ->saving(function ($paths) {
         return implode('|', $paths);

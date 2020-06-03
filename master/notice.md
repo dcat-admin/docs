@@ -130,26 +130,25 @@ Dcat.ready(function () {
 一个简单的后台页面代码如下：
 
 ```php
-public function index()
+use Dcat\Admin\Layout\Content;
+
+public function index(Content $content)
 {
-    return Admin::content(function (Content $content) {
+	// 选填
+	$content->header('填写页面头标题');
+	
+	// 选填
+	$content->description('填写页面描述小标题');
+	
+	// 添加面包屑导航
+	$content->breadcrumb(
+		['text' => '首页', 'url' => '/admin'],
+		['text' => '用户管理', 'url' => '/admin/users'],
+		['text' => '编辑用户']
+	);
 
-        // 选填
-        $content->header('填写页面头标题');
-        
-        // 选填
-        $content->description('填写页面描述小标题');
-        
-        // 添加面包屑导航
-        $content->breadcrumb(
-            ['text' => '首页', 'url' => '/admin'],
-            ['text' => '用户管理', 'url' => '/admin/users'],
-            ['text' => '编辑用户']
-        );
-
-        // 填充页面body部分，这里可以填入任何可被渲染的对象
-        $content->body('hello world');
-    });
+	// 填充页面body部分，这里可以填入任何可被渲染的对象
+	return $content->body('hello world');
 }
 
 ```
