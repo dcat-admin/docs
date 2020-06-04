@@ -10,7 +10,7 @@ use Dcat\Admin\Grid;
  $grid->actions(function (Grid\Displayers\Actions $actions) {
     $actions->disableDelete();
     $actions->disableEdit();
-    $actions->disableQuickEidt();
+    $actions->disableQuickEdit();
     $actions->disableView();
 });
 
