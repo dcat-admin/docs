@@ -307,8 +307,7 @@ $form->multipleSelect($column[, $label])->options(Model::class, 'name', 'id')->a
 
 多选框可以处理两种情况，第一种是`ManyToMany`的关系。
 
-```
-
+```php
 class Post extends Models
 {
     public function tags()
@@ -317,7 +316,20 @@ class Post extends Models
     }
 }
 
-$form->multipleSelect('tags')->options(Tag::all()->pluck('name', 'id'));
+return Form::make(Post::with('tags'), function (Form $form) {
+    ...
+
+    $form->multipleSelect('tags')
+        ->options(Tag::all()->pluck('name', 'id'))
+        ->customFormat(function ($v) {
+            if (! $v) {
+                return [];
+            }
+            
+            // 从数据库中查出的二维数组中转化成ID
+            return array_column($v, 'id');
+        });
+});
 
 ```
 

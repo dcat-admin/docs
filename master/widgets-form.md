@@ -277,6 +277,7 @@ HTML;
         // 刷新页面时移除模态窗遮罩层
         Admin::script('Dcat.onPjaxComplete(function () {
             $(".modal-backdrop").remove();
+            $("body").removeClass("modal-open");
         }, true)');
 
         // 通过 Admin::html 方法设置模态窗HTML
