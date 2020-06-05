@@ -251,11 +251,6 @@ use Dcat\Admin\Grid\RowAction;
 
 class ResetPassword extends RowAction
 {
-    /**
-     * @return string
-     */
-	protected $title = '设置密码';
-
     public function render()
     {
         $id = "reset-pwd-{$this->getKey()}";
@@ -409,11 +404,6 @@ use Dcat\Admin\Grid\BatchAction;
 
 class BatchResetPassword extends BatchAction
 {
-    /**
-     * @return string
-     */
-    protected $title = '设置密码';
-
     public function render()
     {
         $id = "batch-reset-pwd";
