@@ -165,7 +165,11 @@ JS;
 <a name="modal"></a>
 ### 在弹窗中显示
 
-工具表单是支持在`modal`弹窗中显示的，可以结合[动作(action)](action.md)一起使用。下面通过一个数据表格修改密码的行操作功能来展示弹窗结合工具表单的用法：
+工具表单是支持在`modal`弹窗中显示的，可以结合[动作(action)](action.md)一起使用。
+
+
+#### 行操作弹窗
+下面通过一个数据表格修改密码的行操作功能来展示弹窗结合工具表单的用法：
 
 
 使用命令生成工具表单`php artisan admin:form ResetPassword`，然后修改表单文件如下
@@ -317,3 +321,165 @@ $grid->actions(new ResetPassword());
 </a>
 
 
+<a name="batch-modal"></a>
+#### 批量操作弹窗
+
+如果你想在批量操作按钮中使用表单弹窗，可以参考以下例子：
+
+
+这里我们仍然沿用上面用到的`App\Admin\Forms\ResetPassword`表单，并修改如下
+
+```php
+<?php
+
+namespace App\Admin\Forms;
+
+use Dcat\Admin\Models\Administrator;
+use Dcat\Admin\Widgets\Form;
+
+class ResetPassword extends Form
+{
+    // 增加一个自定义属性保存用户ID
+       protected $id;
+   
+       // 构造方法的参数必须设置默认值
+       public function __construct($id = null)
+       {
+           $this->id = $id;
+   
+           parent::__construct();
+       }
+   
+       // 处理请求
+       public function handle(array $input)
+       {
+           // id转化为数组
+           $id = explode(',', $input['id'] ?? null);
+           $password = $input['password'] ?? null;
+   
+           if (! $id) {
+               return $this->error('参数错误');
+           }
+   
+           $users = Administrator::query()->find($id);
+   
+           if ($users->isEmpty()) {
+               return $this->error('用户不存在');
+           }
+   
+           // 这里改为循环批量修改
+           $users->each(function ($user) use ($password) {
+               $user->update(['password' => bcrypt($password)]);
+           });
+   
+           return $this->success('密码修改成功');
+       }
+   
+       public function form()
+       {
+           $this->password('password')->required();
+           // 密码确认表单
+           $this->password('password_confirm')->same('password');
+   
+           // 设置隐藏表单，传递用户id，这里需要加上id属性
+            $this->hidden('id')->attribute('id', 'reset-password-id')->value($this->id);
+       }
+   
+       // 返回表单数据，如不需要可以删除此方法
+       public function default()
+       {
+           return [
+               'password'         => '',
+               'password_confirm' => '',
+           ];
+       }
+}
+```
+
+然后运行`php artisan admin:action`命令，选择选项`1`，生成数据表格批量操作类，并修改如下：
+
+```php
+<?php
+
+namespace App\Admin\Actions\Grid;
+
+use App\Admin\Forms\ResetPassword as ResetPasswordForm;
+use Dcat\Admin\Admin;
+use Dcat\Admin\Grid\BatchAction;
+
+class BatchResetPassword extends BatchAction
+{
+    /**
+     * @return string
+     */
+    protected $title = '设置密码';
+
+    public function render()
+    {
+        $id = "batch-reset-pwd";
+
+        $this->modal($id);
+
+        $this->addScript($id);
+
+        return <<<HTML
+<span data-toggle="modal" data-target="#{$id}">
+   <a href="javascript:void(0)">修改密码</a>
+</span>
+HTML;
+    }
+
+    protected function addScript($id)
+    {
+        // 弹窗显示后往隐藏的id表单中写入批量选中的行ID
+        Admin::script(
+            <<<JS
+$('#$id').on('shown.bs.modal', function () {
+    // 获取选中的ID数组
+    var key = {$this->getSelectedKeysScript()}
+    
+    $('#reset-password-id').val(key);
+});
+JS
+        );
+    }
+
+    protected function modal($id)
+    {
+        // 表单
+        $form = new ResetPasswordForm();
+
+        // 刷新页面时移除模态窗遮罩层
+        Admin::script('Dcat.onPjaxComplete(function () {
+            $(".modal-backdrop").remove();
+            $("body").removeClass("modal-open");
+        }, true)');
+
+        Admin::html(
+            <<<HTML
+<div class="modal fade" id="{$id}">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">修改密码</h4>
+         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      </div>
+      <div class="modal-body">
+        {$form->render()}
+      </div>
+    </div>
+  </div>
+</div>
+HTML
+        );
+    }
+}
+```
+
+使用
+
+```php
+use App\Admin\Actions\Grid\BatchResetPassword;
+
+$grid->batchActions(new BatchResetPassword());
+```
