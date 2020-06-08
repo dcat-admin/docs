@@ -58,7 +58,7 @@ EOT;
 
 新建视图文件`resources/views/admin/wang-editor.blade.php`：
 ```php
-<div class="{{$viewClass['form-group']}} {!! !$errors->has($label) ?: 'has-error' !!}">
+<div class="{{$viewClass['form-group']}} {!! !$errors->has($label) ? '' : 'has-error' !!}">
 
     <label for="{{$id}}" class="{{$viewClass['label']}} control-label">{{$label}}</label>
 
@@ -71,6 +71,8 @@ EOT;
         </div>
 
         <input type="hidden" name="{{$name}}" value="{{ old($column, $value) }}" />
+
+		@include('admin::form.help-block')
 
     </div>
 </div>
@@ -120,7 +122,7 @@ class CKEditor extends Field
 
     public function render()
     {
-        $this->script = "$('textarea.{$this->getElementClass()}').ckeditor();";
+        $this->script = "$('{$this->getElementClassSelector()}').ckeditor();";
 
         return parent::render();
     }
@@ -216,13 +218,13 @@ EOT;
 
 ```
 
-> {tip} 类中的静态资源也同样可以从外部引入，参考[Editor.php](https://github.com/z-song/dcat-admin/blob/1.3/src/Form/Field/Editor.php)
+> {tip} 类中的静态资源也同样可以从外部引入，参考[Editor.php](https://github.com/jqhph/dcat-admin/blob/master/src/Form/Field/Editor.php)
 
 创建视图`resources/views/admin/php-editor.blade.php`:
 
 ```php
 
-<div class="{{$viewClass['form-group']}} {!! !$errors->has($label) ?: 'has-error' !!}">
+<div class="{{$viewClass['form-group']}} {!! !$errors->has($label) ? '' : 'has-error' !!}">
 
     <label for="{{$id}}" class="{{$viewClass['label']}} control-label">{{$label}}</label>
 
@@ -231,6 +233,8 @@ EOT;
         @include('admin::form.error')
 
         <textarea class="form-control" id="{{$id}}" name="{{$name}}" placeholder="{{ trans('admin::lang.input') }} {{$label}}" {!! $attributes !!} >{{ old($column, $value) }}</textarea>
+        
+        @include('admin::form.help-block')
     </div>
 </div>
 
@@ -256,4 +260,189 @@ $form->php('code');
 
 ```
 
-通过这种方式，可以添加任意你想要添加的form组件。
+通过这种方式，可以添加任意你想要添加的`form`组件。
+
+
+## 常用方法
+
+表单组件是`Dcat Admin`中最为复杂的组件，下面列一些在扩展表单组件中可能需要用到的方法
+
+
+### 处理用户输入的表单值 (prepareInputValue)
+
+通过`prepareInputValue`方法可以处理用户输入的表单值，默认不做任何处理。此方法在`Form`表单的`saving`事件触发之后，表单字段的`saving`方法之前执行
+
+> {tip} 这个功能类似`Laravel model`中的**修改器**。
+
+```php
+class PHPEditor extends Field
+{
+	...
+	
+	// 把用户输入的表单值转化为 string 格式保存到数据库
+	protected function prepareInputValue($value)
+	{
+		return (string) $value;
+	}
+}
+```
+
+### 处理待显示的字段值 (formatFieldData)
+
+通过`formatFieldData`方法可以处理处理待显示的字段值。此方法在表单字段的`customFormat`方法之前执行
+
+> {tip} 这个功能类似`Laravel model`中的**访问器**。
+
+```php
+class PHPEditor extends Field
+{
+	...
+	
+	// 把字段值转化为数组格式
+	// $data是当前表单的编辑数据，数据格式是 array
+	protected function formatFieldData($data)
+	{
+		return (array) parent::formatFieldData($data);
+	}
+}
+```
+
+### 获取元素CSS选择器 (getElementClassSelector)
+
+表单组件类实例化后会根据字段名称生成一个`css class`，然后传递到模板中，我们通常可以通过这个`class`获取到当前表单的元素对象
+
+模板
+```html
+<div class="{{$viewClass['form-group']}} {!! !$errors->has($errorKey) ? '' : 'has-error' !!}">
+
+    <div for="{{ $id }}" class="{{ $viewClass['label'] }} control-label">
+        <span>{!! $label !!}</span>
+    </div>
+
+
+    <div class="{{$viewClass['field']}}">
+
+        @include('admin::form.error')
+
+        <input type="hidden" name="{{$name}}"/>
+
+		<!-- $class 即是根据字段名称生成的class -->
+        <select class="form-control {{$class}}" style="width: 100%;" name="{{$name}}" {!! $attributes !!} >
+           <option value=""></option>
+		   @foreach($options as $select => $option)
+			   <option value="{{$select}}" {{ Dcat\Admin\Support\Helper::equal($select, old($column, $value)) ?'selected':'' }}>{{$option}}</option>
+		   @endforeach
+        </select>
+
+        @include('admin::form.help-block')
+
+    </div>
+</div>
+```
+
+使用
+
+```php
+class Select extends Field
+{
+	...
+	
+	/**
+	 * {@inheritdoc}
+	 */
+	public function render()
+	{
+		...
+
+		if (empty($this->script)) {
+			// 通过 getElementClassSelector 方法可以获取到表单中 select 标签的css选择器
+			$this->script = "$(\"{$this->getElementClassSelector()}\").select2($configs);";
+		}
+
+		...
+
+		return parent::render();
+	}
+}
+```
+
+### ID属性
+表单组件类实例化后会生成一个唯一的随机字符串并保存到`id`属性中，然后传递到模板中，我们通常可以通过这个`id`获取到当前表单组件的关键元素
+
+模板
+```html
+<div class="{{$viewClass['form-group']}} {!! !$errors->has($label) ? '' : 'has-error' !!}">
+
+    <label for="{{$id}}" class="{{$viewClass['label']}} control-label">{{$label}}</label>
+
+    <div class="{{$viewClass['field']}}">
+
+        @include('admin::form.error')
+		
+		<!-- $id -->
+        <textarea class="form-control" id="{{$id}}" name="{{$name}}" placeholder="{{ trans('admin::lang.input') }} {{$label}}" {!! $attributes !!} >{{ old($column, $value) }}</textarea>
+        
+        @include('admin::form.help-block')
+    </div>
+</div>
+```
+
+使用`$id`属性
+
+```php
+class PHPEditor extends Field
+{
+    ...
+
+    public function render()
+    {
+    	// 通过 $this->id 定位元素
+        $this->script = <<<EOT
+
+CodeMirror.fromTextArea(document.getElementById("{$this->id}"), {
+    lineNumbers: true,
+    mode: "text/x-php",
+    extraKeys: {
+        "Tab": function(cm){
+            cm.replaceSelection("    " , "end");
+        }
+     }
+});
+
+EOT;
+        return parent::render();
+
+    }
+}
+```
+
+
+### JS代码
+
+为了让扩展的表单组件能够兼容`HasMany`以及`Table`表单，我们必须把`JS`代码保存在`$script`属性中
+
+```php
+class Select extends Field
+{
+	...
+	
+	/**
+	 * {@inheritdoc}
+	 */
+	public function render()
+	{
+		...
+
+		$this->script = "$(\"{$this->getElementClassSelector()}\").select2($configs);";
+
+		...
+
+		return parent::render();
+	}
+}
+```
+
+
+
+
+
