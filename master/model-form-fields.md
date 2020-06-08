@@ -14,10 +14,20 @@ $form->text('title')->value('text...');
 <a name="default"></a>
 ### 设置默认值 (default)
 
-此方法仅在新增页面有效，如果编辑页面也需要设置默认值，可以使用`value`方法。
-
 ```php
 $form->text('title')->default('text...');
+```
+
+此方法仅在新增页面有效，如果编辑页面也需要设置默认值，可以参考以下方法。
+
+```php
+$form->text('title')->customFormat(function ($value) {
+    if ($value === null) {
+        return '默认值';
+    }
+    
+    return $value;
+});
 ```
 
 <a name="help"></a>
@@ -77,6 +87,9 @@ use Dcat\Admin\Support\Helper;
 $form->mutipleFile('files')->saving(function ($paths) {
     $paths = Helper::array($paths);
     
+    // 获取数据库当前行的其他字段
+    $username = $this->username;
+    
     // 最终转化为json保存到数据库
     return json_encode($paths);
 });
@@ -95,6 +108,9 @@ $form->mutipleFile('files')->saving(function ($paths) {
     
     return json_encode($paths);
 })->customFormat(function ($paths) {
+	// 获取数据库当前行的其他字段
+    $username = $this->username;
+
     // 转为数组
     return Helper::array($paths);
 });

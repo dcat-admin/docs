@@ -1,5 +1,57 @@
 # 自定义登陆
 
+### 重写登陆页面和登陆逻辑
+
+方式一，重写登陆控制器方法：
+
+默认的登陆控制器用的是`App\Admin\AuthController`这个类，可以通过配置参数`admin.auth.controller`进行修改
+
+```php
+<?php
+
+namespace App\Admin\Controllers;
+
+use Dcat\Admin\Controllers\AuthController as BaseAuthController;
+
+class AuthController extends BaseAuthController
+{
+    // 自定义登陆view模板
+    protected $view = 'admin.login';
+	
+	// 重写你的登陆页面逻辑
+	public function getLogin(Content $content)
+    {
+        ...
+    }
+
+    ...
+}
+
+```
+
+
+方式二，覆写路由：
+
+在路由文件`app/Admin/routes.php`中，覆盖掉登陆页面和登陆逻辑的路由，即可实现自定义的功能
+
+```php
+Route::group([
+    'prefix'        => config('admin.prefix'),
+    'namespace'     => Admin::controllerNamespace(),
+    'middleware'    => ['web', 'admin'],
+], function (Router $router) {
+
+    $router->get('auth/login', 'AuthController@getLogin');
+    $router->post('auth/login', 'AuthController@postLogin');
+    
+});
+```
+
+在自定义的路由器AuthController中的`getLogin`、`postLogin`方法里分别实现自己的登陆页面和登陆逻辑。
+
+
+### 重写laravel认证
+
 如果不使用`Dcat Admin`内置的认证登陆逻辑，可以参考下面的方式自定义登陆认证逻辑
 
 首先要先定义一个`user provider`，用来获取用户身份, 比如`app/Providers/CustomUserProvider.php`：
