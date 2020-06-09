@@ -474,7 +474,7 @@ class MyCard extend Card
     {
         parent::init();
         
-        $this->height(150);
+        $this->chartHeight(150);
     }
 }
 ```
