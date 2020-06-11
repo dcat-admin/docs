@@ -1,8 +1,8 @@
 # 图片/文件上传
 
-[model-form](model-form.md)通过以下的调用来生成图片/文件上传表单，支持本地和云存储的文件上传。
+[数据表单](model-form.md)通过以下的调用来生成图片/文件上传表单，支持本地和云存储的文件上传。上传组件是基于[webuploader](https://fex.baidu.com/webuploader/)实现的，具体的使用配置可参考[webuploader官方文档](https://fex.baidu.com/webuploader/document.html)。
 
-> {tip} 上传组件是基于[webuploader](https://fex.baidu.com/webuploader/)实现的，具体的使用配置可参考[webuploader官方文档](https://fex.baidu.com/webuploader/document.html)。
+> {tip} 文件或图片上传表单字段请不要在模型中设置**访问器**和**修改器**拼接域名，如有相关需求可参考[文件/图片域名拼接](#withhost)。
 
 ```php
 $form->file('file_column');
@@ -291,6 +291,50 @@ $form->multipleImage('images')->sortable();
 ```
 
 
+
+<a name="withhost"></a>
+### 文件/图片域名拼接
+
+文件或图片上传表单字段请不要在模型中设置**访问器**和**修改器**拼接域名，如果你需要在访问的时候拼接完整域名，可以在模型中定义一个`public`方法
+
+```php
+<?php
+
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Storage;
+
+class YourModel extends Model
+{
+    // 定义一个public方法访问图片或文件
+	public function getImage()
+	{
+		if (Str::contains($this->image, '//')) {
+		    return $this->image;
+		}
+		
+		return Storage::disk('admin')->url($this->image);
+	}
+}
+```
+
+如果你需要保存文件域名到数据表字段，同样也不能使用**修改器**设置，可以参考下面的方法
+
+```php
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Storage;
+
+$form->image('avatar');
+
+$form->saving(function (Form $form) {
+    if ($form->avatar && ! Str::contains($form->avatar, '//')) {
+        $form->avatar = Storage::disk('admin')->url($form->avatar);
+    }
+});
+```
+
+
+
+
 <a name="imagefun"></a>
 ## 图片上传内置方法
 
@@ -395,5 +439,6 @@ $form->image('image1')
 4. `php`没有安装或没有开启`fileinfo`扩展
 
 如果你的文件上传成功了，却无法正常访问，那么可能是`.env`配置文件中的`APP_URL`参数没有设置正确。
+
 
 

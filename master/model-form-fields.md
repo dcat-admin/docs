@@ -615,6 +615,11 @@ $form->datetimeRange($startDateTime, $endDateTime, 'DateTime Range');
 使用文件上传功能之前需要先完成上传配置。文件上传配置以及内置方法请参考:[图片/文件上传](model-form-upload.md).
 
 文件上传目录在文件`config/admin.php`中的`upload.file`中配置，如果目录不存在，需要创建该目录并开放写权限。
+
+
+> {tip} 文件或图片上传表单字段请不要在模型中设置**访问器**和**修改器**拼接域名，如有相关需求可参考[文件/图片域名拼接](model-form-upload.md#withhost)。
+
+
 ```php
 $form->file($column[, $label]);
 
@@ -638,6 +643,11 @@ $form->file($column[, $label])->removable();
 可以使用压缩、裁切、添加水印等各种方法,需要先安装[intervention/image](http://image.intervention.io/getting_started/installation)。
 
 更多使用方法请参考[[Intervention](http://image.intervention.io/getting_started/introduction)]：
+
+
+> {tip} 文件或图片上传表单字段请不要在模型中设置**访问器**和**修改器**拼接域名，如有相关需求可参考[文件/图片域名拼接](model-form-upload.md#withhost)。
+
+
 ```php
 $form->image($column[, $label]);
 
@@ -912,9 +922,13 @@ $form->switch($column[, $label]);
 开关表单保存到数据库的默认值为`1`和`0`，如果需要更改保存到数据库的值，可以这样使用
 
 ```php
-$form->switch($column[, $label])->saving(function ($v) {
-    return $v ? '打开' : '关闭';
-});
+$form->switch($column[, $label])
+	->customFormat(function ($v) {
+		return $v == '打开' ? 1 : 0;
+	})
+	->saving(function ($v) {
+		return $v ? '打开' : '关闭';
+	});
 ```
 
 

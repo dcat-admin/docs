@@ -31,14 +31,22 @@ $grid->status()->switch();
 这个功能需要你在`form`表单方法中同样设置一个`status`字段
 
 ```php
-$form->hidden('status')->saving(function ($v) {
-    return $v ? '打开' : '关闭';
-});
+$form->hidden('status')
+	->customFormat(function ($v) {
+		return $v == '打开' ? 1 : 0;
+	})
+	->saving(function ($v) {
+		return $v ? '打开' : '关闭';
+	});
 
 // 或者
-$form->switch('status')->saving(function ($v) {
-    return $v ? '打开' : '关闭';
-});
+$form->switch('status')
+	->customFormat(function ($v) {
+		return $v == '打开' ? 1 : 0;
+	})
+	->saving(function ($v) {
+		return $v ? '打开' : '关闭';
+	});
 ```
 
 
@@ -62,13 +70,21 @@ $grid->switch_group->switchGroup(['is_new', 'is_hot', 'published']);
 这个功能需要你在`form`表单方法中同样设置对应的字段
 
 ```php
-$form->switch('hot')->saving(function ($v) {
-    return $v ? '打开' : '关闭';
-});
+$form->switch('hot')
+	->customFormat(function ($v) {
+		return $v == '打开' ? 1 : 0;
+	})
+	->saving(function ($v) {
+		return $v ? '打开' : '关闭';
+	});
 
-$form->switch('new')->saving(function ($v) {
-    return $v ? '打开' : '关闭';
-});
+$form->switch('new')
+	->customFormat(function ($v) {
+		return $v == '打开' ? 1 : 0;
+	})
+	->saving(function ($v) {
+		return $v ? '打开' : '关闭';
+	});
 ```
 
 
