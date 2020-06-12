@@ -146,6 +146,26 @@ return [
 
 ### 更改用户和权限
 
-可以参考以上更改菜单的方式
+自定义用户和权限可以参考以上更改菜单的方式。另外如果是自定义用户的话，还需要更改配置文件`config/new-admin.php`中的以下参数
+
+```php
+   ...
+
+   'auth' => [
+        ...
+		
+        'providers' => [
+            'admin' => [
+                'driver' => 'eloquent',
+				// 这里换成新用户表的模型
+                'model'  => App\Models\NewAdministrator::class,
+            ],
+        ],
+
+        ...
+
+    ],
+```
+
 
 
