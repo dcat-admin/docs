@@ -528,6 +528,41 @@ $filter->equal('column');
 ...
 ```
 
+<a name="relation"></a>
+## 关联关系字段查询
+> {tip} Since `v1.5.0`
+
+假设你的模型如下
+
+```php
+class User extends Model
+{
+    public function profile()
+    {
+        return $this->hasOne(...);
+    }
+    
+    public function myPosts()
+    {
+        return $this->hasMany(...);
+    }
+}
+```
+
+通过下面的方法可以查询`profiles`表的`first_name`字段以及`posts`表的`title`字段
+
+```php
+$grid->filter(function ($filter) {
+    $filter->like('profile.first_name');
+    
+    $filter->like('myPosts.title');
+});
+```
+
+
+
+
+
 <a name="extend"></a>
 ## 自定义过滤器
 下面通过`between`的实现来讲解下怎么自定义过滤器。

@@ -2,7 +2,6 @@
 
 工具表单(`Dcat\Admin\Widgets\Form`)用来构建表单和处理提交数据，可以很方便的独立处理数据，而不需要额外注册路由。
 
-> {tip} 工具表单中如果要使用图片或文件上传表单，需要自定义上传接口，用法请参考[图片/文件上传自定义上传接口](model-form-upload.md#url)。
 
 ### 基本使用
 用命令`admin:form`来生成表单类文件：
@@ -274,6 +273,7 @@ HTML;
         $username = $this->row->username;
 
         // 刷新页面时移除模态窗遮罩层
+        // 从 v1.5.0 版本开始可以移除这段 JS 代码
         Admin::script('Dcat.onPjaxComplete(function () {
             $(".modal-backdrop").remove();
             $("body").removeClass("modal-open");
@@ -440,6 +440,7 @@ JS
         $form = new ResetPasswordForm();
 
         // 刷新页面时移除模态窗遮罩层
+        // 从 v1.5.0 版本开始可以移除这段 JS 代码
         Admin::script('Dcat.onPjaxComplete(function () {
             $(".modal-backdrop").remove();
             $("body").removeClass("modal-open");

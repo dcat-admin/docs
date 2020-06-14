@@ -117,9 +117,52 @@ Dcat\Admin\Color::extend('orange', [
 最后把你的配置参数`admin.layout.color`的值设置为`orange`就行了。
 
 
+<a name="darkmode"></a>
+### 深色模式
+
+> {tip} Since `v1.5.0`
+
+<a href="{{public}}/assets/img/screenshots/users-dark.png" target="_blank">
+    <img  src="{{public}}/assets/img/screenshots/users-dark.png" style="box-shadow:0 1px 6px 1px rgba(0, 0, 0, 0.12)" width="100%">
+</a>
+
+
+#### 启用切换按钮
+
+通过配置参数 `admin.layout.dark_mode_switch` 可以启用或禁用深色模式切换开关。开启后会在页面顶部导航栏中增加一个开关按钮，点击可以切换深色和明亮模式，并且会把状态保存在`localStorage`中。
+
+```php
+     'layout' => [
+         'dark_mode_switch' => true,
+         
+         ...
+     ],
+     
+     ...
+```
+
+效果如下
+<a href="{{public}}/assets/img/screenshots/dark-switch.gif" target="_blank">
+    <img  src="{{public}}/assets/img/screenshots/dark-switch.gif" style="box-shadow:0 1px 6px 1px rgba(0, 0, 0, 0.12)" width="100%">
+</a>
+
+#### 默认深色
+
+打开配置文件`config/admin.php`，写入
+```php
+     'layout' => [
+         'body_class' => 'dark-mode',
+         
+         ...
+     ],
+     
+     ...
+```
+
+
 ### 菜单深色模式
 
-打开配置文件`config/admin.php`
+打开配置文件`config/admin.php`，写入
 ```php
      'layout' => [
          'sidebar_dark' => true,

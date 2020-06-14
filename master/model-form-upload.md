@@ -317,19 +317,17 @@ class YourModel extends Model
 }
 ```
 
-如果你需要保存文件域名到数据表字段，同样也不能使用**修改器**设置，可以参考下面的方法
+
+### 保存域名
+
+> {tip} Since `v1.5.0`
+
+如果你需要保存文件域名到数据表，可以使用`saveFullUrl`方法
 
 ```php
-use Illuminate\Support\Str;
-use Illuminate\Support\Facades\Storage;
+$form->image('avatar')->saveFullUrl();
 
-$form->image('avatar');
-
-$form->saving(function (Form $form) {
-    if ($form->avatar && ! Str::contains($form->avatar, '//')) {
-        $form->avatar = Storage::disk('admin')->url($form->avatar);
-    }
-});
+$form->file('...')->saveFullUrl();
 ```
 
 

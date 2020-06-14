@@ -260,3 +260,7 @@ use App\Models\User;
 $grid->actions([new Copy(User::class)]);
 ```
 
+
+## 表单弹窗
+
+请参考文档[工具表单 - 弹窗](widgets-form.md#modal)

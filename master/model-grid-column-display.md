@@ -213,6 +213,7 @@ $grid->state
 </a>
 
 
+<a name="expand"></a>
 ### 列展开 (expand)
 `expand`方法可以把内容隐藏，点击按钮的时候显示在表格下一行
 ```php
@@ -241,17 +242,127 @@ $grid->content->expand(function (Grid\Displayers\Expand $expand) {
 ```
 
 
+#### 异步加载
+
+> {tip} Since `v1.5.0`
+
+定义渲染类，继承`Dcat\Admin\Support\LazyRenderable`
+
+```php
+use App\Models\Post as PostModel;
+use Dcat\Admin\Support\LazyRenderable;
+use Dcat\Admin\Widgets\Table;
+
+class Post extends LazyRenderable
+{
+    public function render()
+    {
+        // 获取ID
+        $id = $this->key;
+        
+        // 获取其他自定义参数
+        $type = $this->post_type;
+
+        $data = PostModel::where('user_id', $id)
+            ->where('type', $type)
+            ->get(['title', 'body', 'body', 'created_at'])
+            ->toArray();
+
+        $titles = [
+            'User ID',
+            'Title',
+            'Body',
+            'Created At',
+        ];
+
+        return Table::make($titles, $data);
+    }
+}
+```
+
+使用
+```php
+$grid->post->display('View')->expand(Post::make(['post_type' => 1]));
+```
+
+效果
+<a href="{{public}}/assets/img/screenshots/expand-lazy-render.gif" target="_blank">
+    <img  src="{{public}}/assets/img/screenshots/expand-lazy-render.gif" style="box-shadow:0 1px 6px 1px rgba(0, 0, 0, 0.12)" width="100%">
+</a>
+
+
+
+<a name="modal"></a>
 ### 弹出模态框 (modal)
 `modal`方法可以把内容隐藏，点击按钮的时候显示在表格下一行
 ```php
 $grid->content
     ->display('查看') // 设置按钮名称
-    ->modal(function () {
+    ->modal(function ($modal) {
+        // 设置弹窗标题
+        $modal->title('标题 '.$this->username);
+    
         $card = new Card(null, $this->content);
     
         return "<div style='padding:10px 10px 0'>$card</div>";
     });
+
+// 也可以通过这种方式设置弹窗标题
+$grid->content
+    ->display('查看') // 设置按钮名称
+    ->modal('弹窗标题', ...);
 ```
+
+
+#### 异步加载
+
+> {tip} Since `v1.5.0`
+
+定义渲染类，继承`Dcat\Admin\Support\LazyRenderable`
+
+```php
+use App\Models\Post as PostModel;
+use Dcat\Admin\Support\LazyRenderable;
+use Dcat\Admin\Widgets\Table;
+
+class Post extends LazyRenderable
+{
+    public function render()
+    {
+        // 获取ID
+        $id = $this->key;
+        
+        // 获取其他自定义参数
+        $type = $this->post_type;
+
+        $data = PostModel::where('user_id', $id)
+            ->where('type', $type)
+            ->get(['title', 'body', 'body', 'created_at'])
+            ->toArray();
+
+        $titles = [
+            'User ID',
+            'Title',
+            'Body',
+            'Created At',
+        ];
+
+        return Table::make($titles, $data);
+    }
+}
+```
+
+使用
+```php
+$grid->post->display('View')->modal('Post', Post::make(['post_type' => 2]));
+```
+
+效果
+<a href="{{public}}/assets/img/screenshots/modal-lazy-render.gif" target="_blank">
+    <img  src="{{public}}/assets/img/screenshots/modal-lazy-render.gif" style="box-shadow:0 1px 6px 1px rgba(0, 0, 0, 0.12)" width="100%">
+</a>
+
+
 
 ### 进度条 (progressBar)
 `progressBar`进度条
