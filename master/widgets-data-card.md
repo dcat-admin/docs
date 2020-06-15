@@ -532,7 +532,7 @@ class MyCard extend Card
 
 #### 设置图表颜色 (chartColors)
 
-通过`chartLabels`方法可以设置图表的颜色(`colors`)配置。
+通过`chartColors`方法可以设置图表的颜色(`colors`)配置。
 
 ```php
 class MyCard extend Card
