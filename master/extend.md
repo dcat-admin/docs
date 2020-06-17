@@ -316,8 +316,8 @@ class Ganks extends Repository
         $perPage = $model->getPerPage();
 
         // 获取筛选参数
-        $category = $model->getFilter()->input(Grid\Filter\Scope::QUERY_NAME, 'all');
-        $keyword  = trim($model->getFilter()->input('keyword'));
+        $category = $model->filter()->input(Grid\Filter\Scope::QUERY_NAME, 'all');
+        $keyword = trim($model->filter()->input('keyword'));
 
         $api = $keyword ? $this->searchApi : $this->api;
 
@@ -376,7 +376,7 @@ class GankController extends Controller
         $grid = $this->grid();
 
         $grid->disableFilter();
-        $grid->getFilter()
+        $grid->filter()
             ->withoutInputBorder()
             ->expand()
             ->resetPosition()
@@ -385,7 +385,7 @@ class GankController extends Controller
         return $content
             ->header('所有干货')
             ->description('每日分享妹子图 和 技术干货')
-            ->body($grid->getFilter())
+            ->body($grid->filter())
             ->body(function (Row $row) {
                 $items = array_keys(Gank::$categoryColorsMap);
                 

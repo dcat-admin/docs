@@ -19,7 +19,10 @@ $show->newline();
 
 ```php
 $show->title()->as(function ($title) {
-    return "<{$title}>";
+    // 获取当前行的其他字段
+    $username = $this->username;
+
+    return "<{$title}> {$username}";
 });
 
 $show->contents()->as(function ($content) {
