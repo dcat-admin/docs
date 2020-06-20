@@ -112,6 +112,15 @@ return Show::make($id, $model, function (Show $show) {
 ```
 
 
+如果你的关联模型名称的命名是**驼峰**风格，那么使用的时候需要转化为**下划线**风格命名
+
+```php
+// 注意这里必须使用下划线风格命名，否则将无法显示编辑数据
+$show->field('user_profile.postcode');
+$show->field('user_profile.address');
+```
+
+
 ## 一对多
 一对多会以[数据表格](model-grid.md)的方式呈现，下面是简单的例子
 
@@ -283,3 +292,6 @@ $show->permissions(function ($model) {
     return $grid;
 });
 ```
+
+
+

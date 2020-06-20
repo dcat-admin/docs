@@ -270,6 +270,11 @@ interface TreeRepository
     }
 ```
 
+注意，`grid`需要禁用分页
+```php
+$grid->disablePagination()
+```
+
 ### edit
 此接口要求返回表单编辑页面的数据，用于显示数据表单编辑页面，需要返回`array`类型值。
 ```php
