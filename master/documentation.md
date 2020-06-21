@@ -37,6 +37,8 @@
   - [字段的管理](model-form-field-management.md)
   - [数据源](model-form-data.md)
   - [表单弹窗](model-form-modal.md)
+  - [关联关系](model-relationship.md)
+  - [JSON表单](model-json.md)
   - [表单分步](model-form-step.md)
   - [表单验证](model-form-validation.md)
   - [事件](model-form-callback.md)
@@ -78,5 +80,5 @@
 - ## [自定义登陆认证](custom-authentication.md)
 - ## [自定义头部导航](custom-navbar.md)
 - ## 更新日志
-  - [v1.5.0](v1-5-0.md)
+  - [v1.5.2](v1-5-2.md)
   - [更新日志](change-log.md)

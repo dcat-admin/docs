@@ -140,14 +140,42 @@ $form->image('picture')->uniqueName();
 ```
 
 <a name="disableRemove"></a>
-### 禁止从服务器删除 (覆盖上传)
+### 禁止页面删除文件 (替换上传)
 
-通过`disableRemove`方法可以禁止用户删除服务器上的文件，可以实现图片覆盖上传效果。
+通过`disableRemove`方法可以禁止用户从页面点击删除服务器上的文件，可以实现图片覆盖上传效果。
 
 
 ```php
 $form->file($column[, $label])->disableRemove();
 ```
+
+
+<a name="autoUpload"></a>
+### 自动上传 (autoUpload)
+
+> {tip} Since `v1.5.2`
+
+开启这个功能之后选择完文件之后会立即自动上传，页面将不再显示`上传`按钮，使用方法如下
+
+```php
+$form->file('file')->autoUpload();
+
+$form->image('img')->autoUpload();
+```
+
+<a name="retainable"></a>
+### 禁止删除 (retainable)
+
+> {tip} Since `v1.5.2`
+
+开启这个功能之后文件将不会从服务器删除
+
+```php
+$form->file('file')->retainable();
+
+$form->image('img')->retainable();
+```
+
 
 <a name="storagePermission"></a>
 ### storagePermission

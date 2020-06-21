@@ -69,6 +69,20 @@ $grid->filter(function (Grid\Filter $filter) {
     <img class="img img-full" src="{{public}}/assets/img/screenshots/filter-panel.png">
 </a>
 
+### 自定义布局 (view)
+
+> {tip} Since `v1.5.2`
+
+如果以上的布局无法满足需求，可以通过`view`方法自定义过滤器模板
+
+```php
+$grid->filter(function ($filter) {
+    $filter->view('xxx');
+    
+    ...
+});
+```
+
 
 <a name="type"></a>
 ## 查询类型

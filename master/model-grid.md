@@ -425,6 +425,16 @@ $grid->perPages([10, 20, 30, 40, 50]);
 $grid->disablePerPages();
 ```
 
+### addTableClass
+
+> {tip} Since `v1.5.2`
+
+通过`addTableClass`可以给表格的`table`添加`css`样式
+
+```php
+$grid->addTableClass(['class1', 'class2']);
+```
+
 ## 关联模型
 
 ### 一对一
