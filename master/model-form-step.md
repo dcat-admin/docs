@@ -5,7 +5,7 @@
 ```php
 protected function form()
 {
-    return Form::make(new Model(), function () {
+    return Form::make(new Model(), function (Form $form) {
         $form->title('分步表单');
         $form->action('step');
         $form->disableListButton();
