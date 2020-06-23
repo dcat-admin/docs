@@ -4,6 +4,9 @@
 
 ```php
 $grid->quickSearch();
+
+// 设置表单提示值
+$grid->quickSearch()->placeholder('搜索...');
 ```
 这样表头会出现一个搜索框:
 <a href="{{public}}/assets/img/screenshots/grid-quick-search.png" target="_blank">
@@ -162,6 +165,7 @@ $grid->column('user_status', '用户状态');
 ```php
 $model->whereIn('user_status', [1, 2, 3]);
 ```
+
 
 ## 禁止自动提交
 
