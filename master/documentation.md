@@ -80,5 +80,5 @@
 - ## [自定义登陆认证](custom-authentication.md)
 - ## [自定义头部导航](custom-navbar.md)
 - ## 更新日志
-  - [v1.5.2](v1-5-2.md)
+  - [v1.5.3](v1-5-3.md)
   - [更新日志](change-log.md)
