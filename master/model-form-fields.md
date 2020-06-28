@@ -608,6 +608,14 @@ $form->dateRange($startDate, $endDate, 'Date Range');
 $form->datetimeRange($startDateTime, $endDateTime, 'DateTime Range');
 ```
 
+## 范围 (range)
+
+> {tip} Since `v1.5.3`
+
+```php
+$form->range('start_column', 'end_column', '范围');
+```
+
 
 <a name="file"></a>
 ## 文件上传 (file)
