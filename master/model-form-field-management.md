@@ -39,9 +39,9 @@ class WangEditor extends Field
         $name = $this->formatName($this->column);
 
         $this->script = <<<EOT
-
+// 注意这里的ID一定要通过 replaceNestedFormIndex 函数转换，否则将无法兼容 hasMany 表单
 var E = window.wangEditor
-var editor = new E('#{$this->id}');
+var editor = new E(replaceNestedFormIndex('#{$this->id}'));
 editor.customConfig.zIndex = 0
 editor.customConfig.uploadImgShowBase64 = true
 editor.customConfig.onchange = function (html) {
@@ -199,8 +199,8 @@ class PHPEditor extends Field
     public function render()
     {
         $this->script = <<<EOT
-
-CodeMirror.fromTextArea(document.getElementById("{$this->id}"), {
+// 注意这里的ID一定要通过 replaceNestedFormIndex 函数转换，否则将无法兼容 hasMany 表单
+CodeMirror.fromTextArea(document.getElementById(replaceNestedFormIndex("{$this->id}")), {
     lineNumbers: true,
     mode: "text/x-php",
     extraKeys: {
@@ -397,9 +397,9 @@ class PHPEditor extends Field
     public function render()
     {
     	// 通过 $this->id 定位元素
-        $this->script = <<<EOT
-
-CodeMirror.fromTextArea(document.getElementById("{$this->id}"), {
+        $this->script = <<<JS
+// 注意这里的ID一定要通过 replaceNestedFormIndex 函数转换，否则将无法兼容 hasMany 表单
+CodeMirror.fromTextArea(document.getElementById(replaceNestedFormIndex("{$this->id}")), {
     lineNumbers: true,
     mode: "text/x-php",
     extraKeys: {
@@ -409,7 +409,7 @@ CodeMirror.fromTextArea(document.getElementById("{$this->id}"), {
      }
 });
 
-EOT;
+JS;
         return parent::render();
 
     }
@@ -442,6 +442,34 @@ class Select extends Field
 }
 ```
 
+并且如果你是通过`id`属性去定位元素，则必须使用`replaceNestedFormIndex`函数对原始`id`进行转换，否则将无法兼容`HasMany`以及`Table`表单
+
+
+```php
+class PHPEditor extends Field
+{
+    ...
+
+    public function render()
+    {
+    	// 通过 $this->id 定位元素
+        $this->script = <<<JS
+// 注意这里的ID一定要通过 replaceNestedFormIndex 函数转换，否则将无法兼容 hasMany 表单
+CodeMirror.fromTextArea(document.getElementById(replaceNestedFormIndex("{$this->id}")), {
+    lineNumbers: true,
+    mode: "text/x-php",
+    extraKeys: {
+        "Tab": function(cm){
+            cm.replaceSelection("    " , "end");
+        }
+     }
+});
+JS;
+        return parent::render();
+
+    }
+}
+```
 
 
 
