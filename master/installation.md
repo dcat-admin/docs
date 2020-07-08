@@ -43,7 +43,7 @@ php artisan admin:install
 
 启动服务后，在浏览器打开 `http://localhost/admin/` ,使用用户名 `admin` 和密码 `admin`登陆.
 
-如出现admin登录0 error提示，在config文件里面的admin.php文件里面把https设置位true。
+如出现admin登录0 error提示，在config文件里面的admin.php文件里面把https设置为true。
 ```
 'https' => env('ADMIN_HTTPS', true),
 ```
