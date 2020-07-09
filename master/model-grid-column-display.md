@@ -313,6 +313,8 @@ $grid->content
     ->modal('弹窗标题', ...);
 ```
 
+> 弹出Table组件时，会跟当前数据表格Table的responsive()冲突，需要使用异步加载来解决。参见问题 [303](https://github.com/jqhph/dcat-admin/issues/303)
+
 
 #### 异步加载
 
