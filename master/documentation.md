@@ -19,6 +19,7 @@
   - [树状表格](model-grid-tree.md)
   - [组合表头](model-grid-combination.md)
   - [数据源](model-grid-data.md)
+  - [关联关系](model-grid-relationship.md)
   - [查询过滤](model-grid-filters.md)
   - [列过滤器](model-grid-column-filter.md)
   - [快捷搜索](model-grid-quick-search.md)
@@ -39,11 +40,13 @@
   - [表单弹窗](model-form-modal.md)
   - [关联关系](model-relationship.md)
   - [JSON表单](model-json.md)
+  - [字段动态显示](model-form-when.md)
   - [表单分步](model-form-step.md)
   - [表单验证](model-form-validation.md)
   - [事件](model-form-callback.md)
   - [表单初始化](model-form-init.md)
   - [工具表单](widgets-form.md)
+  - [表单布局](model-form-layout.md)
   - [表单字段翻译](model-form-trans.md)
 - ## 数据详情
   - [基本使用](model-show.md)
@@ -65,6 +68,7 @@
 - ## 页面组件
   - [图表](widgets-charts.md)
   - [数据统计卡片](widgets-data-card.md)
+  - [工具表单](widgets-form.md)
   - [下拉菜单](widgets-dropdown.md)
   - [单/复选框](widgets-checkbox.md)
   - [选项卡](widgets-tab.md)
@@ -80,5 +84,5 @@
 - ## [自定义登陆认证](custom-authentication.md)
 - ## [自定义头部导航](custom-navbar.md)
 - ## 更新日志
-  - [v1.5.3](v1-5-3.md)
+  - [v1.6.0](v1-6-0.md)
   - [更新日志](change-log.md)

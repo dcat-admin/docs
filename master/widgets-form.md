@@ -96,6 +96,66 @@ class UserController extends Controller
 }
 ```
 
+### 响应方法
+
+`ajaxResponse` 仅提示成功或失败信息，不跳转也不刷新页面
+
+```php
+public function handle(array $input)
+{
+    ...
+    
+    return $this->ajaxResponse('操作失败', null, false);
+    
+    return $this->ajaxResponse('操作成功');
+}
+```
+
+`success` 响应成功信息，第一个参数为提示信息，第二个参数为跳转地址，不传则刷新当前页
+```php
+public function handle(array $input)
+{
+    ...
+    
+    return $this->success('操作成功');
+    
+    return $this->success('操作成功', 'auth/users');
+}
+```
+
+`error` 响应事变信息，第一个参数为提示信息，第二个参数为跳转地址，不传则刷新当前页
+```php
+public function handle(array $input)
+{
+    ...
+    
+    return $this->error('操作失败');
+    
+    return $this->error('操作失败', 'auth/users');
+}
+```
+
+> {tip} Since `v1.6.0`
+
+`location` 刷新整个页面
+```php
+public function handle(array $input)
+{
+    ...
+    
+    // 不传参数则刷新当前页面
+    return $this->location();
+    
+    return $this->location('auth/user', '保存成功');
+    
+    return $this->location('auth/user', [
+        'message' => '系统错误',
+        'status' => false,
+    ]);
+}
+```
+
+
 ### 自定义表单保存的后续行为
 
 > {tip} Since 1.2.0
@@ -160,6 +220,81 @@ JS;
 	}
 }
 ```
+
+
+<a name="layout"></a>
+### 布局
+
+> {tip} Since `v1.6.0`
+
+`column`多列布局
+```php
+<?php
+
+use Dcat\Admin\Widgets\Form;
+
+class Setting extends Form
+{
+    public function form()
+    {
+        $this->column(6, function () {
+            $this->text('text1');
+            
+            ...
+        });
+        
+        $this->column(6, function () {
+            $this->text('text2');
+            
+            ...
+        });
+    }    
+}
+```
+
+`tab`选项卡布局
+```php
+<?php
+
+use Dcat\Admin\Widgets\Form;
+
+class Setting extends Form
+{
+    public function form()
+    {
+        $this->tab('选项卡1', function () {
+            $this->text('text1');
+            
+            ...
+        });
+        
+        $this->tab('选项卡2', function () {
+            $this->text('text2');
+            
+            ...
+        });
+    }    
+}
+```
+
+`row`多行布局
+```php
+public function form()
+{
+    $this->row(function ($row) {
+        $row->width(3)->text('text1');
+        
+        ...
+    });
+    
+    $this->row(function ($row) {
+        $row->width(3)->text('text2');
+        
+        ...
+    });
+} 
+```
+
 
 <a name="modal"></a>
 ### 在弹窗中显示

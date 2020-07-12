@@ -184,6 +184,31 @@ $grid->state->using([1 => '未处理', 2 => '已处理', ...])->badge([
 ]);
 ```
 
+<a name="bool"></a>
+### 布尔值显示 (bool)
+
+> {tip} Since `v1.6.0`
+
+
+将这一列转为`bool`值之后显示为`✓`和`✗`。
+
+```php
+$grid->column('approved')->bool();
+```
+
+你也可以按照这一列的值指定显示，比如字段的值为`Y`和`N`表示`true`和`false`
+
+```php
+$grid->column('approved')->bool(['Y' => true, 'N' => false]);
+```
+
+效果
+<a href="{{public}}/assets/img/screenshots/column-bool.png" target="_blank">
+    <img style="box-shadow:0 1px 6px 1px rgba(0, 0, 0, 0.12)" width="160px" src="{{public}}/assets/img/screenshots/column-bool.png">
+</a>
+
+
+
 ### 圆点前缀 (dot)
 
 通过`dot`方法可以在列文字前面加上一个带颜色的圆点
@@ -283,6 +308,13 @@ class Post extends LazyRenderable
 使用
 ```php
 $grid->post->display('View')->expand(Post::make(['post_type' => 1]));
+
+// 从 v1.6.0 版本起允许在闭包内返回异步加载类的实例
+$grid->post->expand(function () {
+    // 允许在比包内返回异步加载类的实例
+
+    return Post::make(['title' => $this->>title]);
+});
 ```
 
 效果
@@ -355,6 +387,14 @@ class Post extends LazyRenderable
 使用
 ```php
 $grid->post->display('View')->modal('Post', Post::make(['post_type' => 2]));
+
+// 从 v1.6.0 版本起允许在闭包内返回异步加载类的实例
+$grid->post->modal(function ($modal) {
+    $modal->title('自定义弹窗标题');
+
+    // 允许在比包内返回异步加载类的实例
+    return Post::make(['title' => $this->>title]);
+});
 ```
 
 效果
@@ -783,7 +823,7 @@ $grid->images()->display(function ($images) {
 ```php
 use Dcat\Admin\Grid\Column;
 
-// 第二个参数为 `Column` 对象， 第三个参数是自定义参数
+// 第二个参数是自定义参数
 Column::extend('color', function ($value, $color) {
     return "<span style='color: $color'>$value</span>";
 });

@@ -34,7 +34,7 @@ $form->editing(function (Form $form) {
 
 ### submitted
 
-在表单提交前调用
+在表单提交前调用，在此事件中可以修改、删除用户提交的数据或者中断提交操作
 
 ```php
 $form->submitted(function (Form $form) {
@@ -43,11 +43,17 @@ $form->submitted(function (Form $form) {
     
     // 上面写法等同于
     $title = $form->input('title');
+    
+    // 删除用户提交的数据
+    $form->deleteInput('title');
+    
+    // 中断后续逻辑
+    return $this->error('服务器出错了~');
 });
 ```
 
 ### saving
-保存前回调
+保存前回调，在此事件中可以修改、删除用户提交的数据或者中断提交操作
 
 ```php
 $form->saving(function (Form $form) {
@@ -55,6 +61,12 @@ $form->saving(function (Form $form) {
     if ($form->isCreating()) {
     
     }
+    
+    // 删除用户提交的数据
+    $form->deleteInput('title');
+    
+    // 中断后续逻辑
+    return $this->error('服务器出错了~');
 });
 ```
 
@@ -185,6 +197,22 @@ $form->saved(function (Form $form) {
 });
 ```
 
+### 修改或删除用户提交的数据
+
+此功能在`saving`和`submitted`事件中有效
+
+```php
+$form->select('author_id');
+
+$form->saving(function (Form $form) {
+    // 修改用户提交的数据
+    $form->author_id = 1;
+    
+    // 删除、忽略用户提交的数据
+    $form->deleteInput('author_id');  
+});
+```
+
 ### 修改模型中的数据
 修改模型中的数据需要配合隐藏表单使用。举例：
 ```php
@@ -200,6 +228,8 @@ $form->saving(function (Form $form) {
 
 > {tip} 此方法在`creating`、`editing`、`uploading`、`uploaded`事件中均不可用。
 
+
+redirect（局部刷新/单页刷新）
 ```php
 // 跳转并提示成功信息
 $form->saved(function (Form $form) {
@@ -214,6 +244,28 @@ $form->saved(function (Form $form) {
     ]);
 });
 ```
+
+> {tip} Since `v1.6.0`
+
+location（刷新整个页面）
+```php
+// 跳转并提示成功信息
+$form->saved(function (Form $form) {
+    // 不传参数则刷新当前页面
+    // return $form->location();
+
+    return $form->location('auth/user', '保存成功');
+});
+
+// 跳转并提示错误信息
+$form->saved(function (Form $form) {
+    return $form->location('auth/user', [
+        'message' => '系统错误',
+        'status' => false,
+    ]);
+});
+```
+
 
 ### 仅返回错误信息但不跳转
 

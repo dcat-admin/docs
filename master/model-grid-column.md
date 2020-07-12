@@ -1,11 +1,11 @@
 # 列的基本使用
 
-### 设置列为可排序
+### 设置列为可排序 (sortable)
 ```php
 $grid->id()->sortable();
 ```
 
-### 设置列的宽度
+### 设置列的宽度 (width)
 设置列的宽度，当字段内容过长时可以使用这个方法限制列宽度
 ```php
 // px
@@ -13,6 +13,23 @@ $grid->long_text->width('300px');
 // 百分比
 $grid->long_text->width('15%');
 ```
+
+### 固定列 (fixColumns)
+
+> {tip} Since `v1.6.0` 注意：这个功能支持组合表头功能，但不兼容列字段隐藏功能！
+
+通过 `fixColumns` 方法可以给表格设置固定列，第一个参数表示固定从头开始的前三列，第二个参数表示固定从后往前数的两列，（第二个参数可不传，默认为-1）
+
+```php
+$grid->fixColumns(2, -2);
+```
+
+效果
+
+<a href="{{public}}/assets/img/screenshots/fixcolumn.gif" target="_blank">
+    <img class="img" src="{{public}}/assets/img/screenshots/fixcolumn.gif" />
+</a>    
+
 
 ### 设置表格头HTML属性
 设标题的`html`属性
@@ -80,7 +97,9 @@ $grid->id()->help('提示信息');
 ```php
 use Dcat\Admin\Grid;
 
-Grid\Column::macro('myHeader', function ($p1, $p2 = null) {
+// $value 是当前字段的值
+// $p1、$p2 是自定义参数
+Grid\Column::macro('myHeader', function ($value, $p1, $p2 = null) {
     // MyHeader 需要实现 Illuminate\Contracts\Support\Renderable 接口
     // 当然这里也可以直接传字符串
     return $this->addHeader(new MyHeader($this, $p1, $p2));

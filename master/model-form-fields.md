@@ -217,8 +217,6 @@ $form->select('user_id')->options(function ($id) {
 ```
 
 
-<sub>注：如果你修改了`config/admin.php`配置文件中`route.prefix`的值，此处的接口路由应该修改为`config('admin.route.prefix').'/api/users'`。</sub>
-
 API `/admin/api/users`接口的代码：
 
 ```php
@@ -360,8 +358,6 @@ $form->select('friends')->options(function ($ids) {
     
 })->ajax('api/users');
 ```
-
-<sub>注：如果你修改了`config/admin.php`配置文件中`route.prefix`的值，此处的接口路由应该修改为`config('admin.route.prefix').'/api/users'`。</sub>
 
 API `/admin/api/users`接口的代码：
 
@@ -1044,6 +1040,61 @@ $form->tags('tags', '文章标签')
 ```
 
 `saving` 方法接收一个「参数为 tags 的提交值，返回值为修改后的 tags 提交值」的闭包，可以用于实现自动创建新 tag 或其它功能。
+
+
+> {tip} Since `v1.6.0`
+
+如果选项过多，可通过ajax方式动态分页载入选项：
+
+```php
+$form->tags('friends')->options(function ($ids) {
+    return User::find((array) $ids)->pluck('name', 'id');
+    
+})->ajax('api/users');
+```
+
+API `/admin/api/users`接口的代码：
+
+```php
+public function users(Request $request)
+{
+    $q = $request->get('q');
+
+    return User::where('name', 'like', "%$q%")->paginate(null, ['id', 'name as text']);
+}
+```
+接口返回的数据结构为
+```
+{
+    "total": 4,
+    "per_page": 15,
+    "current_page": 1,
+    "last_page": 1,
+    "next_page_url": null,
+    "prev_page_url": null,
+    "from": 1,
+    "to": 3,
+    "data": [
+        {
+            "id": 9,
+            "text": "xxx"
+        },
+        {
+            "id": 21,
+            "text": "xxx"
+        },
+        {
+            "id": 42,
+            "text": "xxx"
+        },
+        {
+            "id": 48,
+            "text": "xxx"
+        }
+    ]
+}
+```
+
 
 <a name="icon"></a>
 ## 图标选择器 (icon)

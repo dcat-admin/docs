@@ -169,88 +169,9 @@ $form->disableCreatingCheck();
 
 ## 常用方法
 
-### 多列布局
+### 表单布局
 
-使用
-```php
-$form->row(function (Form\Row $form) {
-    $form->width(4)->text('username')->required();
-	$form->width(3)->text('title');
-	...
-});
-
-$form->row(function (Form\Row $form) {
-	...
-});
-
-...
-```
-效果
-<a href="{{public}}/assets/img/screenshots/form-rows.png" target="_blank">
-    <img class="img img-full" src="{{public}}/assets/img/screenshots/form-rows.png">
-</a>
-
-
-<a name="tab"></a>
-### 选项卡表单 (tab)
-
-如果表单元素太多,会导致表单页面太长, 这种情况下可以使用`tab`方法来分隔表单:
-
-```php
-$form->tab('Basic info', function (Form $form) {
-    
-    $form->text('username');
-    $form->email('email');
-    
-})->tab('Profile', function (Form $form) {
-                       
-   $form->image('avatar');
-   $form->text('address');
-   $form->mobile('phone');
-   
-})->tab('Jobs', function (Form $form) {
-                         
-     $form->hasMany('jobs', function () {
-         $form->text('company');
-         $form->date('start_date');
-         $form->date('end_date');
-     });
-
-  })
-```
-
-
-### 分块布局
-
-如果你的表单中字段非常多，那么可以通过以下方式让你的表单分块布局
-
-```php
-$form->display('id');
-$form->text('name');
-$form->text('title');
-$form->text('author');
-$form->textarea('content');
-
-$form->datetimeRange('start', 'end', '开始');
-
-// 设置默认卡片宽度
-$form->setDefaultBlockWidth(8);
-
-// 分块显示
-$form->block(4, function (Form\BlockForm $form) {
-    $form->title('测试');
-
-    $form->text('title')->default('test');
-    $form->select('author')->options(['test']);
-    $form->radio('state')->options([0 => '待处理', 1 => '已处理', 2 => '已拒绝'])->default(0);
-});
-```
-
-效果
-<a href="{{public}}/assets/img/screenshots/block-form.png" target="_blank">
-    <img class="img img-full" src="{{public}}/assets/img/screenshots/block-form.png">
-</a>
-
+请参考[表单布局](model-form-layout.md)
 
 ### 返回字段验证出错信息
 

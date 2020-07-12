@@ -8,7 +8,7 @@
 
 这个是`Laravel7`升级后带来的坑，原因请参考[日期序列化](https://learnku.com/docs/laravel/7.x/upgrade/7445#date-serialization)。
 
-在本项目中解决这个问题很简单，只需在你的`Model`中引入`Dcat\Admin\Traits\HasDateTimeFormatter`这个`trait`即可。
+在本项目中解决这个问题很简单，只需在`Model`中引入`Dcat\Admin\Traits\HasDateTimeFormatter`这个`trait`即可。
 
 ```php
 <?php
@@ -45,7 +45,7 @@ class AuthController extends BaseAuthController
     // 自定义登陆view模板
     protected $view = 'admin.login';
 	
-	// 重写你的登陆页面逻辑
+	// 重写登陆页面逻辑
 	public function getLogin(Content $content)
     {
         ...
@@ -90,7 +90,7 @@ Route::group([
 3. 文件上传目录没有写权限
 4. `php`没有安装或没有开启`fileinfo`扩展
 
-如果你的文件上传成功了，却无法正常访问，那么可能是`.env`配置文件中的`APP_URL`参数没有设置正确。
+如果文件上传成功了，却无法正常访问，那么可能是`.env`配置文件中的`APP_URL`参数没有设置正确。
 
 ### 关于前端资源加载问题
 
@@ -111,17 +111,17 @@ Admin::js('path/to/your/js');
 Admin::asset()->alias(
 	'@nunito', 
 	null, 
-	asset('你的服务器字体路径/nunito.css?family=Nunito:200,200i,300,300i,400,400i,600,600i,800,800i,900,900i')
+	asset('服务器字体路径/nunito.css?family=Nunito:200,200i,300,300i,400,400i,600,600i,800,800i,900,900i')
 );
 Admin::asset()->alias(
 	'@montserrat', 
 	null, 
-	asset('你的服务器字体路径/montserrat.css?family=Montserrat:300,400,500,600')
+	asset('服务器字体路径/montserrat.css?family=Montserrat:300,400,500,600')
 );
 ```
 
 
-如果你完全不想使用这两种字体，可以加入以下代码
+如果完全不想使用这两种字体，可以加入以下代码
 ```php
 Admin::asset()->alias('@nunito', null, '');
 Admin::asset()->alias('@montserrat', null, '');
@@ -129,14 +129,18 @@ Admin::asset()->alias('@montserrat', null, '');
 
 ### 为何配置了角色和权限，依然提示无权访问？
 
-这个原因可能是由于权限的`URL`路径配置错误导致的，正确的包含增删改查功能的`URL`配置应该是`auth/users*`这样的，如果你配置成了`auth/users/*`，那么就会提示无权访问。
+这个原因可能是由于权限的`URL`路径配置错误导致的，正确的包含增删改查功能的`URL`配置应该是`auth/users*`这样的，如果配置成了`auth/users/*`，那么就会提示无权访问。
 
 > {tip} 另外标签表单填写自定义URL有两种方法：一种是选中后按`删除键`进行更改；另一种是填写后按`空格键` + `回车键`。
 
 ### 为何没有权限的菜单不会自动隐藏？
 
-这个问题是因为你没有给菜单绑定权限或者角色，给你想要无权不显示的菜单绑定权限或者角色即可。
+这个问题是因为没有给菜单绑定权限或者角色，给想要无权不显示的菜单绑定权限或者角色即可。
 
+
+### 项目使用HTTPS之后无法登陆
+
+需要把配置文件的`admin.https`参数的值设置为`true`
 
 
 ### 图片防盗链
