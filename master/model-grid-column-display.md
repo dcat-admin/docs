@@ -313,7 +313,7 @@ $grid->post->display('View')->expand(Post::make(['post_type' => 1]));
 $grid->post->expand(function () {
     // 允许在比包内返回异步加载类的实例
 
-    return Post::make(['title' => $this->>title]);
+    return Post::make(['title' => $this->title]);
 });
 ```
 
@@ -393,7 +393,7 @@ $grid->post->modal(function ($modal) {
     $modal->title('自定义弹窗标题');
 
     // 允许在比包内返回异步加载类的实例
-    return Post::make(['title' => $this->>title]);
+    return Post::make(['title' => $this->title]);
 });
 ```
 
