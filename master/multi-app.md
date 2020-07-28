@@ -153,14 +153,23 @@ return [
 
    'auth' => [
         ...
-		
-        'providers' => [
-            'admin' => [
-                'driver' => 'eloquent',
+        
+        'guard' => 'new-admin', // 必须是一个新的名字
+        
+		'guards' => [
+			'new-admin' => [
+				'driver'   => 'session',
+				'provider' => 'new-admin', // 必须是一个新的名字
+			],
+		],
+
+		'providers' => [
+			'new-admin' => [ // 必须是一个新的名字
+				'driver' => 'eloquent',
 				// 这里换成新用户表的模型
-                'model'  => App\Models\NewAdministrator::class,
-            ],
-        ],
+				'model'  => App\Models\NewAdministrator::class,
+			],
+		],
 
         ...
 

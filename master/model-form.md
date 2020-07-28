@@ -173,7 +173,7 @@ $form->disableCreatingCheck();
 
 请参考[表单布局](model-form-layout.md)
 
-### 返回字段验证出错信息
+### 返回字段验证出错信息 (responseValidationMessages)
 
 通过`responseValidationMessages`方法可以很方便的返回字段验证出错信息，而不需要使用`Laravel validation`功能。
 
@@ -191,6 +191,22 @@ protected function form()
 	});
 }
 ```
+在事件中使用
+> {tip} 此方法仅在`submitted`事件中可用
+
+```php
+$form->submitted(function (Form $form) {
+	// 接收表单参数
+	$title = $form->title;
+
+    if (...) { // 验证逻辑
+        $form->responseValidationMessages('title', 'title格式错误');
+        
+        // 如有多个错误信息，第二个参数可以传数组
+        $form->responseValidationMessages('content', ['content格式错误', 'content不能为空']);
+    }
+});
+```
 
 ### 去掉提交按钮:
 
@@ -203,7 +219,7 @@ $form->disableSubmitButton();
 $form->disableResetButton();
 ```
 
-### 忽略掉不需要保存的字段
+### 忽略掉不需要保存的字段 (ignore)
 
 ```php
 $form->ignore(['column1', 'column2', 'column3']);
@@ -212,7 +228,7 @@ $form->ignore(['column1', 'column2', 'column3']);
 $form->removeIgnoredFields(['column1',]);
 ```
 
-### 设置宽度
+### 设置宽度 (width)
 
 此处的宽度值是一个`1-12`之间的数字，第一个参数为 ```field``` 的宽，第二个参数为 ```label``` 的宽可省略
 
@@ -227,7 +243,7 @@ $form->width(10, 2);
 $form->action('auth/users');
 ```
 
-### 判断是否是新增
+### 判断是否是新增 (isCreating)
 
 新增页面和保存新增数据都可以用这个方法判断
 
@@ -237,7 +253,7 @@ if ($form->isCreating()) {
 }
 ```
 
-### 判断是否是编辑
+### 判断是否是编辑 (isEditing)
 
 编辑页面和保存编辑数据都可以用这个方法判断
 
@@ -247,7 +263,7 @@ if ($form->isEditing()) {
 }
 ```
 
-### 判断是否是删除
+### 判断是否是删除 (isDeleting)
 
 ```php
 if ($form->isDeleting()) {
@@ -255,9 +271,9 @@ if ($form->isDeleting()) {
 }
 ```
 
-### 获取ID
+### 获取ID (getKey)
 
-新增页面无效
+新增页面无效，必须在闭包里面使用
 
 ```php
 return Form::make(new User, function (Form $form) {
@@ -267,7 +283,18 @@ return Form::make(new User, function (Form $form) {
 });
 ```
 
-### 获取表单提交的数据
+### 获取编辑数据 (model)
+新增页面无效，必须在闭包里面使用
+
+```php
+return Form::make(new User, function (Form $form) {
+    $username = $form->model()->xxx;
+    
+    ...
+});
+```
+
+### 获取表单提交的数据 (input)
 
 ```php
 $form->saving(function (Form $form) {
@@ -293,7 +320,7 @@ $form->saving(function (Form $form) {
 ```
 
 
-### 获取最终保存的数据
+### 获取最终保存的数据 (updates)
 
 此方法仅在`saved`回调有效。
 
@@ -306,7 +333,7 @@ $form->saved(function (Form $form) {
 ```
 
 <a name="redirect"></a>
-### 页面跳转
+### 页面跳转 (redirect)
 
 跳转到指定页面，此方法仅在[表单回调](model-form-callback.md)事件内可用
 
@@ -325,9 +352,18 @@ $form->creating(function (Form $form) {
 });
 ```
 
+<a name="confirm"></a>
+### 显示确认弹窗 (confirm)
+
+> {tip} Since `v1.6.5`
+
+点击表单提交按钮时弹出确认弹窗，如果是在普通数据表单中
+```php
+$form->confirm('您确定要提交表单吗？', 'content');
+```
 
 
-### 设置外层容器
+### 设置外层容器 (wrap)
 ```php
  // 更改表格外层容器
 $form->wrap(function (Renderable $view) {
@@ -337,23 +373,6 @@ $form->wrap(function (Renderable $view) {
     $tab->add('代码', $this->code(), true);
 
     return $tab;
-});
-```
-
-在事件中使用
-> {tip} 此方法仅在`submitted`事件中可用
-
-```php
-$form->submitted(function (Form $form) {
-	// 接收表单参数
-	$title = $form->title;
-
-    if (...) { // 验证逻辑
-        $form->responseValidationMessages('title', 'title格式错误');
-        
-        // 如有多个错误信息，第二个参数可以传数组
-        $form->responseValidationMessages('content', ['content格式错误', 'content不能为空']);
-    }
 });
 ```
 

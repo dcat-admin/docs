@@ -251,6 +251,39 @@ $filter->where('mobile', function ($query) {
 
 }, '地址或手机号');
 ```
+
+<a name="whereBetween"></a>
+### 复杂范围查询whereBetween
+
+> {tip} Since `v1.6.5`
+
+通过`whereBetween`可以自定义范围查询
+
+```php
+$filter->whereBetween('created_at', function ($q) {
+	$start = $this->input['start'] ?? null;
+	$end = $this->input['end'] ?? null;
+
+	$q->whereHas('goods', function ($q) use ($start) {
+		if ($start !== null) {
+			$q->where('price', '>=', $start);
+		}
+		 
+		if ($end !== null) {
+			$q->where('price', '<=', $end);
+		}
+	});
+});       
+```
+
+同时这个方法也支持时间日期范围查询
+
+```php
+$filter->whereBetween('created_at', function ($q) {
+	...
+})->datetime(); 
+```
+
 <a name="group"></a>
 ### 过滤器组group
 有时候对同一个字段要设置多种筛选方式，可以通过下面的方式实现
@@ -484,6 +517,12 @@ $filter->equal('column')->month();
 $filter->equal('column')->year();
 
 ```
+
+如果你的时间日期字段在数据库中存储的是时间戳类型，那么可以通过`toTimestamp`方法把表单的值转化为时间戳
+```php
+$filter->equal('column')->datetime($options)->toTimestamp();
+```
+
 
 <a name="method"></a>
 ## 常用方法

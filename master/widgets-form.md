@@ -42,6 +42,9 @@ class Setting extends Form
      */
     public function form()
     {
+        // Since v1.6.5 弹出确认弹窗 
+        $this->confirm('您确定要提交表单吗', 'content');
+        
         $this->text('name')->required();
         $this->email('email')->rules('email');
     }
@@ -95,6 +98,17 @@ class UserController extends Controller
     }
 }
 ```
+
+### 弹出确认弹窗
+
+> {tip} Since `v1.6.5`
+
+第二个参数可忽略
+
+```php
+$this->confirm('title', 'content');
+```
+
 
 ### 响应方法
 

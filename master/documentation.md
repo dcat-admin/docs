@@ -8,7 +8,7 @@
   - [主题与颜色](theme.md)
   - [自定义页面](custom-page.md)
   - [JS组件](js.md)
-  - [多应用](multi-app.md)
+  - [多应用 (多后台)](multi-app.md)
   - [常见问题](qa.md)
 - ## 数据表格
   - [基本使用](model-grid.md)
@@ -84,5 +84,5 @@
 - ## [自定义登陆认证](custom-authentication.md)
 - ## [自定义头部导航](custom-navbar.md)
 - ## 更新日志
-  - [v1.6.0](v1-6-0.md)
+  - [v1.6.5](v1-6-5.md)
   - [更新日志](change-log.md)

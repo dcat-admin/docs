@@ -100,6 +100,52 @@ class MovieController extends AdminController
 }
 ```
 
+## 表格显示模式
+
+### table_collapse
+
+> {tip} Since `v1.6.5`
+
+在这个版本开始，默认的表格布局将会采用 `table_collapse` 模式，效果如下
+
+<a href="https://cdn.learnku.com/uploads/images/202007/24/38389/4bCfBdtvq5.png!large" target="_blank">
+    <img class="img" src="https://cdn.learnku.com/uploads/images/202007/24/38389/4bCfBdtvq5.png!large" />
+</a>
+<a href="https://cdn.learnku.com/uploads/images/202007/24/38389/35KJXfVXib.png!large" target="_blank">
+    <img class="img" src="https://cdn.learnku.com/uploads/images/202007/24/38389/35KJXfVXib.png!large" />
+</a>    
+
+如果想要切换回旧版本的表格布局样式，可以在 `app/Admin/bootstrap.php`中加上
+
+```php
+Grid::resolving(function (Grid $grid) {
+    $grid->tableCollapse(false);
+});
+```
+
+### 边框模式
+
+通过`withBorder`方式可以让表格显示边框
+
+> {tip} Since `v1.2.0`
+
+```php
+$grid->withBorder();
+```
+
+效果
+<a href="http://103.39.211.179:8080/admin/reports" target="_blank">
+    <img style="box-shadow:0 1px 6px 1px rgba(0, 0, 0, 0.12)" width="100%" src="{{public}}/assets/img/screenshots/grid-combination.png">
+</a>
+
+
+> {tip} Since `v1.4.5`
+ 
+禁用边框模式
+```php
+$grid->withBorder(false);
+```
+
 ## 基本使用方法
 
 ### 添加列
@@ -187,28 +233,6 @@ $grid->column('full_name')->display(function () {
 });
 ```
 
-### 显示表格边框
-
-通过`withBorder`方式可以让表格显示边框
-
-> {tip} Since `v1.2.0`
-
-```php
-$grid->withBorder();
-```
-
-效果
-<a href="http://103.39.211.179:8080/admin/reports" target="_blank">
-    <img style="box-shadow:0 1px 6px 1px rgba(0, 0, 0, 0.12)" width="100%" src="{{public}}/assets/img/screenshots/grid-combination.png">
-</a>
-
-
-> {tip} Since `v1.4.5`
- 
-禁用边框模式
-```php
-$grid->withBorder(false);
-```
 
 <a name="outline"></a>
 ### 设置工具栏按钮样式
