@@ -104,7 +104,7 @@ $grid->rows(function (Collection $rows) {
 这个方法和`display`回调不同的是，它可以批量修改数据, 参考下面实例中的几个使用场景：
 
 ```php
-use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Collection;
 
 $grid->model()->collection(function (Collection $collection) {
 
