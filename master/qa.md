@@ -1,10 +1,10 @@
 # 常见问题汇总
 
-### 如何设置语言为简体中文？
+### 1.如何设置语言为简体中文？
 
 打开配置文件`config/app.php`，设置`locale`参数的值为`zh-CN`。
 
-### Laravel7时间显示为UTC格式
+### 2.Laravel7时间显示为UTC格式
 
 这个是`Laravel7`升级后带来的坑，原因请参考[日期序列化](https://learnku.com/docs/laravel/7.x/upgrade/7445#date-serialization)。
 
@@ -24,10 +24,26 @@ class MyModel extends Model
 }
 ```
 
-### 如何从laravel-admin迁移到dcat-admin？
+### 3.表单保存时报错`Array to string conversion`
+
+出现这个问题是因为表单提交的值最后转换成了`array`类型，而`MySQL`是不支持直接存储`array`类型数据的，在`dcat-admin`中可以用以下方式对数据格式进行转换
+
+```php
+$form->multipleSelect('user_id')->saving(function ($v) {
+    // 转为 , 隔开的字符串
+    return implode(',', $v);
+});
+```
+
+当然，也可以通过`model`的**修改器**去转化字段的值，这方面内容可以参考`laravel`文档，这里就不再赘述。
+
+> {tip} 更优雅的转化值方法，可参考 [Dcat Admin 教程 - 如何优雅地更改表单值的数据类型？](https://learnku.com/articles/44386)
+
+
+### 4.如何从laravel-admin迁移到dcat-admin？
 [Dcat Admin 教程 - 如何从 Laravel admin 迁移到 dcat admin？](https://learnku.com/articles/44235)
 
-### 重写登陆页面和登陆逻辑
+### 5.重写登陆页面和登陆逻辑
 
 方式一，重写登陆控制器方法：
 
@@ -77,11 +93,11 @@ Route::group([
 在自定义的路由器AuthController中的`getLogin`、`postLogin`方法里分别实现自己的登陆页面和登陆逻辑。
 
 
-### 更新新版本后出现异常
+### 6.更新新版本后出现异常
 
 如果遇到更新之后,部分组件不能正常使用,那有可能是`dcat-admin`自带的静态资源有更新了,需要运行命令`php artisan admin:publish --force`来重新发布前端资源，发布之后不要忘记清理浏览器缓存.
 
-### 文件上传失败或无法访问？
+### 7.文件上传失败或无法访问？
 
 如果你发现无法上传文件，那么通常有几下几点原因：
 
@@ -92,7 +108,7 @@ Route::group([
 
 如果文件上传成功了，却无法正常访问，那么可能是`.env`配置文件中的`APP_URL`参数没有设置正确。
 
-### 关于前端资源加载问题
+### 8.关于前端资源加载问题
 
 `Dcat Admin`是支持前端资源按需加载的，在需要用到某个组件的时候再引入前端资源即可，开发者无需担心安装组件过多影响页面加载速度。
 
@@ -103,7 +119,7 @@ Admin::css('path/to/your/css');
 Admin::js('path/to/your/js');
 ```
 
-### 谷歌字体加载过慢？
+### 9.谷歌字体加载过慢？
 
 如果出现谷歌字体加载过慢的情况下，可以把谷歌字体下载到你自己的服务器，然后在`app/Admin/bootstrap.php`中加入以下代码，让系统从你自己的服务器中加载字体
 
@@ -127,29 +143,29 @@ Admin::asset()->alias('@nunito', null, '');
 Admin::asset()->alias('@montserrat', null, '');
 ```
 
-### 为何配置了角色和权限，依然提示无权访问？
+### 10.为何配置了角色和权限，依然提示无权访问？
 
 这个原因可能是由于权限的`URL`路径配置错误导致的，正确的包含增删改查功能的`URL`配置应该是`auth/users*`这样的，如果配置成了`auth/users/*`，那么就会提示无权访问。
 
 > {tip} 另外标签表单填写自定义URL有两种方法：一种是选中后按`删除键`进行更改；另一种是填写后按`空格键` + `回车键`。
 
-### 为何没有权限的菜单不会自动隐藏？
+### 11.为何没有权限的菜单不会自动隐藏？
 
 这个问题是因为没有给菜单绑定权限或者角色，给想要无权不显示的菜单绑定权限或者角色即可。
 
 
-### 项目使用HTTPS之后无法登陆
+### 12.项目使用HTTPS之后无法登陆
 
 需要把配置文件的`admin.https`参数的值设置为`true`
 
 
-### 图片防盗链
+### 13.图片防盗链
 图片请求默认会去掉 `referer` 字段，如果有防盗链要求，可以在配置文件(`config/admin.php`)中设置：
 
 ```
  "disable_no_referrer_meta" => true
 ```
 
-### 为何不开发成前后端分离项目？
+### 14.为何不开发成前后端分离项目？
 
 最近有很多同学问我为什么不采用前后端分离技术方案，我在这个帖子里回答的非常详细，有相关疑问的同学请[点击此处查看帖子](https://github.com/jqhph/dcat-admin/issues/27)，这里不再赘述。
