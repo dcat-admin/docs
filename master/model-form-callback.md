@@ -48,7 +48,7 @@ $form->submitted(function (Form $form) {
     $form->deleteInput('title');
     
     // 中断后续逻辑
-    return $this->error('服务器出错了~');
+    return $form->error('服务器出错了~');
 });
 ```
 
@@ -66,7 +66,7 @@ $form->saving(function (Form $form) {
     $form->deleteInput('title');
     
     // 中断后续逻辑
-    return $this->error('服务器出错了~');
+    return $form->error('服务器出错了~');
 });
 ```
 
@@ -126,7 +126,7 @@ $form->deleted(function (Form $form, $result) {
 	
 	// 通过 $result 可以判断数据是否删除成功
 	if (! $result) {
-		return $this->error('数据删除失败');
+		return $form->error('数据删除失败');
 	}
 
     // 返回删除成功提醒，此处跳转参数无效
