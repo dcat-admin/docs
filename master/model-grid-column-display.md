@@ -10,7 +10,7 @@
 > {tip} 需要注意的是，`Grid\Column::if`只对列的显示相关功能有效，其他方法如表头的相关操作都不能使用此方法！
 
 ```php
-$grid->config()
+$grid->column('config')
     ->if(function ($column) {
         // 获取当前行其他字段值
         $username = $this->username;
@@ -25,7 +25,7 @@ $grid->config()
 ```
 上面写法等同于
 ```php
-$grid->config()
+$grid->column('config')
     ->if(function ($column) {
         return $column->getValue();
     })
@@ -39,7 +39,7 @@ $grid->config()
 
 支持多个`if`
 ```php
-$grid->title
+$grid->column('config')
     ->if(...)
     ->then(...)
     ->else(...)

@@ -18,9 +18,23 @@ composer create-project --prefer-dist laravel/laravel 项目名称 7.*
 composer create-project --prefer-dist laravel/laravel 项目名称
 ```
 
-安装完`laravel`之后需要设置数据库连接设置正确
+安装完`laravel`之后需要修改`.env`文件，设置数据库连接设置正确
+
+```dotenv
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=dcat-admin
+DB_USERNAME=root
+DB_PASSWORD=
+```
+
+安装`dcat-admin`
+
 
 ```
+cd {项目名称}
+
 composer require dcat/laravel-admin
 ```
 
@@ -40,8 +54,15 @@ php artisan admin:publish
 php artisan admin:install
 ```
 
+上述步骤操作完成之后就可以配置`web`服务了，**注意需要把`web`目录指向`public`目录**！如果用的是`nginx`，还需要在配置中加上伪静态配置
+```dotenv
+location / {
+	try_files $uri $uri/ /index.php?$query_string;
+}
+```
 
-启动服务后，在浏览器打开 `http://localhost/admin/` ,使用用户名 `admin` 和密码 `admin`登陆.
+启动服务后，在浏览器打开 `http://localhost/admin`，使用用户名 `admin` 和密码 `admin`登陆。
+
 
 <a name="files"></a>
 ## 生成的文件

@@ -94,7 +94,7 @@ $form->switch('new')
 ### 下拉选框 (select)
 
 ```php
-$grid->options()->select([
+$grid->column('options')->select([
     1 => 'Sed ut perspiciatis unde omni',
     2 => 'voluptatem accusantium doloremque',
     3 => 'dicta sunt explicabo',
@@ -108,7 +108,7 @@ $grid->options()->select([
 
 ### 单选框 (radio)
 ```php
-$grid->options()->radio([
+$grid->column('options')->radio([
     1 => 'Sed ut perspiciatis unde omni',
     2 => 'voluptatem accusantium doloremque',
     3 => 'dicta sunt explicabo',
@@ -120,7 +120,7 @@ $grid->options()->radio([
 
 ### 多选框 (checkbox)
 ```php
-$grid->options()->checkbox([
+$grid->column('options')->checkbox([
     1 => 'Sed ut perspiciatis unde omni',
     2 => 'voluptatem accusantium doloremque',
     3 => 'dicta sunt explicabo',
