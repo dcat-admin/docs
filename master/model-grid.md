@@ -64,31 +64,31 @@ class MovieController extends AdminController
     {
         return Grid::make(new Movie(), function (Grid $grid) {
             // 第一列显示id字段，并将这一列设置为可排序列
-            $grid->id('ID')->sortable();
+            $grid->column('id', 'ID')->sortable();
             
             // 第二列显示title字段，由于title字段名和Grid对象的title方法冲突，所以用Grid的column()方法代替
             $grid->column('title');
             
             // 第三列显示director字段，通过display($callback)方法设置这一列的显示内容为users表中对应的用户名
-            $grid->director->display(function($userId) {
+            $grid->column('director')->display(function($userId) {
                 return User::find($userId)->name;
             });
             
             // 第四列显示为describe字段
-            $grid->describe;
+            $grid->column('describe');
             
             // 第五列显示为rate字段
-            $grid->rate;
+            $grid->column('rate');
             
             // 第六列显示released字段，通过display($callback)方法来格式化显示输出
-            $grid->released('上映?')->display(function ($released) {
+            $grid->column('released', '上映?')->display(function ($released) {
                 return $released ? '是' : '否';
             });
             
             // 下面为三个时间字段的列显示
-            $grid->release_at;
-            $grid->created_at;
-            $grid->updated_at;
+            $grid->column('release_at');
+            $grid->column('created_at');
+            $grid->column('updated_at');
             
             // filter($callback)方法用来设置表格的简单搜索框
             $grid->filter(function ($filter) {
@@ -149,18 +149,10 @@ $grid->withBorder(false);
 ## 基本使用方法
 
 ### 添加列
-> {tip} 通过`$grid->username('用户名');`的方式添加列时IDE默认是没有自动补全的，这时候可以通过`php artisan admin:ide-helper`生成IDE提示文件。
 
 ```php
-// 直接通过字段名`username`添加列
-$grid->username('用户名');
-
-// 效果和上面一样
+// 添加单列
 $grid->column('username', '用户名');
-
-// 或者用属性的方式
-// 没有设置label，会自动用翻译文件的翻译，具体请参照“字段翻译”章节
-$grid->username;
 
 // 添加多列
 $grid->columns('email', 'username' ...);
@@ -195,27 +187,27 @@ protected function grid()
 
 
 ```php
-$grid->text()->display(function($text) {
+$grid->column('text')->display(function($text) {
     return str_limit($text, 30, '...');
 });
 
 // 允许混合使用多个“display”方法
-$grid->name()->display(function ($name) {
+$grid->column('name')->display(function ($name) {
      return "<b>$name</b>";
  })->display(function ($name) {
     return "<span class='label'>$name</span>";
 });
 
-$grid->email->display(function ($email) {
+$grid->column('email')->display(function ($email) {
     return "mailto:$email";
 });
 
 // 可以直接写字符串
-$grid->username->display('...');
+$grid->column('username')->display('...');
 
 // 添加不存在的字段
-$grid->column_not_in_table->display(function () {
-    return 'blablabla....';
+$grid->column('column_not_in_table')->display(function () {
+    return 'blablabla....'.$this->id;
 });
 ```
 
@@ -224,8 +216,8 @@ $grid->column_not_in_table->display(function () {
 `display()`方法接收的匿名函数绑定了当前行的数据对象，可以在里面调用当前行的其它字段数据
 
 ```php
-$grid->first_name();
-$grid->last_name();
+$grid->column('first_name');
+$grid->column('last_name');
 
 // 不存的字段列
 $grid->column('full_name')->display(function () {

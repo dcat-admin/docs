@@ -68,9 +68,9 @@ $grid->column('title')->display(function ($title) {
 ```
 在传入的匿名函数中可以通过任何方式对数据进行处理，另外匿名函数绑定了当前列的数据作为父对象，可以在函数中调用当前行的数据：
 ```php
-$grid->first_name();
+$grid->column('first_name');
 
-$grid->last_name();
+$grid->column('last_name');
 
 // 不存在的`full_name`字段
 $grid->column('full_name')->display(function () {
@@ -81,13 +81,13 @@ $grid->column('full_name')->display(function () {
 ### 设置列的HTML属性
 设列的`html`属性
 ```php
-$grid->name->setAttributes(['style' => 'font-size:14px']);
+$grid->column('name')->setAttributes(['style' => 'font-size:14px']);
 ```
 
 ### 列视图
 `view`方法可以引入一个视图文件。
 ```php
-$grid->content->view('admin.fields.content');
+$grid->column('content')->view('admin.fields.content');
 ```
 
 默认会传入视图的三个变量：
@@ -107,13 +107,13 @@ $grid->content->view('admin.fields.content');
 ### 图片
 
 ```php
-$grid->picture()->image();
+$grid->column('picture')->image();
 
 //设置服务器和宽高
-$grid->picture()->image('http://xxx.com', 100, 100);
+$grid->column('picture')->image('http://xxx.com', 100, 100);
 
 // 显示多图
-$grid->pictures()->display(function ($pictures) {
+$grid->column('pictures')->display(function ($pictures) {
     
     return json_decode($pictures, true);
     
@@ -127,23 +127,23 @@ $grid->pictures()->display(function ($pictures) {
 ```php
 use Dcat\Admin\Admin;
 
-$grid->name()->label();
+$grid->column('name')->label();
 
 // 设置颜色，直接传别名
-$grid->name()->label('danger');
+$grid->column('name')->label('danger');
 
 // 也可以这样使用
-$grid->name()->label(Admin::color()->danger());
+$grid->column('name')->label(Admin::color()->danger());
 
 // 也可以直接传颜色代码
-$grid->name()->label('#222');
+$grid->column('name')->label('#222');
 ```
 
 给不同的值设置不同的颜色
 ```php
 use Dcat\Admin\Admin;
 
-$grid->state->using([1 => '未处理', 2 => '已处理', ...])->label([
+$grid->column('state')->using([1 => '未处理', 2 => '已处理', ...])->label([
     'default' => 'primary', // 设置默认颜色，不设置则默认为 default
     
 	1 => 'primary',
@@ -158,16 +158,16 @@ $grid->state->using([1 => '未处理', 2 => '已处理', ...])->label([
 支持`Dcat\Admin\Color`类中内置的所有颜色
 
 ```php
-$grid->name()->badge();
+$grid->column('name')->badge();
 
 // 设置颜色，直接传别名
-$grid->name()->badge('danger');
+$grid->column('name')->badge('danger');
 
 // 也可以这样使用
-$grid->name()->badge(Admin::color()->danger());
+$grid->column('name')->badge(Admin::color()->danger());
 
 // 也可以直接传颜色代码
-$grid->name()->badge('#222');
+$grid->column('name')->badge('#222');
 ```
 
 给不同的值设置不同的颜色
@@ -218,7 +218,7 @@ $grid->column('approved')->bool(['Y' => true, 'N' => false]);
 ```php
 use Dcat\Admin\Admin;
 
-$grid->state
+$grid->column('state')
 	->using([1 => '未处理', 2 => '已处理', ...])
 	->dot(
 		[
@@ -242,7 +242,7 @@ $grid->state
 ### 列展开 (expand)
 `expand`方法可以把内容隐藏，点击按钮的时候显示在表格下一行
 ```php
-$grid->content
+$grid->column('content')
     ->display('详情') // 设置按钮名称
     ->expand(function () {
         // 返回显示的详情
@@ -254,7 +254,7 @@ $grid->content
 ```
 也可以通过以下方式设置按钮
 ```php
-$grid->content->expand(function (Grid\Displayers\Expand $expand) {
+$grid->column('content')->expand(function (Grid\Displayers\Expand $expand) {
     // 设置按钮名称
     $expand->button('详情');
 
@@ -328,7 +328,7 @@ $grid->post->expand(function () {
 ### 弹出模态框 (modal)
 `modal`方法可以把内容隐藏，点击按钮的时候显示在表格下一行
 ```php
-$grid->content
+$grid->column('content')
     ->display('查看') // 设置按钮名称
     ->modal(function ($modal) {
         // 设置弹窗标题
@@ -340,7 +340,7 @@ $grid->content
     });
 
 // 也可以通过这种方式设置弹窗标题
-$grid->content
+$grid->column('content')
     ->display('查看') // 设置按钮名称
     ->modal('弹窗标题', ...);
 ```
@@ -518,7 +518,7 @@ $grid->email->prepend(function ($value, $original) {
 
 ```php
 // 最多显示50个字符
-$grid->contents->limit(50, '...');
+$grid->column('content')s->limit(50, '...');
 
 // 如果字段值是数组也支持
 $grid->tags->limit(3);

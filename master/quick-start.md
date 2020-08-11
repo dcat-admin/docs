@@ -136,14 +136,14 @@ class UserController extends AdminController
     {
         return Grid::make(new User(), function (Grid $grid) {
             // 这里的字段会自动使用翻译文件
-            $grid->id->sortable();
-            $grid->name;
-            $grid->email;
-            $grid->email_verified_at;
-            $grid->password;
-            $grid->remember_token;
-            $grid->created_at;
-            $grid->updated_at->sortable();
+            $grid->column('id')->sortable();
+            $grid->column('name');
+            $grid->column('email');
+            $grid->column('email_verified_at');
+            $grid->column('password');
+            $grid->column('remember_token');
+            $grid->column('created_at');
+            $grid->column('updated_at')->sortable();
         
             $grid->filter(function (Grid\Filter $filter) {
                 $filter->equal('id');
@@ -163,14 +163,14 @@ class UserController extends AdminController
     {
         return Show::make($id, new User(), function (Show $show) {
             // 这里的字段会自动使用翻译文件
-            $show->id;
-            $show->name;
-            $show->email;
-            $show->email_verified_at;
-            $show->password;
-            $show->remember_token;
-            $show->created_at;
-            $show->updated_at;
+            $show->field('id');
+            $show->field('name');
+            $show->field('email');
+            $show->field('email_verified_at');
+            $show->field('password');
+            $show->field('remember_token');
+            $show->field('created_at');
+            $show->field('updated_at');
         });
     }
 
