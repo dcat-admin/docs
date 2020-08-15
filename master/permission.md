@@ -14,24 +14,27 @@
 
 > {tip} Since `v1.5.3`
 
-把`admin.auth.enable`配置参数的值设置为`false`可以完全禁用内置的权限系统。
+把`admin.permission.enable`配置参数的值设置为`false`可以完全禁用内置的权限系统。
 
 ## 跳过权限验证
 
-可以把需要跳过权限验证的接口加入到配置文件`admin.auth.except`参数中
+可以把需要跳过权限验证的接口加入到配置文件`admin.permission.except`参数中
 
 ```php
-	'auth' => [
-        ...
+	'permission' => [
+		// Whether enable permission.
+		'enable' => true,
 
-        // All method to path like: auth/users/*/edit
-        // or specific method to path like: get:auth/users.
-        'except' => [
-            'auth/login',
-            'auth/logout',
-        ],
+		// All method to path like: auth/users/*/edit
+		// or specific method to path like: get:auth/users.
+		'except' => [
+			'/',
+			'auth/login',
+			'auth/logout',
+			'auth/setting',
+		],
 
-    ],
+	],
 ```
 
 ## 页面控制
