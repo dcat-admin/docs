@@ -17,9 +17,23 @@ $grid->footer(function ($collection) {
 ## 头部
 
 ```php
-$grid->header(function ($collection) {
+$grid->header(function ($collection) use ($grid) {
+	$query = Model::query();
+    	
+	// 拿到表格筛选 where 条件数组进行遍历
+	$grod->model()->getQueries()->unique()->each(function ($value) use (&$query) {
+		if (in_array($value['method'], ['paginate', 'get', 'orderBy', 'orderByDesc'], true)) {
+			return;
+		}
+
+		$query = call_user_func_array([$query, $value['method']], $value['arguments'] ?? []);
+	});
+	
+	// 查出统计数据
+	$data = $query->get();
+
     // 自定义组件
-    return new Card();
+    return new Card($data);
 });
 ```
 
@@ -38,6 +52,13 @@ class Card implements Renderable
 	public static $css = [
 		'xxx/css/card.min.css',
 	];
+	
+	protected $data;
+	
+	public function __construct($data) 
+	{
+	    $this->data = $data;
+	}
 
 	public function script()
 	{
@@ -57,10 +78,7 @@ JS;
 		// 通过 Admin::script 设置的JS代码会自动在所有JS脚本都加载完毕后执行
 		Admin::script($this->script());
 		
-		// 查出统计数据
-		$data = '...';
-		
-		return view('...', ['data' => $data])->render();
+		return view('...', ['data' => $this->data])->render();
 	}
 }
 ```
@@ -71,9 +89,20 @@ JS;
 一个比较常见的场景是在数据表格的脚部显示统计信息，比如在订单表格的脚部加入收入统计，可以参考下面的代码实现：
 
 ```php
-$grid->footer(function ($collection) {
+$grid->footer(function ($collection) use ($grod) {
+	$query = Model::query();
+	
+	// 拿到表格筛选 where 条件数组进行遍历
+	$grod->model()->getQueries()->unique()->each(function ($value) use (&$query) {
+		if (in_array($value['method'], ['paginate', 'get', 'orderBy', 'orderByDesc'], true)) {
+		    return;
+		}
+
+		$query = call_user_func_array([$query, $value['method']], $value['arguments'] ?? []);
+	});
+	
 	// 查出统计数据
-	$data = '...';
+	$data = $query->get();
 
     return "<div style='padding: 10px;'>总收入 ： $data</div>";
 });
