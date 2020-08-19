@@ -57,6 +57,11 @@
   - [字段翻译](model-show-trans.md)
 - ## [模型树](model-tree.md)
 - ## [数据仓库](model-repository.md)
+- ## 异步加载
+  - [基本使用](lazy.md)
+  - [弹窗](lazy-modal.md)
+  - [表单](lazy-form.md)
+  - [表格](lazy-table.md)
 - ## 动作
   - [基本使用](action.md)
   - [数据表格](action-grid.md)
