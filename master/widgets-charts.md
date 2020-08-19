@@ -167,6 +167,18 @@ use Illuminate\Http\Request;
 
 class MyAjaxBar extends MyBar
 {
+    protected $id;
+    protected $username;
+    
+    // 这里的参数一定要设置默认值
+    public function __construct($id = null, $username = null) 
+    {
+        parent::__construct();
+        
+        $this->id = $id;
+        $this->username = $username;
+    }
+    
     /**
      * 处理请求
      * 如果你的图表类中包含此方法，则可以通过此方法处理前端通过ajax提交的获取图表数据的请求
@@ -176,6 +188,10 @@ class MyAjaxBar extends MyBar
      */
     public function handle(Request $request)
     {
+        // 获取 parameters 方法设置的自定义参数
+        $id = $request->get('id');
+        $username = $request->get('username');
+        
         switch ((int) $request->get('option')) {
             case 30:
                 // 你的数据查询逻辑
@@ -222,6 +238,19 @@ class MyAjaxBar extends MyBar
         $this->withCategories($categories);
     }
 
+	/**
+ 	 * 这里返回需要异步传递到 handler 方法的参数 
+ 	 * 
+	 * @return array
+	 */
+	public function parameters(): array
+	{
+	    return [
+	        'id' 	   => $this->id,
+	        'username' => $this->username,
+		];
+	}
+
     /**
      * 这里覆写父类的方法，不再查询数据
      */
@@ -261,8 +290,11 @@ class MyController
                     return "<a class='switch-bar' data-option='{$k}'>{$v}</a>";
                 });
 
+			// 传递自定义参数
+            $id = ...;
+            $username = ...;
 
-            $bar = MyAjaxBar::make()
+            $bar = MyAjaxBar::make($id, $username)
                 ->fetching('$("#my-box").loading()') // 设置loading效果
                 ->fetched('$("#my-box").loading(false)') // 移除loading效果
                 ->click('.switch-bar'); // 设置图表点击菜单则重新发起请求，且被点击的目标元素上的 data-xxx 属性会被作为post数据发送到后端API
