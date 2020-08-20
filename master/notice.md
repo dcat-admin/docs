@@ -554,9 +554,7 @@ public function index(Content $content)
 
 实现效果如下
 
-<a href="{{public}}/assets/img/screenshots/users-blue-dark.png" target="_blank">
-    <img  src="{{public}}/assets/img/screenshots/users-blue-dark.png" style="box-shadow:0 1px 6px 1px rgba(0, 0, 0, 0.12)" width="100%">
-</a>
+![]({{public}}/assets/img/screenshots/users-blue-dark.png)
 
 
 <a name="bootstrap-styles"></a>

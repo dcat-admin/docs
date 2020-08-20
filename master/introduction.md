@@ -4,13 +4,14 @@
 `Dcat Admin`是一个基于[laravel-admin](https://www.laravel-admin.org/)二次开发而成的后台系统构建工具，只需极少的代码即可快速构建出一个功能完善的高颜值后台系统。支持页面一键生成CURD代码，内置丰富的后台常用组件，开箱即用，让开发者告别冗杂的HTML代码，对后端开发者非常友好。
 
 <p align="center">
-    <a href="https://github.com/jqhph/dcat-admin/blob/master/LICENSE"><img src="https://img.shields.io/badge/license-MIT-7389D8.svg?style=flat" ></a>
+    <a href="https://github.com/jqhph/dcat-admin/blob/master/LICENSE"><img style="display:inline" src="https://img.shields.io/badge/license-MIT-7389D8.svg?style=flat" ></a>
     <a href="https://travis-ci.org/jqhph/dcat-admin">
-        <img src="https://travis-ci.org/jqhph/dcat-admin.svg?branch=master" alt="Build Status">
+        <img style="display:inline"  src="https://travis-ci.org/jqhph/dcat-admin.svg?branch=master" alt="Build Status">
     </a>
-    <a href="https://packagist.org/packages/dcat/laravel-admin"><img src="https://img.shields.io/packagist/dt/dcat/laravel-admin.svg?color=" /></a> 
-    <a><img src="https://img.shields.io/badge/php-7.1+-59a9f8.svg?style=flat" /></a> 
-    <a><img src="https://img.shields.io/badge/laravel-5.5+-59a9f8.svg?style=flat" ></a>
+    <a href="https://packagist.org/packages/dcat/laravel-admin">
+    	<img style="display:inline"  src="https://img.shields.io/packagist/dt/dcat/laravel-admin.svg?color=" /></a> 
+    <a><img style="display:inline"  src="https://img.shields.io/badge/php-7.1+-59a9f8.svg?style=flat" /></a> 
+    <a><img style="display:inline"  src="https://img.shields.io/badge/laravel-5.5+-59a9f8.svg?style=flat" ></a>
 </p>
 
 ### 技术栈

@@ -203,9 +203,7 @@ $grid->column('approved')->bool(['Y' => true, 'N' => false]);
 ```
 
 效果
-<a href="{{public}}/assets/img/screenshots/column-bool.png" target="_blank">
-    <img style="box-shadow:0 1px 6px 1px rgba(0, 0, 0, 0.12)" width="160px" src="{{public}}/assets/img/screenshots/column-bool.png">
-</a>
+![]({{public}}/assets/img/screenshots/column-bool.png)
 
 
 
@@ -233,10 +231,7 @@ $grid->column('state')
 
 效果
 
-<a href="{{public}}/assets/img/screenshots/grid-column-dot.png" target="_blank">
-    <img style="box-shadow:0 1px 6px 1px rgba(0, 0, 0, 0.12)" width="150px" src="{{public}}/assets/img/screenshots/grid-column-dot.png">
-</a>
-
+![]({{public}}/assets/img/screenshots/grid-column-dot.png)
 
 <a name="expand"></a>
 ### 列展开 (expand)
@@ -318,9 +313,7 @@ $grid->post->expand(function () {
 ```
 
 效果
-<a href="{{public}}/assets/img/screenshots/expand-lazy-render.gif" target="_blank">
-    <img  src="{{public}}/assets/img/screenshots/expand-lazy-render.gif" style="box-shadow:0 1px 6px 1px rgba(0, 0, 0, 0.12)" width="100%">
-</a>
+![]({{public}}/assets/img/screenshots/expand-lazy-render.gif)
 
 
 
@@ -398,9 +391,7 @@ $grid->post->modal(function ($modal) {
 ```
 
 效果
-<a href="{{public}}/assets/img/screenshots/modal-lazy-render.gif" target="_blank">
-    <img  src="{{public}}/assets/img/screenshots/modal-lazy-render.gif" style="box-shadow:0 1px 6px 1px rgba(0, 0, 0, 0.12)" width="100%">
-</a>
+![]({{public}}/assets/img/screenshots/modal-lazy-render.gif)
 
 
 
@@ -444,9 +435,7 @@ $grid->permissions->showTreeInDialog(function (Grid\Displayers\DialogTree $tree)
     }
 });
 ```
-<a href="{{public}}/assets/img/screenshots/grid-column-tree.png" target="_blank">
-    <img style="box-shadow:0 1px 6px 1px rgba(0, 0, 0, 0.12)" width="100%" src="{{public}}/assets/img/screenshots/grid-column-tree.png">
-</a>
+![]({{public}}/assets/img/screenshots/grid-column-tree.png)
 
 ### 内容映射 (using)
 ```php
