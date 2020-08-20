@@ -146,10 +146,20 @@ HTML;
 > {tip} `Dcat Admin`的菜单是通过注入默认内容到`LEFT_SIDEBAR_MENU`区块而构建的，开发者可以轻易替换掉系统默认的菜单渲染逻辑。
 
 ```php
+use Dcat\Admin\Support\Helper;
+use Dcat\Admin\Admin;
+
 admin_inject_section(\AdminSection::LEFT_SIDEBAR_MENU, function () {
     $menuModel = config('admin.database.menu_model');
+	
+	$builder = Admin::menu();
 
-    return $this->build((new $menuModel())->allNodes());
+	$html = '';
+	foreach (Helper::buildNestedArray((new $menuModel())->allNodes()) as $item) {
+		$html .= view('admin::partials.menu', ['item' => $item, 'builder' => $builder])->render();
+	}
+
+	return $html;
 });
 ```
 

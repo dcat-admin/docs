@@ -188,10 +188,12 @@ class Setting extends Form
     
     /**
  	 * 设置表单保存成功后执行的JS
+ 	 *
+ 	 * v1.6.5 版本之前请用 buildSuccessScript 方法
  	 * 
 	 * @return string|void
 	 */
-	protected function buildSuccessScript()
+	protected function addSavedScript()
 	{
 	    return <<<JS
 		// data 为接口返回数据
@@ -214,10 +216,12 @@ JS;
 
 	/**
 	 * 设置表单保存失败后执行的JS
+ 	 * 
+ 	 * v1.6.5 版本之前请用 buildErrorScript 方法 
 	 * 
 	 * @return string|void
 	 */
-	protected function buildErrorScript()
+	protected function addErrorScript()
 	{
 		return <<<JS
 		var errorData = JSON.parse(response.responseText);
@@ -313,10 +317,15 @@ public function form()
 <a name="modal"></a>
 ### 在弹窗中显示
 
-工具表单是支持在`modal`弹窗中显示的，可以结合[动作(action)](action.md)一起使用。
+> {tip} Since `v1.7.0` 
+
+具体使用参考 [模态窗(modal) - 表单](widgets-modal.md#form)
 
 
 #### 行操作弹窗
+
+> {tip} Since `v1.7.0`
+
 下面通过一个数据表格修改密码的行操作功能来展示弹窗结合工具表单的用法：
 
 
@@ -328,26 +337,21 @@ public function form()
 namespace App\Admin\Forms;
 
 use Dcat\Admin\Models\Administrator;
+use Dcat\Admin\Traits\LazyWidget;
 use Dcat\Admin\Widgets\Form;
-use Symfony\Component\HttpFoundation\Response;
+use Dcat\Admin\Contracts\LazyRenderable;
 
-class ResetPassword extends Form
+class ResetPassword extends Form implements LazyRenderable
 {
-    // 增加一个自定义属性保存用户ID
-    protected $id;
-
-    // 构造方法的参数必须设置默认值
-    public function __construct($id = null)
-    {
-        $this->id = $id;
-
-        parent::__construct();
-    }
-
+    use LazyWidget; // 使用异步加载功能
+    
     // 处理请求
     public function handle(array $input)
     {
-        $id = $input['id'] ?? null;
+        // 获取外部传递参数
+        $id = $this->payload['id'] ?? null;
+        
+        // 表单参数
         $password = $input['password'] ?? null;
 
         if (! $id) {
@@ -367,12 +371,12 @@ class ResetPassword extends Form
 
     public function form()
     {
+        // 获取外部传递参数
+		//$id = $this->payload['id'] ?? null;
+        
         $this->password('password')->required();
         // 密码确认表单
         $this->password('password_confirm')->same('password');
-
-        // 设置隐藏表单，传递用户id
-        $this->hidden('id')->value($this->id);
     }
 
     // 返回表单数据，如不需要可以删除此方法
@@ -394,58 +398,23 @@ class ResetPassword extends Form
 namespace App\Admin\Actions\Grid;
 
 use App\Admin\Forms\ResetPassword as ResetPasswordForm;
-use Dcat\Admin\Admin;
+use Dcat\Admin\Widgets\Modal;
 use Dcat\Admin\Grid\RowAction;
 
 class ResetPassword extends RowAction
 {
+    protected $title = '修改密码';
+    
     public function render()
     {
-        $id = "reset-pwd-{$this->getKey()}";
-
-        // 模态窗
-        $this->modal($id);
-
-        return <<<HTML
-<span class="grid-expand" data-toggle="modal" data-target="#{$id}">
-   <a href="javascript:void(0)">修改密码</a>
-</span>
-HTML;
-    }
-
-    protected function modal($id)
-    {
-        // 工具表单
-        $form = new ResetPasswordForm($this->getKey());
-
-        // 在弹窗标题处显示当前行的用户名
-        $username = $this->row->username;
-
-        // 刷新页面时移除模态窗遮罩层
-        // 从 v1.5.0 版本开始可以移除这段 JS 代码
-        Admin::script('Dcat.onPjaxComplete(function () {
-            $(".modal-backdrop").remove();
-            $("body").removeClass("modal-open");
-        }, true)');
-
-        // 通过 Admin::html 方法设置模态窗HTML
-        Admin::html(
-            <<<HTML
-<div class="modal fade" id="{$id}">
-  <div class="modal-dialog modal-lg" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h4 class="modal-title">修改密码 - {$username}</h4>
-         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-      </div>
-      <div class="modal-body">
-        {$form->render()}
-      </div>
-    </div>
-  </div>
-</div>
-HTML
-        );
+        // 实例化表单类并传递自定义参数
+        $form = ResetPasswordForm::make()->payload(['id' => $this->getKey()]);
+        
+        return Modal::make()
+        	->lg()
+        	->title($this->title)
+        	->body($form)
+        	->button($this->title);
     }
 }
 ```
@@ -455,18 +424,18 @@ HTML
 ```php
 use App\Admin\Actions\Grid\ResetPassword;
 
-$grid->actions(new ResetPassword());
+$grid->actions([new ResetPassword()]);
 ```
 
 效果
 
-<a href="{{public}}/assets/img/screenshots/modal-widget-form.png" target="_blank">
-    <img class="img img-full" src="{{public}}/assets/img/screenshots/modal-widget-form.png">
-</a>
+![]({{public}}/assets/img/screenshots/modal-widget-form.png)
 
 
 <a name="batch-modal"></a>
 #### 批量操作弹窗
+
+> {tip} Since `v1.7.0`
 
 如果你想在批量操作按钮中使用表单弹窗，可以参考以下例子：
 
@@ -480,63 +449,56 @@ namespace App\Admin\Forms;
 
 use Dcat\Admin\Models\Administrator;
 use Dcat\Admin\Widgets\Form;
+use Dcat\Admin\Traits\LazyWidget;
+use Dcat\Admin\Contracts\LazyRenderable;
 
-class ResetPassword extends Form
+class ResetPassword extends Form implements LazyRenderable
 {
-    // 增加一个自定义属性保存用户ID
-       protected $id;
+    use LazyWidget;
+    
+    // 处理请求
+    public function handle(array $input)
+    {
+	    // id转化为数组
+	    $id = explode(',', $input['id'] ?? null);
+	    $password = $input['password'] ?? null;
+
+	    if (! $id) {
+		    return $this->error('参数错误');
+	    }
+
+	    $users = Administrator::query()->find($id);
+
+	    if ($users->isEmpty()) {
+		    return $this->error('用户不存在');
+	    }
+
+	    // 这里改为循环批量修改
+	    $users->each(function ($user) use ($password) {
+	 	    $user->update(['password' => bcrypt($password)]);
+	    });
+
+	    return $this->success('密码修改成功');
+    }
+
+    public function form()
+    {
+        $this->password('password')->required();
+        // 密码确认表单
+        $this->password('password_confirm')->same('password');
    
-       // 构造方法的参数必须设置默认值
-       public function __construct($id = null)
-       {
-           $this->id = $id;
+        // 设置隐藏表单，传递用户id
+        $this->hidden('id')->attribute('id', 'reset-password-id');
+    }
    
-           parent::__construct();
-       }
-   
-       // 处理请求
-       public function handle(array $input)
-       {
-           // id转化为数组
-           $id = explode(',', $input['id'] ?? null);
-           $password = $input['password'] ?? null;
-   
-           if (! $id) {
-               return $this->error('参数错误');
-           }
-   
-           $users = Administrator::query()->find($id);
-   
-           if ($users->isEmpty()) {
-               return $this->error('用户不存在');
-           }
-   
-           // 这里改为循环批量修改
-           $users->each(function ($user) use ($password) {
-               $user->update(['password' => bcrypt($password)]);
-           });
-   
-           return $this->success('密码修改成功');
-       }
-   
-       public function form()
-       {
-           $this->password('password')->required();
-           // 密码确认表单
-           $this->password('password_confirm')->same('password');
-   
-           // 设置隐藏表单，传递用户id，这里需要加上id属性
-            $this->hidden('id')->attribute('id', 'reset-password-id')->value($this->id);
-       }
-   
-       // 返回表单数据，如不需要可以删除此方法
-       public function default()
-       {
-           return [
-               'password'         => '',
-               'password_confirm' => '',
-           ];
-       }
+    // 返回表单数据，如不需要可以删除此方法
+    public function default()
+    {
+        return [
+            'password'         => '',
+            'password_confirm' => '',
+        ];
+    }
 }
 ```
 
@@ -548,71 +510,37 @@ class ResetPassword extends Form
 namespace App\Admin\Actions\Grid;
 
 use App\Admin\Forms\ResetPassword as ResetPasswordForm;
-use Dcat\Admin\Admin;
+use Dcat\Admin\Widgets\Modal;
 use Dcat\Admin\Grid\BatchAction;
 
 class BatchResetPassword extends BatchAction
 {
+    protected $title = '修改密码';
+    
     public function render()
     {
-        $id = "batch-reset-pwd";
-
-        $this->modal($id);
-
-        $this->addScript($id);
-
-        return <<<HTML
-<span data-toggle="modal" data-target="#{$id}">
-   <a href="javascript:void(0)">修改密码</a>
-</span>
-HTML;
+        // 实例化表单类
+		$form = ResetPasswordForm::make();
+		
+		return Modal::make()
+			->lg()
+			->title($this->title)
+			->body($form)
+			->onShow($this->getModalScript()) // 弹窗显示后往隐藏表单写入选中的ID
+			->button($this->title);
     }
 
-    protected function addScript($id)
+    protected function getModalScript()
     {
         // 弹窗显示后往隐藏的id表单中写入批量选中的行ID
-        Admin::script(
-            <<<JS
-$('#$id').on('shown.bs.modal', function () {
-    // 获取选中的ID数组
-    var key = {$this->getSelectedKeysScript()}
-    
-    $('#reset-password-id').val(key);
-});
-JS
-        );
-    }
+        return <<<JS
+// 获取选中的ID数组
+var key = {$this->getSelectedKeysScript()}
 
-    protected function modal($id)
-    {
-        // 表单
-        $form = new ResetPasswordForm();
-
-        // 刷新页面时移除模态窗遮罩层
-        // 从 v1.5.0 版本开始可以移除这段 JS 代码
-        Admin::script('Dcat.onPjaxComplete(function () {
-            $(".modal-backdrop").remove();
-            $("body").removeClass("modal-open");
-        }, true)');
-
-        Admin::html(
-            <<<HTML
-<div class="modal fade" id="{$id}">
-  <div class="modal-dialog modal-lg" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h4 class="modal-title">修改密码</h4>
-         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-      </div>
-      <div class="modal-body">
-        {$form->render()}
-      </div>
-    </div>
-  </div>
-</div>
-HTML
-        );
-    }
+$('#reset-password-id').val(key);
+JS;
+	}
+        
 }
 ```
 
@@ -621,5 +549,5 @@ HTML
 ```php
 use App\Admin\Actions\Grid\BatchResetPassword;
 
-$grid->batchActions(new BatchResetPassword());
+$grid->batchActions([new BatchResetPassword()]);
 ```
