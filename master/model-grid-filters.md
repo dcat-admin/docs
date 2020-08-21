@@ -403,6 +403,9 @@ $filter->equal('column')->inputmask($options = [], $icon = 'pencil');
 
 <a name="selectResource"></a>
 ### 弹窗选择器(selectResource)
+
+> {tip} 此功能即将在 `2.0` 版本中废弃，请使用 [selectTable](#select-table)
+
 选择数据源，选择弹窗里面的表格数据。
 
 ```php
@@ -473,6 +476,92 @@ class UserController extends AdminController
     }
 }
 ```
+
+
+<a name="select-table"></a>
+### 表格选择器 (selectTable)
+
+> {tip} Since `v1.7.0`
+
+```php
+use App\Admin\Renderable\UserTable;
+use Dcat\Admin\Models\Administrator;
+
+$filter->equal('user_id')
+	->selectTable(UserTable::make(['id' => ...])) // 设置渲染类实例，并传递自定义参数
+	->title('弹窗标题')
+	->dialogWidth('50%') // 弹窗宽度，默认 800px
+	->model(Administrator::class, 'id', 'name'); // 设置编辑数据显示
+	
+// 上面的代码等同于
+$filter->equal('user_id')
+	->selectTable(UserTable::make(['id' => ...])) // 设置渲染类实例，并传递自定义参数
+	->options(function ($v) { // 设置编辑数据显示
+		if (! $v) {
+			return [];
+		}
+		
+		return Administrator::find($v)->pluck('name', 'id');
+	});
+```
+
+定义渲染类如下，需要继承`Dcat\Admin\Grid\LazyRenderable`
+
+> {tip} 这里使用了数据表格异步加载功能，详细用法请参考[异步加载](lazy.md)
+
+```php
+<?php
+
+namespace App\Admin\Renderable;
+
+use Dcat\Admin\Grid;
+use Dcat\Admin\Grid\LazyRenderable;
+use Dcat\Admin\Models\Administrator;
+
+class UserTable extends LazyRenderable
+{
+    public function grid(): Grid
+    {
+        // 获取外部传递的参数
+        $id = $this->id;
+        
+        return Grid::make(new Administrator(), function (Grid $grid) {
+            $grid->column('id');
+            $grid->column('username');
+            $grid->column('name');
+            $grid->column('created_at');
+            $grid->column('updated_at');
+
+            $grid->quickSearch(['id', 'username', 'name']);
+
+            $grid->paginate(10);
+            $grid->disableActions();
+
+            $grid->filter(function (Grid\Filter $filter) {
+                $filter->like('username')->width(4);
+                $filter->like('name')->width(4);
+            });
+        });
+    }
+}
+```
+
+效果
+
+![]()
+
+#### 多选 (multipleSelectTable)
+
+多选的用法与上述`selectTable`方法一致
+
+```php
+$filter->in('user_id')
+	->multipleSelectTable(UserTable::make(['id' => $form->getKey()])) // 设置渲染类实例，并传递自定义参数
+	->max(10) // 最多选择 10 个选项，不传则不限制
+	->model(Administrator::class, 'id', 'name'); // 设置编辑数据显示
+```
+
+
 
 <a name="select"></a>
 ### select
