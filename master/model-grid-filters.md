@@ -528,7 +528,7 @@ $filter->equal('column')->datetime($options)->toTimestamp();
 ## 常用方法
 
 <a name="width"></a>
-### 设置过滤器宽度
+### 过滤器宽度 (width)
 ```php
 // 设置为“1-12”之间的值，默认值是“3”
 $filter->equal('column')->width(3);
@@ -538,7 +538,7 @@ $filter->equal('column')->width('250px');
 ```
 
 <a name="default"></a>
-### 设置默认值
+### 设置默认值 (default)
 ```php
 $filter->equal('column')->default('text');
 
@@ -546,7 +546,7 @@ $filter->equal('column')->select([0 => 'PHP', 1 => 'Java'])->default(1);
 ```
 
 <a name="expand"></a>
-### 展开过滤器
+### 展开过滤器 (expand)
 ```php
 $filter->expand();
 
@@ -581,6 +581,17 @@ $filter->equal('column');
 ...
 ```
 
+### 忽略筛选项 (ignore)
+
+> {tip} Since `v1.7.0`
+
+通过`ignore`方法可以在提交表单时忽略当前筛选项
+
+```php
+$filter->equal('column')->ignore();
+```
+
+
 <a name="relation"></a>
 ## 关联关系字段查询
 > {tip} Since `v1.5.0`
@@ -612,8 +623,9 @@ $grid->filter(function ($filter) {
 });
 ```
 
+> {tip} Since `v1.7.0`
 
-
+如果安装了 [dcat/laravel-wherehasin](https://github.com/jqhph/laravel-wherehasin)，则会优先使用`whereHasIn`方法进行查询操作
 
 
 <a name="extend"></a>

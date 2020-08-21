@@ -40,6 +40,26 @@ $selector->selectOne('brand', '品牌', [
 ]);
 ```
 
+### 关联关系字段查询
+
+> {tip} Since `v1.7.0`
+
+如果安装了 [dcat/laravel-wherehasin](https://github.com/jqhph/laravel-wherehasin)，则会优先使用`whereHasIn`方法进行查询操作
+
+```php
+use Dcat\Admin\Grid;
+
+$grid->selector(function (Grid\Tools\Selector $selector) {
+    $selector->select('brand.id', '品牌', [
+        1 => '华为',
+        2 => '小米',
+        3 => 'OPPO',
+        4 => 'vivo',
+    ]);
+});
+```
+
+
 ### 自定义查询
 上面的方式会使用在选择器上选定的值，作为查询条件进行查询，但是有些情况需要更灵活的控制查询方式，那么可以使用下面的方式自定义查询：
 

@@ -322,7 +322,7 @@ public function form()
 具体使用参考 [模态窗(modal) - 表单](widgets-modal.md#form)
 
 
-#### 行操作弹窗
+#### 表格行操作弹窗
 
 > {tip} Since `v1.7.0`
 
@@ -433,7 +433,7 @@ $grid->actions([new ResetPassword()]);
 
 
 <a name="batch-modal"></a>
-#### 批量操作弹窗
+#### 表格批量操作弹窗
 
 > {tip} Since `v1.7.0`
 
@@ -526,7 +526,9 @@ class BatchResetPassword extends BatchAction
 			->lg()
 			->title($this->title)
 			->body($form)
-			->onShow($this->getModalScript()) // 弹窗显示后往隐藏表单写入选中的ID
+			// 因为此处使用了表单异步加载功能，所以一定要用 onLoad 方法
+			// 如果是非异步方式加载表单，则需要改成 onShow 方法
+			->onLoad($this->getModalScript())
 			->button($this->title);
     }
 
@@ -540,7 +542,6 @@ var key = {$this->getSelectedKeysScript()}
 $('#reset-password-id').val(key);
 JS;
 	}
-        
 }
 ```
 
@@ -551,3 +552,6 @@ use App\Admin\Actions\Grid\BatchResetPassword;
 
 $grid->batchActions([new BatchResetPassword()]);
 ```
+
+
+

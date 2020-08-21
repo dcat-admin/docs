@@ -26,7 +26,14 @@ $grid->column('nickname')->editable(true);
 
 快速将列变成开关组件，使用方法如下：
 ```php
-$grid->status()->switch();
+$grid->column('status')->switch();
+
+// 设置颜色
+use Dcat\Admin\Admin;
+
+$grid->column('status')->switch(Admin::color()->info());
+$grid->column('status')->switch('#333');
+
 ```
 这个功能需要你在`form`表单方法中同样设置一个`status`字段
 
@@ -47,6 +54,13 @@ $form->switch('status')
 	->saving(function ($v) {
 		return $v ? '打开' : '关闭';
 	});
+```
+
+> {tip} Since `v1.7.0`
+
+编辑成功后刷新页面
+```php
+$grid->column('status')->switch('', true);
 ```
 
 
@@ -88,6 +102,14 @@ $form->switch('new')
 ```
 
 
+> {tip} Since `v1.7.0`
+
+编辑成功后刷新页面
+```php
+$grid->column('switch_group')->switchGroup([...], true);
+```
+
+
 ![]({{public}}/assets/img/screenshots/grid-column-switch-group.png)
 
 
@@ -104,6 +126,15 @@ $grid->column('options')->select([
 
 `select` 也支持参数为闭包，使用方法和`editable`的`select`类似。
 
+
+> {tip} Since `v1.7.0`
+
+编辑成功后刷新页面
+```php
+$grid->column('options')->select([...], true);
+```
+
+
 ![]({{public}}/assets/img/screenshots/grid-column-select.png)
 
 ### 单选框 (radio)
@@ -118,6 +149,13 @@ $grid->column('options')->radio([
 
 `radio` 也支持参数为闭包，使用方法和`editable`的`select`类似。
 
+> {tip} Since `v1.7.0`
+
+编辑成功后刷新页面
+```php
+$grid->column('options')->radio([...], true);
+```
+
 ### 多选框 (checkbox)
 ```php
 $grid->column('options')->checkbox([
@@ -129,5 +167,14 @@ $grid->column('options')->checkbox([
 ```
 
 `checkbox` 也支持参数为闭包，使用方法和`editable`的`select`类似。
+
+
+> {tip} Since `v1.7.0`
+
+编辑成功后刷新页面
+```php
+$grid->column('options')->checkbox([...], true);
+```
+
 ![]({{public}}/assets/img/screenshots/grid-column-checkbox.png)
 

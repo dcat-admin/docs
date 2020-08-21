@@ -1,5 +1,28 @@
 # 字段显示
 
+### HTML
+
+> {tip} Since `v1.7.0`
+
+通过`html`方法可以在详情页插入一段不显示`label`的`HTML`代码
+
+```php
+// 传入字符串
+$show->html('<br/>');
+
+// 传入视图
+$show->html(view(...));
+
+// 传入闭包
+$show->html(function () {
+	// 获取字段信息
+	$id = $this->id;
+	$username = $this->username;
+	
+	return view(..., ['id' => $id]);
+});
+```
+
 ### 分隔线
 如果要在字段之间添加一条分隔线：
 

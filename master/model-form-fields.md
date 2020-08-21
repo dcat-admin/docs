@@ -522,7 +522,13 @@ $form->checkbox($column[, $label])
 	});
 ```
 
+> {tip} Since `v1.7.0`
 
+启用选中全部功能
+
+```php
+$form->checkbox('column')->canCheckAll();
+```
 
 
 
@@ -554,6 +560,15 @@ $form->ip($column[, $label]);
 ## 手机 (mobile)
 ```php
 $form->mobile($column[, $label])->options(['mask' => '999 9999 9999']);
+```
+
+<a name="mobile"></a>
+## 颜色选择器 (color)
+
+> {tip} Since `v1.7.0`
+
+```php
+$form->color($column[, $label]);
 ```
 
 <a name="time"></a>
@@ -1258,9 +1273,7 @@ return Form::make($builder, function (Form $form) {
 
 效果
 
-<a href="{{public}}/assets/img/screenshots/has-many.png" target="_blank">
-    <img  src="{{public}}/assets/img/screenshots/has-many.png" style="box-shadow:0 1px 6px 1px rgba(0, 0, 0, 0.12)" width="100%">
-</a>
+![]({{public}}/assets/img/screenshots/has-many.png)
 
 
 <a name="has-many-table"></a>

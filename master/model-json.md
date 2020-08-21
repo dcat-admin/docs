@@ -5,9 +5,7 @@
 
 ## 键值对象 (keyValue)
 
-<a href="{{public}}/assets/img/screenshots/key-value.png" target="_blank">
-    <img  src="{{public}}/assets/img/screenshots/key-value.png" style="box-shadow:0 1px 6px 1px rgba(0, 0, 0, 0.12)" width="100%">
-</a>
+![]({{public}}/assets/img/screenshots/key-value.png)
 
 如果你的字段存储的是不固定`键`的`{"field":"value"}`格式，可以用`keyValue`组件:
 
@@ -20,9 +18,7 @@ $form->keyValue('column_name')->rules('required|min:5');
 
 ## 固定键值对象 (embeds)
 
-<a href="{{public}}/assets/img/screenshots/embeds.png" target="_blank">
-    <img  src="{{public}}/assets/img/screenshots/embeds.png" style="box-shadow:0 1px 6px 1px rgba(0, 0, 0, 0.12)" width="100%">
-</a>
+![]({{public}}/assets/img/screenshots/embeds.png)
 
 用于处理`mysql`的`JSON`类型字段数据或者`mongodb`的`object`类型数据，也可以将多个`field`的数据值以`JSON`字符串的形式存储在`mysql`的字符串类型字段中
 
@@ -51,9 +47,7 @@ $form->embeds('column_name', '字段标题', function ($form) {
 
 ## 一维数组 (list)
 
-<a href="{{public}}/assets/img/screenshots/form-list.png" target="_blank">
-    <img  src="{{public}}/assets/img/screenshots/form-list.png" style="box-shadow:0 1px 6px 1px rgba(0, 0, 0, 0.12)" width="100%">
-</a>
+![]({{public}}/assets/img/screenshots/form-list.png)
 
 如果你的字段是用来存储`["foo", "Bar"]`格式的一维数组, 可以使用`list`组件:
 
@@ -69,9 +63,7 @@ $form->list('column_name')->max(10)->min(5);
 
 ## 二维数组 (table)
 
-<a href="{{public}}/assets/img/screenshots/form-table.png" target="_blank">
-    <img  src="{{public}}/assets/img/screenshots/form-table.png" style="box-shadow:0 1px 6px 1px rgba(0, 0, 0, 0.12)" width="100%">
-</a>
+![]({{public}}/assets/img/screenshots/form-table.png)
 
 如果某一个字段存储的是`json`格式的二维数组，可以使用`table`表单组件来实现快速的编辑：
 
@@ -86,3 +78,20 @@ $form->table('column_name', function ($table) {
 ```
 
 这个组件类似于`hasMany`组件，不过是用来处理单个字段的情况，适用于简单的二维数据。
+
+
+## 二维数组 (array)
+
+> {tip} Since `v1.7.0`
+
+![]({{public}}/assets/img/screenshots/has-many.png)
+
+如果某一个字段存储的是`json`格式的二维数组，并且字段比较多，可以使用`array`表单组件来实现快速的编辑：
+
+```php
+$form->array('column_name', function ($table) {
+    $table->text('key');
+    $table->text('value');
+    $table->textarea('desc');
+})->saveAsJson();
+```

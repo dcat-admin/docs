@@ -2,9 +2,7 @@
 
 这个功能可以给表格的列设置一个过滤器，可以更方便的根据这一列进行数据表格过滤操作
 
-<a href="{{public}}/assets/img/screenshots/column-filter.png" target="_blank">
-    <img class="img" width="400px" src="{{public}}/assets/img/screenshots/column-filter.png">
-</a>
+![]({{public}}/assets/img/screenshots/column-filter.png)
 
 
 ## 字符串比较查询
@@ -190,5 +188,42 @@ $grid->time()->filter(
 
 $grid->datetime()->filter(
     Grid\Column\Filter\Between::make()->datetime()
+);
+```
+
+## 指定查询字段名
+
+通过`setColumnName`方法可以指定查询字段的名称
+
+```php
+$grid->column('column')->filter(
+    Grid\Column\Filter\Equal::make()->setColumnName('custom_column')
+);
+```
+
+### 查询json字段
+
+> {tip} Since `v1.7.0`
+
+```php
+$grid->column('column')->filter(
+    Grid\Column\Filter\Equal::make()->setColumnName('json_column->label')
+);
+```
+
+
+### 关联关系字段查询
+
+> {tip} Since `v1.7.0`
+
+如果安装了 [dcat/laravel-wherehasin](https://github.com/jqhph/laravel-wherehasin)，则会优先使用`whereHasIn`方法进行查询操作
+
+```php
+$grid->column('user.name')->filter(
+    Grid\Column\Filter\Equal::make()
+);
+
+$grid->column('user_name')->filter(
+    Grid\Column\Filter\Equal::make()->setColumnName('user.name')
 );
 ```
