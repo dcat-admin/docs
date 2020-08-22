@@ -264,7 +264,7 @@ $grid->column('content')->expand(function (Grid\Displayers\Expand $expand) {
 
 #### 异步加载
 
-> {tip} Since `v1.5.0`
+> {tip} Since `v1.5.0` 
 
 定义渲染类，继承`Dcat\Admin\Support\LazyRenderable`
 
@@ -313,8 +313,70 @@ $grid->post->expand(function () {
 ```
 
 效果
-![]({{public}}/assets/img/screenshots/expand-lazy-render.gif)
 
+<a href="{{public}}/assets/img/screenshots/expand-lazy-render.gif" target="_blank">
+	![]({{public}}/assets/img/screenshots/expand-lazy-render.gif)
+</a>
+
+
+异步加载工具表单，定义[工具表单](widgets-form.md)类如下
+
+> {tip} 从 `v1.7.0` 开始支持异步渲染包括[工具表单](widgets-form.md)、[图表](widgets-charts.md)在内的绝大部分组件，具体使用请参考[异步加载](lazy.md)
+
+```php
+<?php
+
+namespace App\Admin\Forms;
+
+use Dcat\Admin\Contracts\LazyRenderable;
+use Dcat\Admin\Traits\LazyWidget;
+use Dcat\Admin\Widgets\Form;
+
+class UserProfile extends Form implements LazyRenderable
+{
+    use LazyWidget;
+
+    public function handle(array $input)
+    {
+        // 接收外部传递参数
+		$type = $this->payload['type'] ?? null;
+        
+        return $this->success('保存成功');
+    }
+
+    public function form()
+    {
+        // 接收外部传递参数
+        $type = $this->payload['type'] ?? null;
+        
+        $this->text('name', trans('admin.name'))->required()->help('用户昵称');
+        $this->image('avatar', trans('admin.avatar'))->autoUpload();
+
+        $this->password('old_password', trans('admin.old_password'));
+
+        $this->password('password', trans('admin.password'))
+            ->minLength(5)
+            ->maxLength(20)
+            ->customFormat(function ($v) {
+                if ($v == $this->password) {
+                    return;
+                }
+
+                return $v;
+            })
+            ->help('请输入5-20个字符');
+        $this->password('password_confirmation', trans('admin.password_confirmation'))
+            ->same('password')
+            ->help('请输入确认密码');
+    }
+}
+```
+
+使用
+
+```php
+$grid->user->display('View')->expand(UserProfile::make(['type' => 1]));
+```
 
 
 <a name="modal"></a>
@@ -341,7 +403,7 @@ $grid->column('content')
 
 #### 异步加载
 
-> {tip} Since `v1.5.0`
+> {tip} Since `v1.5.0`          
 
 定义渲染类，继承`Dcat\Admin\Support\LazyRenderable`
 
@@ -391,8 +453,70 @@ $grid->post->modal(function ($modal) {
 ```
 
 效果
-![]({{public}}/assets/img/screenshots/modal-lazy-render.gif)
+<a href="{{public}}/assets/img/screenshots/modal-lazy-render.gif" target="_blank">
+	![]({{public}}/assets/img/screenshots/modal-lazy-render.gif)
+</a>
 
+
+
+异步加载工具表单，定义[工具表单](widgets-form.md)类如下
+
+> {tip} 从 `v1.7.0` 开始支持异步渲染包括[工具表单](widgets-form.md)、[图表](widgets-charts.md)在内的绝大部分组件，具体使用请参考[异步加载](lazy.md)
+
+```php
+<?php
+
+namespace App\Admin\Forms;
+
+use Dcat\Admin\Contracts\LazyRenderable;
+use Dcat\Admin\Traits\LazyWidget;
+use Dcat\Admin\Widgets\Form;
+
+class UserProfile extends Form implements LazyRenderable
+{
+    use LazyWidget;
+
+    public function handle(array $input)
+    {
+        // 接收外部传递参数
+		$type = $this->payload['type'] ?? null;
+        
+        return $this->success('保存成功');
+    }
+
+    public function form()
+    {
+        // 接收外部传递参数
+        $type = $this->payload['type'] ?? null;
+        
+        $this->text('name', trans('admin.name'))->required()->help('用户昵称');
+        $this->image('avatar', trans('admin.avatar'))->autoUpload();
+
+        $this->password('old_password', trans('admin.old_password'));
+
+        $this->password('password', trans('admin.password'))
+            ->minLength(5)
+            ->maxLength(20)
+            ->customFormat(function ($v) {
+                if ($v == $this->password) {
+                    return;
+                }
+
+                return $v;
+            })
+            ->help('请输入5-20个字符');
+        $this->password('password_confirmation', trans('admin.password_confirmation'))
+            ->same('password')
+            ->help('请输入确认密码');
+    }
+}
+```
+
+使用
+
+```php
+$grid->user->display('View')->modal(UserProfile::make(['type' => 1]));
+```
 
 
 ### 进度条 (progressBar)

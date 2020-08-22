@@ -122,9 +122,7 @@ Dcat\Admin\Color::extend('orange', [
 
 > {tip} Since `v1.5.0`
 
-<a href="{{public}}/assets/img/screenshots/users-dark.png" target="_blank">
-    <img  src="{{public}}/assets/img/screenshots/users-dark.png" style="box-shadow:0 1px 6px 1px rgba(0, 0, 0, 0.12)" width="100%">
-</a>
+![]({{public}}/assets/img/screenshots/users-dark.png)
 
 
 #### 启用切换按钮
@@ -142,9 +140,7 @@ Dcat\Admin\Color::extend('orange', [
 ```
 
 效果如下
-<a href="{{public}}/assets/img/screenshots/dark-switch.gif" target="_blank">
-    <img  src="{{public}}/assets/img/screenshots/dark-switch.gif" style="box-shadow:0 1px 6px 1px rgba(0, 0, 0, 0.12)" width="100%">
-</a>
+![]({{public}}/assets/img/screenshots/dark-switch.gif)
 
 #### 默认深色
 
@@ -159,19 +155,55 @@ Dcat\Admin\Color::extend('orange', [
      ...
 ```
 
+<a name="sidebar"></a>
+### 菜单样式
 
-### 菜单深色模式
+> {tip} Since `v1.7.0` 
 
-打开配置文件`config/admin.php`，写入
+通过配置参数 `admin.layout.sidebar_style` 可以配置菜单样式（如果配置文件中不存在这个参数则可以手动添加），支持三个值 `light`、`primary`、`dark`，默认为 `light`
+
+> {tip} `sidebar_dark`参数即将被废弃！`sidebar_style`参数会覆盖`sidebar_dark`参数，只有当`sidebar_style`不存在时`sidebar_dark`才会生效！！！
+
 ```php
      'layout' => [
-         'sidebar_dark' => true,
+     	 // 支持 light、primary、dark
+         'sidebar_style' => 'light',
          
          ...
      ],
      
      ...
 ```
+
+`primary` 效果
+![]()
+
+`dark` 效果
+![]()
+
+### 菜单布局
+
+> {tip} Since `v1.7.0` 
+
+添加 `sidebar-separate` 到 `admin.layout.body_class` 参数中即可
+
+```php
+     'layout' => [
+         'body_class' => 'sidebar-separate',
+         
+         ...
+     ],
+     
+     ...
+
+```
+
+效果
+
+![]({{public}}/assets/img/users-2.jpg)
+![]({{public}}/assets/img/users-dark-2.jpg)
+
+
 
 ### PHP颜色管理
 
