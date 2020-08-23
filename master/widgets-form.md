@@ -21,13 +21,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class Setting extends Form
 {
-    /**
-     * Handle the form request.
-     *
-     * @param array $input
-     *
-     * @return Response
-     */
+    // 处理表单提交请求
     public function handle(array $input)
     {
         // dump($input);
@@ -37,9 +31,7 @@ class Setting extends Form
         return $this->success('Processed successfully.', '/');
     }
 
-    /**
-     * Build a form here.
-     */
+    // 构建表单
     public function form()
     {
         // Since v1.6.5 弹出确认弹窗 

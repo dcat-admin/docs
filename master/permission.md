@@ -7,6 +7,8 @@
 在`Dcat Admin`中，权限和路由是绑定在一起的，在编辑权限页面里面设置当前权限能访问的路由，在`HTTP方法`select框中选择访问路由的方法，在`HTTP路径`中填写能访问的路径。
 
 比如要添加一个权限，该权限可以以`GET`方式访问路径`/admin/users`，那么`HTTP方法`选择`GET`，`HTTP路径`填写`/users`。
+
+
 如果要访问前缀是`/admin/users`的所有路径，那么`HTTP路径`填写`/users*`；如果要访问的是编辑页，那么`HTTP路径`填写`/users/*/edit`；如果多个路径中每个路径的方法不同，那么`HTTP路径`填写`GET:users/*`。
 
 > {tip} Since `v1.7.0`

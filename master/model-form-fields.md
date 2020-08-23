@@ -678,7 +678,7 @@ $form->ip($column[, $label]);
 $form->mobile($column[, $label])->options(['mask' => '999 9999 9999']);
 ```
 
-<a name="mobile"></a>
+<a name="color"></a>
 ## 颜色选择器 (color)
 
 > {tip} Since `v1.7.0`

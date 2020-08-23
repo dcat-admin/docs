@@ -481,7 +481,8 @@ class UserController extends AdminController
 <a name="select-table"></a>
 ### 表格选择器 (selectTable)
 
-> {tip} Since `v1.7.0`
+> {tip} Since `v1.7.0` 此功能可用于替代`弹窗选择器`，`弹窗选择器`即将在`2.0`版本中废弃
+
 
 ```php
 use App\Admin\Renderable\UserTable;
@@ -546,9 +547,6 @@ class UserTable extends LazyRenderable
 }
 ```
 
-效果
-
-![]()
 
 #### 多选 (multipleSelectTable)
 

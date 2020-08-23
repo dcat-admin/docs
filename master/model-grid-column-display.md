@@ -264,7 +264,7 @@ $grid->column('content')->expand(function (Grid\Displayers\Expand $expand) {
 
 #### 异步加载
 
-> {tip} Since `v1.5.0` 
+> {tip} Since `v1.5.0` 关于异步加载的更具体用法，请参考文档[异步加载](lazy.md)
 
 定义渲染类，继承`Dcat\Admin\Support\LazyRenderable`
 
@@ -319,7 +319,9 @@ $grid->post->expand(function () {
 </a>
 
 
-异步加载工具表单，定义[工具表单](widgets-form.md)类如下
+#### 异步加载工具表单
+
+定义[工具表单](widgets-form.md)类如下
 
 > {tip} 从 `v1.7.0` 开始支持异步渲染包括[工具表单](widgets-form.md)、[图表](widgets-charts.md)在内的绝大部分组件，具体使用请参考[异步加载](lazy.md)
 
@@ -403,7 +405,7 @@ $grid->column('content')
 
 #### 异步加载
 
-> {tip} Since `v1.5.0`          
+> {tip} Since `v1.5.0` 关于异步加载的更具体用法，请参考文档[异步加载](lazy.md)       
 
 定义渲染类，继承`Dcat\Admin\Support\LazyRenderable`
 
@@ -459,7 +461,9 @@ $grid->post->modal(function ($modal) {
 
 
 
-异步加载工具表单，定义[工具表单](widgets-form.md)类如下
+#### 异步加载工具表单
+
+定义[工具表单](widgets-form.md)类如下
 
 > {tip} 从 `v1.7.0` 开始支持异步渲染包括[工具表单](widgets-form.md)、[图表](widgets-charts.md)在内的绝大部分组件，具体使用请参考[异步加载](lazy.md)
 

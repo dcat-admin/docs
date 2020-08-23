@@ -90,6 +90,9 @@ $grid->actions(function (Grid\Displayers\Actions $actions) {
     // append一个操作
     $actions->append('<a href=""><i class="fa fa-eye"></i></a>');
 
+    // append一个复杂操作
+    $actions->append(new Copy());
+
     // prepend一个操作
     $actions->prepend('<a href=""><i class="fa fa-paper-plane"></i></a>');
 }
