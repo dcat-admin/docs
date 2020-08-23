@@ -175,11 +175,17 @@ Dcat\Admin\Color::extend('orange', [
      ...
 ```
 
-`primary` 效果
-![]()
+`light` 效果
 
-`dark` 效果
-![]()
+![]({{public}}/assets/img/users.jpg)
+
+
+`primary` 效果
+
+![]({{public}}/assets/img/users-menu-primary.jpg)
+
+![]({{public}}/assets/img/users-green-menu-primary.jpg)
+
 
 ### 菜单布局
 

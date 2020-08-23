@@ -158,7 +158,12 @@ JS;
 ```
 然后添加操作：
 ```php
-$grid->actions(new CheckRow());
+$grid->actions([new CheckRow()]);
+
+// 也可以通过这种方式添加
+$grid->actions(function (Grid\Displayers\Actions $actions) {
+    $actions->append(new CheckRow());
+}
 ```
 
 ### 操作按钮需要与API交互
@@ -258,6 +263,11 @@ class Copy extends RowAction
 use App\Models\User;
 
 $grid->actions([new Copy(User::class)]);
+
+// 也可以通过这种方式添加
+$grid->actions(function (Grid\Displayers\Actions $actions) {
+    $actions->append(new Copy(User::class));
+}
 ```
 
 

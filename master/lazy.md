@@ -97,8 +97,9 @@ public function index(Content $content)
 
 效果
 
-
+<a href="https://cdn.learnku.com/uploads/images/202008/20/38389/Z1X46kZLtM.gif!large" target="_blank">
 ![](https://cdn.learnku.com/uploads/images/202008/20/38389/Z1X46kZLtM.gif!large)
+</a>
 
 
 ### Dcat\Admin\Support\LazyRenderable
@@ -312,7 +313,10 @@ public function index(Content $content)
 
 效果
 
-![](https://cdn.learnku.com/uploads/images/202008/20/38389/6U55RKfliv.gif!large)
+<a href="https://cdn.learnku.com/uploads/images/202008/23/38389/HiAMIvKext.gif!large" target="_blank">
+    ![](https://cdn.learnku.com/uploads/images/202008/23/38389/HiAMIvKext.gif!large)
+</a>
+
 
 
 同样渲染类的实例也可以附加到 `Dcat\Admin\Widgets\Card`、`Dcat\Admin\Widgets\Box`、`Dcat\Admin\Widgets\Tab`等组件中

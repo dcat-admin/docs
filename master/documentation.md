@@ -57,7 +57,6 @@
   - [字段翻译](model-show-trans.md)
 - ## [模型树](model-tree.md)
 - ## [数据仓库](model-repository.md)
-- ## [异步加载](lazy.md)
 - ## 动作
   - [基本使用](action.md)
   - [数据表格](action-grid.md)
@@ -67,6 +66,7 @@
 - ## [多语言](trans.md)
 - ## [开发扩展](extend.md)
 - ## 页面组件
+  - [异步加载](lazy.md)
   - [图表](widgets-charts.md)
   - [数据统计卡片](widgets-data-card.md)
   - [工具表单](widgets-form.md)

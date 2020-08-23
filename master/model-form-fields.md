@@ -126,6 +126,26 @@ $form->text('title');
 $form->textare('contents')->hideInDialog();
 ```
 
+### 保存为字符串类型 `saveAsString`
+
+> {tip} Since `v1.7.0`
+
+`saveAsString`方法可以把表单值转化为`string`类型保存，当保存的数据库字段值不允许为`null`时非常有用；
+
+```php
+$form->text('nickname')->saveAsString();
+```
+
+### 保存为json类型 `saveAsJson`
+
+> {tip} Since `v1.7.0`
+
+`saveAsJson`可以把表单值保存为`json`格式
+
+```php
+$form->text('nickname')->saveAsJson();
+```
+
 
 <a name="text"></a>
 ## 文本 (text)
@@ -560,7 +580,10 @@ class UserTable extends LazyRenderable
 
 效果
 
-![]()
+<a href="https://cdn.learnku.com/uploads/images/202008/23/38389/P5hZXiqAj9.gif!large" target="_blank">
+![](https://cdn.learnku.com/uploads/images/202008/23/38389/P5hZXiqAj9.gif!large)
+</a>
+
 
 
 ### 多选 (multipleSelectTable)

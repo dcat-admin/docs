@@ -319,7 +319,127 @@ public function form()
 
 > {tip} Since `v1.7.0` 
 
-具体使用参考 [模态窗(modal) - 表单](widgets-modal.md#form)
+#### 基本用法
+
+使用命令生成工具表单`php artisan admin:form ResetPassword`，然后修改表单文件如下
+
+```php
+<?php
+
+namespace App\Admin\Forms;
+
+use Dcat\Admin\Widgets\Form;
+
+class ResetPassword extends Form
+{
+    // 处理请求
+    public function handle(array $input)
+    {
+        $password = $input['password'] ?? null;
+
+        // 逻辑操作
+
+        return $this->success('密码修改成功');
+    }
+
+    public function form()
+    {
+        $this->password('password')->required();
+        // 密码确认表单
+        $this->password('password_confirm')->same('password');
+    }
+
+    // 返回表单数据，如不需要可以删除此方法
+    public function default()
+    {
+        return [
+            'password'         => '',
+            'password_confirm' => '',
+        ];
+    }
+}
+```
+
+使用
+
+```php
+use App\Admin\Forms\ResetPassword;
+use Dcat\Admin\Widgets\Modal;
+
+$modal = Modal::make()
+	->lg()
+	->title('修改密码')
+	->body(ResetPassword::make())
+	->button('修改密码');
+```
+
+#### 异步加载
+
+只需要让`Form`表单类实现`Dcat\Admin\Contracts\LazyRenderable`接口即可支持异步渲染功能，修改上面创建的工具表单类如下
+
+```php
+<?php
+
+namespace App\Admin\Forms;
+
+use Dcat\Admin\Widgets\Form;
+use Dcat\Admin\Traits\LazyWidget;
+use Dcat\Admin\Contracts\LazyRenderable;
+
+class ResetPassword extends Form implements LazyRenderable
+{
+    use LazyWidget; 
+    
+    // 处理请求
+	public function handle(array $input)
+	{
+	    // 获取外部传递参数
+	    $id = $this->payload['id'] ?? null;
+	    
+		$password = $input['password'] ?? null;
+
+		// 逻辑操作
+
+		return $this->success('密码修改成功');
+	}
+
+	public function form()
+	{
+	    // 获取外部传递参数
+		$id = $this->payload['id'] ?? null;
+	    
+		$this->password('password')->required();
+		// 密码确认表单
+		$this->password('password_confirm')->same('password');
+	}
+
+	// 返回表单数据，如不需要可以删除此方法
+	public function default()
+	{
+	    // 获取外部传递参数
+		$id = $this->payload['id'] ?? null;
+	    
+		return [
+			'password'         => '',
+			'password_confirm' => '',
+		];
+	}
+}
+```
+
+使用代码与上面基本一致，并且我们可以用`payload`方法往表单里面传递自定义参数
+
+```php
+use App\Admin\Forms\ResetPassword;
+use Dcat\Admin\Widgets\Modal;
+
+$modal = Modal::make()
+	->lg()
+	->title('修改密码')
+	->body(ResetPassword::make()->payload(['id' => '...'])) // 传递自定义参数
+	->button('修改密码');
+```
+
 
 
 #### 表格行操作弹窗
