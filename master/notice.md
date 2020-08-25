@@ -14,6 +14,8 @@
 
 写一个自定义页面，这个页面组件需要引入一些前端静态资源文件
 
+> {tip} `Dcat Admin`构建的是一个单页应用，加载的`JS`脚本只会执行一次，所以初始化操作不能直接放在`JS`脚本中，应该使用`Admin::script`方法载入。
+
 ```php
 <?php
 
@@ -23,6 +25,7 @@ use Dcat\Admin\Admin;
 class Card implements Renderable
 {
 	public static $js = [
+	    // js脚本不能直接包含初始化操作，否则页面刷新后无效
 		'xxx/js/card.min.js',
 	];
 	public static $css = [
@@ -33,6 +36,7 @@ class Card implements Renderable
 	{
 		return <<<JS
 		console.log('所有JS脚本都加载完了');
+		// 初始化操作
 		$('xxx').card();
 JS;		
 	}
@@ -43,7 +47,7 @@ JS;
 		Admin::js(static::$js);
 		Admin::css(static::$css);
 		
-		// 需要在页面执行的JS代码
+		// 需要在页面执行的JS代码，例如初始化代码
 		// 通过 Admin::script 设置的JS代码会自动在所有JS脚本都加载完毕后执行
 		Admin::script($this->script());
 		

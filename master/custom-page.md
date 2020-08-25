@@ -5,6 +5,8 @@
 
 ### 示例1
 
+> {tip} `Dcat Admin`构建的是一个单页应用，加载的`JS`脚本只会执行一次，所以初始化操作不能直接放在`JS`脚本中，应该使用`Admin::script`方法载入。
+
 ```php
 <?php
 
@@ -15,6 +17,7 @@ class MyPage implements Renderable
 {
     // 定义页面所需的静态资源，这里会按需加载
 	public static $js = [
+	     // js脚本不能直接包含初始化操作，否则页面刷新后无效
 		'xxx/js/page.min.js',
 	];
 	public static $css = [
@@ -25,6 +28,7 @@ class MyPage implements Renderable
 	{
 		return <<<JS
 		console.log('所有JS脚本都加载完了');
+		// 初始化操作写在这里
 JS;		
 	}
 
