@@ -344,7 +344,7 @@ $form->saved(function (Form $form) {
 });
 
 // 跳转并提示错误信息
-$form->creating(function (Form $form) {
+$form->saving(function (Form $form) {
     return $form->redirect('auth/user', [
         'message' => '系统错误',
         'status' => false,

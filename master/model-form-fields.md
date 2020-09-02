@@ -18,16 +18,13 @@ $form->text('title')->value('text...');
 $form->text('title')->default('text...');
 ```
 
-此方法仅在新增页面有效，如果编辑页面也需要设置默认值，可以参考以下方法。
+
+> {tip} Since `v1.7.1`
+
+此方法仅在**新增页面**有效，如果**编辑页面**也需要设置默认值，可以参考以下方法
 
 ```php
-$form->text('title')->customFormat(function ($value) {
-    if ($value === null) {
-        return '默认值';
-    }
-    
-    return $value;
-});
+$form->text('xxx')->default('默认值', true);
 ```
 
 <a name="help"></a>
