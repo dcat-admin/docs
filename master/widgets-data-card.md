@@ -32,6 +32,17 @@ class TotalUsers extends Card
      * @var string|Renderable|\Closure
      */
     protected $footer;
+    
+    // 保存自定义参数
+    protected $data = [];
+    
+    // 构造方法参数必须设置默认值
+    public function __construct(array $data = []) 
+    {
+        $this->data = [];
+        
+        parent::__construct();
+    }
 
     protected function init()
     {
@@ -57,6 +68,9 @@ class TotalUsers extends Card
      */
     public function handle(Request $request)
     {
+        // 获取外部传递的自定义参数
+        $key1 = $request->get('key1');
+        
         switch ($request->get('option')) {
             case '365':
                 $this->content(mt_rand(600, 1500));
@@ -76,6 +90,12 @@ class TotalUsers extends Card
                 $this->up(15);
         }
     }
+    
+    // 传递自定义参数到 handle 方法
+    public function parameters() : array
+    {
+        return $this->data;
+	}
 
     /**
      * @param int $percent
@@ -291,6 +311,22 @@ protected function init()
     parent::init();
     
     $this->height(200);
+}
+```
+
+#### 传递自定义参数 (parameters)
+
+通过 `parameters` 方法可以把参数传递到 `handle` 方法
+
+```php
+// 传递自定义参数到 handle 方法
+public function parameters() : array
+{
+	return [
+		'key1' => 'value1',
+		
+		...
+	];
 }
 ```
 
