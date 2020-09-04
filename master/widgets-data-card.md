@@ -330,6 +330,16 @@ public function parameters() : array
 }
 ```
 
+获取自定义参数
+
+```php
+public function handle(Request $request)
+{
+    // 获取自定义参数
+	$key1 = $request->get('key1');
+}
+```
+
 #### 渲染内容 (renderContent)
 
 为了保证内容的灵活和可扩展性，系统没有对卡片内容预设任何样式(即设置什么内容就只显示什么内容，没有预设布局或其他样式)，
