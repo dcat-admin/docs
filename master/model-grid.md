@@ -379,7 +379,7 @@ $grid->disableQuickEditButton();
 $grid->showQuickEditButton();
 
 // 设置弹窗宽高，默认值为 '700px', '670px'
-$grid->setDialogFormDimensions('50%', '50%);
+$grid->setDialogFormDimensions('50%', '50%');
 
 
 // 禁用删除按钮
