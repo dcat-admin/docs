@@ -236,12 +236,8 @@ JS;
 默认表单提交都使用Ajax进行提交,通过注入的 [Form.js](https://github.com/jqhph/dcat-admin/blob/2.0/resources/assets/dcat/js/extensions/Form.js) 进行流程控制,如果需要原生表单行为,可以禁用此特
 
 ```php
-<?php
 $form->ajax(false);
 ```
-
-
-
 
 <a name="layout"></a>
 ### 布局
