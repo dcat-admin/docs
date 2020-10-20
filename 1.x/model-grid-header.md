@@ -21,7 +21,7 @@ $grid->header(function ($collection) use ($grid) {
 	$query = Model::query();
     	
 	// 拿到表格筛选 where 条件数组进行遍历
-	$grod->model()->getQueries()->unique()->each(function ($value) use (&$query) {
+	$grid->model()->getQueries()->unique()->each(function ($value) use (&$query) {
 		if (in_array($value['method'], ['paginate', 'get', 'orderBy', 'orderByDesc'], true)) {
 			return;
 		}
