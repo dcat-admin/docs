@@ -89,11 +89,11 @@ JS;
 一个比较常见的场景是在数据表格的脚部显示统计信息，比如在订单表格的脚部加入收入统计，可以参考下面的代码实现：
 
 ```php
-$grid->footer(function ($collection) use ($grod) {
+$grid->footer(function ($collection) use ($grid) {
 	$query = Model::query();
 	
 	// 拿到表格筛选 where 条件数组进行遍历
-	$grod->model()->getQueries()->unique()->each(function ($value) use (&$query) {
+	$grid->model()->getQueries()->unique()->each(function ($value) use (&$query) {
 		if (in_array($value['method'], ['paginate', 'get', 'orderBy', 'orderByDesc'], true)) {
 		    return;
 		}

@@ -139,13 +139,35 @@ Admin::js('path/to/your/js');
 
 `Dcat Admin`使用的是`jQuery3.x`，`$.get`方法在`jQuery3.x`中已经被废弃，请使用`$.ajax`代替
 
-### 12.图片防盗链
+### 13.上传的图片经常莫名其妙自动删除？
+
+出现这个问题的原因很可能是因为`Model`中设置了图片相关字段的访问器，如
+
+```php
+class User extend Model
+{
+    public function getAvatarAttribute()
+    {
+        return Storage::disk('admin')->url($this->avatar);
+    }
+}
+```
+
+这种情况下会出现自动删除已上传图片的情况，解决方法也很简单，把访问器改成自定义方法即可
+
+```php
+class User extend Model
+{
+    public function getAvatar()
+    {
+        return Storage::disk('admin')->url($this->avatar);
+    }
+}
+```
+
+### 14.图片防盗链
 图片请求默认会去掉 `referer` 字段，如果有防盗链要求，可以在配置文件(`config/admin.php`)中设置：
 
 ```
  "disable_no_referrer_meta" => true
 ```
-
-### 13.为何不开发成前后端分离项目？
-
-最近有很多同学问我为什么不采用前后端分离技术方案，我在这个帖子里回答的非常详细，有相关疑问的同学请[点击此处查看帖子](https://github.com/jqhph/dcat-admin/issues/27)，这里不再赘述。

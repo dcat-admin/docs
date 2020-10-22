@@ -68,7 +68,7 @@
 - ## 扩展
   - [安装和使用](extension-install.md)
   - [开发扩展](extension-dev.md)
-  - [版本升级](extension-upgrade.md)
+  - [版本与升级](extension-upgrade.md)
 - ## 页面组件
   - [异步加载](lazy.md)
   - [图表](widgets-charts.md)

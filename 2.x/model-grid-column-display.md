@@ -558,7 +558,7 @@ $grid->permissions->showTreeInDialog(function (Grid\Displayers\DialogTree $tree)
     foreach (array_column($this->roles, 'slug') as $slug) {
         if ($roleModel::isAdministrator($slug)) {
             // 选中所有节点
-            $tree->checkedAll();
+            $tree->checkAll();
         }
     }
 });
