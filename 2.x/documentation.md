@@ -90,4 +90,4 @@
 - ## [自定义登陆认证](custom-authentication.md)
 - ## [自定义头部导航](custom-navbar.md)
 - ## 更新日志
-  - [更新日志](change-log.md)
+  - [BETA版本更新日志](beta-change-log.md)

@@ -1243,7 +1243,7 @@ $form->icon('icon');
 
 ```php
 $form->tree('permissions')
-    ->nodes($permissionModel->allNodes()) // 设置所有节点
+    ->nodes(Model::get()->toArray()) // 设置所有节点
     ->customFormat(function ($v) { // 格式化外部注入的值
         if (!$v) return [];
 
@@ -1254,13 +1254,20 @@ $form->tree('permissions')
 // 默认 “id” “name” “parent_id”
 $form->tree('permissions')
     ->nodes($permissionModel->allNodes())
-    ->columnNames('id', 'title', 'parent'); 
+    ->setIdColumn('id')
+    ->setTitleColumn('title')
+    ->setParentColumn('parent'); 
     
 // 默认是不保存父节点的值的，因为一般来说父节点只是作为标题的形式存在
 // 禁止过滤父节点的值
 $form->tree('permissions')
     ->nodes($permissionModel->allNodes())
     ->disableFilterParents();
+    
+// 默认收缩子节点
+$form->tree('permissions')
+    ->nodes($permissionModel->allNodes())
+    ->expand(false);
 ```
 
 <a name="table"></a>
