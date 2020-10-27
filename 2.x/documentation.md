@@ -2,6 +2,7 @@
 - ## 入门
   - [简介](introduction.md)
   - [安装](installation.md)
+  - [v1.x升级指南](1-x-upgrade.md)
   - [版本升级](update.md)
   - [快速开始](quick-start.md)
   - [开发前必读](notice.md)
@@ -10,7 +11,6 @@
   - [JS组件](js.md)
   - [多应用 (多后台)](multi-app.md)
   - [常见问题](qa.md)
-  - [v1.x升级指导](1-x-upgrade.md)
 - ## 数据表格
   - [基本使用](model-grid.md)
   - [列的使用和扩展](model-grid-column.md)

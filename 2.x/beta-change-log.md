@@ -1,5 +1,18 @@
 # BETA版本更新日志
 
+### v2.0.4-beta 
+
+发布时间 2020/10/27
+
+BUG修复
+1. 修复 admin_javascript_json 函数会自动空滤数组空值问题
+2. 修复数据表单使用 tab 布局报错问题 [#620](https://github.com/jqhph/dcat-admin/issues/620)
+3. 修复扩展本地安装生成临时目录权限异常问题 [#625](https://github.com/jqhph/dcat-admin/issues/625)
+4. 修复表单使用 html 方法设置视图存在 script 标签时报错问题 [#624](https://github.com/jqhph/dcat-admin/issues/624)
+5. 修复数据详情使用关联关系（一对多）显示报错问题 [#623](https://github.com/jqhph/dcat-admin/issues/623)
+6. 修复 dropdown 下拉菜单计算显示位置异常问题 [#I22S2N](https://gitee.com/jqhph/dcat-admin/issues/I22S2N)
+
+
 ### v2.0.3-beta 
 
 发布时间 2020/10/27
