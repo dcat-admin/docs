@@ -11,14 +11,11 @@
 
 如果要访问前缀是`/admin/users`的所有路径，那么`HTTP路径`填写`/users*`；如果要访问的是编辑页，那么`HTTP路径`填写`/users/*/edit`；如果多个路径中每个路径的方法不同，那么`HTTP路径`填写`GET:users/*`。
 
-> {tip} Since `v1.7.0`
 
 如果上述的方法不能满足需求，`HTTP路径`还支持填写路由别名，如`admin.users.show`
 
 
 ## 禁用权限功能
-
-> {tip} Since `v1.5.3`
 
 把`admin.permission.enable`配置参数的值设置为`false`可以完全禁用内置的权限系统。
 

@@ -1,7 +1,5 @@
 # 模态窗 (Modal)
 
-> {tip} Since `v1.7.0`
-
 基本使用
 
 ```php

@@ -30,7 +30,7 @@
 <a name="custom"></a>
 ### 自定义主题配色
 
-> {tip} Since `v1.3.0` - 需要注意的是，如果自定义了主题之后，每次更新新版本，都需要重新编译一次你的自定义主题！！！
+> {tip} 需要注意的是，如果自定义了主题之后，每次更新新版本，都需要重新编译一次你的自定义主题！！！
 
 开发者可以通过这个功能随意添加自己想要的主题配色，在使用这个功能之前需要先安装[NodeJs](http://nodejs.cn/)，没安装的同学前往[http://nodejs.cn/](http://nodejs.cn/)下载安装即可。
 
@@ -120,8 +120,6 @@ Dcat\Admin\Color::extend('orange', [
 <a name="darkmode"></a>
 ### 深色模式
 
-> {tip} Since `v1.5.0`
-
 ![]({{public}}/assets/img/screenshots/users-dark.png)
 
 
@@ -158,8 +156,6 @@ Dcat\Admin\Color::extend('orange', [
 <a name="sidebar"></a>
 ### 菜单样式
 
-> {tip} Since `v1.7.0` 
-
 通过配置参数 `admin.layout.sidebar_style` 可以配置菜单样式（如果配置文件中不存在这个参数则可以手动添加），支持三个值 `light`、`primary`、`dark`，默认为 `light`
 
 > {tip} `sidebar_dark`参数即将被废弃！`sidebar_style`参数会覆盖`sidebar_dark`参数，只有当`sidebar_style`不存在时`sidebar_dark`才会生效！！！
@@ -188,8 +184,6 @@ Dcat\Admin\Color::extend('orange', [
 
 
 ### 菜单布局
-
-> {tip} Since `v1.7.0` 
 
 添加 `sidebar-separate` 到 `admin.layout.body_class` 参数中即可
 

@@ -245,8 +245,6 @@ $form->saved(function (Form $form) {
 });
 ```
 
-> {tip} Since `v1.6.0`
-
 location（刷新整个页面）
 ```php
 // 跳转并提示成功信息

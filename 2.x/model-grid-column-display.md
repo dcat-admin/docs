@@ -187,8 +187,6 @@ $grid->state->using([1 => '未处理', 2 => '已处理', ...])->badge([
 <a name="bool"></a>
 ### 布尔值显示 (bool)
 
-> {tip} Since `v1.6.0`
-
 
 将这一列转为`bool`值之后显示为`✓`和`✗`。
 
@@ -210,8 +208,6 @@ $grid->column('approved')->bool(['Y' => true, 'N' => false]);
 ### 圆点前缀 (dot)
 
 通过`dot`方法可以在列文字前面加上一个带颜色的圆点
-
-> {tip} `Since v1.2.5` 支持`Dcat\Admin\Color`类中内置的所有颜色
 
 ```php
 use Dcat\Admin\Admin;
@@ -264,7 +260,7 @@ $grid->column('content')->expand(function (Grid\Displayers\Expand $expand) {
 
 #### 异步加载
 
-> {tip} Since `v1.5.0` 关于异步加载的更具体用法，请参考文档[异步加载](lazy.md)
+> {tip}  关于异步加载的更具体用法，请参考文档[异步加载](lazy.md)
 
 定义渲染类，继承`Dcat\Admin\Support\LazyRenderable`
 
@@ -405,7 +401,7 @@ $grid->column('content')
 
 #### 异步加载
 
-> {tip} Since `v1.5.0` 关于异步加载的更具体用法，请参考文档[异步加载](lazy.md)       
+> {tip}  关于异步加载的更具体用法，请参考文档[异步加载](lazy.md)       
 
 定义渲染类，继承`Dcat\Admin\Support\LazyRenderable`
 
@@ -747,7 +743,7 @@ $grid->column('homepage')->link(function ($value) {
 <a name="action"></a>
 ### 行操作 (action)
 
-> {tip} Since `v1.4.0`，在使用这个方法之前，请先阅读[自定义操作-行操作](model-grid-actions.md)
+> {tip} 在使用这个方法之前，请先阅读[自定义操作-行操作](model-grid-actions.md)
 
 这个功能可以将某一列显示为一个**行操作**的按钮，比如下面所示是一个标星和取消标星的列操作，
 点击这一列的星标图标之后, 后台会切换字段的状态，页面图标也跟着切换，具体实现代码如下：

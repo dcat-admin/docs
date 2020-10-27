@@ -153,8 +153,6 @@ $form->file($column[, $label])->disableRemove();
 <a name="autoUpload"></a>
 ### 自动上传 (autoUpload)
 
-> {tip} Since `v1.5.2`
-
 开启这个功能之后选择完文件之后会立即自动上传，页面将不再显示`上传`按钮，使用方法如下
 
 ```php
@@ -165,8 +163,6 @@ $form->image('img')->autoUpload();
 
 <a name="retainable"></a>
 ### 禁止删除 (retainable)
-
-> {tip} Since `v1.5.2`
 
 开启这个功能之后文件将不会从服务器删除
 
@@ -236,8 +232,6 @@ $form->file('file')->url('users/files');
 ```
 
 系统提供了`Dcat\Admin\Traits\HasUploadedFile`这个`trait`来帮助开发者更轻松地处理上传文件，用法如下
-
-> {tip} `Since v1.0.1` 自定义了上传接口之后，上传文件和删除文件功能默认都在**同一个接口**内处理，并且删除完文件之后需要点击提交按钮对表单数据进行保存。
 
 ```php
 <?php
@@ -312,8 +306,6 @@ $form->file('file')->options(['disableGlobalDnd' => true]);
 
 此方法仅针对多图/文件上传表单有效
 
-> {tip} Since `v1.3.0`
-
 ```php
 $form->multipleImage('images')->sortable();
 ```
@@ -347,8 +339,6 @@ class YourModel extends Model
 
 
 ### 保存域名
-
-> {tip} Since `v1.5.0`
 
 如果你需要保存文件域名到数据表，可以使用`saveFullUrl`方法
 

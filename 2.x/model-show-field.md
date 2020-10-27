@@ -2,7 +2,6 @@
 
 ### HTML
 
-> {tip} Since `v1.7.0`
 
 通过`html`方法可以在详情页插入一段不显示`label`的`HTML`代码
 
@@ -182,7 +181,6 @@ $show->gender()->using(['f' => '女', 'm' => '男']);
 
 通过`dot`方法可以在列文字前面加上一个带颜色的圆点
 
-> {tip} `Since v1.2.5` 支持`Dcat\Admin\Color`类中内置的所有颜色
 
 ```php
 use Dcat\Admin\Admin;

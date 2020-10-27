@@ -3,8 +3,6 @@
 
 ### 一对一
 
-> {tip} Since `v1.3.4`版本起支持图片以及文件上传表单。
-
 `users`表和`profiles`表通过`profiles.user_id`字段生成一对一关联
 
 ```sql

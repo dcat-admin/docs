@@ -5,8 +5,6 @@
 
 ### 文本 (editable)
 
-> {tip} Since `v1.4.0`
-
 启用
 ```php
 $grid->column('title')->editable();
@@ -56,7 +54,6 @@ $form->switch('status')
 	});
 ```
 
-> {tip} Since `v1.7.0`
 
 编辑成功后刷新页面
 ```php
@@ -102,7 +99,6 @@ $form->switch('new')
 ```
 
 
-> {tip} Since `v1.7.0`
 
 编辑成功后刷新页面
 ```php
@@ -127,7 +123,6 @@ $grid->column('options')->select([
 `select` 也支持参数为闭包，使用方法和`editable`的`select`类似。
 
 
-> {tip} Since `v1.7.0`
 
 编辑成功后刷新页面
 ```php
@@ -149,7 +144,6 @@ $grid->column('options')->radio([
 
 `radio` 也支持参数为闭包，使用方法和`editable`的`select`类似。
 
-> {tip} Since `v1.7.0`
 
 编辑成功后刷新页面
 ```php
@@ -169,7 +163,6 @@ $grid->column('options')->checkbox([
 `checkbox` 也支持参数为闭包，使用方法和`editable`的`select`类似。
 
 
-> {tip} Since `v1.7.0`
 
 编辑成功后刷新页面
 ```php

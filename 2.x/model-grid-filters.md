@@ -30,8 +30,6 @@ $grid->filter(function($filter){
 
 默认布局方式为`rightSide`
 
-> {tip} Since v1.2.0
-
 ### rightSide
 ```php
 use Dcat\Admin\Grid;
@@ -70,8 +68,6 @@ $grid->filter(function (Grid\Filter $filter) {
 </a>
 
 ### 自定义布局 (view)
-
-> {tip} Since `v1.5.2`
 
 如果以上的布局无法满足需求，可以通过`view`方法自定义过滤器模板
 
@@ -255,8 +251,6 @@ $filter->where('mobile', function ($query) {
 <a name="whereBetween"></a>
 ### 复杂范围查询whereBetween
 
-> {tip} Since `v1.6.5`
-
 通过`whereBetween`可以自定义范围查询
 
 ```php
@@ -401,87 +395,9 @@ $filter->equal('column')->percentage($options = []);
 $filter->equal('column')->inputmask($options = [], $icon = 'pencil');
 ```
 
-<a name="selectResource"></a>
-### 弹窗选择器(selectResource)
-
-> {tip} 此功能即将在 `2.0` 版本中废弃，请使用 [selectTable](#select-table)
-
-选择数据源，选择弹窗里面的表格数据。
-
-```php
-// 单选
-$filter->equal('user_id')
-    ->selectResource('pages/users')
-    ->placeholder('请选择。。。')
-    ->options(function ($v) { // options方法用于显示已选中的值
-        if (!$v) return $v;
-        $userModel = config('admin.database.users_model');
-
-        return $userModel::find($v)->pluck('name', 'id');
-    });
-
-// 多选
-$filter->in('user_id')
-    ->selectResource('pages/users')
-    ->multiple(3) // 最多选择3个选项，不传则不限制
-    ->options(function ($v) { // options方法用于显示已选中的值
-        if (!$v) return $v;
-        $userModel = config('admin.database.users_model');
-
-        return $userModel::find($v)->pluck('name', 'id');
-    });
-```
-
-<img style="box-shadow:0 1px 6px 1px rgba(0, 0, 0, 0.12)" width="100%" src="{{public}}/assets/img/screenshots/grid-filter-select-resource.png">
-
-
-然后设置你的路由`app/Admin/routes.php`
-
-```php
-$router->resource('pages/users', 'UserController');
-```
-
-`pages/users`页面实现：
-```php
-<?php
-
-use Dcat\Admin\Models\Administrator;
-use Dcat\Admin\IFrameGrid;
-use Dcat\Admin\Grid;
-use Dcat\Admin\Controllers\AdminController;
-
-class UserController extends AdminController
-{
-    protected function iFrameGrid()
-    {
-        $grid = new IFrameGrid(new Administrator());
-        
-        // 指定行选择器选中时显示的值的字段名称
-        // 指定行选择器选中时显示的值的字段名称
-        // 指定行选择器选中时显示的值的字段名称
-        // 如果表格数据中带有 “name”、“title”或“username”字段，则可以不用设置
-        $grid->rowSelector()->titleColumn('username');
-
-        $grid->id->sortable();
-        $grid->username;
-        $grid->name;
-    
-        $grid->filter(function (Grid\Filter $filter) {
-            $filter->equal('id');
-            $filter->like('username');
-            $filter->like('name');
-        });
-    
-        return $grid;
-    }
-}
-```
-
 
 <a name="select-table"></a>
 ### 表格选择器 (selectTable)
-
-> {tip} Since `v1.7.0` 此功能可用于替代`弹窗选择器`，`弹窗选择器`即将在`2.0`版本中废弃
 
 
 ```php
@@ -676,8 +592,6 @@ $filter->equal('column');
 
 ### 忽略筛选项 (ignore)
 
-> {tip} Since `v1.7.0`
-
 通过`ignore`方法可以在提交表单时忽略当前筛选项
 
 ```php
@@ -687,7 +601,6 @@ $filter->equal('column')->ignore();
 
 <a name="relation"></a>
 ## 关联关系字段查询
-> {tip} Since `v1.5.0`
 
 假设你的模型如下
 
@@ -715,8 +628,6 @@ $grid->filter(function ($filter) {
     $filter->like('myPosts.title');
 });
 ```
-
-> {tip} Since `v1.7.0`
 
 如果安装了 [dcat/laravel-wherehasin](https://github.com/jqhph/laravel-wherehasin)，则会优先使用`whereHasIn`方法进行查询操作
 

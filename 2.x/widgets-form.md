@@ -34,7 +34,7 @@ class Setting extends Form
     // 构建表单
     public function form()
     {
-        // Since v1.6.5 弹出确认弹窗 
+        // 弹出确认弹窗 
         $this->confirm('您确定要提交表单吗', 'content');
         
         $this->text('name')->required();
@@ -93,8 +93,6 @@ class UserController extends Controller
 
 ### 弹出确认弹窗
 
-> {tip} Since `v1.6.5`
-
 第二个参数可忽略
 
 ```php
@@ -141,8 +139,6 @@ public function handle(array $input)
 }
 ```
 
-> {tip} Since `v1.6.0`
-
 `location` 刷新整个页面
 ```php
 public function handle(array $input)
@@ -163,8 +159,6 @@ public function handle(array $input)
 
 
 ### 自定义表单保存的后续行为
-
-> {tip} Since 1.2.0
 
 ```php
 <?php
@@ -242,8 +236,6 @@ $form->ajax(false);
 <a name="layout"></a>
 ### 布局
 
-> {tip} Since `v1.6.0`
-
 `column`多列布局
 ```php
 <?php
@@ -315,8 +307,6 @@ public function form()
 
 <a name="modal"></a>
 ### 在弹窗中显示
-
-> {tip} Since `v1.7.0` 
 
 #### 基本用法
 
@@ -443,8 +433,6 @@ $modal = Modal::make()
 
 #### 表格行操作弹窗
 
-> {tip} Since `v1.7.0`
-
 下面通过一个数据表格修改密码的行操作功能来展示弹窗结合工具表单的用法：
 
 
@@ -553,8 +541,6 @@ $grid->actions([new ResetPassword()]);
 
 <a name="batch-modal"></a>
 #### 表格批量操作弹窗
-
-> {tip} Since `v1.7.0`
 
 如果你想在批量操作按钮中使用表单弹窗，可以参考以下例子：
 

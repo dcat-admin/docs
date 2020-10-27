@@ -21,7 +21,6 @@ $grid->quickCreate(function (Grid\Tools\QuickCreate $create) {
 
 ### 设置提交地址
 
-> {tip} Since `v1.4.0`
 
 ```php
 $grid->quickCreate(function (Grid\Tools\QuickCreate $create) {
@@ -44,7 +43,6 @@ $create->text('column_name', 'placeholder...');
 ### 隐藏表单(hidden)
 文本输入框
 
-> {tip} Since `v1.5.0`
 
 ```php
 $create->hidden('column_name');

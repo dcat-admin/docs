@@ -99,8 +99,6 @@ $show->panel()
 
 使用
 
-> {tip} Since `v1.3.4`
-
 ```php
 $show->row(function (Show\Row $show) {
     $show->width(3)->id;

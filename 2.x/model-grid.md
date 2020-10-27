@@ -104,8 +104,6 @@ class MovieController extends AdminController
 
 ### table_collapse
 
-> {tip} Since `v1.6.5`
-
 在这个版本开始，默认的表格布局将会采用 `table_collapse` 模式，效果如下
 
 <a href="https://cdn.learnku.com/uploads/images/202007/24/38389/4bCfBdtvq5.png!large" target="_blank">
@@ -127,8 +125,6 @@ Grid::resolving(function (Grid $grid) {
 
 通过`withBorder`方式可以让表格显示边框
 
-> {tip} Since `v1.2.0`
-
 ```php
 $grid->withBorder();
 ```
@@ -139,8 +135,6 @@ $grid->withBorder();
 </a>
 
 
-> {tip} Since `v1.4.5`
- 
 禁用边框模式
 ```php
 $grid->withBorder(false);
@@ -229,9 +223,7 @@ $grid->column('full_name')->display(function () {
 <a name="outline"></a>
 ### 设置工具栏按钮样式
 
-> {tip} Since `v1.4.5`
-
-从这个`v1.4.5`工具栏按钮默认显示`outline`模式，效果如下
+工具栏按钮默认显示`outline`模式，效果如下
 
 
 用法
@@ -443,7 +435,6 @@ $grid->disablePerPages();
 
 ### addTableClass
 
-> {tip} Since `v1.5.2`
 
 通过`addTableClass`可以给表格的`table`添加`css`样式
 

@@ -2,8 +2,6 @@
 
 ### 多列布局 (column)
 
-> {tip} Since `v1.6.0`
-
 <a href="{{public}}/assets/img/screenshots/form-column.png" target="_blank">
     <img class="img" src="{{public}}/assets/img/screenshots/form-column.png" />
 </a>   

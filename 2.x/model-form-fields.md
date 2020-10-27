@@ -19,7 +19,6 @@ $form->text('title')->default('text...');
 ```
 
 
-> {tip} Since `v1.7.1`
 
 此方法仅在**新增页面**有效，如果**编辑页面**也需要设置默认值，可以参考以下方法
 
@@ -125,7 +124,6 @@ $form->textare('contents')->hideInDialog();
 
 ### 保存为字符串类型 `saveAsString`
 
-> {tip} Since `v1.7.0`
 
 `saveAsString`方法可以把表单值转化为`string`类型保存，当保存的数据库字段值不允许为`null`时非常有用；
 
@@ -135,7 +133,6 @@ $form->text('nickname')->saveAsString();
 
 ### 保存为json类型 `saveAsJson`
 
-> {tip} Since `v1.7.0`
 
 `saveAsJson`可以把表单值保存为`json`格式
 
@@ -419,98 +416,9 @@ public function users(Request $request)
 }
 ```
 
-<a name="selectResource"></a>
-## 弹窗选择器 (selectResource)
-
-> {tip} 此功能即将在 `2.0` 版本中废弃，请使用 [selectTable](#select-table) 功能代替。
-
-通过`selectResource`表单可以构建一个弹窗选择器，可以从弹窗里面选择表格数据，并且支持数据筛选等操作。
-
-> {tip} 注入这个字段的数据（从数据库查出来的）可以是一个以`,`隔开的字符串，也可以是`json`字符串或`array`数组。
-
-```php
- $form->selectResource('user')
-    ->path('auth/users') // 设置表格页面链接
-    ->options(function ($v) { // 显示已选中的数据
-        if (!$v) return $v;
-        $userModel = config('admin.database.users_model');
-
-        return $userModel::find($v)->pluck('name', 'id');
-    });
-    
-// 设置为多选
- $form->selectResource('user')
-    ->path('auth/users') 
-    ->multiple() // 设置为多选
-    ->options(function ($v) {
-        ...
-    });  
-    
-// 限制最大选择数量
- $form->selectResource('user')
-    ->path('auth/users') 
-    ->multiple(3) // 最多选择3个选项
-    ->options(function ($v) {
-        ...
-    });       
-```
-
-然后设置你的路由`app/Admin/routes.php`
-
-> {tip} 这里的添加路由只是示例，如果是新增的控制器需要加路由，如果路由已经存在则不需要再添加。
-
-```php
-$router->resource('auth/users', 'UserController');
-```
-
-`auth/users`页面实现代码如下：
-```php
-<?php
-
-use Dcat\Admin\Models\Administrator;
-use Dcat\Admin\IFrameGrid;
-use Dcat\Admin\Grid;
-use Dcat\Admin\Controllers\AdminController;
-
-class UserController extends AdminController
-{
-    protected function iFrameGrid()
-    {
-        $grid = new IFrameGrid(new Administrator());
-        
-        // 指定行选择器选中时显示的值的字段名称
-        // 指定行选择器选中时显示的值的字段名称
-        // 指定行选择器选中时显示的值的字段名称
-        // 如果表格数据中带有 “name”、“title”或“username”字段，则可以不用设置
-        $grid->rowSelector()->titleColumn('username');
-
-        $grid->id->sortable();
-        $grid->username;
-        $grid->name;
-    
-        $grid->filter(function (Grid\Filter $filter) {
-            $filter->equal('id');
-            $filter->like('username');
-            $filter->like('name');
-        });
-    
-        return $grid;
-    }
-}
-```
-
-效果
-
-<a href="{{public}}/assets/img/screenshots/select-resource.png" target="_blank">
-    <img  src="{{public}}/assets/img/screenshots/select-resource.png" style="box-shadow:0 1px 6px 1px rgba(0, 0, 0, 0.12)" width="100%">
-</a>
-
-<a name="listbox"></a>
-
 <a name="select-table"></a>
 ## 表格选择器 (selectTable)
 
-> {tip} Since `v1.7.0`
 
 ```php
 use App\Admin\Renderable\UserTable;
@@ -641,7 +549,6 @@ $form->checkbox($column[, $label])
 	});
 ```
 
-> {tip} Since `v1.7.0`
 
 启用选中全部功能
 
@@ -684,7 +591,6 @@ $form->mobile($column[, $label])->options(['mask' => '999 9999 9999']);
 <a name="color"></a>
 ## 颜色选择器 (color)
 
-> {tip} Since `v1.7.0`
 
 ```php
 $form->color($column[, $label]);
@@ -740,7 +646,6 @@ $form->datetimeRange($startDateTime, $endDateTime, 'DateTime Range');
 
 ## 范围 (range)
 
-> {tip} Since `v1.5.3`
 
 ```php
 $form->range('start_column', 'end_column', '范围');
@@ -846,7 +751,7 @@ $form->multipleFile($column[, $label])
 ```
 
 
-> {tip} Since `v1.3.0` - 增加可排序功能支持
+启用可排序功能
 
 ```php
 $form->multipleImage('images')->sortable();
@@ -858,7 +763,6 @@ $form->multipleImage('images')->sortable();
 
 系统集成了`TinyMCE`编辑器作为内置编辑器。
 
-> {tip} `Since v1.1.0`
 
 #### 基本使用
 ```php
@@ -957,7 +861,6 @@ Editor::resolving(function (Editor $editor) {
 
 系统集成了`editor-md`编辑器作为内置Markdown编辑器。
 
-> {tip} `Since v1.2.0`
 
 #### 基本使用
 ```php
@@ -1176,7 +1079,6 @@ $form->tags('tags', '文章标签')
 `saving` 方法接收一个「参数为 tags 的提交值，返回值为修改后的 tags 提交值」的闭包，可以用于实现自动创建新 tag 或其它功能。
 
 
-> {tip} Since `v1.6.0`
 
 如果选项过多，可通过ajax方式动态分页载入选项：
 
@@ -1273,8 +1175,6 @@ $form->tree('permissions')
 <a name="table"></a>
 ## 表格表单 (table)
 
-> {tip} Since `v1.3.4`版本起支持图片以及文件上传表单。
-
 如果某一个字段存储的是json格式的二维数组，可以使用table表单组件来实现快速的编辑：
 
 ```php
@@ -1301,8 +1201,6 @@ public function setExtraAttribute($extra)
 
 <a name="onemany"></a>
 ## 一对多 (hasMany)
-
-> {tip} Since `v1.3.4`版本起支持图片以及文件上传表单。
 
 一对多内嵌表格，用于处理一对多的关系，下面是个简单的例子：
 

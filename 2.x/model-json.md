@@ -82,8 +82,6 @@ $form->table('column_name', function ($table) {
 
 ## 二维数组 (array)
 
-> {tip} Since `v1.7.0`
-
 ![]({{public}}/assets/img/screenshots/has-many.png)
 
 如果某一个字段存储的是`json`格式的二维数组，并且字段比较多，可以使用`array`表单组件来实现快速的编辑：

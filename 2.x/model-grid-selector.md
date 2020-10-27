@@ -42,8 +42,6 @@ $selector->selectOne('brand', '品牌', [
 
 ### 关联关系字段查询
 
-> {tip} Since `v1.7.0`
-
 如果安装了 [dcat/laravel-wherehasin](https://github.com/jqhph/laravel-wherehasin)，则会优先使用`whereHasIn`方法进行查询操作
 
 ```php

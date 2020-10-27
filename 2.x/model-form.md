@@ -355,8 +355,6 @@ $form->saving(function (Form $form) {
 <a name="confirm"></a>
 ### 显示确认弹窗 (confirm)
 
-> {tip} Since `v1.6.5`
-
 点击表单提交按钮时弹出确认弹窗，如果是在普通数据表单中
 ```php
 $form->confirm('您确定要提交表单吗？', 'content');
