@@ -28,9 +28,9 @@ composer require dcat/laravel-admin:"2.*"
 
 1. 删除 `public/vendors` 目录
 2. 重新发布资源 `php artisan admin:publish --force`
-3. 根据上面备份后的配置文件，把修改过的参数写到新的配置文件 `config/admin.php` 中
+3. 根据上面备份后的配置文件，把修改过的参数写到新的配置文件 `config/admin.php` 中，这里需要注意的是`1.x`的默认主题色是`indigo`（已被废弃），在新版本中已经替换成`default`了
 4. 调整语言包，新版本中语言包目录由 `zh-CN` 变成了 `zh_CN`，需要把自定义的翻译文件移动到新目录，并且 `菜单标题` 的翻译也独立出来到 `menus.php` 中了
-5. 运行数据库迁移命令命令 `php artisan migrate` ，新版本中新增了两个表`admin_settoings` 以及 `admin_extensions`
+5. 运行数据库迁移命令命令 `php artisan migrate` ，新版本中新增了两个表`admin_settings` 以及 `admin_extensions`
 
 ### 3.全局更改命名空间
 
