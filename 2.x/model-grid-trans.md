@@ -9,7 +9,7 @@
 
 
 ### 示例
-现在假设语言包`resources/lang/zh-CN/user-profile.php`内容如下：
+现在假设语言包`resources/lang/zh_CN/user-profile.php`内容如下：
 ```php
 return [
     'fields' => [

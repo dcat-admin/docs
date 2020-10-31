@@ -172,7 +172,7 @@ $form->ajax(false);
 
 ### 6.数据仓库部分变动
 
-数据仓库的接口命名做了简化处理，新的 interface 如下
+1.数据仓库的接口命名做了简化处理，新的 interface 如下
 
 ```php
 interface Repository
@@ -280,6 +280,9 @@ interface Repository
 }
 ```
 
+
+2.`EloquentRepository::eloquent()` 重命名为 `EloquentRepository::model()`
+
 ### 7.Section变动
 
 在新版本中 `AdminSection` 已被移除，请使用 `Dcat\Admin\Admin::SECTION` 常量代替
@@ -295,10 +298,22 @@ admin_inject_default_section(Admin::SECTION['HEAD'], function () {
 
 ### 8.扩展
 
-扩展相关变动请参考文档[扩展]()
+扩展相关变动请参考文档[扩展](extension-install.md)
 
+### 9.登录逻辑
+1.登录模板，如果你在旧项目中自定义过登录模板，则需要调整登录模板中的`JS`代码
+```js
+Dcat.ready(function () {
+    // ajax表单提交
+    $('#login-form').form({
+        validate: true,
+    });
+});
+```
 
-### 9.其他变动
+2.登录逻辑，如果重写过登录逻辑，则最后登录成功的响应方法需要使用 `sendLoginResponse`
+
+### 10.其他变动
 
 1.资源注册
 ```php

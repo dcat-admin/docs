@@ -2,7 +2,7 @@
 
 ### 1.如何设置语言为简体中文？
 
-打开配置文件`config/app.php`，设置`locale`参数的值为`zh-CN`。
+打开配置文件`config/app.php`，设置`locale`参数的值为`zh_CN`。
 
 ### 2.Laravel7时间显示为UTC格式
 

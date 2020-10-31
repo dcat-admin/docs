@@ -800,7 +800,7 @@ HTML;
 
     public function modelClass()
     {
-        return get_class($this->parent->model()->eloquent()->repository()->eloquent());
+        return get_class($this->parent->model()->repository()->eloquent());
     }
 }
 ```
