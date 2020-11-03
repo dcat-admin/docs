@@ -564,7 +564,7 @@ public function index(Content $content)
 <a name="bootstrap-styles"></a>
 ## Bootstrap4公共样式
 
-`Dcat Admin`采用`bootstrap4`的栅格系统对页面进行布局，即简单又强大，开始开发前需要对此有所了解，另外`bootsrap4`提供了非常多非常有用的[公共样式](https://getbootstrap.net/docs/utilities/borders/)，对编写页面组件非常有帮助，能显著提高开发效率，建议编写组件前先查阅一遍文档，以下是推荐学习的样式列表：
+`Dcat Admin`采用`bootstrap4`的栅格系统对页面进行布局，既简单又强大，开始开发前需要对此有所了解，另外`bootsrap4`提供了非常多非常有用的[公共样式](https://getbootstrap.net/docs/utilities/borders/)，对编写页面组件非常有帮助，能显著提高开发效率，建议编写组件前先查阅一遍文档，以下是推荐学习的样式列表：
 
 - [栅格布局](https://getbootstrap.net/docs/layout/grid/)
 - [Display显示属性](https://getbootstrap.net/docs/utilities/display/) 通过我们的显示实用程序，可以快速、有效地切换组件的显示值和更多，包括对一些更常见的值的支持，此样式列表对响应式布局非常有帮助。
