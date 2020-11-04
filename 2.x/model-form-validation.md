@@ -8,7 +8,7 @@
 $form->text('title')->rules('required|min:3');
 
 // 复杂的验证规则可以在回调里面实现
-$form->text('title')->rules(function ($form) {
+$form->text('title')->rules(function (Form $form) {
     
     // 如果不是编辑状态，则添加字段唯一验证
     if (!$id = $form->model()->id) {
