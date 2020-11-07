@@ -48,7 +48,7 @@ $form->submitted(function (Form $form) {
     $form->deleteInput('title');
     
     // 中断后续逻辑
-    return $form->error('服务器出错了~');
+    return $form->response()->error('服务器出错了~');
 });
 ```
 
@@ -66,7 +66,7 @@ $form->saving(function (Form $form) {
     $form->deleteInput('title');
     
     // 中断后续逻辑
-    return $form->error('服务器出错了~');
+    return $form->response()->error('服务器出错了~');
 });
 ```
 
@@ -126,11 +126,11 @@ $form->deleted(function (Form $form, $result) {
 	
 	// 通过 $result 可以判断数据是否删除成功
 	if (! $result) {
-		return $form->error('数据删除失败');
+		return $form->response()->error('数据删除失败');
 	}
 
     // 返回删除成功提醒，此处跳转参数无效
-    return $form->success('删除成功');
+    return $form->response()->success('删除成功');
 });
 ```
 
@@ -224,56 +224,31 @@ $form->saving(function (Form $form) {
 });
 ```
 
-### 页面跳转
+### 表单响应
 
 > {tip} 此方法在`creating`、`editing`、`uploading`、`uploaded`事件中均不可用。
+
+详细用法请参考文档 [动作和表单响应](response.md) 章节。
 
 
 redirect（局部刷新/单页刷新）
 ```php
 // 跳转并提示成功信息
 $form->saved(function (Form $form) {
-    return $form->redirect('auth/user', '保存成功');
+    return $form->response()->success('保存成功')->redirect('auth/user');
 });
 
 // 跳转并提示错误信息
 $form->saved(function (Form $form) {
-    return $form->redirect('auth/user', [
-        'message' => '系统错误',
-        'status' => false,
-    ]);
+    return $form->response()->error('系统错误')->redirect('auth/user');
 });
 ```
 
-location（刷新整个页面）
-```php
-// 跳转并提示成功信息
-$form->saved(function (Form $form) {
-    // 不传参数则刷新当前页面
-    // return $form->location();
-
-    return $form->location('auth/user', '保存成功');
-});
-
-// 跳转并提示错误信息
-$form->saved(function (Form $form) {
-    return $form->location('auth/user', [
-        'message' => '系统错误',
-        'status' => false,
-    ]);
-});
-```
-
-
-### 仅返回错误信息但不跳转
-
-通过`error`方法可以在提交表单时返回错误提示信息
-
-> {tip} 此方法在`creating`、`editing`、`uploading`、`uploaded`事件中均不可用。
+仅返回错误信息但不跳转
 
 ```php
 $form->saving(function (Form $form) {
-    return $form->error('系统异常');
+    return $form->response()->error('系统异常');
 });
 ```
 

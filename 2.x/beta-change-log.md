@@ -1,5 +1,90 @@
 # BETA版本更新日志
 
+### v2.0.6-beta
+
+发布时间 2020/11/7
+
+升级方法，逐步执行以下命令
+```bash
+composer remove dcat/laravel-admin
+composer require dcat/laravel-admin:"2.0.6-beta"
+php artisan admin:publish --assets --force
+php artisan admin:publish --migrations --force # 表结构有变动
+php artisan migrate
+```
+
+**功能接口破坏性变动**
+
+1.`Form::tags`表单默认保存为`array`类型
+```php
+// 需要自己转换保存到数据库的格式
+$form->tags('tag')->saveAsJson();
+```
+
+2.默认禁用 session 中间件
+
+3.`Form\Tree::disableFilterParents` 重命名为 `Form\Tree::exceptParentNode`
+```php
+$form->tree('cate')->exceptParentNode(false);
+```
+
+4.文件上传表单部分方法名称调整
+```php
+// 启用分块上传功能 disableChunked 更改为 chunked
+$form->image('avatar')->chunked(true);
+
+// 启用自动保存字段值功能 disableAutoSave 更改为 autoSave
+$form->image('avatar')->autoSave(false);
+
+// 启用删除文件功能 disableRemove 更改为 removeable
+$form->image('avatar')->removeable(false);
+```
+
+
+**功能改进**
+
+1.代码生成器增加字段拖动排序功能，此方法由小伙伴[@codingyu](https://github.com/codingyu)贡献
+
+2.菜单表增加`show`和`extension`字段，`show`字段用于控制是否显示菜单；`extension`字段用于标记是否为扩展菜单
+
+3.`Form::table`、`Form::array`、`Form::embeds`表单支持关联关系字段
+```php
+$form->table('profile.options', function ($form) {
+    ...
+});
+```
+
+4.增加 `Form::checkbox` 以及 `Form::radio` 表单选项竖排显示功能
+```php
+$form->checkbox('xxx')->inline(false)->options([...]);
+```
+
+5.配置文件跳过登录以及权限验证功能允许配置路由别名
+```php
+'auth' => [
+    'except' => [
+        ...
+        'user.login',
+    ],
+],
+```
+
+6.`Form\Row` 增加 `getKey` 以及 `model` 方法
+
+7.优化表格过滤器select表单选中效果，默认不选中
+
+8.表单tab布局优化
+
+
+**BUG修复**
+1. 修复 `Form::checkbox` 选中/取消选中全部选项时动态显示表单功能无效问题
+2. 修复台湾繁体无法翻译默认菜单标题问题 
+3. 修复 `NestedForm` 中的 `number` 字段输入值为 0 时会被过滤问题 [#634](https://github.com/jqhph/dcat-admin/issues/634)
+4. 修复模型树`RowAction`异步处理接口时获取主键报错问题
+5. 修复表格过滤器无法重置关联表字段搜索值问题 [#650](https://github.com/jqhph/dcat-admin/issues/650)
+6. 修复表格过滤器multipleSelect表单异常问题
+
+
 ### v2.0.5-beta 
 
 发布时间 2020/10/29

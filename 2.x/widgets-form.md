@@ -28,7 +28,7 @@ class Setting extends Form
 
         // return $this->error('Your error message.');
 
-        return $this->success('Processed successfully.', '/');
+        return $this->response()->success('Processed successfully.')->refresh();
     }
 
     // 构建表单
@@ -102,60 +102,7 @@ $this->confirm('title', 'content');
 
 ### 响应方法
 
-`ajaxResponse` 仅提示成功或失败信息，不跳转也不刷新页面
-
-```php
-public function handle(array $input)
-{
-    ...
-    
-    return $this->ajaxResponse('操作失败', null, false);
-    
-    return $this->ajaxResponse('操作成功');
-}
-```
-
-`success` 响应成功信息，第一个参数为提示信息，第二个参数为跳转地址，不传则刷新当前页
-```php
-public function handle(array $input)
-{
-    ...
-    
-    return $this->success('操作成功');
-    
-    return $this->success('操作成功', 'auth/users');
-}
-```
-
-`error` 响应事变信息，第一个参数为提示信息，第二个参数为跳转地址，不传则刷新当前页
-```php
-public function handle(array $input)
-{
-    ...
-    
-    return $this->error('操作失败');
-    
-    return $this->error('操作失败', 'auth/users');
-}
-```
-
-`location` 刷新整个页面
-```php
-public function handle(array $input)
-{
-    ...
-    
-    // 不传参数则刷新当前页面
-    return $this->location();
-    
-    return $this->location('auth/user', '保存成功');
-    
-    return $this->location('auth/user', [
-        'message' => '系统错误',
-        'status' => false,
-    ]);
-}
-```
+参考 [动作以及表单响应](response.md) 章节
 
 
 ### 自定义表单保存的后续行为
@@ -328,7 +275,7 @@ class ResetPassword extends Form
 
         // 逻辑操作
 
-        return $this->success('密码修改成功');
+        return $this->response()->success('密码修改成功');
     }
 
     public function form()
@@ -389,7 +336,7 @@ class ResetPassword extends Form implements LazyRenderable
 
 		// 逻辑操作
 
-		return $this->success('密码修改成功');
+		return $this->response()->success('密码修改成功');
 	}
 
 	public function form()
@@ -462,18 +409,18 @@ class ResetPassword extends Form implements LazyRenderable
         $password = $input['password'] ?? null;
 
         if (! $id) {
-            return $this->error('参数错误');
+            return $this->response()->error('参数错误');
         }
 
         $user = Administrator::query()->find($id);
 
         if (! $user) {
-            return $this->error('用户不存在');
+            return $this->response()->error('用户不存在');
         }
 
         $user->update(['password' => bcrypt($password)]);
 
-        return $this->success('密码修改成功');
+        return $this->response()->success('密码修改成功');
     }
 
     public function form()
@@ -569,13 +516,13 @@ class ResetPassword extends Form implements LazyRenderable
 	    $password = $input['password'] ?? null;
 
 	    if (! $id) {
-		    return $this->error('参数错误');
+		    return $this->response()->error('参数错误');
 	    }
 
 	    $users = Administrator::query()->find($id);
 
 	    if ($users->isEmpty()) {
-		    return $this->error('用户不存在');
+		    return $this->response()->error('用户不存在');
 	    }
 
 	    // 这里改为循环批量修改
@@ -583,7 +530,7 @@ class ResetPassword extends Form implements LazyRenderable
 	 	    $user->update(['password' => bcrypt($password)]);
 	    });
 
-	    return $this->success('密码修改成功');
+	    return $this->response()->success('密码修改成功');
     }
 
     public function form()

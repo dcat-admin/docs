@@ -66,9 +66,9 @@
   - [模型树](action-tree.md)
 - ## [多语言](trans.md)
 - ## 扩展
-  - [安装和使用](extension-install.md)
+  - [扩展基本使用](extension-f.md)
   - [开发扩展](extension-dev.md)
-  - [版本与升级](extension-upgrade.md)
+  - [开发主题](extension-theme.md)
 - ## 页面组件
   - [异步加载](lazy.md)
   - [图表](widgets-charts.md)
@@ -83,6 +83,7 @@
   - [Markdown](widgets-markdown.md)
   - [卡片](widgets-box.md)
 - ## [区块(section)](section.md)
+- ## [动作以及表单响应](response.md)
 - ## [权限控制](permission.md)
 - ## [菜单](menu.md)
 - ## [帮助函数](function.md)
