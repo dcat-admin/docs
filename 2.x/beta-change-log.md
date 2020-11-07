@@ -1,5 +1,17 @@
 # BETA版本更新日志
 
+### v2.0.5-beta 
+
+发布时间 2020/10/29
+
+BUG修复
+1. 修复表格搜索多个关联表字段sql错误问题 [I232T7](https://gitee.com/jqhph/dcat-admin/issues/I232T7)
+2. 修复`Form::datetimeRange`表单无法选择日志问题
+3. 修复无法添加多个`Form::table`表单字段问题 [#627](https://github.com/jqhph/dcat-admin/issues/627)
+4. 修复表格过滤器 MultipleSelectTable 中报错问题
+5. 修复表格规格筛选器样式异常问题
+
+
 ### v2.0.4-beta 
 
 发布时间 2020/10/27

@@ -322,7 +322,7 @@ use Dcat\Admin\Admin;
 // 注册资源路径别名
 Admin::asset()->alias('test', 'assets/test');
 
-Admin::asset()->alias('名称', [
+Admin::asset()->alias('名称', [ 
     'js' => [
         // @test 会判定为别名
         '@test/test.js',
