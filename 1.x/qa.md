@@ -105,6 +105,7 @@ Route::group([
 2. 文件过大，需要调整`php.ini`的`upload_max_filesize`参数
 3. 文件上传目录没有写权限
 4. `php`没有安装或没有开启`fileinfo`扩展
+5. 检查`php.ini`的`upload_tim_dir`参数设置是否正常
 
 如果文件上传成功了，却无法正常访问，那么可能是`.env`配置文件中的`APP_URL`参数没有设置正确。
 
