@@ -119,7 +119,7 @@ $form->mutipleFile('files')->saving(function ($paths) {
 ```php
 $form->display('id');
 $form->text('title');
-$form->textare('contents')->hideInDialog();
+$form->textarea('contents')->hideInDialog();
 ```
 
 ### 保存为字符串类型 `saveAsString`
