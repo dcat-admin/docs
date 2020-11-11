@@ -611,9 +611,9 @@ $form = UserProfile::make()->payload(['key1' => '...', 'key2' => '...']);
 
 $modal = Modal::make()
 	->lg()
-	->title('异步加载 - 表单')
+	->title('Asynchronous Loading - Forms')
 	->body($form)
-	->button('打开表单');
+	->button('Open Form');
 ```
 
 
