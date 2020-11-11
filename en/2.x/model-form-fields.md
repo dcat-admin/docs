@@ -119,7 +119,7 @@ If you don't want to display a field in the popup, you can use the `Form\Field::
 ```php
 $form->display('id');
 $form->text('title');
-$form->textare('contents')->hideInDialog();
+$form->textarea('contents')->hideInDialog();
 ```
 
 ### Save as string type `saveAsString`
