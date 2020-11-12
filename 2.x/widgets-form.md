@@ -26,8 +26,6 @@ class Setting extends Form
     {
         // dump($input);
 
-        // return $this->error('Your error message.');
-
         return $this->response()->success('Processed successfully.')->refresh();
     }
 
@@ -65,8 +63,7 @@ class Setting extends Form
         // 在这里可以写你的处理逻辑
 
 
-        // 第一个参数是响应的成功信息，第二个参数是要跳转的路由
-        return $this->success('Processed successfully.', '/');
+        return $this->response()->success('Processed successfully.')->refresh();
     }
 ```
 

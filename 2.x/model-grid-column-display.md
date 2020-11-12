@@ -339,7 +339,7 @@ class UserProfile extends Form implements LazyRenderable
         // 接收外部传递参数
 		$type = $this->payload['type'] ?? null;
         
-        return $this->success('保存成功');
+        return $this->response()->success('保存成功');
     }
 
     public function form()
@@ -481,7 +481,7 @@ class UserProfile extends Form implements LazyRenderable
         // 接收外部传递参数
 		$type = $this->payload['type'] ?? null;
         
-        return $this->success('保存成功');
+        return $this->response()->success('保存成功');
     }
 
     public function form()

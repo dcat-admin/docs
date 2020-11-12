@@ -35,8 +35,8 @@
 - ## 数据表单
   - [基本使用](model-form.md)
   - [图片/文件上传](model-form-upload.md)
-  - [字段的使用](model-form-fields.md)
-  - [字段的管理](model-form-field-management.md)
+  - [字段使用](model-form-fields.md)
+  - [字段管理和扩展](model-form-field-management.md)
   - [数据源](model-form-data.md)
   - [表单弹窗](model-form-modal.md)
   - [关联关系](model-relationship.md)
