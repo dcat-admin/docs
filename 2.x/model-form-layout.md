@@ -85,7 +85,7 @@ $form->tab('Basic info', function (Form $form) {
    
 })->tab('Jobs', function (Form $form) {
                          
-     $form->hasMany('jobs', function () {
+     $form->hasMany('jobs', function (Form\NestedForm $form) {
          $form->text('company');
          $form->date('start_date');
          $form->date('end_date');
