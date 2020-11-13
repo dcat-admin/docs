@@ -177,7 +177,7 @@ protected function grid()
 
 其它查询方法可以参考`eloquent`的查询方法.
 
-### 修改显示输出
+### 修改显示输出 (display)
 
 
 ```php
@@ -205,7 +205,15 @@ $grid->column('column_not_in_table')->display(function () {
 });
 ```
 
-### 获取当前行数据
+### 设置名称 (setName)
+
+当页面存在多个`Grid`表格时，需要给表格设置不同的名称，否则部分功能可能会出现冲突的情况
+
+```php
+$grid->setName('name1');
+```
+
+### 获取当前行数据 (row)
 
 `display()`方法接收的匿名函数绑定了当前行的数据对象，可以在里面调用当前行的其它字段数据
 
@@ -250,20 +258,6 @@ $grid->toolsWithOutline(false);
 $grid->tools('<a class="btn btn-primary disable-outline">测试按钮</a>');
 ```
 
-
-### 设置表格外层容器
-```php
- // 更改表格外层容器
-$grid->wrap(function (Renderable $view) {
-    $tab = Tab::make();
-    
-    $tab->add('示例', $view);
-    $tab->add('代码', $this->code(), true);
-
-    return $tab;
-});
-```
-
 ### 设置创建按钮
 
 此功能默认开启
@@ -285,6 +279,14 @@ $grid->enableDialogCreate();
 $grid->setDialogFormDimensions('50%', '50%');
 ```
 
+### 修改创建以及更新按钮的路由 (setResource)
+
+设置修改创建以及更新按钮的路由前缀
+
+```php
+$grid->setResource('auth/users');
+```
+
 
 ### 设置查询过滤器
 
@@ -303,7 +305,7 @@ $grid->showFilterButton();
 ```
 
 
-### 设置行选择器
+### 行选择器 (rowSelector)
 ```php
 // 禁用
 $grid->disableRowSelector();
@@ -311,15 +313,25 @@ $grid->disableRowSelector();
 $grid->showRowSelector();
 ```
 
-#### 设置选择中行的标题字段key
-如不设置，默认取 `name`、 `title`、 `username`中的一个。
+#### 设置选择中行的标题字段
+设置选中后需要显示的字段，如不设置，默认取 `name`、 `title`、 `username`中的一个。
 ```php
-$grid->full_name;
-$grid->age;
+$grid->column('full_name');
+$grid->column('age');
 
 ...
 
 $grid->rowSelector()->titleColumn('full_name');
+```
+
+#### 设置选择中行的ID字段
+设置选中后需要保存的字段，默认为 数据表主键(id) 字段
+```php
+$grid->column('new_id');
+
+...
+
+$grid->rowSelector()->idColumn('new_id');
 ```
 
 #### 设置checkbox选择框颜色
@@ -440,6 +452,20 @@ $grid->disablePerPages();
 
 ```php
 $grid->addTableClass(['class1', 'class2']);
+```
+
+
+### 设置表格外层容器
+```php
+ // 更改表格外层容器
+$grid->wrap(function (Renderable $view) {
+    $tab = Tab::make();
+    
+    $tab->add('示例', $view);
+    $tab->add('代码', $this->code(), true);
+
+    return $tab;
+});
 ```
 
 ## 关联模型

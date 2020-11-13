@@ -83,7 +83,7 @@ use App\Admin\Repositories\User;
 use Dcat\Admin\Grid;
 
 // 关联 profile 表数据
-$grid = Grid::make(new User(['profile']), function (Grid $grid) {    
+$grid = Grid::make(User::with(['profile']), function (Grid $grid) {    
     $grid->id('ID')->sortable();
     
     $grid->name();
@@ -222,7 +222,7 @@ Post表格
 use App\Admin\Repositories\Post;
 
 // 关联 comment 表数据
-$grid = Grid::make(new Post(['comments']), function (Grid $grid) {
+$grid = Grid::make(Post::with(['comments']), function (Grid $grid) {
     $grid->id('id')->sortable();
     $grid->title();
     $grid->content();
@@ -244,7 +244,7 @@ Comment表格
 use App\Admin\Repositories\Comment;
 
 // 关联 post 表数据
-$grid = new Grid(new Comment(['post']));
+$grid = new Grid(Comment::with(['post']));
 
 $grid->column('id');
 $grid->column('post.title');
@@ -346,7 +346,7 @@ class User extends EloquentRepository
 use App\Admin\Repositories\User;
 
 // 关联 role 表数据
-$grid = Grid::make(new User('roles'), function (Grid $grid) {
+$grid = Grid::make(User::with('roles'), function (Grid $grid) {
     $grid->id('ID')->sortable();
     $grid->username();
     $grid->name();

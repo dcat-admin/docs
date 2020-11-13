@@ -309,25 +309,12 @@ class AuthController extends Controller
 </section>
 
 <script>
-    Dcat.ready(function () {
-        // ajax表单提交
-        $('#login-form').form({
-            validate: true,
-            success: function (data) {
-                if (! data.status) {
-                    Dcat.error(data.message);
-
-                    return false;
-                }
-
-                Dcat.success(data.message);
-
-                location.href = data.redirect;
-
-                return false;
-            }
-        });
+Dcat.ready(function () {
+    // ajax表单提交
+    $('#login-form').form({
+        validate: true,
     });
+});
 </script>
 ```
 
@@ -401,7 +388,7 @@ use App\Admin\Repositories\User;
 use Dcat\Admin\Form;
 use Dcat\Admin\Grid;
 use Dcat\Admin\Show;
-use Dcat\Admin\Controllers\AdminController;
+use Dcat\Admin\Http\Controllers\AdminController;
 
 class UserController extends AdminController
 {
@@ -469,10 +456,6 @@ class AdminController extends Controller
     // 列表页
     public function index(Content $content)
     {
-        if (request(IFrameGrid::QUERY_NAME)) {
-            return $content->perfectScrollbar()->body($this->iFrameGrid());
-        }
-
         return $content
             ->title($this->title())
             ->description($this->description()['index'] ?? trans('admin.list'))
@@ -540,10 +523,6 @@ use Dcat\Admin\Layout\Row;
 
 public function index(Content $content)
 {
-    if (request(IFrameGrid::QUERY_NAME)) {
-        return $content->perfectScrollbar()->body($this->iFrameGrid());
-    }
-
     return $content
         ->title($this->title())
         ->description($this->description()['index'] ?? trans('admin.list'))
