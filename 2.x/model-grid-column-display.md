@@ -631,7 +631,7 @@ $grid->email->prepend(function ($value, $original) {
 
 ```php
 // 最多显示50个字符
-$grid->column('content')s->limit(50, '...');
+$grid->column('content')->limit(50, '...');
 
 // 如果字段值是数组也支持
 $grid->tags->limit(3);
