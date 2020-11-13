@@ -604,7 +604,7 @@ $grid->email->prepend(function ($value, $original) {
 ```
 
 ### append
-`prepend` 方法用于给 `string` 或 `array` 类型的值后面插入内容。
+`append` 方法用于给 `string` 或 `array` 类型的值后面插入内容。
 
 ```php
 // 当字段值是一个字符串
@@ -616,7 +616,7 @@ $grid->arr->append('last item');
 
 从`v1.2.5`版本开始，`append`方法允许传入闭包参数
 ```php
-$grid->email->prepend(function ($value, $original) {
+$grid->email->append(function ($value, $original) {
     // $value 是当前字段值
     // $original 是当前字段从数据库中查询出来的原始值
     
