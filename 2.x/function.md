@@ -1,5 +1,44 @@
 # 帮助函数
 
+### admin_color
+
+获取内置颜色，关于主题颜色更多用法请参考[主题 - 颜色](theme.md#color)章节
+
+```php
+// 获取主题色的三种方式
+$primary = admin_color('primary');
+$primary = admin_color()->get('primary');
+$primary = admin_color()->primary();
+
+$color = admin_color();
+$color->lighten('primary', 10);
+```
+
+### admin_js
+
+可以在任意位置引入`js`文件，更多用法参考[静态资源](assets.md)章节
+
+```php
+admin_js(['@admin/xxx.js']);
+```
+
+### admin_css
+
+可以在任意位置引入`css`文件，更多用法参考[静态资源](assets.md)章节
+
+```php
+admin_css(['@admin/xxx.css']);
+```
+
+### admin_require_assets
+
+可以在任意位置引入静态资源组件，更多用法参考[静态资源](assets.md)章节
+
+```php
+admin_require_assets(['@datime']);
+```
+
+
 ### admin_path
 
 获取`Dcat Admin`安装的应用路径，默认目录是`app/Admin`：

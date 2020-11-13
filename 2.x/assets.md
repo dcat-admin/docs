@@ -1,6 +1,75 @@
 # 静态资源加载
 
-`Dcat Admin`修改了`pjax`源码，增加了`js`脚本按需加载的功能，开发者只需在控制器`action`中引入需要用到的`js`组件即可，而无需在项目初始化时引入所有的`js`组件。
+`Dcat Admin`支持了`js`脚本按需加载的功能，开发者只需在控制器中或其他任意位置（包括`view`）中引入需要用到的`js`组件即可，而无需在项目初始化时引入所有的`js`组件。
+
+
+### 更改静态资源域名
+
+打开配置文件`config/admin.php`，找到`assets_server`参数进行更改即可；也可以在`.env`中加上
+
+```dotenv
+ADMIN_ASSETS_SERVER=http://xxx.com
+```
+
+### 注册路径别名
+
+打开`app/Admin/bootstrap.php`，然后加入以下代码
+
+```php
+Admin::asset()->alias('@my-name1', 'assets/admin1');
+Admin::asset()->alias('@my-name2', 'assets/admin2');
+
+// 也可以批量注册
+Admin::asset()->alias([
+	'@my-name1' => 'assets/admin1',
+	'@my-name2' => 'assets/admin2',
+]);
+```
+
+使用别名
+
+```php
+Admin::js('@my-name1/index.js');
+Admin::css('@my-name1/index.css');
+```
+
+### 注册组件
+
+当某个组件的`js`和`css`文件比较多的话，我们可以把这些静态资源文件统一注册成一个组件，这样使用的时候会更方便。打开`app/Admin/bootstrap.php`，然后加入以下代码
+
+```php
+Admin::asset()->alias('@editor-md', [
+	'js' => [
+		// 支持使用路径别名
+		'@admin/dcat/plugins/editor-md/lib/raphael.min.js',
+		'@admin/dcat/plugins/editor-md/lib/marked.min.js',
+		'@admin/dcat/plugins/editor-md/lib/prettify.min.js',
+		'@admin/dcat/plugins/editor-md/lib/jquery.flowchart.min.js',
+		'@admin/dcat/plugins/editor-md/editormd.min.js',
+	],
+	'css' => [
+		'@admin/dcat/plugins/editor-md/css/editormd.preview.min.css',
+		'@admin/dcat/extra/markdown.css',
+	],
+]);
+```
+
+使用
+
+```php
+Admin::requireAssets(['@editor-md']);
+```
+
+如果你只需要加载这个组件的`js`或`css`，并不想加载所有文件，那么可以用以下方法
+
+```php
+// 只加载js文件
+Admin::js('@editor-md');
+
+// 只加载css文件
+Admin::css('@editor-md');
+```
+
 
 ### 加载js脚本
 

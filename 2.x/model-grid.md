@@ -205,6 +205,14 @@ $grid->column('column_not_in_table')->display(function () {
 });
 ```
 
+### 显示序号
+
+通过`number`方法可以在表格中添加一列从`1`开始计算的行序号列
+
+```php
+$grid->number();
+```
+
 ### 设置名称 (setName)
 
 当页面存在多个`Grid`表格时，需要给表格设置不同的名称，否则部分功能可能会出现冲突的情况

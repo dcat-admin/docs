@@ -6,6 +6,7 @@
   - [版本升级](update.md)
   - [快速开始](quick-start.md)
   - [开发前必读](notice.md)
+  - [静态资源与视图](assets.md)
   - [主题与颜色](theme.md)
   - [自定义页面](custom-page.md)
   - [JS组件](js.md)
