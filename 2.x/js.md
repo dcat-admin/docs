@@ -2,7 +2,7 @@
 
 `Dcat Admin`内置了一些常用的JS功能组件，通过全局变量`Dcat`可以访问到这些功能方法。
 
-## 监听JS脚本加载完毕事件
+## 监听JS脚本加载完毕事件 (ready)
 
 通过`Dcat.ready`方法设置的回调函数会在所有的`JS`脚本都加载完毕后执行。
 
@@ -18,6 +18,63 @@ Dcat.ready(function () {
 });
 </script>
 ```
+
+<a name="init"></a>
+## 动态监听元素生成 (init)
+
+通过`Dcat.init`可以监听动态生成的页面元素并设置一个回调，下面来举一个简单的例子来演示用法：
+
+假如一个元素是`JS`动态生成的，如果我们需要对这个元素绑定一个点击事件的话，那么我们通常需要这么做
+
+```html
+<div class="selector">test</div>
+
+<script>
+Dcat.ready(function () {
+    // 需要先 off 再 on 否则页面刷新后会造成重复绑定问题
+    $(document).off('click', '.selector').on('click', '.selector', function () {
+        ...
+    })
+});
+</script>
+```
+
+上面这种做法一来比较麻烦，需要先`off`再`on`；二来无法对动态生成的元素做一些特殊处理，例如你想在`.selector`生成后改变背景颜色，这个操作就没办法做到。
+
+在`Dcat Admin`中国我们可以使用`Dcat.init`方法来监听元素动态生成，可以很方便的解决上面两个问题
+
+```html
+<div class="selector">test</div>
+
+<script>
+Dcat.ready(function () {
+    // $this 是当前元素的jquery dom对象
+    // id 是当前元素的id属性，如果当前元素没有id则会自动生成一个随机id
+    Dcat.init('.selector', function ($this, id) {
+        // 修改元素的背景色
+        $this.css({background: "#fff"});
+        
+        // 这里不需要 off 再重新 on，因为这个匿名函数只会执行一次
+        $this.on('click', function () {
+            ...
+        });
+    });
+});
+</script>
+```
+
+`Dcat.init` 接受两个参数
+
+1. `selector` 需要监听的元素的`css选择器`
+2. `callback` 事件回调，当元素生成时触发，且只触发一次
+
+其中`callback`回调接收两个参数如下
+
+- `$this` 是当前元素的jquery dom对象
+- `id` 是当前元素的id属性，如果当前元素没有id则会自动生成一个随机id
+
+
+
 
 ## 手动触发JS脚本加载完毕事件
 

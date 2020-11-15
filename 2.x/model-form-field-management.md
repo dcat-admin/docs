@@ -3,8 +3,7 @@
 
 ## 扩展自定义组件
 
-> {tip} 扩展自定义Form组件后IDE默认是不会自动补全的，这时候可以通过`php artisan admin:ide-helper`生成IDE提示文件。
-
+在开始扩展表单组件之前需要先了解[动态监听元素生成 (init)](js.md#init)功能，表单组件的`JS`代码建议都使用`Dcat.init`方法监听并初始化，否则可能无法兼容`Form::hasMany`以及`Form::array`等动态生成字段的表单类型。
 
 ### 集成富文本编辑器wangEditor
 
@@ -15,59 +14,30 @@
 然后新建组件类`app/Admin/Extensions/WangEditor.php`。
 
 ```php
-
 <?php
 
-namespace App\Admin\Extensions;
+namespace App\Admin\Extensions\Form;
 
 use Dcat\Admin\Form\Field;
 
 class WangEditor extends Field
 {
     protected $view = 'admin.wang-editor';
-
-    protected static $css = [
-        '/vendor/wangEditor-3.0.9/release/wangEditor.min.css',
-    ];
-
-    protected static $js = [
-        '/vendor/wangEditor-3.0.9/release/wangEditor.min.js',
-    ];
-
-    public function render()
-    {
-        $name = $this->formatName($this->column);
-
-        $this->script = <<<EOT
-// 注意这里的ID一定要通过 replaceNestedFormIndex 函数转换，否则将无法兼容 hasMany 表单
-var E = window.wangEditor
-var editor = new E(replaceNestedFormIndex('#{$this->id}'));
-editor.customConfig.zIndex = 0
-editor.customConfig.uploadImgShowBase64 = true
-editor.customConfig.onchange = function (html) {
-    $('input[name=$name]').val(html);
 }
-editor.create()
-
-EOT;
-        return parent::render();
-    }
-}
-
 ```
 
 新建视图文件`resources/views/admin/wang-editor.blade.php`：
 ```php
-<div class="{{$viewClass['form-group']}} {!! !$errors->has($label) ? '' : 'has-error' !!}">
+<div class="{{$viewClass['form-group']}}">
 
-    <label for="{{$id}}" class="{{$viewClass['label']}} control-label">{{$label}}</label>
+    <label class="{{$viewClass['label']}} control-label">{{$label}}</label>
 
     <div class="{{$viewClass['field']}}">
 
         @include('admin::form.error')
 
-        <div id="{{$id}}" style="width: 100%; height: 100%;">
-            <p>{!! old($column, $value) !!}</p>
+        <div {!! $attributes !!} style="width: 100%; height: 100%;">
+            <p>{!! $value !!}</p>
         </div>
 
         <input type="hidden" name="{{$name}}" value="{{ old($column, $value) }}" />
@@ -76,19 +46,34 @@ EOT;
 
     </div>
 </div>
+
+<script require="@wang-editor" init="{!! $selector !!}">
+    var E = window.wangEditor
+    var editor = new E('#' + id);
+    editor.customConfig.zIndex = 0
+    editor.customConfig.uploadImgShowBase64 = true
+    editor.customConfig.onchange = function (html) {
+        $this.parents('.form-field').find('input[name={{ $name }}]').val(html);
+    }
+    editor.create()
+</script>
 ```
 
-然后注册进`dcat-admin`,在`app/Admin/bootstrap.php`中添加以下代码：
+然后注册进`dcat-admin`，在`app/Admin/bootstrap.php`中添加以下代码：
 
 ```php
-
 <?php
 
-use App\Admin\Extensions\WangEditor;
+use App\Admin\Extensions\Form\WangEditor;
 use Dcat\Admin\Form;
 
-Form::extend('editor', WangEditor::class);
+// 注册前端组件别名
+Admin::asset()->alias('@wang-editor', [
+    'js' => ['/vendor/wangEditor-3.0.9/release/wangEditor.min.js'],
+    'css' => ['/vendor/wangEditor-3.0.9/release/wangEditor.min.css'],
+]);
 
+Form::extend('editor', WangEditor::class);
 ```
 
 调用:
@@ -113,45 +98,44 @@ use Dcat\Admin\Form\Field;
 
 class CKEditor extends Field
 {
-    public static $js = [
-        '/packages/ckeditor/ckeditor.js',
-        '/packages/ckeditor/adapters/jquery.js',
-    ];
-
     protected $view = 'admin.ckeditor';
-
-    public function render()
-    {
-        $this->script = "$('{$this->getElementClassSelector()}').ckeditor();";
-
-        return parent::render();
-    }
 }
 ```
 
 新建view `resources/views/admin/ckeditor.blade.php`:
-```php
-<div class="{{$viewClass['form-group']}} {!! !$errors->has($label) ? '' : 'has-error' !!}">
+```html
+<div class="{{$viewClass['form-group']}}">
 
-    <label for="{{$id}}" class="{{$viewClass['label']}} control-label">{{$label}}</label>
+    <label class="{{$viewClass['label']}} control-label">{{$label}}</label>
 
     <div class="{{$viewClass['field']}}">
 
         @include('admin::form.error')
 
-        <textarea class="form-control {{ $class }}" name="{{$name}}" placeholder="{{ $placeholder }}" {!! $attributes !!} >{{ old($column, $value) }}</textarea>
+        <textarea name="{{ $name}}" placeholder="{{ $placeholder }}" {!! $attributes !!} >{!! $value !!}</textarea>
 
         @include('admin::form.help-block')
 
     </div>
 </div>
 
+<script require="@ckeditor" init="{!! $selector !!}">
+    $this.ckeditor();
+</script>
 ```
 
 然后在`app/Admin/bootstrap.php`中引入扩展：
 ```php
 use App\Admin\Extensions\Form\CKEditor;
 use Dcat\Admin\Form;
+
+// 注册前端组件别名
+Admin::asset()->alias('@ckeditor', [
+    'js' => [
+        '/packages/ckeditor/ckeditor.js',
+        '/packages/ckeditor/adapters/jquery.js',
+    ],
+]);
 
 Form::extend('ckeditor', CKEditor::class);
 ```
@@ -173,47 +157,13 @@ $form->ckeditor('content');
 ```php
 <?php
 
-namespace App\Admin\Extensions;
+namespace App\Admin\Extensions\Form;
 
 use Dcat\Admin\Form\Field;
 
 class PHPEditor extends Field
 {
     protected $view = 'admin.php-editor';
-
-    protected static $css = [
-        '/packages/codemirror-5.20.2/lib/codemirror.css',
-    ];
-
-    protected static $js = [
-        '/packages/codemirror-5.20.2/lib/codemirror.js',
-        '/packages/codemirror-5.20.2/addon/edit/matchbrackets.js',
-        '/packages/codemirror-5.20.2/mode/htmlmixed/htmlmixed.js',
-        '/packages/codemirror-5.20.2/mode/xml/xml.js',
-        '/packages/codemirror-5.20.2/mode/javascript/javascript.js',
-        '/packages/codemirror-5.20.2/mode/css/css.js',
-        '/packages/codemirror-5.20.2/mode/clike/clike.js',
-        '/packages/codemirror-5.20.2/mode/php/php.js',
-    ];
-
-    public function render()
-    {
-        $this->script = <<<EOT
-// 注意这里的ID一定要通过 replaceNestedFormIndex 函数转换，否则将无法兼容 hasMany 表单
-CodeMirror.fromTextArea(document.getElementById(replaceNestedFormIndex("{$this->id}")), {
-    lineNumbers: true,
-    mode: "text/x-php",
-    extraKeys: {
-        "Tab": function(cm){
-            cm.replaceSelection("    " , "end");
-        }
-     }
-});
-
-EOT;
-        return parent::render();
-
-    }
 }
 
 ```
@@ -222,22 +172,34 @@ EOT;
 
 创建视图`resources/views/admin/php-editor.blade.php`:
 
-```php
+```html
+<div class="{{$viewClass['form-group']}}">
 
-<div class="{{$viewClass['form-group']}} {!! !$errors->has($label) ? '' : 'has-error' !!}">
-
-    <label for="{{$id}}" class="{{$viewClass['label']}} control-label">{{$label}}</label>
+    <label class="{{$viewClass['label']}} control-label">{{$label}}</label>
 
     <div class="{{$viewClass['field']}}">
 
         @include('admin::form.error')
 
-        <textarea class="form-control" id="{{$id}}" name="{{$name}}" placeholder="{{ trans('admin::lang.input') }} {{$label}}" {!! $attributes !!} >{{ old($column, $value) }}</textarea>
+        <textarea name="{{$name}}" placeholder="{{ trans('admin::lang.input') }} {{$label}}" {!! $attributes !!} >
+            {!! $value !!}
+        </textarea>
         
         @include('admin::form.help-block')
     </div>
 </div>
 
+<script require="@phpeditor" init="{!! $selector !!}">
+    CodeMirror.fromTextArea(document.getElementById(id), {
+        lineNumbers: true,
+        mode: "text/x-php",
+        extraKeys: {
+            "Tab": function(cm){
+                cm.replaceSelection("    " , "end");
+            }
+         }
+    });
+</script>
 ```
 
 最后找到文件`app/Admin/bootstrap.php`,如果文件不存在，请更新`dcat-admin`，然后新建该文件,添加下面代码：
@@ -245,19 +207,30 @@ EOT;
 ```
 <?php
 
-use App\Admin\Extensions\PHPEditor;
+use App\Admin\Extensions\Form\PHPEditor;
 use Dcat\Admin\Form;
 
-Form::extend('php', PHPEditor::class);
+Admin::asset()->alias('@phpeditor', [
+    'js' => [
+        '/packages/codemirror-5.20.2/lib/codemirror.js',
+        '/packages/codemirror-5.20.2/addon/edit/matchbrackets.js',
+        '/packages/codemirror-5.20.2/mode/htmlmixed/htmlmixed.js',
+        '/packages/codemirror-5.20.2/mode/xml/xml.js',
+        '/packages/codemirror-5.20.2/mode/javascript/javascript.js',
+        '/packages/codemirror-5.20.2/mode/css/css.js',
+        '/packages/codemirror-5.20.2/mode/clike/clike.js',
+        '/packages/codemirror-5.20.2/mode/php/php.js',
+    ],
+    'css' => '/packages/codemirror-5.20.2/lib/codemirror.css',
+]);
 
+Form::extend('php', PHPEditor::class);
 ```
 
 这样就能在[model-form](model-form.md)中使用PHP编辑器了：
 
 ```
-
 $form->php('code');
-
 ```
 
 通过这种方式，可以添加任意你想要添加的`form`组件。
@@ -313,12 +286,11 @@ class PHPEditor extends Field
 
 模板
 ```html
-<div class="{{$viewClass['form-group']}} {!! !$errors->has($errorKey) ? '' : 'has-error' !!}">
+<div class="{{$viewClass['form-group']}}">
 
-    <div for="{{ $id }}" class="{{ $viewClass['label'] }} control-label">
+    <div class="{{ $viewClass['label'] }} control-label">
         <span>{!! $label !!}</span>
     </div>
-
 
     <div class="{{$viewClass['field']}}">
 
@@ -326,11 +298,10 @@ class PHPEditor extends Field
 
         <input type="hidden" name="{{$name}}"/>
 
-		<!-- $class 即是根据字段名称生成的class -->
-        <select class="form-control {{$class}}" style="width: 100%;" name="{{$name}}" {!! $attributes !!} >
+        <select style="width: 100%;" name="{{$name}}" {!! $attributes !!} >
            <option value=""></option>
 		   @foreach($options as $select => $option)
-			   <option value="{{$select}}" {{ Dcat\Admin\Support\Helper::equal($select, old($column, $value)) ?'selected':'' }}>{{$option}}</option>
+			   <option value="{{$select}}" {{ Dcat\Admin\Support\Helper::equal($select, $value) ?'selected':'' }}>{{$option}}</option>
 		   @endforeach
         </select>
 
@@ -338,139 +309,29 @@ class PHPEditor extends Field
 
     </div>
 </div>
+
+
+<script require="..." init="{!! $selector !!}">
+    // 这里的 $selector 即是当前字段的 css选择器
+    $this.select2($configs);
+</script>
 ```
-
-使用
-
-```php
-class Select extends Field
-{
-	...
-	
-	/**
-	 * {@inheritdoc}
-	 */
-	public function render()
-	{
-		...
-
-		if (empty($this->script)) {
-			// 通过 getElementClassSelector 方法可以获取到表单中 select 标签的css选择器
-			$this->script = "$(\"{$this->getElementClassSelector()}\").select2($configs);";
-		}
-
-		...
-
-		return parent::render();
-	}
-}
-```
-
-### ID属性
-表单组件类实例化后会生成一个唯一的随机字符串并保存到`id`属性中，然后传递到模板中，我们通常可以通过这个`id`获取到当前表单组件的关键元素
-
-模板
-```html
-<div class="{{$viewClass['form-group']}} {!! !$errors->has($label) ? '' : 'has-error' !!}">
-
-    <label for="{{$id}}" class="{{$viewClass['label']}} control-label">{{$label}}</label>
-
-    <div class="{{$viewClass['field']}}">
-
-        @include('admin::form.error')
-		
-		<!-- $id -->
-        <textarea class="form-control" id="{{$id}}" name="{{$name}}" placeholder="{{ trans('admin::lang.input') }} {{$label}}" {!! $attributes !!} >{{ old($column, $value) }}</textarea>
-        
-        @include('admin::form.help-block')
-    </div>
-</div>
-```
-
-使用`$id`属性
-
-```php
-class PHPEditor extends Field
-{
-    ...
-
-    public function render()
-    {
-    	// 通过 $this->id 定位元素
-        $this->script = <<<JS
-// 注意这里的ID一定要通过 replaceNestedFormIndex 函数转换，否则将无法兼容 hasMany 表单
-CodeMirror.fromTextArea(document.getElementById(replaceNestedFormIndex("{$this->id}")), {
-    lineNumbers: true,
-    mode: "text/x-php",
-    extraKeys: {
-        "Tab": function(cm){
-            cm.replaceSelection("    " , "end");
-        }
-     }
-});
-
-JS;
-        return parent::render();
-
-    }
-}
-```
-
 
 ### JS代码
 
-为了让扩展的表单组件能够兼容`HasMany`以及`Table`表单，我们必须把`JS`代码保存在`$script`属性中
-
-```php
-class Select extends Field
-{
-	...
-	
-	/**
-	 * {@inheritdoc}
-	 */
-	public function render()
-	{
-		...
-
-		$this->script = "$(\"{$this->getElementClassSelector()}\").select2($configs);";
-
-		...
-
-		return parent::render();
-	}
-}
-```
-
-并且如果你是通过`id`属性去定位元素，则必须使用`replaceNestedFormIndex`函数对原始`id`进行转换，否则将无法兼容`HasMany`以及`Table`表单
+为了让扩展的表单组件能够兼容`HasMany`、`array`以及`Table`表单，我们必须使用[动态监听元素生成 (init)](js.md#init)功能
 
 
-```php
-class PHPEditor extends Field
-{
+```html
+<div class="{{$viewClass['form-group']}}">
     ...
+</div>
 
-    public function render()
-    {
-    	// 通过 $this->id 定位元素
-        $this->script = <<<JS
-// 注意这里的ID一定要通过 replaceNestedFormIndex 函数转换，否则将无法兼容 hasMany 表单
-CodeMirror.fromTextArea(document.getElementById(replaceNestedFormIndex("{$this->id}")), {
-    lineNumbers: true,
-    mode: "text/x-php",
-    extraKeys: {
-        "Tab": function(cm){
-            cm.replaceSelection("    " , "end");
-        }
-     }
-});
-JS;
-        return parent::render();
 
-    }
-}
+<script require="..." init="{!! $selector !!}">
+    $this.select2($configs);
+</script>
 ```
-
 
 
 
