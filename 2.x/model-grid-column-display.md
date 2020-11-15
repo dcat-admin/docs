@@ -759,7 +759,7 @@ use Illuminate\Http\Request;
 
 class Star extends RowAction
 {
-    public function html()
+    protected function html()
     {
         $icon = ($this->row->{$this->getColumnName()}) ? 'fa-star' : 'fa-star-o';
 
@@ -800,7 +800,7 @@ HTML;
 
     public function modelClass()
     {
-        return get_class($this->parent->model()->repository()->eloquent());
+        return get_class($this->parent->model()->repository()->model());
     }
 }
 ```
