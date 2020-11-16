@@ -56,7 +56,7 @@ JS
 }
 ```
 
-很显然，使用`admin_view`渲染视图会让你的代码更简洁易读，关于`Dcat.init`以及`script`标签中的`init`和`require`属性的用法，请参考文档[静态资源](assets.md)章节。
+很显然，使用`admin_view`渲染视图会让你的代码更简洁易读，关于`Dcat.init`以及`script`标签中的`init`和`require`属性的用法，请参考文档[静态资源](assets.md)以及[动态监听元素生成 (init)](js.md#init)章节。
 
 ## 自定义页面
 

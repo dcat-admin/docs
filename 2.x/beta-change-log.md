@@ -147,13 +147,14 @@ admin_require_assets(['@select2']);
 
 **BUG修复**
 
-1.修复表格orderable功能异常问题 [#674](https://github.com/jqhph/dcat-admin/issues/674)
-2.修复 JsonResponse methodIf 用法报错问题
-3.修复表格、表单以及数据详情指定`label`时小数点会被替换为空问题 [#684](https://github.com/jqhph/dcat-admin/issues/684)
-4.修复表格`Grid::rows`回调无法正常使用问题
-5.修复widget添加`JS`代码异常导致部分类型的统计卡片异步加载功失效问题
-6.修复表格行操作getKey方法异常问题 [#691](https://github.com/jqhph/dcat-admin/issues/691)
-7.修复当页面存在多个select表单时无法使用联动功能问题
+1. 修复表格 orderable 功能异常问题 [#674](https://github.com/jqhph/dcat-admin/issues/674)
+2. 修复 JsonResponse methodIf 用法报错问题
+3. 修复表格、表单以及数据详情指定 `label`  [#684](https://github.com/jqhph/dcat-admin/issues/684)
+4. 修复表格 `Grid::rows` 回调无法正常使用问题
+5. 修复widget添加`JS`代码异常导致部分类型的统计卡片异步加载功失效问题
+6. 修复表格行操作 getKey 方法异常问题 [#691](https://github.com/jqhph/dcat-admin/issues/691)
+7. 修复当页面存在多个 select 表单时无法使用联动功能问题
+8. 修复表格删除数据后无法自动刷新页面问题
 
 
 ### v2.0.6-beta
