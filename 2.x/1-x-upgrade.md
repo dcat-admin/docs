@@ -93,7 +93,7 @@ $grid->setResource('auth/users');
 ### 5.表单部分变动
 
 1.调整表单处理响应方法，旧版本中的`success`、`error`、`redirect` 以及 `location` 方法已被移除，
-在 `2.0` 中我们让表单的响应方法和 `action` 的响应方法统一了起来，详细用法请参考文档 [表单响应](x)，示例
+在 `2.0` 中我们让表单的响应方法和 `action` 的响应方法统一了起来，详细用法请参考文档 [动作和表单响应](response.md)，示例
 
 ```php
 $form->saving(function (Form $form) {
@@ -119,7 +119,7 @@ public function handle(array $input)
 }
 ```
 
-2.调整表单 `block` 布局功能，并废弃 `setDefaultBlockWidth` 方法，详细用法请参考文档 [表单block布局](x)，示例
+2.调整表单 `block` 布局功能，并废弃 `setDefaultBlockWidth` 方法，详细用法请参考文档 [表单block布局](model-form-layout.md)，示例
 
 ```php
 $form->block(8, function (Form\BlockForm $form) {
@@ -300,7 +300,7 @@ admin_inject_default_section(Admin::SECTION['HEAD'], function () {
 
 ### 8.扩展
 
-扩展相关变动请参考文档[扩展](extension-install.md)
+扩展相关变动请参考文档[扩展](extension-f.md)
 
 ### 9.登录逻辑
 1.登录模板，如果你在旧项目中自定义过登录模板，则需要调整登录模板中的`JS`代码

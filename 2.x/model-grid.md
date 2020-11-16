@@ -130,9 +130,8 @@ $grid->withBorder();
 ```
 
 效果
-<a href="http://103.39.211.179:8080/admin/reports" target="_blank">
-    <img style="box-shadow:0 1px 6px 1px rgba(0, 0, 0, 0.12)" width="100%" src="{{public}}/assets/img/screenshots/grid-combination.png">
-</a>
+![](https://cdn.learnku.com/uploads/images/202004/26/38389/lKTZe0jwGg.png!large)
+
 
 
 禁用边框模式
@@ -251,15 +250,12 @@ $grid->toolsWithOutline(false);
 ```
 
 效果
-<a href="{{public}}/assets/img/screenshots/outline.png" target="_blank">
-    <img style="box-shadow:0 1px 6px 1px rgba(0, 0, 0, 0.12)" width="100%" src="{{public}}/assets/img/screenshots/outline.png">
-</a>
+![](https://cdn.learnku.com/uploads/images/202005/23/38389/hKWC1crYHw.png!large)
 
 禁用`outline`后的效果
 
-<a href="{{public}}/assets/img/screenshots/n-outline.png" target="_blank">
-    <img style="box-shadow:0 1px 6px 1px rgba(0, 0, 0, 0.12)" width="100%" src="{{public}}/assets/img/screenshots/n-outline.png">
-</a>
+![](https://cdn.learnku.com/uploads/images/202005/23/38389/aaMdymSxoY.png!large)
+
 
 如果你希望某个按钮不使用`outline`模式，可以在按钮的`class`属性中加上`disable-outline`
 ```php
