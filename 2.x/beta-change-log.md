@@ -1,5 +1,26 @@
 # BETA版本更新日志
 
+### v2.0.8-beta
+
+发布时间 2020/11/16
+
+升级方法，逐步执行以下命令
+```bash
+composer remove dcat/laravel-admin
+composer require dcat/laravel-admin:"2.0.8-beta"
+php artisan admin:publish --assets --force
+php artisan admin:publish --migrations --force # 表结构有变动
+php artisan migrate
+```
+
+本次版本作为`2.0.7-beta`的补充版本，主要修复以下几个问题
+
+1. 修复管理员页面无法查看权限问题
+2. 修复表单block布局失效问题
+3. 修复文件上传表单渲初始化功能异常问题
+4. 修复部分表单字段不支持单个页面同时渲染多个的问题
+
+
 ### v2.0.7-beta
 
 发布时间 2020/11/15
