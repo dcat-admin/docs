@@ -9,13 +9,14 @@
 <a name="start"></a>
 ## Start installing
 
-> {tip} 如果安装过程中出现`composer`下载过慢或安装失败的情况，请运行命令`composer config -g repo.packagist composer https://mirrors.aliyun.com/composer/`把`composer`镜像更换为阿里云镜像。
+> {tip} If `composer` downloads too slowly or fails to install during installation
+        Please run the command `composer config -g repo.packagist composer https://mirrors.aliyun.com/composer/` to replace the `composer` packagist server with the Aliyun mirror.
 
 First you need to install `laravel`, if you already have it installed you can skip this step.
 ```bash
-composer create-project --prefer-dist laravel/laravel 项目名称 7.*
+composer create-project --prefer-dist laravel/laravel ProjectName 7.*
 # 或
-composer create-project --prefer-dist laravel/laravel 项目名称
+composer create-project --prefer-dist laravel/laravel ProjectName
 ```
 
 After installing `laravel`, you will need to modify the `.env` file to set the database connection to the correct settings.
@@ -33,7 +34,7 @@ Installation of `dcat-admin`
 
 
 ```
-cd {项目名称}
+cd {ProjectName}
 
 composer require dcat/laravel-admin:"2.*" -vvv
 ```
@@ -48,7 +49,9 @@ The command will generate the configuration file `config/admin.php`, in which yo
 
 Then run the following command to complete the installation:
 
-> {tip} 执行这一步命令可能会报以下错误`Specified key was too long ... 767 bytes`，如果出现这个报错，请在`app/Providers/AppServiceProvider.php`文件的`boot`方法中加上代码`\Schema::defaultStringLength(191);`，然后删除掉数据库中的所有数据表，再重新运行一遍`php artisan admin:install`命令即可。
+> {tip} Executing this command may result in the following error `Specified key was too long ... 767 bytes`
+        If this error occurs, add the code `\Schema::defaultStringLength(191);` to the `boot` method of the `app/Providers/AppServiceProvider.php` file.
+        Then delete all the data tables in the database and run the `php artisan admin:install` command again.
 
 ```
 php artisan admin:install

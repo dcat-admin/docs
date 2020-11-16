@@ -30,13 +30,13 @@ $form->tree('cate')->exceptParentNode(false);
 
 4. Adjust the method name of the file upload form part
 ```php
-// Enable chunked uploads disableChunked change to chunked
+// Enable chunked uploads, disableChunked changed to chunked
 $form->image('avatar')->chunked(true);
 
-// Enable auto-save field values disableAutoSave changed to autoSave
+// Enable auto-save field values, disableAutoSave changed to autoSave
 $form->image('avatar')->autoSave(false);
 
-// Enable the file deletion function disableRemove Change to removeable
+// Enable the file deletion function, disableRemove changed to removeable
 $form->image('avatar')->removeable(false);
 ```
 
