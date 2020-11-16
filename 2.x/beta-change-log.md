@@ -1,5 +1,162 @@
 # BETA版本更新日志
 
+### v2.0.7-beta
+
+发布时间 2020/11/15
+
+升级方法，逐步执行以下命令
+```bash
+composer remove dcat/laravel-admin
+composer require dcat/laravel-admin:"2.0.7-beta"
+php artisan admin:publish --assets --force
+php artisan admin:publish --migrations --force # 表结构有变动
+php artisan migrate
+```
+
+**功能改进**
+
+1.引入[jquery.initialize](https://github.com/pie6k/jquery.initialize)组件，用于监听动态生成的页面元素并设置一个回调，下面来举一个简单的例子来演示用法：
+
+在旧版本中，假如一个元素是`JS`动态生成的，如果我们需要对这个元素绑定一个点击事件的话，那么我们通常需要这么做
+
+```html
+<div class="selector">test</div>
+
+<script>
+Dcat.ready(function () {
+    // 需要先 off 再 on 否则页面刷新后会造成重复绑定问题
+    $(document).off('click', '.selector').on('click', '.selector', function () {
+        ...
+    })
+});
+</script>
+```
+
+上面这种做法一来比较麻烦，需要先`off`再`on`；二来无法对动态生成的元素做一些特殊处理，例如你想在`.selector`生成后改变背景颜色，这个操作就没办法做到。
+
+在这个版本中我们可以使用`Dcat.init`方法来监听元素动态生成，可以很方便的解决上面两个问题
+
+```html
+<div class="selector">test</div>
+
+<script>
+Dcat.ready(function () {
+    // $this 是当前元素的jquery dom对象
+    // id 是当前元素的id属性，如果当前元素没有id则会自动生成一个随机id
+    Dcat.init('.selector', function ($this, id) {
+        // 修改元素的背景色
+        $this.css({background: "#fff"});
+        
+        // 这里不需要 off 再重新 on，因为这个匿名函数只会执行一次
+        $this.on('click', function () {
+            ...
+        });
+    });
+});
+</script>
+```
+
+得益于这个[jquery.initialize](https://github.com/pie6k/jquery.initialize)组件的引入，在当前这个版本中我们对表单组件的前端代码也进行了优化，使其更容易支持`HasMany`这种动态生成的表单类型，大大降低了代码的复杂性。
+
+
+2.Form::hasMany以及Form::array表单支持column和row布局
+
+如果字段比较多，可以用`column`和`row`布局以节省空间
+
+```php
+$form->array('field', function (NestedForm $form) {
+    $form->column(6, function (NestedForm $form) {
+        $form->text('...');
+        
+        ...
+    });
+    
+    $form->column(6, function (NestedForm $form) {
+        ...
+    });
+});
+```
+
+3.配置过admin.auth.except参数的路由不需要验证权限 [#673](https://github.com/jqhph/dcat-admin/issues/673)
+
+
+4.Form、Grid以及Show字段类增加when方法
+
+用法示例，类似`Laravel QueryBuilder`的`when`方法
+
+在表格中
+```php
+// 当第一个参数的值为 真 时才会执行闭包的代码
+$grid->column('title')->when(true, function (Grid\Column $column, $value) {
+    $column->label();
+});
+```
+
+表单
+```php
+// 当第一个参数的值为 真 时才会执行闭包的代码
+$form->text('email')->when(true, function (Form\Field\Text $text, $value) {
+    $text->type('email');
+});
+```
+
+5.管理员模型增加canSeeMenu方法控制是否可见菜单
+
+```php
+<?php
+
+namespace App\Models;
+
+use Dcat\Admin\Models\Administrator as Model;
+
+class Administrator extends Model
+{
+    /**
+     * 控制菜单是否可见，默认返回true
+     * 
+     * @param array|\Illuminate\Database\Eloquent\Model $menu 菜单节点
+     * @return bool
+     */
+    public function canSeeMenu($menu)
+    {
+        return true;
+    }
+}
+```
+
+6.增加 admin_script、admin_style、admin_js、admin_css以及admin_require_assets函数
+
+```php
+// 相当于 Admin::script
+admin_script('console.log(xxx)');
+
+// 相当于 Admin::style
+admin_style('.my-class {color: red}');
+
+// 相当于 Admin::js() 
+admin_js(['@admin/xxx.js']);
+
+// 相当于 Admin::css() 
+admin_css(['@admin/xxx.css']);
+
+// 相当于 Admin::requireAssets() 
+admin_require_assets(['@select2']);
+```
+
+7.简化动作(Action)的`JS`代码逻辑，去除记住`selector`功能
+
+**BUG修复**
+
+1. 修复表格 orderable 功能异常问题 [#674](https://github.com/jqhph/dcat-admin/issues/674)
+2. 修复 JsonResponse methodIf 用法报错问题
+3. 修复表格、表单以及数据详情指定 `label`  [#684](https://github.com/jqhph/dcat-admin/issues/684)
+4. 修复表格 `Grid::rows` 回调无法正常使用问题
+5. 修复widget添加`JS`代码异常导致部分类型的统计卡片异步加载功失效问题
+6. 修复表格行操作 getKey 方法异常问题 [#691](https://github.com/jqhph/dcat-admin/issues/691)
+7. 修复当页面存在多个 select 表单时无法使用联动功能问题
+8. 修复表格删除数据后无法自动刷新页面问题
+
+
 ### v2.0.6-beta
 
 发布时间 2020/11/7
@@ -13,7 +170,7 @@ php artisan admin:publish --migrations --force # 表结构有变动
 php artisan migrate
 ```
 
-**功能接口破坏性变动**
+**破坏性变动**
 
 1.`Form::tags`表单默认保存为`array`类型
 ```php

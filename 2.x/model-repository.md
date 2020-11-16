@@ -63,18 +63,18 @@ interface Repository
      *
      * @param Form $form
      *
-     * @return array
+     * @return array|\Illuminate\Contracts\Support\Arrayable
      */
-    public function edit(Form $form): array;
+    public function edit(Form $form);
 
     /**
      * 获取详情页面数据.
      *
      * @param Show $show
      *
-     * @return array
+     * @return array|\Illuminate\Contracts\Support\Arrayable
      */
-    public function detail(Show $show): array;
+    public function detail(Show $show);
 
     /**
      * 新增记录.
@@ -90,9 +90,9 @@ interface Repository
      *
      * @param Form $form
      *
-     * @return array
+     * @return array|\Illuminate\Contracts\Support\Arrayable
      */
-    public function getDataWhenUpdating(Form $form): array;
+    public function updating(Form $form);
 
     /**
      * 更新数据.
@@ -111,16 +111,16 @@ interface Repository
      *
      * @return mixed
      */
-    public function destroy(Form $form, array $deletingData);
+    public function delete(Form $form, array $deletingData);
 
     /**
      * 查询删除前的行数据.
      *
      * @param Form $form
      *
-     * @return array
+     * @return array|\Illuminate\Contracts\Support\Arrayable
      */
-    public function getDataWhenDeleting(Form $form): array;
+    public function deleting(Form $form);
 }
 
 ```
@@ -314,13 +314,13 @@ $grid->disablePagination()
     }
 ```
 
-### getDataWhenUpdating
-此接口用于数据表单修改数据时查询原始记录，需要返回`array`类型值。
+### updating
+此接口用于数据表单修改数据时查询原始记录，需要返回`array`或`Model`类型值。
 
 > {tip} 此接口只有某些特殊字段会用到，如图片、文件上传字段，当更改了图片或文件时可以根据这个接口查出的数据删除旧文件。所以如果你的表单中没有用到此类特殊字段，此接口可以返回一个空数组。
 
 ```phpjie
-    public function getDataWhenUpdating(Form $form): array
+    public function updating(Form $form)
     {
         // 获取数据主键值
         $id = $form->getKey();
@@ -344,11 +344,11 @@ $grid->disablePagination()
     }
 ```
 
-### getDataWhenDeleting
-此接口用于删除数据时查询原始记录，需要返回二维数组。
+### deleting
+此接口用于删除数据时查询原始记录，需要返回二维数组，或Collection model。
 
 ```php
-    public function getDataWhenDeleting(Form $form): array
+    public function deleting(Form $form): array
     {
         // 当批量删除时id为多个
         $id = explode(',', $form->getKey());
@@ -359,6 +359,9 @@ $grid->disablePagination()
         return [
             ['id' => 1, 'name' => 'h1'],
         ];
+        
+        // 也可以返回collection
+        return Modell::find($id);
     }
 ```
 

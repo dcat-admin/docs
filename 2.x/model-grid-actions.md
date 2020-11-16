@@ -23,7 +23,7 @@ $grid->disableViewButton();
 
 ### 切换行操作按钮显示方式
 
-全局默认的行操作按钮显示方式可以通过配置参数`admin.grid.grid_action_class`参数进行配置，目前支持的航操作按钮显示方式有以下两种：
+全局默认的行操作按钮显示方式可以通过配置参数`admin.grid.grid_action_class`参数进行配置，目前支持的行操作按钮显示方式有以下两种：
 
 - `Dcat\Admin\Grid\Displayers\DropdownActions` 下拉菜单方式
 - `Dcat\Admin\Grid\Displayers\Actions` 图标展开方式

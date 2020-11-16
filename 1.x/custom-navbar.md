@@ -93,9 +93,9 @@ $navbar->right(view('...'));
             <li class="dropdown-item" href="#" data-language="fr">
                 <a><i class="flag-icon flag-icon-fr"></i> French</a>
             </li>
-            <lia class="dropdown-item" href="#" data-language="de">
+            <li class="dropdown-item" href="#" data-language="de">
                 <a><i class="flag-icon flag-icon-de"></i>  German</a>
-            </lia>
+            </li>
         </ul>
     </li>
 </ul>

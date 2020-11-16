@@ -53,26 +53,79 @@ Grid::composing(function (Grid $grid) {
 }, true);
 ```
 
-### fetching回调
+### Fetching
 
-通过 `Grid::fetching` 方法可以监听表格获取数据之前事件，此事件在 `composing` 事件之后触发。
+监听表格获取数据之前事件，此事件在 `composing` 事件之后触发。
 
 ```php
-
-$grid = new Grid(...);
-
-$grid->fetching(function () {
-    ...
+$grid->listen(Grid\Events\Fetching::class, function ($grid) {
+	  
 });
 
 
 // 可以在 composing 事件中使用
 Grid::composing(function (Grid $grid) {
-    $grid->fetching(function (Grid $grid) {
-        ...
+    $grid->listen(Grid\Events\Fetching::class, function ($grid) {
+    	  
     });
 });
 ```
+
+### Fetched
+
+监听表格获取数据之后事件，通过监听此事件可以批量修改数据, 参考下面实例
+
+```php
+$grid->listen(Grid\Events\Fetched::class, function ($grid, Collection $rows) {
+	// $collection 当前这一个表格数据的模型集合， 你可以根据你的需要来读取或者修改它的数据。
+
+    $rows->transform(function ($row) {
+        // 更改行数据
+        $row['name'] = $row['first_name'].' '.$row['last_name'];
+        
+        return $row;
+    });
+});
+```
+
+### ApplyFilter
+
+监听表格过滤器搜索事件，此事件只有在过滤器有搜索条件时才会触发
+
+```php
+$grid->listen(Grid\Events\ApplyFilter::class, function ($grid, array $conditions) {
+	// $conditions 当前过滤器生成的搜索条件数组
+
+    dd('表格过滤器', $conditions);
+});
+```
+
+
+### ApplyQuickSearch
+
+监听表格快捷搜索事件，此事件只有在快捷搜索输入框有值时才会触发
+
+```php
+$grid->listen(Grid\Events\ApplyQuickSearch::class, function ($grid, $input) {
+	// $input 搜索关键字
+
+    dd('表格快捷搜索', $input);
+});
+```
+
+### ApplySelector
+
+监听表格规格筛选器事件，此事件只有在规格筛选器选中选项时才会触发
+
+```php
+$grid->listen(Grid\Events\ApplySelector::class, function ($grid, array $input) {
+	// $input 筛选器选中的选项数组
+
+    dd('表格规格筛选器', $input);
+});
+```
+
+
 
 ### rows回调
 
@@ -90,6 +143,9 @@ $grid->rows(function (Collection $rows) {
      */
     $firstRow = $rows->first();
     
+    // 设置 tr html属性
+    $firstRow->setAttributes(['name' => '....']);
+    
     if ($firstRow) {
         // 获取第一行的 id
         $id = $firstRow->id;
@@ -98,44 +154,5 @@ $grid->rows(function (Collection $rows) {
     }
 });
 ```
-
-### collection回调
-
-这个方法和`display`回调不同的是，它可以批量修改数据, 参考下面实例中的几个使用场景：
-
-```php
-use Illuminate\Support\Collection;
-
-$grid->model()->collection(function (Collection $collection) {
-
-    // 1. 可以给每一列加字段，类似上面display回调的作用
-    $collection->transform(function ($item) {
-        $item['full_name'] = $item['first_name'] . ' ' . $item['last_name'];
-
-        return $item;
-    });
-
-    // 2. 给表格加一个序号列
-    $collection->transform(function ($item, $index) {
-        $item['number'] = $index;
-
-        return $item;
-    });
-
-    // 3. 从外部接口获取数据填充到模型集合中
-    $ids = $collection->pluck('id');
-    $data = getDataFromApi($ids);
-    $collection->transform(function ($item, $index) use ($data) {
-        $item['column_name'] = $data[$index];
-
-        return $item;
-    });
-
-    // 最后一定要返回集合对象
-    return $collection;
-});
-```
-
-`$collection`表示当前这一个表格数据的模型集合， 你可以根据你的需要来读取或者修改它的数据。
 
 

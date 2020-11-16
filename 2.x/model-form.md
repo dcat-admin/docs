@@ -340,15 +340,12 @@ $form->saved(function (Form $form) {
 ```php
 // 跳转并提示成功信息
 $form->saved(function (Form $form) {
-    return $form->redirect('auth/user', '保存成功');
+    return $form->response()->success('保存成功')->redirect('auth/user');
 });
 
 // 跳转并提示错误信息
 $form->saving(function (Form $form) {
-    return $form->redirect('auth/user', [
-        'message' => '系统错误',
-        'status' => false,
-    ]);
+    return $form->response()->error('系统错误')->redirect('auth/user');
 });
 ```
 

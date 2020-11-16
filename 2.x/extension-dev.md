@@ -415,8 +415,3 @@ git push origin master
 
 发布完成之后就可以通过 `composer` 安装你的扩展了
 
-
-#### 安装新扩展
-
-
-

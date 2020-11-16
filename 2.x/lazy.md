@@ -466,7 +466,7 @@ class UserProfile extends Form implements LazyRenderable
 
     public function handle(array $input)
     {
-        return $this->success('保存成功');
+        return $this->response()->success('保存成功');
     }
 
     public function form()
@@ -560,7 +560,7 @@ class UserProfile extends Form implements LazyRenderable
         $key1 = $this->payload['key1'] ?? null;
         $key2 = $this->payload['key1'] ?? null;
         
-        return $this->success('保存成功');
+        return $this->response()->success('保存成功');
     }
 
     public function form()

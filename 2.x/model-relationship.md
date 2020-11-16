@@ -74,7 +74,7 @@ class User extends \Dcat\Admin\Repositories\EloquentRepository
 use App\Admin\Repositories\User;
 
 // 注意这里实例化数据仓库`User`时必须传入"profile"，否则将无法关联"profiles"表数据
-$form = Form::make(new User('profile'), function (Form $form) {
+$form = Form::make(User::with('profile'), function (Form $form) {
     $form->display('id');
     
     $form->text('name');
@@ -145,7 +145,7 @@ use Dcat\Admin\Models\Permission;
 
 // 实例化数据仓库时传入 permissions，则会自动关联关联模型的数据
 // 这里传入 permissions 关联权限模型的数据
-$repository = new Role(['permissions']);
+$repository = Role::with(['permissions']);
 
 return Form::make($repository, function (Form $form) {
     $form->display('id', 'ID');

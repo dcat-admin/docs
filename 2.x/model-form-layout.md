@@ -41,7 +41,23 @@ $form->column(6, function (Form $form) {
 $form->width(9, 2);
 ```
 
-以上布局功能使用了`bootstrap`的栅格布局系统，所有列的宽度总和不得超出`12`
+以上布局功能使用了`bootstrap`的栅格布局系统，所有列的宽度总和不得超出`12`，并且也支持在`hasMany`和`array`表单中使用
+
+```php
+$form->hasMany('jobs', function ($form) {
+     $form->column(6, function (Form $form) {
+         $form->text('name')->required();
+         $form->date('born')->required();
+     });
+     
+     $form->column(6, function (Form $form) {
+         $form->image('avatar');
+         $form->decimal('wages');
+     });
+});
+```
+
+
 
 
 ### 多行布局 (row)
@@ -65,6 +81,21 @@ $form->row(function (Form\Row $form) {
     <img class="img img-full" src="{{public}}/assets/img/screenshots/form-rows.png">
 </a>
 
+并且也支持在`hasMany`和`array`表单中使用
+
+```php
+$form->hasMany('jobs', function ($form) {
+     $form->row(function (Form\Row $form) {
+     	...
+     });
+     
+     $form->row(function (Form\Row $form) {
+     	...
+     });
+});
+```
+
+
 
 <a name="tab"></a>
 ### 选项卡表单 (tab)
@@ -85,14 +116,30 @@ $form->tab('Basic info', function (Form $form) {
    
 })->tab('Jobs', function (Form $form) {
                          
-     $form->hasMany('jobs', function () {
+     $form->hasMany('jobs', function ($form) {
          $form->text('company');
          $form->date('start_date');
          $form->date('end_date');
      });
 
-  })
+})
 ```
+
+同时，`tab` 布局中也允许嵌套使用`column`和`row`布局
+
+```php
+$form->tab('Basic info', function (Form $form) {
+    $form->column(6, function (Form\BlockForm $form) {
+		$form->display('id');
+		$form->text('name');
+	});
+
+	$form->column(6, function (Form\BlockForm $form) {
+		$form->text('username');
+	});
+})
+```
+
 
 #### Fieldset布局
 
@@ -121,32 +168,46 @@ $form->fieldset('分组', function (Form $form) {
 
 ### 分块布局 (block)
 
-如果你的表单中字段非常多，那么可以通过以下方式让你的表单分块布局
+如果你的表单中字段非常多，那么可以通过以下方式让你的表单分块布局，并且允许嵌套使用`column`和`row`布局
 
 ```php
-$form->display('id');
-$form->text('name');
-$form->text('title');
-$form->text('author');
-$form->textarea('content');
+$form->block(8, function (Form\BlockForm $form) {
+    $form->title('基本设置');
+    $form->showFooter();
+    $form->width(9, 2);
 
-$form->datetimeRange('start', 'end', '开始');
+    $form->column(6, function (Form\BlockForm $form) {
+        $form->display('id');
+        $form->text('name');
+        $form->email('email');
+        $form->image('avatar');
+        $form->password('password');
+    });
 
-// 设置默认卡片宽度
-$form->setDefaultBlockWidth(8);
-
-// 分块显示
+    $form->column(6, function (Form\BlockForm $form) {
+        $form->text('username');
+        $form->email('mobile');
+        $form->textarea('description');
+    });
+});
 $form->block(4, function (Form\BlockForm $form) {
-    $form->title('测试');
+    $form->title('分块2');
 
-    $form->text('title')->default('test');
-    $form->select('author')->options(['test']);
-    $form->radio('state')->options([0 => '待处理', 1 => '已处理', 2 => '已拒绝'])->default(0);
+    $form->text('nickname');
+    $form->number('age');
+    $form->radio('status')->options(['1' => '默认', 2 => '冻结'])->default(1);
+
+    $form->next(function (Form\BlockForm $form) {
+        $form->title('分块3');
+
+        $form->date('birthday');
+        $form->date('created_at');
+    });
 });
 ```
 
 效果
-<a href="{{public}}/assets/img/screenshots/block-form.png" target="_blank">
-    <img class="img img-full" src="{{public}}/assets/img/screenshots/block-form.png">
+<a href="https://cdn.learnku.com/uploads/images/202010/19/38389/AMCtHBcmSQ.jpg!large" target="_blank">
+    <img class="img img-full" src="https://cdn.learnku.com/uploads/images/202010/19/38389/AMCtHBcmSQ.jpg!large">
 </a>
 

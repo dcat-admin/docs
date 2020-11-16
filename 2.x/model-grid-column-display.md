@@ -339,7 +339,7 @@ class UserProfile extends Form implements LazyRenderable
         // 接收外部传递参数
 		$type = $this->payload['type'] ?? null;
         
-        return $this->success('保存成功');
+        return $this->response()->success('保存成功');
     }
 
     public function form()
@@ -481,7 +481,7 @@ class UserProfile extends Form implements LazyRenderable
         // 接收外部传递参数
 		$type = $this->payload['type'] ?? null;
         
-        return $this->success('保存成功');
+        return $this->response()->success('保存成功');
     }
 
     public function form()
@@ -604,7 +604,7 @@ $grid->email->prepend(function ($value, $original) {
 ```
 
 ### append
-`prepend` 方法用于给 `string` 或 `array` 类型的值后面插入内容。
+`append` 方法用于给 `string` 或 `array` 类型的值后面插入内容。
 
 ```php
 // 当字段值是一个字符串
@@ -616,7 +616,7 @@ $grid->arr->append('last item');
 
 从`v1.2.5`版本开始，`append`方法允许传入闭包参数
 ```php
-$grid->email->prepend(function ($value, $original) {
+$grid->email->append(function ($value, $original) {
     // $value 是当前字段值
     // $original 是当前字段从数据库中查询出来的原始值
     
@@ -631,7 +631,7 @@ $grid->email->prepend(function ($value, $original) {
 
 ```php
 // 最多显示50个字符
-$grid->column('content')s->limit(50, '...');
+$grid->column('content')->limit(50, '...');
 
 // 如果字段值是数组也支持
 $grid->tags->limit(3);
@@ -759,7 +759,7 @@ use Illuminate\Http\Request;
 
 class Star extends RowAction
 {
-    public function html()
+    protected function html()
     {
         $icon = ($this->row->{$this->getColumnName()}) ? 'fa-star' : 'fa-star-o';
 
@@ -800,7 +800,7 @@ HTML;
 
     public function modelClass()
     {
-        return get_class($this->parent->model()->repository()->eloquent());
+        return get_class($this->parent->model()->repository()->model());
     }
 }
 ```

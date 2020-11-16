@@ -29,6 +29,12 @@ $grid->fixColumns(2, -2);
     <img class="img" src="{{public}}/assets/img/screenshots/fixcolumn.gif" />
 </a>    
 
+### 设置td标签HTML属性
+
+```php
+$grid->column('email')->setAttributes(['name' => '...'])
+```
+
 
 ### 设置表格头HTML属性
 设标题的`html`属性
@@ -37,31 +43,17 @@ $grid->fixColumns(2, -2);
 $grid->column('name')->setHeaderAttributes(['style' => 'color:#5b69bc']);
 ```
 
-### 设置列的显示或隐藏
-`responsive`方法用于启用[RWD-Table-Patterns](https://github.com/nadangergeo/RWD-Table-Patterns)插件，可以在表格右上角控制显示或隐藏当前字段
-```php
-$grid->column('email')->responsive();
+### 设置列选择器 (字段显示或隐藏)
 
-// 0 不可见
-// 1 保持可见，但可以在下拉列表筛选隐藏。
-// 2 480px 分辨率以下可见
-// 3 640px 以下可见
-// 4 800px 以下可见
-// 5 960px 以下可见
-// 6 1120px 以下可见
-$grid->column('name')->responsive(2);
-```
+此功能默认不启用
 
-#### 默认隐藏当前列
 ```php
-// 隐藏字段
-$grid->column('email')->hide();
-// 相当于
-$grid->column('name')->responsive(0);
-```
-<a href="{{public}}/assets/img/screenshots/grid-column-responsive.png" target="_blank">
-    <img class="img" src="{{public}}/assets/img/screenshots/grid-column-responsive.png" />
-</a>    
+// 开启字段选择器功能
+$grid->showColumnSelector();
+
+// 设置默认隐藏字段
+$grid->hideColumns(['field1', ...]);
+``` 
 
 
 ### 设置列提示信息
