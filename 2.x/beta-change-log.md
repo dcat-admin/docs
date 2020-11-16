@@ -124,9 +124,15 @@ class Administrator extends Model
 }
 ```
 
-6.增加 admin_js、admin_css以及admin_require_assets函数
+6.增加 admin_script、admin_style、admin_js、admin_css以及admin_require_assets函数
 
 ```php
+// 相当于 Admin::script
+admin_script('console.log(xxx)');
+
+// 相当于 Admin::style
+admin_style('.my-class {color: red}');
+
 // 相当于 Admin::js() 
 admin_js(['@admin/xxx.js']);
 

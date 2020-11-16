@@ -139,14 +139,14 @@ $form->image('picture')->name(function ($file) {
 $form->image('picture')->uniqueName();
 ```
 
-<a name="disableRemove"></a>
+<a name="removeable"></a>
 ### 禁止页面删除文件 (替换上传)
 
-通过`disableRemove`方法可以禁止用户从页面点击删除服务器上的文件，可以实现图片覆盖上传效果。
+通过`removeable`方法可以禁止用户从页面点击删除服务器上的文件，可以实现图片覆盖上传效果。
 
 
 ```php
-$form->file($column[, $label])->disableRemove();
+$form->file($column[, $label])->removeable(false);
 ```
 
 
@@ -191,16 +191,22 @@ $form->file('file')->accept('jpg,png,gif,jpeg');
 $form->file('file')->accept('jpg,png,gif,jpeg', 'image/*');
 ```
 
-<a name="disableChunked"></a>
-### disableChunked
-禁用分块上传
+<a name="chunked"></a>
+### 分块上传 (chunked)
+
+启用分块上传
+
 ```php
-$form->file('file')->disableChunked();
+$form->file('file')->chunked();
 ```
 
 <a name="chunkSize"></a>
 ### 分块大小(chunkSize)
-分块大小，单位为`KB`，默认`5MB`
+
+设置分块大小，单位为`KB`，默认`5MB`
+
+> {tip} 调用这个方法会自动启用分块上传
+
 ```php
 // 设置为 1MB
 $form->file('file')->chunkSize(1024);
@@ -288,11 +294,13 @@ $router->any('users/files', 'FileController@handle');
 $form->file('file')->deleteUrl('file/delete');
 ```
 
-<a name="disableAutoSave"></a>
-### disableAutoSave
-禁止上传文件后自动保存文件路径到数据库，此方法一般不需要修改
+<a name="autoSave"></a>
+### 自动保存字段值 (autoSave)
+
+设置上传文件后是否自动保存文件路径到数据库，此方法默认启用，一般不需要修改
+
 ```php
-$form->file('file')->disableAutoSave();
+$form->file('file')->autoSave(false);
 ```
 
 <a name="options"></a>
@@ -310,6 +318,40 @@ $form->file('file')->options(['disableGlobalDnd' => true]);
 $form->multipleImage('images')->sortable();
 ```
 
+
+### 压缩图片 (compress)
+
+默认不启用
+
+```php
+// 启用图片压缩功能
+
+$form->multipleImage('images')->compress();
+
+$form->image('avatar')->compress([
+	'width' => 1600,
+	'height' => 1600,
+
+	// 图片质量，只有type为`image/jpeg`的时候才有效。
+	'quality' => 90,
+
+	// 是否允许放大，如果想要生成小图的时候不失真，此选项应该设置为false.
+	'allowMagnify' => false,
+
+	// 是否允许裁剪。
+	'crop' => false,
+
+	// 是否保留头部meta信息。
+	'preserveHeaders' => true,
+
+	// 如果发现压缩后文件大小比原来还大，则使用原来图片
+	// 此属性可能会影响图片自动纠正功能
+	'noCompressIfLarger' => false,
+
+	// 单位字节，如果图片大小小于此值，不会采用压缩。
+	'compressSize' => 0
+]);
+```
 
 
 <a name="withhost"></a>

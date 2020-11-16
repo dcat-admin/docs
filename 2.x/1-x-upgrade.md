@@ -166,7 +166,9 @@ $form->ajax(false);
 
 4.废弃分步表单，新版本请使用[分步表单扩展](https://github.com/dcat-admin/form-step)代替
 
-6.`map`以及`listbox`也即将废弃，并移动扩展中心
+6.`map`以及`listbox`、`slider`也即将废弃，并移动扩展中心
+
+7.表单字段扩展功能变动，具体请参考文档[表单字段扩展](model-form-field-management.md)章节
 
 
 
