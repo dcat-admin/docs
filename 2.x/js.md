@@ -41,7 +41,7 @@ Dcat.ready(function () {
 
 上面这种做法一来比较麻烦，需要先`off`再`on`；二来无法对动态生成的元素做一些特殊处理，例如你想在`.selector`生成后改变背景颜色，这个操作就没办法做到。
 
-在`Dcat Admin`中国我们可以使用`Dcat.init`方法来监听元素动态生成，可以很方便的解决上面两个问题
+在`Dcat Admin`中我们可以使用`Dcat.init`方法来监听元素动态生成，可以很方便的解决上面两个问题
 
 ```html
 <div class="selector">test</div>
