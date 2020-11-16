@@ -26,8 +26,6 @@ class Setting extends Form
     {
         // dump($input);
 
-        // return $this->error('Your error message.');
-
         return $this->response()->success('Processed successfully.')->refresh();
     }
 
@@ -65,8 +63,7 @@ After filling in the data in the page and submitting the form, the request goes 
         // You can write your processing logic here.
 
 
-        // The first parameter is the success message of the response, and the second is the route to be redirected to
-        return $this->success('Processed successfully.', '/');
+        return $this->response()->success('Processed successfully.')->refresh();
     }
 ```
 

@@ -204,10 +204,10 @@ result
 ![]({{public}}/assets/img/users-dark-2.jpg)
 
 
-
+<a name="color"></a>
 ### PHP Color Management
 
-As a daily development we can not do without the use of color, `Dcat Admin` has a built-in color management module, this feature can easily switch with the theme, let the page color and theme color to adapt!
+`Dcat Admin` has a built-in color management module, which can be easily used with the theme switching function. Make the page color fit the theme color!
 
 Commonly used colors can be easily obtained through the `Dcat\Admin\Admin::color()` service (see [Color Tables and Styles](theme.md#Color Tables and Styles)).
 

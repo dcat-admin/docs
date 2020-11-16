@@ -29,6 +29,12 @@ result
     <img class="img" src="{{public}}/assets/img/screenshots/fixcolumn.gif" />
 </a>    
 
+### Set td tag HTML attributes
+
+```php
+$grid->column('email')->setAttributes(['name' => '...'])
+```
+
 
 ### Set the table header HTML attributes
 Set the `html` attribute of TITLE
@@ -37,31 +43,17 @@ Set the `html` attribute of TITLE
 $grid->column('name')->setHeaderAttributes(['style' => 'color:#5b69bc']);
 ```
 
-### Set the columns to show or hide
-The `responsive` method is used to enable the [RWD-Table-Patterns](https://github.com/nadangergeo/RWD-Table-Patterns) plugin, which controls whether to show or hide the current field in the upper-right corner of the form.
-```php
-$grid->column('email')->responsive();
+### Set column selector (field show or hide)
 
-// 0 not visible
-// 1 Remain visible, but can be hidden by filtering in the drop-down list.
-// 2 Visible below 480px resolution.
-// 3 640px visible below
-// 4 800px visible below
-// 5 960px visible below
-// 6 1120px visible below
-$grid->column('name')->responsive(2);
-```
+This feature is not enabled by default.
 
-#### default hide as responsive
 ```php
-// Hidden fields
-$grid->column('email')->hide();
-// equal to
-$grid->column('name')->responsive(0);
-```
-<a href="{{public}}/assets/img/screenshots/grid-column-responsive.png" target="_blank">
-    <img class="img" src="{{public}}/assets/img/screenshots/grid-column-responsive.png" />
-</a>    
+// Enables field selector function
+$grid->showColumnSelector();
+
+// Set default hidden fields
+$grid->hideColumns(['field1', ...]);
+``` 
 
 
 ### Setting up column prompts

@@ -4,9 +4,7 @@ Data warehouse (`Repository`) is a concrete implementation of the `Dcat Admin` i
 The intervention of `Repository` can make the construction of the page no longer care about the specific implementation of the data read and write functions.
 Developers through the implementation of the `Repository` interface can read and write operations on the data.
 
-
 > {tip} Of course, for the convenience of the system also retains the ability to use `Model` directly, the underlying layer will automatically convert `Model` to a repository instance, after all, most of the time the direct use of `Model` can also meet our needs.
-
 
 
 Components such as data table `Grid`, data form `Form`, data detail `Show`, `Tree`, etc. no longer depend directly on `Model`, but on a repository that provides simpler and clearer interfaces, the following are all the interfaces of `Repository`.
@@ -65,18 +63,18 @@ interface Repository
      *
      * @param Form $form
      *
-     * @return array
+     * @return array|\Illuminate\Contracts\Support\Arrayable
      */
-    public function edit(Form $form): array;
+    public function edit(Form $form);
 
     /**
      * Get details page data
      *
      * @param Show $show
      *
-     * @return array
+     * @return array|\Illuminate\Contracts\Support\Arrayable
      */
-    public function detail(Show $show): array;
+    public function detail(Show $show);
 
     /**
      * New record
@@ -92,9 +90,9 @@ interface Repository
      *
      * @param Form $form
      *
-     * @return array
+     * @return array|\Illuminate\Contracts\Support\Arrayable
      */
-    public function getDataWhenUpdating(Form $form): array;
+    public function updating(Form $form);
 
     /**
      * Update data
@@ -113,16 +111,16 @@ interface Repository
      *
      * @return mixed
      */
-    public function destroy(Form $form, array $deletingData);
+    public function delete(Form $form, array $deletingData);
 
     /**
      * Row data before deletion
      *
      * @param Form $form
      *
-     * @return array
+     * @return array|\Illuminate\Contracts\Support\Arrayable
      */
-    public function getDataWhenDeleting(Form $form): array;
+    public function deleting(Form $form);
 }
 
 ```
@@ -316,13 +314,13 @@ This interface is used to add a new record and can return values of type `int`, 
     }
 ```
 
-### getDataWhenUpdating
-This interface is used to query the original record of a data form when modifying data, and needs to return a value of type `array`.
+### updating
+This interface is used to query the raw record when the data form modifies the data, which needs to return a value of type `array` or `Model`.
 
 > {tip} This interface is only used for some special fields, such as image and file upload fields, so when an image or file is changed, the old file can be deleted based on the data retrieved from this interface. So if your form does not use such special fields, this interface can return an empty array.
 
-```phpjie
-    public function getDataWhenUpdating(Form $form): array
+```php
+    public function updating(Form $form)
     {
         // Get data primary key values
         $id = $form->getKey();
@@ -346,11 +344,11 @@ This interface is used to modify records for data forms, and can return values o
     }
 ```
 
-### getDataWhenDeleting
-This interface is used to query the original record when deleting data, which requires the return of a two-dimensional array.
+### deleting
+This interface is used to query the original record when deleting data, which requires the return of a two-dimensional array, or a Collection model.
 
 ```php
-    public function getDataWhenDeleting(Form $form): array
+    public function deleting(Form $form): array
     {
         // Multiple ids when batch deleting
         $id = explode(',', $form->getKey());
@@ -361,6 +359,9 @@ This interface is used to query the original record when deleting data, which re
         return [
             ['id' => 1, 'name' => 'h1'],
         ];
+
+        // You can also return a collection
+        return Modell::find($id);
     }
 ```
 

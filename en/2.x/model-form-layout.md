@@ -41,7 +41,22 @@ $form->column(6, function (Form $form) {
 $form->width(9, 2);
 ```
 
-The above layout functions use the `bootstrap` grid layout system, where the sum of the widths of all columns must not exceed `12`
+The above layout features use the `bootstrap` grid layout system, the sum of the width of all columns must not exceed `12`, and also supports the use of `hasMany` and `array` forms.
+
+```php
+$form->hasMany('jobs', function ($form) {
+     $form->column(6, function (Form $form) {
+         $form->text('name')->required();
+         $form->date('born')->required();
+     });
+     
+     $form->column(6, function (Form $form) {
+         $form->image('avatar');
+         $form->decimal('wages');
+     });
+});
+```
+
 
 
 ### Multi-row layout (row)
@@ -65,6 +80,21 @@ result
     <img class="img img-full" src="{{public}}/assets/img/screenshots/form-rows.png">
 </a>
 
+It is also supported in `hasMany` and `array` forms.
+
+```php
+$form->hasMany('jobs', function ($form) {
+     $form->row(function (Form\Row $form) {
+     	...
+     });
+     
+     $form->row(function (Form\Row $form) {
+     	...
+     });
+});
+```
+
+
 
 <a name="tab"></a>
 ### Tab form (tab)
@@ -85,14 +115,30 @@ $form->tab('Basic info', function (Form $form) {
    
 })->tab('Jobs', function (Form $form) {
                          
-     $form->hasMany('jobs', function () {
+     $form->hasMany('jobs', function ($form) {
          $form->text('company');
          $form->date('start_date');
          $form->date('end_date');
      });
 
-  })
+  });
 ```
+
+The `tab` layout also allows nested use of `column` and `row` layouts.
+
+```php
+$form->tab('Basic info', function (Form $form) {
+    $form->column(6, function (Form\BlockForm $form) {
+		$form->display('id');
+		$form->text('name');
+	});
+
+	$form->column(6, function (Form\BlockForm $form) {
+		$form->text('username');
+	});
+})
+```
+
 
 #### Fieldset Layout
 
@@ -121,32 +167,46 @@ result
 
 ### Block layout (block)
 
-If you have a form with a lot of fields, you can make your form block layout by
+If your form has a lot of fields, you can block your form and allow nested `column` and `row` layouts by doing the following
 
 ```php
-$form->display('id');
-$form->text('name');
-$form->text('title');
-$form->text('author');
-$form->textarea('content');
+$form->block(8, function (Form\BlockForm $form) {
+    $form->title('Basic settings');
+    $form->showFooter();
+    $form->width(9, 2);
 
-$form->datetimeRange('start', 'end', '开始');
+    $form->column(6, function (Form\BlockForm $form) {
+        $form->display('id');
+        $form->text('name');
+        $form->email('email');
+        $form->image('avatar');
+        $form->password('password');
+    });
 
-// Set default card width
-$form->setDefaultBlockWidth(8);
-
-// Display in blocks
+    $form->column(6, function (Form\BlockForm $form) {
+        $form->text('username');
+        $form->email('mobile');
+        $form->textarea('description');
+    });
+});
 $form->block(4, function (Form\BlockForm $form) {
-    $form->title('testing');
+    $form->title('Block 2');
 
-    $form->text('title')->default('test');
-    $form->select('author')->options(['test']);
-    $form->radio('state')->options([0 => 'pending', 1 => 'processed', 2 => 'declined'])->default(0);
+    $form->text('nickname');
+    $form->number('age');
+    $form->radio('status')->options(['1' => 'default', 2 => 'freeze'])->default(1);
+
+    $form->next(function (Form\BlockForm $form) {
+        $form->title('Block 3');
+        $form->date('birthday');
+        $form->date('created_at');
+    });
+
 });
 ```
 
 result
-<a href="{{public}}/assets/img/screenshots/block-form.png" target="_blank">
-    <img class="img img-full" src="{{public}}/assets/img/screenshots/block-form.png">
+<a href="https://cdn.learnku.com/uploads/images/202010/19/38389/AMCtHBcmSQ.jpg!large" target="_blank">
+    <img class="img img-full" src="https://cdn.learnku.com/uploads/images/202010/19/38389/AMCtHBcmSQ.jpg!large">
 </a>
 

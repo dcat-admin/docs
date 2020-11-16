@@ -1,6 +1,75 @@
 # Static resource loading
 
-`Dcat Admin` modifies the `pjax` source code and adds the ability to load `js` scripts on-demand, so that the developer only needs to introduce the `js` components needed in the controller `action` instead of introducing all the `js` components during project initialization.
+`Dcat Admin` supports loading of `js` scripts on demand.
+
+
+### Changing the domain name of a static resource
+
+Open the configuration file `config/admin.php`, find the parameter `assets_server` and change it; you can also add `.env` to the `.
+
+```dotenv
+ADMIN_ASSETS_SERVER=http://xxx.com
+```
+
+### Registration path alias
+
+Open `app/Admin/bootstrap.php` and add the following code
+
+```php
+Admin::asset()->alias('@my-name1', 'assets/admin1');
+Admin::asset()->alias('@my-name2', 'assets/admin2');
+
+// Bulk registration is also possible.
+Admin::asset()->alias([
+	'@my-name1' => 'assets/admin1',
+	'@my-name2' => 'assets/admin2',
+]);
+```
+
+Use of aliases
+
+```php
+Admin::js('@my-name1/index.js');
+Admin::css('@my-name1/index.css');
+```
+
+### Registration component
+
+When a component has more `js` and `css` files, we can register these static resource files as a single component to make it easier to use. Open `app/Admin/bootstrap.php`, then add the following code
+
+```php
+Admin::asset()->alias('@editor-md', [
+	'js' => [
+		// Support for using path aliases
+		'@admin/dcat/plugins/editor-md/lib/raphael.min.js',
+		'@admin/dcat/plugins/editor-md/lib/marked.min.js',
+		'@admin/dcat/plugins/editor-md/lib/prettify.min.js',
+		'@admin/dcat/plugins/editor-md/lib/jquery.flowchart.min.js',
+		'@admin/dcat/plugins/editor-md/editormd.min.js',
+	],
+	'css' => [
+		'@admin/dcat/plugins/editor-md/css/editormd.preview.min.css',
+		'@admin/dcat/extra/markdown.css',
+	],
+]);
+```
+
+usage
+
+```php
+Admin::requireAssets(['@editor-md']);
+```
+
+If you only need to load the `js` or `css` of this component and don't want to load all the files, then you can use the following method
+
+```php
+// Load js files only
+Admin::js('@editor-md');
+
+// Load only css files.
+Admin::css('@editor-md');
+```
+
 
 ### Loading js scripts
 

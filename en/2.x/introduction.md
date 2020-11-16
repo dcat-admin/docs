@@ -50,43 +50,6 @@
 - Plugin Marketplace, which allows you to install, update and uninstall plugins with a single click of the mouse on the administration page (`not implemented yet`).
 
 
-
-### Similarities and Differences with Laravel Admin
-
-``Dcat Admin`` is a backend builder based on ``Laravel Admin``. The overall style is the same as ``Laravel Admin``, but with a lot of tweaks in the details.
-
-
-Adjustments:
-- Building front-end pages using [AdminLTE3](https://github.com/ColorlibHQ/AdminLTE)(`bootstrap4` + `jQuery3`)
-- Use `PJAX` to build refresh-free pages, and support front-end resources on-demand loading , developers no longer need to worry about installing too many components will affect the page load speed
-- Loosely coupled page construction and data manipulation design, building pages no longer requires concern for the specific implementation of the data manipulation interface.
-- Adjusted the form submission method to `ajax` submission
-- Adjusted the code generator to support the generation of add/delete pages from existing data tables with one click.
-- Adjusted the multi-language translation function for easier use.
-- Adjusted permissions function, support for hierarchy and sorting
-- Adjusted extension system to support page management
-- ...
-
-Added:
-- New multi-theme switching function
-- New form popups allow you to build a non-Iframe form popup with just a few lines of code.
-- Quickly build pages without menu bar
-- New popup selector form, you can select form data in a popup window.
-- New AJAX form submission and form front-end validation features.
-- Add asynchronous file upload component, support block upload, batch upload, upload progress bar, etc.
-- New slide panel layout to the right of the table filter
-- New form field value filtering feature
-- New step-by-step form
-- New `section` feature (similar to `wordpress` `add_filter` feature)
-- New tree table function to display large quantities of hierarchical data by page.
-- New dual header table feature allows you to build dual header tables with just a few lines of code.
-- Added a variety of useful page components, such as charts, drop-down menus, markdowns, checkboxes, etc.
-- New `Tree` form
-- Add the ability to add menus by array, support for binding permissions and roles.
-- Add menu function by array
-- New menu cache function
-- ...
-
 ### Exchange
 
 **QQQQQun** 704661955

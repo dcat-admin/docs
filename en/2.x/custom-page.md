@@ -1,4 +1,65 @@
-# Custom pages
+# Views and custom pages
+
+## View
+
+
+In the `Dcat Admin` we can use the `admin_view` function to render the view, this function draws on the design ideas of `vue`, you can write `HTML`, `CSS` and `JS` code in the same template file, so that the code is more clear and more concise and easy to read layered code, such as
+
+```html
+<div class="my-class">...</div>
+
+<style>
+	.my-class {
+		color: blue;
+	}
+</style>
+
+<script require="@test1,@test2" init=".my-class">
+	$this.css({background: 'red'})
+</script>
+```
+
+Render the view in `php`
+```php
+public function index(Content $content)
+{
+	return $content->body(admin_view('...'));
+}
+```
+
+#### Explanation of Example 
+
+The code in the above example is actually equivalent to the following code
+
+```html
+<div class="my-class">...</div>
+```
+
+```php
+public function index(Content $content)
+{
+	admin_require_assets(['@test1', '@test2']);
+	
+	admin_style('.my-class {
+		color: blue;
+	}');
+	
+	admin_script(
+		<<<JS
+Dcat.init('.my-class', function (\$this, id) {
+	\$this.css({background: 'red'})
+});
+JS
+	);
+
+	return $content->body(view('...'));
+}
+```
+
+Obviously, using `admin_view` to render the view will make your code much easier to read. For `Dcat.init` and the use of the `init` and `require` attributes in the `script` tag, please refer to the documentation [Static Resources] (assets.md) and [Dynamic Listening Element Generation (init)] (js.md #init) chapters.
+
+## Custom pages
+
 
 Building a custom page in `Dcat Admin` is very simple, you can refer to the following two examples
 

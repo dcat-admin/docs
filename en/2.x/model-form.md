@@ -340,15 +340,12 @@ Jump to the specified page, this method is only available within the [form callb
 ```php
 // Jump and prompt for success information
 $form->saved(function (Form $form) {
-    return $form->redirect('auth/user', 'Save success');
+    return $form->response()->success('Save success')->redirect('auth/user');
 });
 
 // Jump and error messages
 $form->saving(function (Form $form) {
-    return $form->redirect('auth/user', [
-        'message' => 'system error',
-        'status' => false,
-    ]);
+    return $form->response()->error('system error')->redirect('auth/user');
 });
 ```
 

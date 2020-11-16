@@ -415,8 +415,3 @@ After committing, due to the delay in synchronization time, you may not be able 
 
 Once the release is complete, you can install your extension via `composer`!
 
-
-#### Installing New Extensions
-
-
-

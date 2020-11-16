@@ -339,7 +339,7 @@ class UserProfile extends Form implements LazyRenderable
         // Receive externally passed parameters
 		$type = $this->payload['type'] ?? null;
         
-        return $this->success('Save success');
+        return $this->response()->success('Save success');
     }
 
     public function form()
@@ -481,7 +481,7 @@ class UserProfile extends Form implements LazyRenderable
         // Receive externally passed parameters
 		$type = $this->payload['type'] ?? null;
         
-        return $this->success('Save success');
+        return $this->response()->success('Save success');
     }
 
     public function form()
@@ -631,7 +631,7 @@ $grid->email->prepend(function ($value, $original) {
 
 ```php
 // Display up to 50 characters.
-$grid->column('content')s->limit(50, '...');
+$grid->column('content')->limit(50, '...');
 
 // Also supported if the field value is an array.
 $grid->tags->limit(3);
@@ -759,7 +759,7 @@ use Illuminate\Http\Request;
 
 class Star extends RowAction
 {
-    public function html()
+    protected function html()
     {
         $icon = ($this->row->{$this->getColumnName()}) ? 'fa-star' : 'fa-star-o';
 
@@ -800,7 +800,7 @@ HTML;
 
     public function modelClass()
     {
-        return get_class($this->parent->model()->repository()->eloquent());
+        return get_class($this->parent->model()->repository()->model());
     }
 }
 ```

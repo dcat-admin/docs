@@ -74,7 +74,7 @@ The following code can be associated with a form:
 use App\Admin\Repositories\User;
 
 // Note that the repository `User` must be instantiated with `profile` here, otherwise the `profiles` table data will not be associated.
-$form = Form::make(new User('profile'), function (Form $form) {
+$form = Form::make(User::with('profile'), function (Form $form) {
     $form->display('id');
     
     $form->text('name');
@@ -145,7 +145,7 @@ use Dcat\Admin\Models\Permission;
 
 // Passing permissions when instantiating a repository automatically associates the data of the related model.
 // Here we pass in data for permissions associated with the permission model.
-$repository = new Role(['permissions']);
+$repository = Role::with(['permissions']);
 
 return Form::make($repository, function (Form $form) {
     $form->display('id', 'ID');

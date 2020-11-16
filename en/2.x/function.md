@@ -1,5 +1,44 @@
 # Help function
 
+### admin_color
+
+Get the built-in color. For more information on the use of theme colors, please refer to the [Theme - Colors](theme.md#color) section.
+
+```php
+// Three ways to get the theme color
+$primary = admin_color('primary');
+$primary = admin_color()->get('primary');
+$primary = admin_color()->primary();
+
+$color = admin_color();
+$color->lighten('primary', 10);
+```
+
+### admin_js
+
+You can include `js` files anywhere, see the [static resources](assets.md) chapter for more information.
+
+```php
+admin_js(['@admin/xxx.js']);
+```
+
+### admin_css
+
+You can include `css` files anywhere, see the [static resources](assets.md) chapter for more information.
+
+```php
+admin_css(['@admin/xxx.css']);
+```
+
+### admin_require_assets
+
+You can include static resource components anywhere, see the [Static Resources](assets.md) chapter for more information.
+
+```php
+admin_require_assets(['@datime']);
+```
+
+
 ### admin_path
 
 Get the application path where `Dcat Admin` is installed, the default directory is `app/Admin`:

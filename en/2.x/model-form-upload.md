@@ -139,14 +139,14 @@ Using randomly generated filenames (md5(uniqid()).extension)
 $form->image('picture')->uniqueName();
 ```
 
-<a name="disableRemove"></a>
+<a name="removeable"></a>
 ### Disable page delete files (replace upload)
 
-By using the `disableRemove` method, you can prohibit users from deleting files on the server by clicking on them from the page, and you can implement image override to upload results.
+By using the `removeable` method, you can prohibit users from clicking to delete files from the server from the page, which can achieve the effect of image overlay upload.
 
 
 ```php
-$form->file($column[, $label])->disableRemove();
+$form->file($column[, $label])->removeable(false);
 ```
 
 
@@ -191,16 +191,22 @@ $form->file('file')->accept('jpg,png,gif,jpeg');
 $form->file('file')->accept('jpg,png,gif,jpeg', 'image/*');
 ```
 
-<a name="disableChunked"></a>
+<a name="chunked"></a>
 ### disableChunked
-Disable chunked Upload
+
+Enable chunked Upload
+
 ```php
-$form->file('file')->disableChunked();
+$form->file('file')->chunked();
 ```
 
 <a name="chunkSize"></a>
 ### chunkSize
-Block size in `KB`, default `5MB`.
+
+Set the block size in `KB`, default `5MB`.
+
+> {tip} Calling this method will automatically enable block uploads.
+
 ```php
 // Set to 1MB
 $form->file('file')->chunkSize(1024);
@@ -288,11 +294,13 @@ Modify and delete the path of uploaded files, this method generally does not nee
 $form->file('file')->deleteUrl('file/delete');
 ```
 
-<a name="disableAutoSave"></a>
-### disableAutoSave
-Disable automatically saving the file path to the database after uploading a file.
+<a name="autoSave"></a>
+### AutoSave field values (autoSave)
+
+Set whether to automatically save the file path to the database after uploading a file, this method is enabled by default.
+
 ```php
-$form->file('file')->disableAutoSave();
+$form->file('file')->autoSave(false);
 ```
 
 <a name="options"></a>
@@ -311,6 +319,39 @@ $form->multipleImage('images')->sortable();
 ```
 
 
+### Compress pictures (compress)
+
+Not enabled by default
+
+```php
+// Enable image compression.
+
+$form->multipleImage('images')->compress();
+
+$form->image('avatar')->compress([
+	'width' => 1600,
+	'height' => 1600,
+
+	// Image quality, only valid if type is `image/jpeg`.
+	'quality' => 90,
+
+	// This option should be set to false if you want to generate small images without distortion.
+	'allowMagnify' => false,
+
+	// Whether cropping is allowed.
+	'crop' => false,
+
+	// Whether to keep the header meta information.
+	'preserveHeaders' => true,
+
+	// If you find that the compressed file size is even larger than the original, use the original image.
+	// This property may affect the image auto-correct function.
+	'noCompressIfLarger' => false,
+
+	// Unit byte, if the image size is smaller than this value, compression will not be applied.
+	'compressSize' => 0
+]);
+```
 
 <a name="withhost"></a>
 ### File/image domain splicing

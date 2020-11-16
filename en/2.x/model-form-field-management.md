@@ -3,8 +3,7 @@
 
 ## Extending custom components
 
-> {tip} The IDE does not auto-complete by default after extending a custom Form component, so you can generate an IDE hint file with `php artisan admin:ide-helper`.
-
+It is recommended to use the `Dcat.init` method to listen and initialize the `JS` code of the form component, otherwise it may not be compatible with dynamically generated fields such as `Form::hasMany` and `Form::array`. Form Type.
 
 ### Integrated rich text editor wangEditor
 
@@ -15,59 +14,30 @@ First download the front-end library file [wangEditor](https://github.com/wangfu
 Then create a new component class `app/Admin/Extensions/WangEditor.php`.
 
 ```php
-
 <?php
 
-namespace App\Admin\Extensions;
+namespace App\Admin\Extensions\Form;
 
 use Dcat\Admin\Form\Field;
 
 class WangEditor extends Field
 {
     protected $view = 'admin.wang-editor';
-
-    protected static $css = [
-        '/vendor/wangEditor-3.0.9/release/wangEditor.min.css',
-    ];
-
-    protected static $js = [
-        '/vendor/wangEditor-3.0.9/release/wangEditor.min.js',
-    ];
-
-    public function render()
-    {
-        $name = $this->formatName($this->column);
-
-        $this->script = <<<EOT
-// Note that the ID here must be converted by the replaceNestedFormIndex function, otherwise it will not be compatible with the hasMany form.
-var E = window.wangEditor
-var editor = new E(replaceNestedFormIndex('#{$this->id}'));
-editor.customConfig.zIndex = 0
-editor.customConfig.uploadImgShowBase64 = true
-editor.customConfig.onchange = function (html) {
-    $('input[name=$name]').val(html);
 }
-editor.create()
-
-EOT;
-        return parent::render();
-    }
-}
-
 ```
 
 New view file `resources/views/admin/wang-editor.blade.php`：
 ```php
-<div class="{{$viewClass['form-group']}} {!! !$errors->has($label) ? '' : 'has-error' !!}">
+<div class="{{$viewClass['form-group']}}">
 
-    <label for="{{$id}}" class="{{$viewClass['label']}} control-label">{{$label}}</label>
+    <label class="{{$viewClass['label']}} control-label">{{$label}}</label>
 
     <div class="{{$viewClass['field']}}">
 
         @include('admin::form.error')
 
-        <div id="{{$id}}" style="width: 100%; height: 100%;">
-            <p>{!! old($column, $value) !!}</p>
+        <div {!! $attributes !!} style="width: 100%; height: 100%;">
+            <p>{!! $value !!}</p>
         </div>
 
         <input type="hidden" name="{{$name}}" value="{{ old($column, $value) }}" />
@@ -76,19 +46,35 @@ New view file `resources/views/admin/wang-editor.blade.php`：
 
     </div>
 </div>
+
+<script require="@wang-editor" init="{!! $selector !!}">
+    var E = window.wangEditor
+    var editor = new E('#' + id);
+    editor.customConfig.zIndex = 0
+    editor.customConfig.uploadImgShowBase64 = true
+    editor.customConfig.onchange = function (html) {
+        $this.parents('.form-field').find('input[name={{ $name }}]').val(html);
+    }
+    editor.create()
+</script>
+
 ```
 
 Then register into `dcat-admin` and add the following code to `app/Admin/bootstrap.php`.
 
 ```php
-
 <?php
 
-use App\Admin\Extensions\WangEditor;
+use App\Admin\Extensions\Form\WangEditor;
 use Dcat\Admin\Form;
 
-Form::extend('editor', WangEditor::class);
+// Register front-end component aliases
+Admin::asset()->alias('@wang-editor', [
+    'js' => ['/vendor/wangEditor-3.0.9/release/wangEditor.min.js'],
+    'css' => ['/vendor/wangEditor-3.0.9/release/wangEditor.min.css'],
+]);
 
+Form::extend('editor', WangEditor::class);
 ```
 
 Calling:
@@ -113,45 +99,44 @@ use Dcat\Admin\Form\Field;
 
 class CKEditor extends Field
 {
-    public static $js = [
-        '/packages/ckeditor/ckeditor.js',
-        '/packages/ckeditor/adapters/jquery.js',
-    ];
-
     protected $view = 'admin.ckeditor';
-
-    public function render()
-    {
-        $this->script = "$('{$this->getElementClassSelector()}').ckeditor();";
-
-        return parent::render();
-    }
 }
 ```
 
 New view `resources/views/admin/ckeditor.blade.php`:
-```php
-<div class="{{$viewClass['form-group']}} {!! !$errors->has($label) ? '' : 'has-error' !!}">
+```html
+<div class="{{$viewClass['form-group']}}">
 
-    <label for="{{$id}}" class="{{$viewClass['label']}} control-label">{{$label}}</label>
+    <label class="{{$viewClass['label']}} control-label">{{$label}}</label>
 
     <div class="{{$viewClass['field']}}">
 
         @include('admin::form.error')
 
-        <textarea class="form-control {{ $class }}" name="{{$name}}" placeholder="{{ $placeholder }}" {!! $attributes !!} >{{ old($column, $value) }}</textarea>
-
+        <textarea name="{{ $name}}" placeholder="{{ $placeholder }}" {!! $attributes !!} >{!! $value !!}</textarea>
+        
         @include('admin::form.help-block')
 
     </div>
 </div>
 
+<script require="@ckeditor" init="{!! $selector !!}">
+    $this.ckeditor();
+</script>
 ```
 
 Then in `app/Admin/bootstrap.php`, import the extension:
 ```php
 use App\Admin\Extensions\Form\CKEditor;
 use Dcat\Admin\Form;
+
+// Register front-end component aliases
+Admin::asset()->alias('@ckeditor', [
+    'js' => [
+        '/packages/ckeditor/ckeditor.js',
+        '/packages/ckeditor/adapters/jquery.js',
+    ],
+]);
 
 Form::extend('ckeditor', CKEditor::class);
 ```
@@ -173,7 +158,7 @@ Create new component class `app/Admin/Extensions/PHPEditor.php`:
 ```php
 <?php
 
-namespace App\Admin\Extensions;
+namespace App\Admin\Extensions\Form;
 
 use Dcat\Admin\Form\Field;
 
@@ -181,39 +166,6 @@ class PHPEditor extends Field
 {
     protected $view = 'admin.php-editor';
 
-    protected static $css = [
-        '/packages/codemirror-5.20.2/lib/codemirror.css',
-    ];
-
-    protected static $js = [
-        '/packages/codemirror-5.20.2/lib/codemirror.js',
-        '/packages/codemirror-5.20.2/addon/edit/matchbrackets.js',
-        '/packages/codemirror-5.20.2/mode/htmlmixed/htmlmixed.js',
-        '/packages/codemirror-5.20.2/mode/xml/xml.js',
-        '/packages/codemirror-5.20.2/mode/javascript/javascript.js',
-        '/packages/codemirror-5.20.2/mode/css/css.js',
-        '/packages/codemirror-5.20.2/mode/clike/clike.js',
-        '/packages/codemirror-5.20.2/mode/php/php.js',
-    ];
-
-    public function render()
-    {
-        $this->script = <<<EOT
-// Note that the ID here must be converted by the replaceNestedFormIndex function, otherwise it will not be compatible with the hasMany form
-CodeMirror.fromTextArea(document.getElementById(replaceNestedFormIndex("{$this->id}")), {
-    lineNumbers: true,
-    mode: "text/x-php",
-    extraKeys: {
-        "Tab": function(cm){
-            cm.replaceSelection("    " , "end");
-        }
-     }
-});
-
-EOT;
-        return parent::render();
-
-    }
 }
 
 ```
@@ -222,22 +174,34 @@ EOT;
 
 Creating View `resources/views/admin/php-editor.blade.php`:
 
-```php
+```html
+<div class="{{$viewClass['form-group']}}">
 
-<div class="{{$viewClass['form-group']}} {!! !$errors->has($label) ? '' : 'has-error' !!}">
-
-    <label for="{{$id}}" class="{{$viewClass['label']}} control-label">{{$label}}</label>
+    <label class="{{$viewClass['label']}} control-label">{{$label}}</label>
 
     <div class="{{$viewClass['field']}}">
 
         @include('admin::form.error')
 
-        <textarea class="form-control" id="{{$id}}" name="{{$name}}" placeholder="{{ trans('admin::lang.input') }} {{$label}}" {!! $attributes !!} >{{ old($column, $value) }}</textarea>
+        <textarea name="{{$name}}" placeholder="{{ trans('admin::lang.input') }} {{$label}}" {!! $attributes !!} >
+            {!! $value !!}
+        </textarea>
         
         @include('admin::form.help-block')
     </div>
 </div>
 
+<script require="@phpeditor" init="{!! $selector !!}">
+    CodeMirror.fromTextArea(document.getElementById(id), {
+        lineNumbers: true,
+        mode: "text/x-php",
+        extraKeys: {
+            "Tab": function(cm){
+                cm.replaceSelection("    " , "end");
+            }
+         }
+    });
+</script>
 ```
 
 Finally find the file `app/Admin/bootstrap.php`, if the file does not exist, please update `dcat-admin`, then create the file, add the following code:
@@ -245,19 +209,30 @@ Finally find the file `app/Admin/bootstrap.php`, if the file does not exist, ple
 ```
 <?php
 
-use App\Admin\Extensions\PHPEditor;
+use App\Admin\Extensions\Form\PHPEditor;
 use Dcat\Admin\Form;
 
-Form::extend('php', PHPEditor::class);
+Admin::asset()->alias('@phpeditor', [
+    'js' => [
+        '/packages/codemirror-5.20.2/lib/codemirror.js',
+        '/packages/codemirror-5.20.2/addon/edit/matchbrackets.js',
+        '/packages/codemirror-5.20.2/mode/htmlmixed/htmlmixed.js',
+        '/packages/codemirror-5.20.2/mode/xml/xml.js',
+        '/packages/codemirror-5.20.2/mode/javascript/javascript.js',
+        '/packages/codemirror-5.20.2/mode/css/css.js',
+        '/packages/codemirror-5.20.2/mode/clike/clike.js',
+        '/packages/codemirror-5.20.2/mode/php/php.js',
+    ],
+    'css' => '/packages/codemirror-5.20.2/lib/codemirror.css',
+]);
 
+Form::extend('php', PHPEditor::class);
 ```
 
 This will allow you to use the PHP editor in [model-form](model-form.md):
 
 ```
-
 $form->php('code');
-
 ```
 
 In this way, you can add as many `form` components as you want.
@@ -313,12 +288,11 @@ When the form component class is instantiated, it generates a `css class` accord
 
 Template
 ```html
-<div class="{{$viewClass['form-group']}} {!! !$errors->has($errorKey) ? '' : 'has-error' !!}">
+<div class="{{$viewClass['form-group']}}">
 
-    <div for="{{ $id }}" class="{{ $viewClass['label'] }} control-label">
+    <div class="{{ $viewClass['label'] }} control-label">
         <span>{!! $label !!}</span>
     </div>
-
 
     <div class="{{$viewClass['field']}}">
 
@@ -326,11 +300,10 @@ Template
 
         <input type="hidden" name="{{$name}}"/>
 
-		<!-- $class That is the class generated according to the field name -->
-        <select class="form-control {{$class}}" style="width: 100%;" name="{{$name}}" {!! $attributes !!} >
+        <select style="width: 100%;" name="{{$name}}" {!! $attributes !!} >
            <option value=""></option>
 		   @foreach($options as $select => $option)
-			   <option value="{{$select}}" {{ Dcat\Admin\Support\Helper::equal($select, old($column, $value)) ?'selected':'' }}>{{$option}}</option>
+			   <option value="{{$select}}" {{ Dcat\Admin\Support\Helper::equal($select, $value) ?'selected':'' }}>{{$option}}</option>
 		   @endforeach
         </select>
 
@@ -338,139 +311,23 @@ Template
 
     </div>
 </div>
+<script require="..." init="{!! $selector !!}">
+    // where $selector is the css selector for the current field.
+    $this.select2($configs);
+
 ```
-
-usage
-
-```php
-class Select extends Field
-{
-	...
-	
-	/**
-	 * {@inheritdoc}
-	 */
-	public function render()
-	{
-		...
-
-		if (empty($this->script)) {
-			// 通过 getElementClassSelector 方法可以获取到表单中 select 标签的css选择器
-			$this->script = "$(\"{$this->getElementClassSelector()}\").select2($configs);";
-		}
-
-		...
-
-		return parent::render();
-	}
-}
-```
-
-### ID attributes
-When the form component class is instantiated, it generates a unique random string and stores it in the `id` attribute, which is then passed to the template.
-
-Template
-```html
-<div class="{{$viewClass['form-group']}} {!! !$errors->has($label) ? '' : 'has-error' !!}">
-
-    <label for="{{$id}}" class="{{$viewClass['label']}} control-label">{{$label}}</label>
-
-    <div class="{{$viewClass['field']}}">
-
-        @include('admin::form.error')
-		
-		<!-- $id -->
-        <textarea class="form-control" id="{{$id}}" name="{{$name}}" placeholder="{{ trans('admin::lang.input') }} {{$label}}" {!! $attributes !!} >{{ old($column, $value) }}</textarea>
-        
-        @include('admin::form.help-block')
-    </div>
-</div>
-```
-
-Using the `$id` attribute
-
-```php
-class PHPEditor extends Field
-{
-    ...
-
-    public function render()
-    {
-    	// Locate elements by $this->id
-        $this->script = <<<JS
-// Note that the ID here must be converted by the replaceNestedFormIndex function, otherwise it will not be compatible with the hasMany form.
-CodeMirror.fromTextArea(document.getElementById(replaceNestedFormIndex("{$this->id}")), {
-    lineNumbers: true,
-    mode: "text/x-php",
-    extraKeys: {
-        "Tab": function(cm){
-            cm.replaceSelection("    " , "end");
-        }
-     }
-});
-
-JS;
-        return parent::render();
-
-    }
-}
-```
-
 
 ### JS code
 
-In order for the extended form component to be compatible with `HasMany` and `Table` forms, we must save the `JS` code in the `$script` attribute!
+In order for the extended form component to be compatible with `HasMany`, `array` and `Table` forms, we must use the [dynamic listening element generation (init)](js.md#init) feature
 
-```php
-class Select extends Field
-{
-	...
-	
-	/**
-	 * {@inheritdoc}
-	 */
-	public function render()
-	{
-		...
-
-		$this->script = "$(\"{$this->getElementClassSelector()}\").select2($configs);";
-
-		...
-
-		return parent::render();
-	}
-}
-```
-
-And if you are positioning the element by the `id` attribute, you must use the `replaceNestedFormIndex` function to convert the original `id`, otherwise it will not be compatible with `HasMany` and `Table` forms.
-
-
-```php
-class PHPEditor extends Field
-{
+```html
+<div class="{{$viewClass['form-group']}}">
     ...
+</div>
 
-    public function render()
-    {
-    	// Locate elements by $this->id
-        $this->script = <<<JS
-// Note that the ID here must be converted by the replaceNestedFormIndex function, otherwise it will not be compatible with the hasMany form.
-CodeMirror.fromTextArea(document.getElementById(replaceNestedFormIndex("{$this->id}")), {
-    lineNumbers: true,
-    mode: "text/x-php",
-    extraKeys: {
-        "Tab": function(cm){
-            cm.replaceSelection("    " , "end");
-        }
-     }
-});
-JS;
-        return parent::render();
-
-    }
-}
+<script require="..." init="{!! $selector !!}">
+    $this.select2($configs);
+</script>
 ```
-
-
-
 

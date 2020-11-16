@@ -130,9 +130,8 @@ $grid->withBorder();
 ```
 
 result
-<a href="http://103.39.211.179:8080/admin/reports" target="_blank">
-    <img style="box-shadow:0 1px 6px 1px rgba(0, 0, 0, 0.12)" width="100%" src="{{public}}/assets/img/screenshots/grid-combination.png">
-</a>
+![](https://cdn.learnku.com/uploads/images/202004/26/38389/lKTZe0jwGg.png!large)
+
 
 
 Disable border mode
@@ -177,7 +176,7 @@ protected function grid()
 
 Other queries can be found in the `eloquent` query.
 
-### Modify display output
+### Modify display output (display)
 
 
 ```php
@@ -205,7 +204,23 @@ $grid->column('column_not_in_table')->display(function () {
 });
 ```
 
-### Get current row data
+### Display serial number
+
+The `number` method allows you to add a row number column starting with `1` to the table.
+
+```php
+$grid->number();
+```
+
+### Set name (setName)
+
+When there are multiple `Grid` tables on the page, you need to set different names for the table, otherwise some of the functions may conflict!
+
+```php
+$grid->setName('name1');
+```
+
+### Get current row data (row)
 
 The `display()` method receives an anonymous function that binds the data object of the current row, in which other field data of the current row can be called.
 
@@ -235,33 +250,16 @@ $grid->toolsWithOutline(false);
 ```
 
 result
-<a href="{{public}}/assets/img/screenshots/outline.png" target="_blank">
-    <img style="box-shadow:0 1px 6px 1px rgba(0, 0, 0, 0.12)" width="100%" src="{{public}}/assets/img/screenshots/outline.png">
-</a>
+![](https://cdn.learnku.com/uploads/images/202005/23/38389/hKWC1crYHw.png!large)
 
 Result after disabling `outline`:
 
-<a href="{{public}}/assets/img/screenshots/n-outline.png" target="_blank">
-    <img style="box-shadow:0 1px 6px 1px rgba(0, 0, 0, 0.12)" width="100%" src="{{public}}/assets/img/screenshots/n-outline.png">
-</a>
+![](https://cdn.learnku.com/uploads/images/202005/23/38389/aaMdymSxoY.png!large)
+
 
 If you don't want a button to use `outline` mode, you can add `disable-outline` to the button's `class` attribute
 ```php
 $grid->tools('<a class="btn btn-primary disable-outline">测试按钮</a>');
-```
-
-
-### Setting the form outer container
-```php
- // Change the table outer container
-$grid->wrap(function (Renderable $view) {
-    $tab = Tab::make();
-    
-    $tab->add('Example', $view);
-    $tab->add('code', $this->code(), true);
-
-    return $tab;
-});
 ```
 
 ### Set create button
@@ -285,6 +283,14 @@ $grid->enableDialogCreate();
 $grid->setDialogFormDimensions('50%', '50%');
 ```
 
+### Modify the routing of the Create and Update buttons (setResource)
+
+Set the route prefix for the Modify Create and Update buttons.
+
+```php
+$grid->setResource('auth/users');
+```
+
 
 ### Set the query filter
 
@@ -303,7 +309,7 @@ $grid->showFilterButton();
 ```
 
 
-### Set the row selector
+### line selector (rowSelector)
 ```php
 // Disable
 $grid->disableRowSelector();
@@ -311,15 +317,25 @@ $grid->disableRowSelector();
 $grid->showRowSelector();
 ```
 
-#### Set the TITLE field key for the selected middle row.
-If not set, the default is one of `name`, `title`, and `username`.
+#### Set the title field of the selected middle row
+If not set, the default is ``name``, ``title``, ``username``.
 ```php
-$grid->full_name;
-$grid->age;
+$grid->column('full_name');
+$grid->column('age');
 
 ...
 
 $grid->rowSelector()->titleColumn('full_name');
+```
+
+#### Set the ID field of the selected middle row.
+Set the fields to be saved when selected, default is the Data Table Primary Key (id) field.
+```php
+$grid->column('new_id');
+
+...
+
+$grid->rowSelector()->idColumn('new_id');
 ```
 
 #### Set the checkbox selection box color
@@ -441,6 +457,20 @@ The `css` style can be added to table `table` through `addTableClass`.
 ```php
 $grid->addTableClass(['class1', 'class2']);
 ```
+
+### Setting the form outer container
+```php
+ // Change the table outer container
+$grid->wrap(function (Renderable $view) {
+    $tab = Tab::make();
+    
+    $tab->add('example', $view);
+    $tab->add('code', $this->code(), true);
+
+    return $tab;
+});
+```
+
 
 ## Relationship model
 

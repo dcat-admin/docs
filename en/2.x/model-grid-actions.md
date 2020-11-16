@@ -23,7 +23,7 @@ $grid->disableViewButton();
 
 ### Toggle line operation button display mode
 
-The default global line action button display method can be configured through the configuration parameter `admin.grid.grid_action_class` parameter, which currently supports the following two ways of displaying the air action button:
+The global default line action button display method can be configured through the configuration parameter `admin.grid.grid_action_class` parameter, which currently supports the following two methods of displaying line action buttons:
 
 - `Dcat\Admin\Grid\Displayers\DropdownActions` Drop-down menu
 - `Dcat\Admin\Grid\Displayers\Actions` Icon display mode

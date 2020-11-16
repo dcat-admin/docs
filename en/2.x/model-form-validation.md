@@ -8,7 +8,7 @@
 $form->text('title')->rules('required|min:3');
 
 // Complex validation rules can be implemented inside callbacks
-$form->text('title')->rules(function ($form) {
+$form->text('title')->rules(function (Form $form) {
     
     // Add field unique validation if not edit status
     if (!$id = $form->model()->id) {

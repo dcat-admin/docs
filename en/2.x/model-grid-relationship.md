@@ -83,7 +83,7 @@ use App\Admin\Repositories\User;
 use Dcat\Admin\Grid;
 
 // Associated profile table data
-$grid = Grid::make(new User(['profile']), function (Grid $grid) {    
+$grid = Grid::make(User::with(['profile']), function (Grid $grid) {        
     $grid->id('ID')->sortable();
     
     $grid->name();
@@ -222,7 +222,7 @@ Post form
 use App\Admin\Repositories\Post;
 
 // Related comment table data
-$grid = Grid::make(new Post(['comments']), function (Grid $grid) {
+$grid = Grid::make(Post::with(['comments']), function (Grid $grid) {
     $grid->id('id')->sortable();
     $grid->title();
     $grid->content();
@@ -244,7 +244,7 @@ Comment Form
 use App\Admin\Repositories\Comment;
 
 // Related post table data
-$grid = new Grid(new Comment(['post']));
+$grid = new Grid(Comment::with(['post']));
 
 $grid->column('id');
 $grid->column('post.title');
@@ -346,7 +346,7 @@ The same [three ways to relate data] (#relation) as above is supported here, but
 use App\Admin\Repositories\User;
 
 // Associated role table data
-$grid = Grid::make(new User('roles'), function (Grid $grid) {
+$grid = Grid::make(User::with('roles'), function (Grid $grid) {
     $grid->id('ID')->sortable();
     $grid->username();
     $grid->name();
