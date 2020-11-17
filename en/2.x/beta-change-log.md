@@ -1,5 +1,26 @@
 # BETA version update log
 
+### v2.0.8-beta
+
+Posted on 2020/11/16
+
+To upgrade the method, execute the following command step by step
+```bash
+composer remove dcat/laravel-admin
+composer require dcat/laravel-admin:"2.0.8-beta"
+php artisan admin:publish --assets --force
+php artisan admin:publish --migrations --force # Table structure changed
+php artisan migrate
+```
+
+As a supplement to `2.0.7-beta`, the following issues are fixed in this release
+
+1. fix the problem of not being able to view permissions on the admin page
+2. fix the problem of form block layout failure
+3. fix the problem of abnormal initialization of file upload form.
+4. fix the problem that some form fields don't support rendering multiple fields on a single page at the same time.
+
+
 ### v2.0.7-beta
 
 Posted on 2020/11/15
