@@ -208,14 +208,14 @@ $form->submitted(function (Form $form) {
 });
 ```
 
-### 去掉提交按钮:
+### 移除提交按钮
 
 ```php
+// 去掉提交按钮
 $form->disableSubmitButton();
-```
 
-### 去掉重置按钮:
-```php
+
+// 去掉重置按钮
 $form->disableResetButton();
 ```
 
@@ -368,6 +368,46 @@ $form->wrap(function (Renderable $view) {
     $tab->add('代码', $this->code(), true);
 
     return $tab;
+});
+```
+
+<a name="saving"></a>
+### 修改待保存的表单输入值 (saving)
+
+通过`saving`方法可以更改待保存数据的格式。
+
+```php
+use Dcat\Admin\Support\Helper;
+
+$form->mutipleFile('files')->saving(function ($paths) {
+    $paths = Helper::array($paths);
+    
+    // 获取数据库当前行的其他字段
+    $username = $this->username;
+    
+    // 最终转化为json保存到数据库
+    return json_encode($paths);
+});
+```
+
+<a name="customFormat"></a>
+### 修改表单数据显示 (customFormat)
+通过`customFormat`方法可以改变从外部注入到表单的字段值。
+
+如下例子中，`mutipleFile`字段要求待渲染的字段值为数组格式，我们可以通过`customFormat`方法把从数据库查出的字段值转化为`array`格式
+```php
+use Dcat\Admin\Support\Helper;
+
+$form->mutipleFile('files')->saving(function ($paths) {
+    $paths = Helper::array($paths);
+    
+    return json_encode($paths);
+})->customFormat(function ($paths) {
+	// 获取数据库当前行的其他字段
+    $username = $this->username;
+
+    // 转为数组
+    return Helper::array($paths);
 });
 ```
 
