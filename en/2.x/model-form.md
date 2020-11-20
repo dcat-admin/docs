@@ -208,14 +208,13 @@ $form->submitted(function (Form $form) {
 });
 ```
 
-### Remove the submit button:
+### Remove the submit button
 
 ```php
+// Remove the submit button
 $form->disableSubmitButton();
-```
 
-### Remove the reset button:
-```php
+// Remove the reset button
 $form->disableResetButton();
 ```
 
@@ -371,3 +370,43 @@ $form->wrap(function (Renderable $view) {
 });
 ```
 
+
+<a name="saving"></a>
+### Modify form input values to be saved (saving)
+
+The `saving` method allows you to change the format of the data to be saved.
+
+```php
+use Dcat\Admin\Support\Helper;
+
+$form->mutipleFile('files')->saving(function ($paths) {
+    $paths = Helper::array($paths);
+    
+    // Get other fields of the current row of the database
+    $username = $this->username;
+    
+    // finally convert to json and save to database
+    return json_encode($paths);
+});
+```
+
+<a name="customFormat"></a>
+### Modify form data display (customFormat)
+The `customFormat` method can be used to change the value of a field injected into the form from an external source.
+
+In the following example, the `mutipleFile` field requires the field value to be rendered in array format, which can be converted to `array` format by using the `customFormat` method.
+```php
+use Dcat\Admin\Support\Helper;
+
+$form->mutipleFile('files')->saving(function ($paths) {
+    $paths = Helper::array($paths);
+    
+    return json_encode($paths);
+})->customFormat(function ($paths) {
+    // Get other fields of the current row of the database
+    $username = $this->username;
+
+    // convert to array
+    return Helper::array($paths);
+});
+```

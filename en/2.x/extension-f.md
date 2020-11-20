@@ -2,6 +2,15 @@
 
 ## Basic use
 
+### Set the read and write permissions for extension-related directories
+
+Before using the extension function, you need to ensure that the user has the read and write permissions of the extension related directories, otherwise it may cause the extension installation to fail, please ensure that you have the read and write permissions of the following directories
+
+1. `ProjectDirectory/dcat-admin-extensions` extension installation directory, which can be changed according to the configuration parameter `admin.extensions.dir`
+2. `public/vendor` extends the static resource distribution directory
+3. `resources/lang` language package directory
+
+
 ### Extension installation
 
 The extensions in `Dcat Admin` support the following three installation methods, and after installing success, you can see the related extension information in `admin/auth/extensions` extension management page.

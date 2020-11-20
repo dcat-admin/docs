@@ -1,5 +1,11 @@
 # Step-by-step form
 
+## Installation
+
+Go to [https://github.com/dcat-admin/form-step](https://github.com/dcat-admin/form-step) to download the step-by-step form extension, then install and enable it.
+
+> {tip} To install the extension, please refer to the [Basic Use of Extensions] (extension-f.md) section of the documentation.
+
 ## Simple example
 
 ```php

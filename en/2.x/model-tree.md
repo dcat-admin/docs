@@ -108,12 +108,46 @@ $tree->branch(function ($branch) {
 ```
 The string type data returned in the callback function is what is displayed for each row in the tree component, and the `$branch` parameter is an array of data for the current row.
 
+### Modify Model Lookup Criteria
+
 If you want to modify the model's query, use the following
 ```php
 $tree->query(function ($model) {
     return $model->where('type', 1);
 });
 ```
+
+### Limit the maximum number of levels
+
+Default `5`
+
+```php
+$tree->maxDepth(3);
+```
+
+## Custom line operations
+
+```php
+use Dcat\Admin\Tree;
+
+$tree->actions(function (Tree\Actions $actions) {
+    if ($actions->row->id > 5) {
+        $actions->disableDelete(); // Disable the delete button.
+    }
+
+    // Add a new action
+    $actions->append(...);
+});
+
+// Batch add action
+$tree->actions([
+    new Action1(),
+    "<div>...</div>",
+    ...
+]);
+```
+
+Customize complex actions, refer to [model-tree action](action-tree.md#row-action).
 
 ## Customize toolbar buttons
 

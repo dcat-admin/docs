@@ -141,7 +141,7 @@ $grid->withBorder(false);
 
 ## Basic usage
 
-### Adding columns
+### Adding columns (column)
 
 ```php
 // Add single column
@@ -204,7 +204,7 @@ $grid->column('column_not_in_table')->display(function () {
 });
 ```
 
-### Display serial number
+### Display number (number)
 
 The `number` method allows you to add a row number column starting with `1` to the table.
 
@@ -457,6 +457,13 @@ The `css` style can be added to table `table` through `addTableClass`.
 ```php
 $grid->addTableClass(['class1', 'class2']);
 ```
+
+### Set table text centering
+
+```php
+$grid->addTableClass(['table-text-center']);
+```
+
 
 ### Setting the form outer container
 ```php

@@ -11,7 +11,11 @@ In this document, we will take developing an [Operation Log Extension](https://g
 
 # Before you start
 
-Before you start to develop extensions, if you are in `linux` environment, please create a `dcat-admin-extensions` directory in the project root directory manually and set readable **writeable** permissions, the extensions will be installed in the `dcat-admin-extensions` directory.
+Before you start developing extensions, if you are in a `linux` environment, please create a `dcat-admin-extensions` directory in the project root directory manually and set readable **writeable** permissions, the extensions will be installed in the `dcat-admin-extensions` directory.
+
+1. `ProjectDirectory/dcat-admin-extensions` extension installation directory, which can be changed according to the configuration parameter `admin.extensions.dir`
+2. `public/vendor` extends the static resource distribution directory
+3. `resources/lang` language package directory
 
 ## 1. Create extensions
 

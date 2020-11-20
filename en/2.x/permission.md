@@ -2,7 +2,7 @@
 
 `Dcat Admin` has a built-in `RBAC` permission control module, expand `Auth` on the left sidebar, and below there are three management panels for users, roles, and permissions.
 
-## Routing control
+### Routing control
 
 In `Dcat Admin`, permissions and routes are bound together, set the routes that the current permissions can access in the edit permissions page, select the method to access the routes in the `HTTP method` select box, and fill in the path that can be accessed in the `HTTP path`.
 
@@ -12,16 +12,20 @@ For example, if you want to add a permission, which can access the path `/admin/
 If you want to access all the paths prefixed with `/admin/users`, then `HTTP path` fill in `/users*`; if you want to access the edit page, then `HTTP path` fill in `/users/*/edit`; if the method of each path in multiple paths is different, then `HTTP path` fill in `GET:users/*'. `.
 
 
-If the above method is not sufficient, `HTTP path` also supports route aliases, such as `admin.users.show`
+If the above method is not sufficient, `HTTP path` also supports **routing aliases**, such as `admin.users.show`.
 
 
-## Disable permissions function
+### Disable permissions function
 
 Setting the value of the `admin.permission.enable` configuration parameter to `false` completely disables the built-in permission system.
 
-## Skip permission validation
+### Super Administrator
 
-Interfaces that need to skip permission validation can be added to the configuration file `admin.permission.except` parameter
+The default role `administrator` in `Dcat Admin` is the super admin role, do not change the identity or it will become a normal role.
+
+### Skip privilege verification
+
+Interfaces that require skipping permission validation can be added to the configuration file `admin.permission.except` parameter.
 
 ```php
 	'permission' => [
@@ -40,11 +44,11 @@ Interfaces that need to skip permission validation can be added to the configura
 	],
 ```
 
-## Page control
+### Page control
 
 If you want to control a user's permissions on a page, consider the following example
 
-### Scenario 1
+#### Scenario 1
 
 For example, now there is a scenario to do permission management for the article publishing module to create articles
 
@@ -67,7 +71,7 @@ class PostController extends Controller
 ```
 This completes the permissions control of a page.
 
-### Scenario 2
+#### Scenario 2
 
 If you want to control the user's display of an element in a table, you need to define two permissions, such as the permissions `delete-image` and `view-title-column`, which are used to control the permission to delete an image and the permission to display a column, respectively.：
 ```php
@@ -85,7 +89,7 @@ if (Admin::user()->can('view-title-column')) {
 }
 ```
 
-## Related methods
+### Related methods
 
 Get the current user object
 ```php
@@ -132,7 +136,7 @@ Is it one of the roles?
 Admin::user()->inRoles(['editor', 'developer']);
 ```
 
-## Privilege Middleware
+### Privilege Middleware
 
 Route configuration can be combined with permission middleware to control permissions on routes
 
@@ -171,7 +175,7 @@ Route::group([
 
 Permissions middleware is used in the same way as other middleware.
 
-## Why does it still say no access even though I have configured roles and permissions?
+### Why does it still say no access even though I have configured roles and permissions?
 
 The reason for this may be due to a misconfiguration of the `URL` path of the privilege, the correct `URL` configuration that contains the add/drop check function should be something like `auth/users*`, if you configure it as `auth/users/*`, then it will indicate that there is no right to access.
 

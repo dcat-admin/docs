@@ -73,7 +73,7 @@ See [form validation](model-form-validation.md) for more details.
 
 
 <a name="saving"></a>
-### Convert data format before saving (saving)
+### Modify form input values to be saved (saving)
 
 The `saving` method allows you to change the format of the data to be saved.
 
@@ -92,7 +92,7 @@ $form->mutipleFile('files')->saving(function ($paths) {
 ```
 
 <a name="customFormat"></a>
-### Format the data to be rendered (customFormat)
+### Modify form data display (customFormat)
 The `customFormat` method can be used to change the value of a field injected into the form from an external source.
 
 In the following example the `mutipleFile` field requires that the field values to be rendered be in array format, we can convert the field values from the database to `array` format by using the `customFormat` method.

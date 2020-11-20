@@ -1,5 +1,30 @@
 # BETA version update log
 
+### v2.0.9-beta
+
+Posted on 2020/11/18
+
+To upgrade the method, execute the following step-by-step commands
+```bash
+composer remove dcat/laravel-admin
+composer require dcat/laravel-admin:"2.0.9-beta"
+php artisan admin:publish --assets --force
+php artisan admin:publish --migrations --force # 表结构有变动
+php artisan migrate
+```
+
+
+**Bug Fix**.
+
+1. fix the function failure of form `filter::select` form remote load `/load/ajax` etc.
+2. fix the front-end `moment-timezone` component path loading error [#701](https://github.com/jqhph/dcat-admin/issues/701)
+3. fix the problem of not being able to set permissions due to `Form::tree` not being able to save data.
+4. fix the problem of filling default value exception when the `hasMany` form has the same field name as the parent table.
+5. repair the problem of adding new page report when form `tab` layout is nested with `row` layout [#648](https://github.com/jqhph/dcat-admin/issues/648)
+6. fix the problem of not being able to get all the values under `range` after submission when the form has `range` type field.
+7. fix the problem that select2 component is invalid when `Form::select` uses form linkage.
+
+
 ### v2.0.8-beta
 
 Posted on 2020/11/16
