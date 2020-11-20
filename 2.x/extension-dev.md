@@ -11,7 +11,12 @@
 
 ## 开始之前
 
-在开始开发扩展之前，如果是`linux`环境，请先手动在项目根目录创建一个`dcat-admin-extensions`目录，并设置可读**可写**权限，扩展文件将会被安装在`dcat-admin-extensions`目录。
+在开始开发扩展之前，如果是`linux`环境，请先手动在项目根目录创建一个`dcat-admin-extensions`目录，并设置可读**可写**权限，扩展文件将会被安装在`dcat-admin-extensions`目录，请保证拥有以下几个目录的读写权限
+
+1. `项目目录/dcat-admin-extensions` 扩展的安装目录，可以根据配置参数 `admin.extensions.dir` 进行更改
+2. `public/vendor` 扩展静态资源发布目录
+3. `resources/lang` 语言包目录
+
 
 ## 1.创建扩展
 

@@ -1,5 +1,30 @@
 # BETA版本更新日志
 
+
+### v2.0.9-beta
+
+发布时间 2020/11/18
+
+升级方法，逐步执行以下命令
+```bash
+composer remove dcat/laravel-admin
+composer require dcat/laravel-admin:"2.0.9-beta"
+php artisan admin:publish --assets --force
+php artisan admin:publish --migrations --force # 表结构有变动
+php artisan migrate
+```
+
+**Bug修复**
+
+1. 修复表格`filter::select` 表单远程加载 `/load/ajax` 等功能失效问题
+2. 修复前端 `moment-timezone` 组件路径加载错误问题 [#701](https://github.com/jqhph/dcat-admin/issues/701)
+3. 修复 `Form::tree`无法保存数据导致的无法设置权限问题
+4. 修复当 `hasMany` 表单与父表有同样字段名称时填充值默认值异常问题
+5. 修复表单`tab`布局嵌套`row`布局时新增页面报错问题 [#648](https://github.com/jqhph/dcat-admin/issues/648)
+6. 修复当表单存在 `range` 类型字段时提交后无法获取 `range` 下面所有表单值问题
+7. 修复 `Form::select` 使用表单联动功能时select2组件无效问题
+
+
 ### v2.0.8-beta
 
 发布时间 2020/11/16

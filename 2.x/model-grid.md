@@ -141,7 +141,7 @@ $grid->withBorder(false);
 
 ## 基本使用方法
 
-### 添加列
+### 添加列 (column)
 
 ```php
 // 添加单列
@@ -204,7 +204,7 @@ $grid->column('column_not_in_table')->display(function () {
 });
 ```
 
-### 显示序号
+### 显示序号 (number)
 
 通过`number`方法可以在表格中添加一列从`1`开始计算的行序号列
 
@@ -456,6 +456,12 @@ $grid->disablePerPages();
 
 ```php
 $grid->addTableClass(['class1', 'class2']);
+```
+
+### 设置表格文字居中
+
+```php
+$grid->addTableClass(['table-text-center']);
 ```
 
 

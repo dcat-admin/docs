@@ -108,6 +108,8 @@ $tree->branch(function ($branch) {
 ```
 在回调函数中返回的字符串类型数据，就是在树状组件中的每一行的显示内容，`$branch`参数是当前行的数据数组。
 
+### 修改模型查询条件
+
 如果要修改模型的查询，用下面的方式
 ```php
 $tree->query(function ($model) {
@@ -115,9 +117,42 @@ $tree->query(function ($model) {
 });
 ```
 
+### 限制最大层级数
+
+默认 `5`
+
+```php
+$tree->maxDepth(3);
+```
+
+## 自定义行操作
+
+```php
+use Dcat\Admin\Tree;
+
+$tree->actions(function (Tree\Actions $actions) {
+    if ($actions->row->id > 5) {
+        $actions->disableDelete(); // 禁用删除按钮
+    }
+
+    // 添加新的action
+    $actions->append(...);
+});
+
+// 批量添加action
+$tree->actions([
+    new Action1(),
+    "<div>...</div>",
+    ...
+]);
+```
+
+自定义复杂操作，参考[模型树动作](action-tree.md#row-action)
+
 ## 自定义工具栏按钮
 
 请参考文档[模型树动作](action-tree.md)
+
 
 
 
