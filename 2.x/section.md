@@ -89,10 +89,12 @@ var_dump(admin_has_default_section('navigation'));
 
 ### 往&lt;head>标签内输入内容
 
-此通过`AdminSection::HEAD`区块可以往`<head>`标签内输入内容。
+此通过`Dcat\Admin\Admin::SECTION['HEAD']`区块可以往`<head>`标签内输入内容。
 
 在`app\Admin\bootstrap.php`中加入以下代码：
 ```php
+use Dcat\Admin\Admin;
+
 admin_inject_section(\AdminSection::HEAD, function () {
     return '<script src="//oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>';
 });
@@ -100,31 +102,31 @@ admin_inject_section(\AdminSection::HEAD, function () {
 
 ### 往&lt;body>标签内输入内容
 
-通过`AdminSection::BODY_INNER_BEFORE`区块可以往`<body>`标签内部的开头位置输入内容。
+通过`Admin::SECTION['BODY_INNER_BEFORE']`区块可以往`<body>`标签内部的开头位置输入内容。
 
-通过`AdminSection::BODY_INNER_AFTER`区块可以往`<body>`标签内部的结束位置输入内容。
+通过`Admin::SECTION['BODY_INNER_AFTER']`区块可以往`<body>`标签内部的结束位置输入内容。
 
 
 ### 往&lt;div id="app">标签内输入内容
 
-通过`AdminSection::APP_INNER_BEFORE`区块可以往`<div id="app">`标签内部的开头位置输入内容。
+通过`Admin::SECTION['APP_INNER_BEFORE']`区块可以往`<div id="app">`标签内部的开头位置输入内容。
 
-通过`AdminSection::APP_INNER_AFTER`区块可以往`<div id="app">`标签内部的结束位置输入内容。
+通过`Admin::SECTION['APP_INNER_AFTER']`区块可以往`<div id="app">`标签内部的结束位置输入内容。
 
 ### 更改顶部导航栏用户信息面板内容
 
 通过`AdminSection::NAVBAR_USER_PANEL`区块可以更改顶部导航栏的用户信息面板内容。
 
 ```php
-admin_inject_section(\AdminSection::NAVBAR_USER_PANEL, view('admin::partials.navbar-user-panel'));
+admin_inject_section(Admin::SECTION['NAVBAR_USER_PANEL'], view('admin::partials.navbar-user-panel'));
 ```
 
 ### 更改顶部导航栏用户信息面板后面内容
 
-通过`AdminSection::NAVBAR_AFTER_USER_PANEL`区块可以更改顶部导航栏的用户信息面板后面的内容。
+通过`Admin::SECTION['NAVBAR_AFTER_USER_PANEL']`区块可以更改顶部导航栏的用户信息面板后面的内容。
 
 ```php
-admin_inject_section(\AdminSection::NAVBAR_AFTER_USER_PANEL, function () {
+admin_inject_section(Admin::SECTION['NAVBAR_AFTER_USER_PANEL'], function () {
     return <<<HTML
     <li>
         <a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>
@@ -135,9 +137,9 @@ HTML;
 
 ### 更改菜单栏用户信息面板内容
 
-通过`AdminSection::LEFT_SIDEBAR_USER_PANEL`区块可以更改菜单栏的用户信息面板的内容。
+通过`Admin::SECTION['LEFT_SIDEBAR_USER_PANEL']`区块可以更改菜单栏的用户信息面板的内容。
 ```php
- admin_inject_section(\AdminSection::LEFT_SIDEBAR_USER_PANEL, view('admin::partials.sidebar-user-panel'));
+ admin_inject_section(Admin::SECTION['LEFT_SIDEBAR_USER_PANEL'], view('admin::partials.sidebar-user-panel'));
 ```
 
 ### 更改菜单栏
@@ -149,7 +151,7 @@ HTML;
 use Dcat\Admin\Support\Helper;
 use Dcat\Admin\Admin;
 
-admin_inject_section(\AdminSection::LEFT_SIDEBAR_MENU, function () {
+admin_inject_section(Admin::SECTION['LEFT_SIDEBAR_MENU'], function () {
     $menuModel = config('admin.database.menu_model');
 	
 	$builder = Admin::menu();
