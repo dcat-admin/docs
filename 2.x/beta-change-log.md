@@ -1,5 +1,97 @@
 # BETA版本更新日志
 
+### v2.0.10-beta
+
+发布时间 2020/11/29
+
+升级方法，逐步执行以下命令
+```bash
+composer remove dcat/laravel-admin
+composer require dcat/laravel-admin:"2.0.9-beta"
+php artisan admin:publish --assets --force
+php artisan admin:publish --migrations --force # 表结构有变动
+php artisan migrate
+```
+
+### 功能改进
+
+**1.增加表单右上角提示窗展示字段验证错误信息**
+
+此功能默认开启，可以通过`validationErrorToastr`方法禁用
+
+```php
+$form->validationErrorToastr(false);
+```
+
+**2.增加 Tree::maxDepth 方法用于限制模型树最大层级**
+
+```php
+$tree->maxDepth(5);
+```
+
+**3.优化导出功能，支持标题设置关联关系字段以及自动读取grid表格列的标题**
+
+在当前版本中导出列默认与`column`列一致，不再需要手动设置导出的列名称以及翻译，并且支持关联关系字段
+
+```php
+$grid->column('id');
+$grid->column('name');
+...
+
+// 默认与上面的列相同
+$grid->export();
+```
+
+**4.工具表单增加resetButton与submitButton方法**
+
+```php
+// 禁用重置和提交按钮
+$form->resetButton(false);
+$form->submitButton(false);
+```
+
+**5.表单字段的`disable`以及`readOnly`方法增加参数控制是否启用**
+
+```php
+// 传 false 则不启用
+$form->text(...)->disable(false);
+```
+
+**6.文件上传增加`withDeleteData`允许用户设置请求参数，并在上传接口以及删除接口中增加主键字段**
+
+通过 `withDeleteData` 方法可以传递自定义参数到文件删除接口
+
+```php
+$form->file(...)->withDeleteData(['key' => 'value]);
+```
+
+**7.增加`embeds`表单禁止显示标题功能`**
+
+第二个参数传 `false` 则不显示标题
+
+```php
+$form->embeds('field', false, function ($form) {
+    ...
+});
+```
+
+**8.重新编写部分单元测试用例，以支持2.x用法**
+
+### Bug修复
+
+1. 修复管理员详情页无法选中已有权限问题 
+2. 修复 `admin:export-seed` 命令导出 `seeder` 类名异常问题
+3. 修复表单删除跳转异常问题
+4. 修复表单继续编辑跳转异常问题
+5. 修复父表与 `hasMany` 存在同样字段名称时无法保存父表字段问题
+6. 修复暗黑模式下选中子菜单样式异常问题 [#712](https://github.com/jqhph/dcat-admin/issues/712)
+7. 修复表单 `block` 布局下表单动态显示功能无效问题 [#723](https://github.com/jqhph/dcat-admin/issues/723)
+8. 优化 `selectOptions` 层级结构显示，解决前缀呈现随层级深度指数增加问题 [#618](https://github.com/jqhph/dcat-admin/issues/618)
+9. 修复 `admin_view` 没有返回数据问题
+10. 修复 `select` 表单 `ajax` 以及 `load` 设置的链接不能带参数问题 [#745](https://github.com/jqhph/dcat-admin/issues/745)
+11. 修复表格行操作 `action` 的 `handle` 方法只能获取最后一行数据的 `id` 问题
+12. 修复 `list` 表单编辑页无法删除已有数据问题 [#759](https://github.com/jqhph/dcat-admin/issues/723)
+13. 修复 `embeds` 范围表单 `name` 属性错误问题
 
 ### v2.0.9-beta
 
