@@ -7,7 +7,7 @@
 升级方法，逐步执行以下命令
 ```bash
 composer remove dcat/laravel-admin
-composer require dcat/laravel-admin:"2.0.9-beta"
+composer require dcat/laravel-admin:"2.0.10-beta"
 php artisan admin:publish --assets --force
 php artisan admin:publish --migrations --force # 表结构有变动
 php artisan migrate
