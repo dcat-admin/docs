@@ -114,12 +114,12 @@ $navbar->right(view('...'));
 打开`app/Admin/bootstrap.php`，写入
 
 ```php
-admin_inject_section(\AdminSection::NAVBAR_USER_PANEL, function () {
+admin_inject_section(Admin::SECTION['NAVBAR_USER_PANEL'], function () {
 	return view('admin.partials.navbar-user-panel', ['user' => Admin::user()]);
 });
 ```
 
-`navbar-user-panel.blade.php`视图内容
+`partials.navbar-user-panel.blade.php`视图内容
 ```php
 @if($user)
 <li class="dropdown dropdown-user nav-item">
