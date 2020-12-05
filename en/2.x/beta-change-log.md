@@ -1,5 +1,98 @@
 # BETA version update log
 
+### v2.0.10-beta
+
+
+Posted on 2020/11/29
+
+To upgrade the method, execute the following step-by-step commands
+```bash
+composer remove dcat/laravel-admin
+composer require dcat/laravel-admin:"2.0.10-beta"
+php artisan admin:publish --assets --force
+php artisan admin:publish --migrations --force # Table structure changed.
+php artisan migrate
+```
+### Functional improvements
+
+**1. Add a prompt window in the upper right corner of the form to display field validation error messages**.
+
+This feature is enabled by default and can be disabled by the `validationErrorToastr` method.
+
+```php
+$form->validationErrorToastr(false);
+```
+
+**2.Add Tree::maxDepth method to limit the maximum level of the model tree **.
+
+```php
+$tree->maxDepth(5);
+```
+
+**3. Optimize the export function, support title settings associated with the relational fields and automatically read the title of the grid column **.
+
+In the current version, exported columns are the same as `column` columns by default, so you no longer need to set the exported column name and translation manually, and the associated relational fields are supported.
+
+```php
+$grid->column('id');
+$grid->column('name');
+...
+
+// Default is the same as the column above
+$grid->export();
+```
+
+**4. Add a resetButton and submitButton method to the tool form**.
+
+```php
+// Disable the Reset and Submit buttons
+$form->resetButton(false);
+$form->submitButton(false);
+```
+
+**5. Add parameters to the `disable` and `readOnly` methods of the form fields to control whether they are enabled or not**.
+
+```php
+// pass false to disable
+$form->text(...)->disable(false);
+```
+
+**6. Adding `withDeleteData` to file uploads allows users to set request parameters and add primary key fields to the upload and delete interfaces**.
+
+The `withDeleteData` method allows you to pass custom parameters to the file delete interface.
+
+```php
+$form->file(...)->withDeleteData(['key' => 'value]);
+```
+
+**7. Add `embeds` form to disable display of titles**.
+
+The second parameter, passed as `false`, does not display the title.
+
+```php
+$form->embeds('field', false, function ($form) {
+    ...
+});
+```
+
+**8. Rewrite some of the unit test cases to support 2.x usage**.
+
+### Bug fixes
+
+1. fix the problem that existing permissions cannot be selected on admin detail page.
+2. fix the problem of `admin:export-seed` command exporting `seeder` class name exception.
+3. fix the form deletion jump exception
+4. fix the problem of form jumping exception when continuing to edit.
+5. fix the problem that parent table fields cannot be saved when parent table and `hasMany` have the same field name.
+6. fix the problem that the style of selected submenu is abnormal in dark mode [#712](https://github.com/jqhph/dcat-admin/issues/712)
+7. fix the problem that form dynamic display function is invalid under form `block` layout [#723](https://github.com/jqhph/dcat-admin/issues/723)
+8. optimize the display of `selectOptions` hierarchy and solve the problem of prefix rendering increasing with the hierarchy depth index [#618](https://github.com/jqhph/dcat-admin/issues/618)
+9. fix the problem that `admin_view` does not return data.
+10. fix the problem that links set by `select` form, `ajax` and `load` cannot take parameters [#745](https://github.com/jqhph/dcat-admin/issues/745)
+11. fix the problem that the `handle` method of the table row operation `action` can only get `id` of the last row of data.
+12. fix the problem that `list` form edit page cannot delete existing data [#759](https://github.com/jqhph/dcat-admin/issues/723)
+13. Fix the error in the `embeds` scope form's `name` attribute.
+    
 ### v2.0.9-beta
 
 Posted on 2020/11/18

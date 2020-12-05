@@ -85,46 +85,48 @@ var_dump(admin_has_default_section('navigation'));
 
 The `Dcat Admin` predefines blocks through which the developer can change the content of the page.
 
-All predefined block names are defined in the class `AdminSection`, which is accessed by means of class constants.
+All predefined block names are defined in the `Dcat\Admin\Admin::SECTION` class constant, which is accessed by way of class constants.
 
 ### Enter content into the &lt;head> tag
 
-Here the `AdminSection::HEAD` block allows you to enter content into the `<head>` tag.
+Here the `Admin::SECTION['HEAD']` block allows you to enter content into the `<head>` tag.
 
 Add the following code to `app\Admin\bootstrap.php`：
 ```php
-admin_inject_section(\AdminSection::HEAD, function () {
+use Dcat\Admin\Admin;
+
+admin_inject_section(Admin::SECTION['HEAD'], function () {
     return '<script src="//oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>';
 });
 ```
 
 ### Enter content into the &lt;body> tag
 
-The `AdminSection::BODY_INNER_BEFORE` block allows you to enter content to the beginning of the `<body>` tag interior.
+The `Admin::SECTION['BODY_INNER_BEFORE']` block allows you to enter content into the beginning of the interior of the `<body>` tag.
 
-The `AdminSection::BODY_INNER_AFTER` block allows you to enter content to the end position inside the `<body>` tag.
+The `Admin::SECTION['BODY_INNER_AFTER']` block allows you to enter content into the end position inside the `<body>` tag.
 
 
 ### Enter content into the &lt;div id="app"> tag
 
-The `AdminSection::APP_INNER_BEFORE` block allows you to enter content into the beginning of the `<div id="app">` tag interior.
+The `Admin::SECTION['APP_INNER_BEFORE']` block allows you to enter content into the beginning of the `<div id="app">` tag interior.
 
-The `AdminSection::APP_INNER_AFTER` block allows you to enter content to the end position inside the `<div id="app">` tag.
+The `Admin::SECTION['APP_INNER_AFTER']` block allows you to enter content into the end position inside the `<div id="app">` tag.
 
 ### Changing the contents of the user information panel in the top navigation bar
 
-The `AdminSection::NAVBAR_USER_PANEL` block allows you to change the contents of the user information panel in the top navigation bar.
+The `Admin::SECTION['NAVBAR_USER_PANEL']` block allows you to change the contents of the user information panel in the top navigation bar.
 
 ```php
-admin_inject_section(\AdminSection::NAVBAR_USER_PANEL, view('admin::partials.navbar-user-panel'));
+admin_inject_section(Admin::SECTION['NAVBAR_USER_PANEL'], view('admin::partials.navbar-user-panel'));
 ```
 
 ### Changing the content behind the user information panel in the top navigation bar
 
-The `AdminSection::NAVBAR_AFTER_USER_PANEL` block allows you to change the content behind the user information panel in the top navigation bar.
+The `Admin::SECTION['NAVBAR_AFTER_USER_PANEL']` block allows you to change the content behind the user information panel in the top navigation bar.
 
 ```php
-admin_inject_section(\AdminSection::NAVBAR_AFTER_USER_PANEL, function () {
+admin_inject_section(Admin::SECTION['NAVBAR_AFTER_USER_PANEL'], function () {
     return <<<HTML
     <li>
         <a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>
@@ -135,21 +137,21 @@ HTML;
 
 ### Changing the contents of the menu bar user information panel
 
-The `AdminSection::LEFT_SIDEBAR_USER_PANEL` block allows you to change the contents of the user information panel of the menu bar.
+The `Admin::SECTION['LEFT_SIDEBAR_USER_PANEL']` block allows you to change the contents of the user information panel in the menu bar.
 ```php
- admin_inject_section(\AdminSection::LEFT_SIDEBAR_USER_PANEL, view('admin::partials.sidebar-user-panel'));
+  admin_inject_section(Admin::SECTION['LEFT_SIDEBAR_USER_PANEL'], view('admin::partials.sidebar-user-panel'));
 ```
 
 ### Changing the menu bar
 
-The entire menu bar content can be changed with `AdminSection::LEFT_SIDEBAR_MENU`.
-> {tip} The `Dcat Admin` menu is built by injecting default content into the `LEFT_SIDEBAR_MENU` block and developers can easily replace the system's default menu rendering logic.
+The entire menu bar content can be changed with `Admin::SECTION['LEFT_SIDEBAR_MENU']`.
+> {tip} The menu of `Dcat Admin` is built by injecting default content into the `LEFT_SIDEBAR_MENU` block, which allows the developer to replace the system's default menu rendering logic.
 
 ```php
 use Dcat\Admin\Support\Helper;
 use Dcat\Admin\Admin;
 
-admin_inject_section(\AdminSection::LEFT_SIDEBAR_MENU, function () {
+admin_inject_section(Admin::SECTION['LEFT_SIDEBAR_MENU'], function () {
     $menuModel = config('admin.database.menu_model');
 	
 	$builder = Admin::menu();

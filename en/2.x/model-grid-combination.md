@@ -15,26 +15,25 @@ protected function grid()
         // The first parameter is the primary table header field name, the second field is the secondary table header field name, the secondary table header field is set to at least two
         $grid->combine('avgCost', ['avgMonthCost', 'avgQuarterCost', 'avgYearCost']);
         
-        // Enable the RWD-Table-Patterns plugin
-        $grid->combine('avgVist', ['avgMonthVist', 'avgQuarterVist', 'avgYearVist'])->responsive();
+        $grid->combine('avgVist', ['avgMonthVist', 'avgQuarterVist', 'avgYearVist']);
         
-        // Enable the RWD-Table-Patterns plugin and set the style
-        $grid->combine('top', ['topCost', 'topVist', 'topIncr'])->responsive()->style('color:#1867c0');
+        // Set the style
+        $grid->combine('top', ['topCost', 'topVist', 'topIncr'])->style('color:#1867c0');
         
-        $grid->content->limit(50)->responsive();
-        $grid->cost->sortable()->responsive();
-        $grid->avgMonthCost->responsive();
-        $grid->avgQuarterCost->responsive()->setHeaderAttributes(['style' => 'color:#5b69bc']);
-        $grid->avgYearCost->responsive();
-        $grid->avgMonthVist->responsive();
-        $grid->avgQuarterVist->responsive();
-        $grid->avgYearVist->responsive();
+        $grid->content->limit(50);
+        $grid->cost->sortable();
+        $grid->avgMonthCost;
+        $grid->avgQuarterCost->setHeaderAttributes(['style' => 'color:#5b69bc']);
+        $grid->avgYearCost;
+        $grid->avgMonthVist;
+        $grid->avgQuarterVist;
+        $grid->avgYearVist;
         $grid->incrs->hide();
         $grid->avgVists->hide();
-        $grid->topCost->responsive();
-        $grid->topVist->responsive();
-        $grid->topIncr->responsive();
-        $grid->date->sortable()->responsive();
+        $grid->topCost;
+        $grid->topVist;
+        $grid->topIncr;
+        $grid->date->sortable();
     });
 }
 ```

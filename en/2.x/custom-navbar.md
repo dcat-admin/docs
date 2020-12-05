@@ -99,6 +99,7 @@ $navbar->right(view('...'));
     </li>
 </ul>
 ```
+
 Usage
 
 ```php
@@ -113,7 +114,7 @@ More components can be found at [AdminLTE3](https://github.com/ColorlibHQ/AdminL
 Open `app/Admin/bootstrap.php`, write
 
 ```php
-admin_inject_section(\AdminSection::NAVBAR_USER_PANEL, function () {
+admin_inject_section(Admin::SECTION['NAVBAR_USER_PANEL'], function () {
 	return view('admin.partials.navbar-user-panel', ['user' => Admin::user()]);
 });
 ```
