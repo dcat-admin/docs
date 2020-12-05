@@ -36,7 +36,7 @@ use Dcat\Admin\Grid;
 
 $grid->filter(function (Grid\Filter $filter) {
     // 更改为 rightSide 布局
-    $grid->rightSide();
+    $filter->rightSide();
     
     ...
 });

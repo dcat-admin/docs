@@ -15,26 +15,25 @@ protected function grid()
         // 第一个参数为一级表头字段名称，第二个字段为二级表头字段名称，二级表头字段最少设置两个
         $grid->combine('avgCost', ['avgMonthCost', 'avgQuarterCost', 'avgYearCost']);
         
-        // 启用RWD-Table-Patterns插件
-        $grid->combine('avgVist', ['avgMonthVist', 'avgQuarterVist', 'avgYearVist'])->responsive();
+        $grid->combine('avgVist', ['avgMonthVist', 'avgQuarterVist', 'avgYearVist']);
         
-        // 启用RWD-Table-Patterns插件并设置样式
-        $grid->combine('top', ['topCost', 'topVist', 'topIncr'])->responsive()->style('color:#1867c0');
+        // 设置样式
+        $grid->combine('top', ['topCost', 'topVist', 'topIncr'])->style('color:#1867c0');
         
-        $grid->content->limit(50)->responsive();
-        $grid->cost->sortable()->responsive();
-        $grid->avgMonthCost->responsive();
-        $grid->avgQuarterCost->responsive()->setHeaderAttributes(['style' => 'color:#5b69bc']);
-        $grid->avgYearCost->responsive();
-        $grid->avgMonthVist->responsive();
-        $grid->avgQuarterVist->responsive();
-        $grid->avgYearVist->responsive();
+        $grid->content->limit(50);
+        $grid->cost->sortable();
+        $grid->avgMonthCost;
+        $grid->avgQuarterCost->setHeaderAttributes(['style' => 'color:#5b69bc']);
+        $grid->avgYearCost;
+        $grid->avgMonthVist;
+        $grid->avgQuarterVist;
+        $grid->avgYearVist;
         $grid->incrs->hide();
         $grid->avgVists->hide();
-        $grid->topCost->responsive();
-        $grid->topVist->responsive();
-        $grid->topIncr->responsive();
-        $grid->date->sortable()->responsive();
+        $grid->topCost;
+        $grid->topVist;
+        $grid->topIncr;
+        $grid->date->sortable();
     });
 }
 ```

@@ -13,6 +13,15 @@ use Dcat\Admin\Http\JsonResponse;
 return JsonResponse::make()->success('成功！');
 ```
 
+如果是在控制器中使用，需要加上`send`方法
+
+```php
+public function index()
+{
+    return JsonResponse::make()->success('成功！')->send();
+}
+```
+
 
 ### 功能
 下面介绍一下 `JsonResponse` 的主要用法

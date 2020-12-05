@@ -114,7 +114,7 @@ $navbar->right(view('...'));
 打开`app/Admin/bootstrap.php`，写入
 
 ```php
-admin_inject_section(\AdminSection::NAVBAR_USER_PANEL, function () {
+admin_inject_section(Admin::SECTION['NAVBAR_USER_PANEL'], function () {
 	return view('admin.partials.navbar-user-panel', ['user' => Admin::user()]);
 });
 ```

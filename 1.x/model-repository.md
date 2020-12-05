@@ -1,7 +1,7 @@
 # 数据仓库
 
 
-数据仓库(`Repository`)是`Dcat Admin`中对数据增删改查操作接口的具体实现，通过`Repository`的介入可以让页面的构建不再关心数据读写功能的具体实现，开发者通过实现`Repository`接口即可对数据进行读写操作。
+数据仓库(`Repository`)是`Dcat Admin`中对数据增删改查操作接口的具体实现，通过`Repository`的介入可以让页面的构建不再关心数据读写功能的具体实现，开发者需要继承 `Dcat\Admin\Repositories\Repository` 这个抽象类即可对数据进行读写操作，这个抽象类实现了 `Dcat\Admin\Contracts\Repository` 与 `Dcat\Admin\Contracts\TreeRepository` 接口
 
 > {tip} 当然为了方便系统也保留了直接使用 `Model` 的功能，底层会自动把`Model`转化为数据仓库实例，毕竟大多数时候直接使用 `Model` 也能满足我们的需求。
 
