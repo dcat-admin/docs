@@ -52,7 +52,7 @@
 
 ### Exchange
 
-**QQQQQun** 704661955
+**QQ group** 704661955
 
 **Extension Developer QQ group** 679738409
 
