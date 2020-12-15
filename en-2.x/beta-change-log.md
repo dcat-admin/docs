@@ -1,5 +1,57 @@
 # BETA version update log
 
+### v2.0.11-beta
+
+Release date 2020/12/06
+
+To upgrade, step-by-step execute the following command
+```bash
+composer remove dcat/laravel-admin
+composer require dcat/laravel-admin: "2.0.11-beta"
+php artisan admin:publish --assets --force
+php artisan admin:publish --migrations --force # table structure changes
+php artisan migrate
+```
+
+
+### Bug fixes
+
+1. fix `Dcat.init` listener failure due to repeated page refreshes using `pjax`
+2. fix `admin:export-seed --users` which generates redundant code
+3. repair the problem of abnormal jumping after saving the form editing page
+4. repair the problem that `hasMany` will add data repeatedly if you choose to continue editing on the form page
+5. fix the problem that the original `select2 config` is lost after linking `select` forms [#779](https://github.com/jqhph/dcat-admin/issues/779)
+6. fix `map` form loading exception problem [#764](https://github.com/jqhph/dcat-admin/issues/764)
+7. fix the problem that the page cannot be refreshed automatically after the data is deleted by the batch delete function
+8. fix the problem that `hasMany` form editing page cannot display `row` and `column` layouts properly
+9. fix the problem that `Dcat.init` listener will be unbound by asynchronous pop-up window
+10. fix a bug that the table toolbar dropdown menu is blocked by the fixed list pane [#728](https://github.com/jqhph/dcat-admin/issues/728)
+11. fix a problem where cached content is still read when `showColumnSelector` is disabled
+
+### Functional improvements
+
+**1. Add title parameter to Form::divider**.
+
+Add `title` parameter to display the title in the middle of the divider, usage
+
+``` php
+$form->divider('title');
+```
+
+
+**2. Grid::footer and Grid::header adjusted to support multiple callbacks**
+
+``` php
+$grid->header(...) ;
+
+$grid->header(...) ;
+
+$grid->header(...) ;
+```
+
+**3. Optimize form specification filters and select form styles**
+
+
 ### v2.0.10-beta
 
 
@@ -90,7 +142,7 @@ $form->embeds('field', false, function ($form) {
 9. fix the problem that `admin_view` does not return data.
 10. fix the problem that links set by `select` form, `ajax` and `load` cannot take parameters [#745](https://github.com/jqhph/dcat-admin/issues/745)
 11. fix the problem that the `handle` method of the table row operation `action` can only get `id` of the last row of data.
-12. fix the problem that `list` form edit page cannot delete existing data [#759](https://github.com/jqhph/dcat-admin/issues/723)
+12. fix the problem that `list` form edit page cannot delete existing data [#759](https://github.com/jqhph/dcat-admin/issues/759)
 13. Fix the error in the `embeds` scope form's `name` attribute.
     
 ### v2.0.9-beta
