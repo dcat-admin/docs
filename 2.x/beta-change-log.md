@@ -1,5 +1,57 @@
 # BETA版本更新日志
 
+### v2.0.11-beta
+
+发布时间 2020/12/06
+
+升级方法，逐步执行以下命令
+```bash
+composer remove dcat/laravel-admin
+composer require dcat/laravel-admin:"2.0.11-beta"
+php artisan admin:publish --assets --force
+php artisan admin:publish --migrations --force # 表结构有变动
+php artisan migrate
+```
+
+### Bug修复
+
+1. 修复使用 `pjax` 重复刷新页面可能导致 `Dcat.init` 监听失效问题
+2. 修复 `admin:export-seed --users` 会生成多余代码问题
+3. 修复表单编辑页面保存后跳转异常问题
+4. 修复表单页面选择继续编辑会导致 `hasMany` 重复添加数据问题
+5. 修复 `select` 表单联动后原 `select2 config` 丢失问题 [#779](https://github.com/jqhph/dcat-admin/issues/779)
+6. 修复 `map` 表单加载异常问题 [#764](https://github.com/jqhph/dcat-admin/issues/764)
+7. 修复批量删除功能删除数据后无法自动刷新页面问题
+8. 修复 `hasMany` 表单编辑页面无法正常展示 `row` 以及 `column` 布局问题
+9. 修复 `Dcat.init` 监听会被异步弹窗解绑问题
+10. 修复表格工具栏下拉菜单会被固定列表格遮挡问题  [#728](https://github.com/jqhph/dcat-admin/issues/728)
+11. 修复禁用 `showColumnSelector` 时仍然会读取缓存内容问题
+
+
+### 功能改进
+
+**1.Form::divider 增加 title 参数**
+
+增加 `title` 参数用于在分割线中间显示标题功能，用法
+
+```php
+$form->divider('标题');
+```
+
+
+**2.Grid::footer以及Grid::header调整为支持多次回调**
+
+```php
+$grid->header(...);
+
+$grid->header(...);
+
+$grid->header(...);
+```
+
+**3.优化表格规格筛选器以及select表单样式**
+
+
 ### v2.0.10-beta
 
 发布时间 2020/11/29
@@ -90,7 +142,7 @@ $form->embeds('field', false, function ($form) {
 9. 修复 `admin_view` 没有返回数据问题
 10. 修复 `select` 表单 `ajax` 以及 `load` 设置的链接不能带参数问题 [#745](https://github.com/jqhph/dcat-admin/issues/745)
 11. 修复表格行操作 `action` 的 `handle` 方法只能获取最后一行数据的 `id` 问题
-12. 修复 `list` 表单编辑页无法删除已有数据问题 [#759](https://github.com/jqhph/dcat-admin/issues/723)
+12. 修复 `list` 表单编辑页无法删除已有数据问题 [#759](https://github.com/jqhph/dcat-admin/issues/759)
 13. 修复 `embeds` 范围表单 `name` 属性错误问题
 
 ### v2.0.9-beta
