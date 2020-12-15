@@ -154,13 +154,13 @@ Dcat.error('服务器出现未知错误', null, {
 
 ### warning
 ```js
-Dcat.error('警告');
+Dcat.warning('警告');
 
 // 使用标题
-Dcat.error('警告', '我是标题');
+Dcat.warning('警告', '我是标题');
 
 // 传递参数
-Dcat.error('警告', null, {
+Dcat.warning('警告', null, {
     timeOut: 5000, // 5秒后自动消失
 });
 ```
@@ -168,13 +168,13 @@ Dcat.error('警告', null, {
 
 ### info
 ```js
-Dcat.error('提示信息');
+Dcat.info('提示信息');
 
 // 使用标题
-Dcat.error('提示信息', '我是标题');
+Dcat.info('提示信息', '我是标题');
 
 // 传递参数
-Dcat.error('提示信息', null, {
+Dcat.info('提示信息', null, {
     timeOut: 5000, // 5秒后自动消失
 });
 ```
