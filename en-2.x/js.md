@@ -125,13 +125,13 @@ JS
 
 ### success
 ```js
-Dcat.success('更新success');
+Dcat.success('Update SUCCESS');
 
-// Use of TITLE
-Dcat.success('更新success', 'I'm TITLE.');
+// Using TITLE
+Dcat.success('Update SUCCESS', 'I am a TITLE.');
 
-// transmission parameter
-Dcat.success('更新success', null, {
+// Passing parameters
+Dcat.success('Update SUCCESS', null, {
     timeOut: 5000, // It disappears after 5 seconds.
 });
 ```
@@ -144,10 +144,10 @@ Dcat.success('更新success', null, {
 ```js
 Dcat.error('Unknown error on the server');
 
-// Use of TITLE
-Dcat.error('Unknown error on the server', 'I'm TITLE.');
+// Using TITLE
+Dcat.error('Unknown error on the server', 'I am a TITLE.');
 
-// transmission parameter
+// Passing parameters
 Dcat.error('Unknown error on the server', null, {
     timeOut: 5000, // It disappears after 5 seconds.
 });
@@ -155,13 +155,13 @@ Dcat.error('Unknown error on the server', null, {
 
 ### warning
 ```js
-Dcat.error('warning');
+Dcat.warning('warning');
 
-// 使用TITLE
-Dcat.error('warning', '我是TITLE');
+// Using TITLE
+Dcat.warning('warning', 'I am a TITLE.');
 
-// 传递参数
-Dcat.error('warning', null, {
+// Passing parameters
+Dcat.warning('warning', null, {
     timeOut: 5000, // It disappears after 5 seconds.
 });
 ```
@@ -169,13 +169,13 @@ Dcat.error('warning', null, {
 
 ### info
 ```js
-Dcat.error('tip');
+Dcat.info('tip');
 
-// 使用TITLE
-Dcat.error('tip', '我是TITLE');
+// Using TITLE
+Dcat.info('tip', 'Using TITLE');
 
-// transmission parameter
-Dcat.error('tip', null, {
+// Passing parameters
+Dcat.info('tip', null, {
     timeOut: 5000, // It disappears after 5 seconds.
 });
 ```
