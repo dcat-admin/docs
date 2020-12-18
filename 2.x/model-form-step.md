@@ -17,9 +17,9 @@ protected function form()
         $form->disableListButton();
     
         $form->multipleSteps()
-            ->remember()
+            ->remember() // 记住表单步骤，默认不开启
             ->width('950px')
-            ->add('基本信息', function (Form\StepForm $step) {
+            ->add('基本信息', function ($step) {
                 $info = '<i class="fa fa-exclamation-circle"></i> 表单字段支持前端验证和后端验证混用，前端验证支持H5表单验证以及自定义验证。';
     
                 $step->html(Alert::make($info)->info());
@@ -44,7 +44,7 @@ protected function form()
                 $step->textarea('description', '简介');
     
             })
-            ->add('兴趣爱好', function (Form\StepForm $step) {
+            ->add('兴趣爱好', function ($step) {
                 $step->tags('hobbies', '爱好')
                     ->options(['唱', '跳', 'RAP', '踢足球'])
                     ->required();
@@ -61,7 +61,7 @@ protected function form()
                 });
     
             })
-            ->add('地址', function (Form\StepForm $step) {
+            ->add('地址', function ($step) {
                 $step->text('address', '街道地址');
                 $step->text('post_code', '邮政编码');
                 $step->tel('tel', ' 联系电话');

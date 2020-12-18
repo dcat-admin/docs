@@ -48,7 +48,7 @@ This method is exactly the same as `Form\Field::rule`, except that it only works
 > {tip} If the `updateRules` method is called, the validation rules set by the `rule` method will be ignored.
 
 
-## Return custom validation error messages
+## responseValidationMessages
 
 A custom validation error message can be returned via the `Form::responseValidationMessages` method, as follows:
 ```php
@@ -64,6 +64,12 @@ if (request()->getMethod() == 'PUT') {
 
 $form->text('title');
 $form->text('content');
+
+$form->submitted(function ($form) {
+    if (...) { 
+        $form->responseValidationMessages('title', '...');
+    }
+});
 ```
 
 ## Front-end verification

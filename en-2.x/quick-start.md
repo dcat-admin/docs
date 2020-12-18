@@ -90,11 +90,11 @@ Open `http://YourDomain/admin/auth/menu` and add the corresponding menu, then yo
 Append the menu TITLE to the `menu_titles` index of your language file.
 For example, for the "Workplace" TITLE:
 
-In `resources/lang/{current language}/admin.php`
+In `resources/lang/{current language}/menu.php`
 ```php
 ...
 // Replace spaces with _ lowercase and _
-'menu_titles' => [
+'titles' => [
     'work_units' => 'Unidades de trabajo'
 ],
 ```
