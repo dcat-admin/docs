@@ -107,6 +107,33 @@ $form->file('file')->disk('qiniu');
 <a name="public"></a>
 ## 公共方法
 
+### 缩略图 (thumbnail)
+
+上传图片的同时生成缩略图
+
+```php
+$form->image($column[, $label])->thumbnail('small', $width = 300, $height = 300);
+
+// 生成多张缩略图
+$form->image($column[, $label])->thumbnail([
+    'small1' => [100, 100],
+    'small2' => [200, 200],
+    'small3' => [300, 300],
+]);
+```
+
+```php
+use Dcat\Admin\Traits\Resizable;
+
+class Photo extends Model
+{
+    use Resizable;
+}
+
+// To access thumbnail
+$photo->thumbnail('small', 'photo_column');
+```
+
 <a name="disk"></a>
 ### 存储驱动 (disk)
 修改文件上传源
@@ -353,6 +380,29 @@ $form->image('avatar')->compress([
 ]);
 ```
 
+### 监听WebUploader文件上传事件 (on)
+
+通过 `on` 方法可以监听 [WebUploader文件上传相关事件](http://fex.baidu.com/webuploader/doc/index.html#WebUploader_Uploader_events)
+
+```php
+$form->file('...')
+	->on('startUpload', <<<JS
+		function () {
+			console.log('文件开始上传...', this);
+			
+			// 上传文件前附加自定义参数到文件上传接口
+			this.uploader.options.formData['custom_field'] = '...';
+		}
+<<<JS
+    )
+	->on('uploadFinished', <<<JS
+    	function () {
+    		console.log('文件上传完毕');
+    	}
+<<<JS
+    );
+```
+
 
 <a name="withhost"></a>
 ### 文件/图片域名拼接
@@ -390,7 +440,21 @@ $form->image('avatar')->saveFullUrl();
 $form->file('...')->saveFullUrl();
 ```
 
+### 监听文件上传变动 (change)
 
+通过以下方法可以监听文件**上传成功**或文件**被删除**时产生的变动
+
+```php
+$file = $form->file('...');
+
+Admin::script(
+	<<<JS
+$('{$file->getElementClassSelector()} .file-input').on('change', function () {
+	console.log('文件发生变动', this.value);
+});
+JS
+);
+```
 
 
 <a name="imagefun"></a>
