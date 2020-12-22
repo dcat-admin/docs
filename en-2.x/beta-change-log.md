@@ -1,6 +1,6 @@
 # BETA version update log
 
-### v2.0.11-beta
+## v2.0.11-beta
 
 Release date 2020/12/06
 
@@ -52,7 +52,7 @@ $grid->header(...) ;
 **3. Optimize form specification filters and select form styles**
 
 
-### v2.0.10-beta
+## v2.0.10-beta
 
 
 Posted on 2020/11/29
@@ -145,7 +145,7 @@ $form->embeds('field', false, function ($form) {
 12. fix the problem that `list` form edit page cannot delete existing data [#759](https://github.com/jqhph/dcat-admin/issues/759)
 13. Fix the error in the `embeds` scope form's `name` attribute.
     
-### v2.0.9-beta
+## v2.0.9-beta
 
 Posted on 2020/11/18
 
@@ -170,7 +170,7 @@ php artisan migrate
 7. fix the problem that select2 component is invalid when `Form::select` uses form linkage.
 
 
-### v2.0.8-beta
+## v2.0.8-beta
 
 Posted on 2020/11/16
 
@@ -191,7 +191,7 @@ As a supplement to `2.0.7-beta`, the following issues are fixed in this release
 4. fix the problem that some form fields don't support rendering multiple fields on a single page at the same time.
 
 
-### v2.0.7-beta
+## v2.0.7-beta
 
 Posted on 2020/11/15
 
@@ -348,7 +348,7 @@ admin_require_assets(['@select2']);
 8. Fix the problem of the table not being able to refresh automatically after deleting data.
 
 
-### v2.0.6-beta
+## v2.0.6-beta
 
 Posted on 2020/11/7
 
@@ -433,7 +433,7 @@ $form->checkbox('xxx')->inline(false)->options([...]);
 6. fix form filter multipleSelect form exception problem
 
 
-### v2.0.5-beta 
+## v2.0.5-beta 
 
 Posted on 2020/10/29
 
@@ -445,7 +445,7 @@ BUG FIXES
 5. Fix the problem of abnormal style of table specification filter.
 
 
-### v2.0.4-beta 
+## v2.0.4-beta 
 
 Posted on 2020/10/27
 
@@ -458,7 +458,7 @@ BUG FIXES
 6. fix the dropdown menu calculation display position exception [#I22S2N](https://gitee.com/jqhph/dcat-admin/issues/I22S2N)
 
 
-### v2.0.3-beta 
+## v2.0.3-beta 
 
 Posted on 2020/10/27
 
@@ -476,7 +476,7 @@ Functional improvements
 3. batch operation change event monitoring optimization
 4. Increase `RowSelector` robustness to avoid errors due to unprocessed `json` array type fields [#609](https://github.com/jqhph/dcat-admin/pull/609)
 
-### v2.0.2-beta 
+## v2.0.2-beta 
 
 Posted on 2020/10/21
 
@@ -499,7 +499,7 @@ Functional improvements
 
 
 
-### v2.0.1-beta 
+## v2.0.1-beta 
 
 Posted on 2020/10/20
 

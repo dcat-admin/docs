@@ -1,6 +1,6 @@
 # BETA版本更新日志
 
-### v2.0.12-beta
+## v2.0.12-beta
 
 发布时间 2020/12/22
 
@@ -147,7 +147,7 @@ $modal = Dcat\Admin\Widgets\Modal::make()
 
 
 
-### v2.0.11-beta
+## v2.0.11-beta
 
 发布时间 2020/12/06
 
@@ -199,7 +199,7 @@ $grid->header(...);
 **3.优化表格规格筛选器以及select表单样式**
 
 
-### v2.0.10-beta
+## v2.0.10-beta
 
 发布时间 2020/11/29
 
@@ -292,7 +292,7 @@ $form->embeds('field', false, function ($form) {
 12. 修复 `list` 表单编辑页无法删除已有数据问题 [#759](https://github.com/jqhph/dcat-admin/issues/759)
 13. 修复 `embeds` 范围表单 `name` 属性错误问题
 
-### v2.0.9-beta
+## v2.0.9-beta
 
 发布时间 2020/11/18
 
@@ -316,7 +316,7 @@ php artisan migrate
 7. 修复 `Form::select` 使用表单联动功能时select2组件无效问题
 
 
-### v2.0.8-beta
+## v2.0.8-beta
 
 发布时间 2020/11/16
 
@@ -337,7 +337,7 @@ php artisan migrate
 4. 修复部分表单字段不支持单个页面同时渲染多个的问题
 
 
-### v2.0.7-beta
+## v2.0.7-beta
 
 发布时间 2020/11/15
 
@@ -494,7 +494,7 @@ admin_require_assets(['@select2']);
 8. 修复表格删除数据后无法自动刷新页面问题
 
 
-### v2.0.6-beta
+## v2.0.6-beta
 
 发布时间 2020/11/7
 
@@ -579,7 +579,7 @@ $form->checkbox('xxx')->inline(false)->options([...]);
 6. 修复表格过滤器multipleSelect表单异常问题
 
 
-### v2.0.5-beta 
+## v2.0.5-beta 
 
 发布时间 2020/10/29
 
@@ -591,7 +591,7 @@ BUG修复
 5. 修复表格规格筛选器样式异常问题
 
 
-### v2.0.4-beta 
+## v2.0.4-beta 
 
 发布时间 2020/10/27
 
@@ -604,7 +604,7 @@ BUG修复
 6. 修复 dropdown 下拉菜单计算显示位置异常问题 [#I22S2N](https://gitee.com/jqhph/dcat-admin/issues/I22S2N)
 
 
-### v2.0.3-beta 
+## v2.0.3-beta 
 
 发布时间 2020/10/27
 
@@ -622,7 +622,7 @@ BUG修复
 3. 批量操作change事件监听优化
 4. 增加`RowSelector`健壮性, 以避免遇到`json`数组类型字段无法处理而报错 [#609](https://github.com/jqhph/dcat-admin/pull/609)
 
-### v2.0.2-beta 
+## v2.0.2-beta 
 
 发布时间 2020/10/21
 
@@ -645,7 +645,7 @@ BUG修复
 
 
 
-### v2.0.1-beta 
+## v2.0.1-beta 
 
 发布时间 2020/10/20
 
