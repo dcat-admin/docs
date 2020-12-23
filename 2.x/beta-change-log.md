@@ -1,5 +1,24 @@
 # BETA版本更新日志
 
+
+## v2.0.13-beta
+
+发布时间 2020/12/23
+
+升级方法，逐步执行以下命令
+```bash
+composer remove dcat/laravel-admin
+composer require dcat/laravel-admin:"2.0.13-beta"
+php artisan admin:publish --assets --migrations --force
+php artisan migrate
+```
+
+### Bug修复
+
+1. 修复表格展示关联关系字段当关联数据不存在时有可能报错问题 [#867](https://github.com/jqhph/dcat-admin/issues/867)
+2. 修复当表格使用数据仓库返回数组或非模型`collection`时`display`方法无效问题 [#869](https://github.com/jqhph/dcat-admin/issues/869)
+
+
 ## v2.0.12-beta
 
 发布时间 2020/12/22
