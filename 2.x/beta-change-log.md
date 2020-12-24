@@ -1,6 +1,30 @@
 # BETA版本更新日志
 
 
+## v2.0.14-beta
+
+发布时间 2020/12/24
+
+升级方法，逐步执行以下命令
+```bash
+composer remove dcat/laravel-admin
+composer require dcat/laravel-admin:"2.0.14-beta"
+php artisan admin:publish --assets --migrations --force
+php artisan migrate
+```
+
+### 功能改进
+
+**1.优化文件上传失败错误信息提示**
+
+在旧版本中，文件上传失败的错误提示信息不太明确，导致难以定义错误原因，所以在这个版本中对错误提示进行了优化，一旦文件上传失败会显示具体原因。
+
+### Bug修复
+
+1. 修复表格字段与模型`casts`属性产生冲突，以及`display`闭包中使用字符串拼接显示异常问题 [#876](https://github.com/jqhph/dcat-admin/issues/876)
+2. 修复表单动态显示功能无法使用问题 [#879](https://github.com/jqhph/dcat-admin/issues/879)
+3. 修复表单使用`Block`布局时无法显示编辑数据问题 [#877](https://github.com/jqhph/dcat-admin/issues/877)
+
 ## v2.0.13-beta
 
 发布时间 2020/12/23
