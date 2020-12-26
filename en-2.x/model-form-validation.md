@@ -50,7 +50,8 @@ This method is exactly the same as `Form\Field::rule`, except that it only works
 
 ## responseValidationMessages
 
-A custom validation error message can be returned via the `Form::responseValidationMessages` method, as follows:
+Custom validation error messages can be returned and subsequent logic interrupted by the `Form::responseValidationMessages` method, used as follows:
+
 ```php
 // "PUT" method for editing submissions
 if (request()->getMethod() == 'PUT') {
@@ -64,13 +65,20 @@ if (request()->getMethod() == 'PUT') {
 
 $form->text('title');
 $form->text('content');
+```
 
+You can also use this method in the `submitted` event
+```php
 $form->submitted(function ($form) {
-    if (...) { 
-        $form->responseValidationMessages('title', '...');
+    if (...) { // Your validation logic
+        $form->responseValidationMessages('title', 'Incorrect title format');
+        
+        // If there are multiple error messages, the second parameter can be passed as an array
+        $form->responseValidationMessages('content', ['content format error', 'content cannot be empty']);
     }
 });
 ```
+
 
 ## Front-end verification
 

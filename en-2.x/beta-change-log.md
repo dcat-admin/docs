@@ -1,5 +1,195 @@
 # BETA version update log
 
+
+## v2.0.14-beta
+
+Release Date 2020/12/24
+
+To upgrade the method, step by step execute the following command
+```bash
+composer remove dcat/laravel-admin
+composer require dcat/laravel-admin:"2.0.14-beta"
+php artisan admin:publish --assets --migrations --force
+php artisan migrate
+```
+
+### Function improvement
+
+**1. Optimize the error message prompt for file upload failure**
+
+In the old version, the error message for file upload failure was not very clear, which made it difficult to define the reason for the error, so in this version, the error message is optimized, and the specific reason will be displayed once the file upload fails.
+
+### Bug fixes
+
+1. fix the problem that the form field conflicts with the model `casts` attribute and the abnormal display problem using string splicing in the `display` closure [#876](https://github.com/jqhph/dcat-admin/issues/876)
+2. fix the problem that the dynamic display function of the form cannot be used [#879](https://github.com/jqhph/dcat-admin/issues/879)
+3. fix the problem of not being able to display editing data when using `Block` layout [#877](https://github.com/jqhph/dcat-admin/issues/877)
+
+## v2.0.13-beta
+
+Release Date 2020/12/23
+
+To upgrade the method, step by step execute the following command
+```bash
+composer remove dcat/laravel-admin
+composer require dcat/laravel-admin:"2.0.13-beta"
+php artisan admin:publish --assets --migrations --force
+php artisan migrate
+```
+
+### Bug fixes
+
+1. fix the problem that the table may report an error when displaying related fields when the related data does not exist [#867](https://github.com/jqhph/dcat-admin/issues/867)
+2. fix the problem that `display` method is invalid when the table uses data repository to return arrays or non-model `collection` [#869](https://github.com/jqhph/dcat-admin/issues/869)
+
+
+## v2.0.12-beta
+
+Release Date 2020/12/22
+
+To upgrade the method, step by step execute the following command
+```bash
+composer remove dcat/laravel-admin
+composer require dcat/laravel-admin:"2.0.12-beta"
+php artisan admin:publish --assets --migrations --force
+php artisan migrate
+```
+
+### Disruptive changes
+
+**1. image/file upload form `removeable` renamed to `removable`**
+
+```php
+$form->file('...')->removable();
+```
+
+### Feature improvement
+
+**1.Support PHP8.0**
+
+**2. Image/file upload form supports listening to WebUploader events**
+
+The `on` method can listen to [WebUploader file upload related events](http://fex.baidu.com/webuploader/doc/index.html#WebUploader_Uploader_events)
+
+```php
+$form->file('...')
+	->on('startUpload', <<<JS
+		function () {
+			console.log('File upload started...', this);
+			
+			// Attach custom parameters to the file upload interface before uploading files
+			this.uploader.options.formData['custom_field'] = '...';
+		}
+JS
+    )
+	->on('uploadFinished', <<<JS
+    	function () {
+    		console.log('File upload is complete');
+    	}
+JS
+    );
+    
+//       
+```
+
+**3. Listen for changes when a file is successfully uploaded or deleted**
+
+You can listen for changes when a file **is uploaded successfully** or when a file **is deleted** by the following methods
+
+```php
+$file = $form->file('...');
+
+Admin::script(
+	<<<JS
+$('{$file->getElementClassSelector()} .file-input').on('change', function () {
+	console.log('Document changed', this.value);
+});
+JS
+);
+```
+
+**4. Allow intercepting and responding to error messages in the uploading event**
+
+Starting from this version, we support intercepting file uploads in the `uploading` event of the form and responding to error messages on the front-end.
+
+```php
+$form->uploading(function (Form $form) {
+	return $form->response()->error('File upload failed, please try again!');
+});
+```
+
+
+
+**5. Listen to selectTable selected value change**
+
+```php
+$selectTable = $form->selectTable('...')->from(...);
+
+Admin::script(
+	<<<JS
+$('{$selectTable->getElementClassSelector()} input[type="hidden"]').on('change', function () {
+	console.log('Change of selected values', this.value);
+});
+JS
+);
+```
+
+**6. adjust the tree form no data return, cancel the return of 404 status code **
+
+**7. Adjust the value type of row attribute of table displayer class to model**
+
+**8. Dark mode details optimization**
+
+```php
+$grid->column(...)->modal(function () {
+    // $this points to the model object
+    dd($this);
+});
+
+$grid->actions(function () {
+    // $this points to the model object
+    dd($this);
+});
+```
+
+
+**9. Optimize the problem of overflowing chart display in cards**
+
+[#822](https://github.com/jqhph/dcat-admin/pull/822)
+
+
+**10.widget component add when method**
+
+```php
+$modal = Dcat\Admin\Widgets\Modal::make()
+	->when($condition, function ($modal) {
+		// When the value of $condition is true, the logic inside the closure will be executed
+	    $modal->xl();
+	})
+	->body(...)
+	->render();
+```
+
+
+
+### Bug fixes
+
+1. fix `Grid\Filter::group` can't keep selected state [#739](https://github.com/jqhph/dcat-admin/pull/793)
+2. fix `Form::hasMany` problem of validating `required` even after form entry is deleted [#795](https://github.com/jqhph/dcat-admin/pull/795)
+3. fix the problem that map form cannot be used
+4. fix the problem that `guessClassFileName` will report error when `composer` class mapping file is generated and the class file is deleted
+5. fix the problem of error when using `Fetched` event for data export [#815](https://github.com/jqhph/dcat-admin/issues/815)
+6. fix the problem that `filter` cannot be reset after setting `Grid name`.
+7. fix the problem that `select2` can't use Chinese language pack automatically [#839](https://github.com/jqhph/dcat-admin/issues/839)
+8. fix the problem that `continue to create` and `continue to edit` jump route error [#814](https://github.com/jqhph/dcat-admin/issues/814)
+9. fix `range` form setting `rules` invalid when one-to-one association is enabled
+10. fix the problem that time filtering dropdown will be blocked when `fixColumns` is enabled [#833](https://github.com/jqhph/dcat-admin/issues/833)
+11. fix the problem that menu `fa` icon can't be aligned automatically [#758](https://github.com/jqhph/dcat-admin/pull/758)
+12. fix the problem of submitting errors with `hasMany` in `row` layout [#801](https://github.com/jqhph/dcat-admin/issues/801)
+13. fix form `hasMany` can't use `select` linkage [#769](https://github.com/jqhph/dcat-admin/issues/769)
+
+
+
 ## v2.0.11-beta
 
 Release date 2020/12/06

@@ -107,6 +107,33 @@ $form->file('file')->disk('qiniu');
 <a name="public"></a>
 ## Public methods
 
+### Thumbnail
+
+Generate thumbnails while uploading images
+
+```php
+$form->image($column[, $label])->thumbnail('small', $width = 300, $height = 300);
+
+// Generate multiple thumbnails
+$form->image($column[, $label])->thumbnail([
+    'small1' => [100, 100],
+    'small2' => [200, 200],
+    'small3' => [300, 300],
+]);
+```
+
+```php
+use Dcat\Admin\Traits\Resizable;
+
+class Photo extends Model
+{
+    use Resizable;
+}
+
+// To access thumbnail
+$photo->thumbnail('small', 'photo_column');
+```
+
 <a name="disk"></a>
 ### Storage drive (disk)
 Modify file upload source
@@ -353,6 +380,30 @@ $form->image('avatar')->compress([
 ]);
 ```
 
+### Listening to WebUploader file upload events (on)
+
+The `on` method can listen for [WebUploader file upload-related events](http://fex.baidu.com/webuploader/doc/index.html#WebUploader_Uploader_events)
+
+```php
+$form->file('...')
+	->on('startUpload', <<<JS
+		function () {
+			console.log('File upload started...', this);
+			
+			// Attach custom parameters to the file upload interface before uploading files
+			this.uploader.options.formData['custom_field'] = '...';
+		}
+<<<JS
+    )
+	->on('uploadFinished', <<<JS
+    	function () {
+    		console.log('File upload is complete');
+    	}
+<<<JS
+    );
+```
+
+
 <a name="withhost"></a>
 ### File/image domain splicing
 
@@ -389,7 +440,21 @@ $form->image('avatar')->saveFullUrl();
 $form->file('...')->saveFullUrl();
 ```
 
+### Listening for file upload changes (change)
 
+You can listen for changes when a file **is uploaded successfully** or when a file **is deleted** by using the following methods
+
+```php
+$file = $form->file('...');
+
+Admin::script(
+	<<<JS
+$('{$file->getElementClassSelector()} .file-input').on('change', function () {
+	console.log('File changed', this.value);
+});
+JS
+);
+```
 
 
 <a name="imagefun"></a>
