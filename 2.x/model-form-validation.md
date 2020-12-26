@@ -48,9 +48,10 @@ $form->text('title')->rules('nullable');
 > {tip} 如果调用了`updateRules`方法，则`rule`方法设置的验证规则将会被忽略。
 
 
-## 返回自定义验证错误信息
+## responseValidationMessages
 
-通过`Form::responseValidationMessages`方法可以返回自定义验证错误信息，如下：
+通过`Form::responseValidationMessages`方法可以返回自定义验证错误信息，并中断后续逻辑，用法如下：
+
 ```php
 // 编辑提交时是“PUT”方法
 if (request()->getMethod() == 'PUT') {
@@ -64,6 +65,18 @@ if (request()->getMethod() == 'PUT') {
 
 $form->text('title');
 $form->text('content');
+```
+
+也可以在`submitted`事件中使用这个方法
+```php
+$form->submitted(function ($form) {
+    if (...) { // 你的验证逻辑
+        $form->responseValidationMessages('title', 'title格式错误');
+        
+        // 如有多个错误信息，第二个参数可以传数组
+        $form->responseValidationMessages('content', ['content格式错误', 'content不能为空']);
+    }
+});
 ```
 
 ## 前端验证

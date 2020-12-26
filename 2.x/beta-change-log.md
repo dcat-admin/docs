@@ -1,6 +1,196 @@
 # BETA版本更新日志
 
-### v2.0.11-beta
+
+## v2.0.14-beta
+
+发布时间 2020/12/24
+
+升级方法，逐步执行以下命令
+```bash
+composer remove dcat/laravel-admin
+composer require dcat/laravel-admin:"2.0.14-beta"
+php artisan admin:publish --assets --migrations --force
+php artisan migrate
+```
+
+### 功能改进
+
+**1.优化文件上传失败错误信息提示**
+
+在旧版本中，文件上传失败的错误提示信息不太明确，导致难以定义错误原因，所以在这个版本中对错误提示进行了优化，一旦文件上传失败会显示具体原因。
+
+### Bug修复
+
+1. 修复表格字段与模型`casts`属性产生冲突，以及`display`闭包中使用字符串拼接显示异常问题 [#876](https://github.com/jqhph/dcat-admin/issues/876)
+2. 修复表单动态显示功能无法使用问题 [#879](https://github.com/jqhph/dcat-admin/issues/879)
+3. 修复表单使用`Block`布局时无法显示编辑数据问题 [#877](https://github.com/jqhph/dcat-admin/issues/877)
+
+## v2.0.13-beta
+
+发布时间 2020/12/23
+
+升级方法，逐步执行以下命令
+```bash
+composer remove dcat/laravel-admin
+composer require dcat/laravel-admin:"2.0.13-beta"
+php artisan admin:publish --assets --migrations --force
+php artisan migrate
+```
+
+### Bug修复
+
+1. 修复表格展示关联关系字段当关联数据不存在时有可能报错问题 [#867](https://github.com/jqhph/dcat-admin/issues/867)
+2. 修复当表格使用数据仓库返回数组或非模型`collection`时`display`方法无效问题 [#869](https://github.com/jqhph/dcat-admin/issues/869)
+
+
+## v2.0.12-beta
+
+发布时间 2020/12/22
+
+升级方法，逐步执行以下命令
+```bash
+composer remove dcat/laravel-admin
+composer require dcat/laravel-admin:"2.0.12-beta"
+php artisan admin:publish --assets --migrations --force
+php artisan migrate
+```
+
+### 破坏性变动
+
+**1.图片/文件上传表单`removeable`重命名为`removable`**
+
+```php
+$form->file('...')->removable();
+```
+
+### 功能改进
+
+**1.支持PHP8.0**
+
+**2.图片/文件上传表单支持监听WebUploader事件**
+
+通过 `on` 方法可以监听 [WebUploader文件上传相关事件](http://fex.baidu.com/webuploader/doc/index.html#WebUploader_Uploader_events)
+
+```php
+$form->file('...')
+	->on('startUpload', <<<JS
+		function () {
+			console.log('文件开始上传...', this);
+			
+			// 上传文件前附加自定义参数到文件上传接口
+			this.uploader.options.formData['custom_field'] = '...';
+		}
+JS
+    )
+	->on('uploadFinished', <<<JS
+    	function () {
+    		console.log('文件上传完毕');
+    	}
+JS
+    );
+    
+//       
+```
+
+**3.监听文件上传成功或文件被删除时产生的变动**
+
+通过以下方法可以监听文件**上传成功**或文件**被删除**时产生的变动
+
+```php
+$file = $form->file('...');
+
+Admin::script(
+	<<<JS
+$('{$file->getElementClassSelector()} .file-input').on('change', function () {
+	console.log('文件发生变动', this.value);
+});
+JS
+);
+```
+
+**4.允许在uploading事件中拦截并响应错误信息**
+
+从这个版本开始支持在表单的 `uploading` 事件中拦截文件上传并支持响应错误信息到前端
+
+```php
+$form->uploading(function (Form $form) {
+	return $form->response()->error('文件上传失败，请重试！');
+});
+```
+
+
+
+**5.监听selectTable选中值变动**
+
+```php
+$selectTable = $form->selectTable('...')->from(...);
+
+Admin::script(
+	<<<JS
+$('{$selectTable->getElementClassSelector()} input[type="hidden"]').on('change', function () {
+	console.log('选中值发生变化', this.value);
+});
+JS
+);
+```
+
+**6.调整树状表格无数据返回，取消返回404状态码**
+
+**7.调整表格displayer类的row属性值类型为model**
+
+**8.暗黑模式细节优化**
+
+```php
+$grid->column(...)->modal(function () {
+    // $this 指向 model 对象
+    dd($this);
+});
+
+$grid->actions(function () {
+    // $this 指向 model 对象
+    dd($this);
+});
+```
+
+
+**9.优化卡片中图表显示溢出的问题**
+
+[#822](https://github.com/jqhph/dcat-admin/pull/822)
+
+
+**10.widget组件增加when方法**
+
+```php
+$modal = Dcat\Admin\Widgets\Modal::make()
+	->when($condition, function ($modal) {
+		// 当 $condition 的值为 真 时，会执行闭包里面的逻辑
+	    $modal->xl();
+	})
+	->body(...)
+	->render();
+```
+
+
+
+### Bug修复
+
+1. 修复 `Grid\Filter::group` 无法保持选择状态问题 [#739](https://github.com/jqhph/dcat-admin/pull/793)
+2. 修复 `Form::hasMany` 表单条目删除后仍然验证 `required` 问题 [#795](https://github.com/jqhph/dcat-admin/pull/795)
+3. 修复 地图 表单无法使用问题
+4. 修复当生成 `composer` 类映射文件且类文件被删除的情况下使用 `guessClassFileName` 会报错问题
+5. 修复数据导出使用 `Fetched` 事件报错问题 [#815](https://github.com/jqhph/dcat-admin/issues/815)
+6. 修复设置 `Grid name` 之后无法重置 `filter` 问题
+7. 修复 `select2` 无法自动使用中文语言包问题 [#839](https://github.com/jqhph/dcat-admin/issues/839)
+8. 修复表单勾选 `继续创建` 以及 `继续编辑` 跳转路由错误问题 [#814](https://github.com/jqhph/dcat-admin/issues/814)
+9. 修复一对一关联关系 `range` 表单设置 `rules` 无效问题
+10. 修复当启用 `fixColumns` 时，时间筛选下拉会被遮挡问题 [#833](https://github.com/jqhph/dcat-admin/issues/833)
+11. 修复菜单使用`fa`图标无法自动对齐问题 [#758](https://github.com/jqhph/dcat-admin/pull/758)
+12. 修复表单 `row` 布局下使用 `hasMany` 提交报错问题 [#801](https://github.com/jqhph/dcat-admin/issues/801)
+13. 修复表单 `hasMany` 无法使用 `select` 联动问题 [#769](https://github.com/jqhph/dcat-admin/issues/769)
+
+
+
+## v2.0.11-beta
 
 发布时间 2020/12/06
 
@@ -52,7 +242,7 @@ $grid->header(...);
 **3.优化表格规格筛选器以及select表单样式**
 
 
-### v2.0.10-beta
+## v2.0.10-beta
 
 发布时间 2020/11/29
 
@@ -145,7 +335,7 @@ $form->embeds('field', false, function ($form) {
 12. 修复 `list` 表单编辑页无法删除已有数据问题 [#759](https://github.com/jqhph/dcat-admin/issues/759)
 13. 修复 `embeds` 范围表单 `name` 属性错误问题
 
-### v2.0.9-beta
+## v2.0.9-beta
 
 发布时间 2020/11/18
 
@@ -169,7 +359,7 @@ php artisan migrate
 7. 修复 `Form::select` 使用表单联动功能时select2组件无效问题
 
 
-### v2.0.8-beta
+## v2.0.8-beta
 
 发布时间 2020/11/16
 
@@ -190,7 +380,7 @@ php artisan migrate
 4. 修复部分表单字段不支持单个页面同时渲染多个的问题
 
 
-### v2.0.7-beta
+## v2.0.7-beta
 
 发布时间 2020/11/15
 
@@ -347,7 +537,7 @@ admin_require_assets(['@select2']);
 8. 修复表格删除数据后无法自动刷新页面问题
 
 
-### v2.0.6-beta
+## v2.0.6-beta
 
 发布时间 2020/11/7
 
@@ -432,7 +622,7 @@ $form->checkbox('xxx')->inline(false)->options([...]);
 6. 修复表格过滤器multipleSelect表单异常问题
 
 
-### v2.0.5-beta 
+## v2.0.5-beta 
 
 发布时间 2020/10/29
 
@@ -444,7 +634,7 @@ BUG修复
 5. 修复表格规格筛选器样式异常问题
 
 
-### v2.0.4-beta 
+## v2.0.4-beta 
 
 发布时间 2020/10/27
 
@@ -457,7 +647,7 @@ BUG修复
 6. 修复 dropdown 下拉菜单计算显示位置异常问题 [#I22S2N](https://gitee.com/jqhph/dcat-admin/issues/I22S2N)
 
 
-### v2.0.3-beta 
+## v2.0.3-beta 
 
 发布时间 2020/10/27
 
@@ -475,7 +665,7 @@ BUG修复
 3. 批量操作change事件监听优化
 4. 增加`RowSelector`健壮性, 以避免遇到`json`数组类型字段无法处理而报错 [#609](https://github.com/jqhph/dcat-admin/pull/609)
 
-### v2.0.2-beta 
+## v2.0.2-beta 
 
 发布时间 2020/10/21
 
@@ -498,7 +688,7 @@ BUG修复
 
 
 
-### v2.0.1-beta 
+## v2.0.1-beta 
 
 发布时间 2020/10/20
 

@@ -90,11 +90,11 @@ $router->resource('users', 'UserController');
 在您的语言文件的`menu_titles`索引中追加菜单标题。
 例如“工作单位”标题：
 
-在`resources/lang/{当前语言}/admin.php`中
+在`resources/lang/{当前语言}/menu.php`中
 ```php
 ...
 // 用_小写并用_替换空格
-'menu_titles' => [
+'titles' => [
     'work_units' => 'Unidades de trabajo'
 ],
 ```
