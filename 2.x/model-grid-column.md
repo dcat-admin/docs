@@ -25,9 +25,8 @@ $grid->fixColumns(2, -2);
 
 效果
 
-<a href="{{public}}/assets/img/screenshots/fixcolumn.gif" target="_blank">
-    <img class="img" src="{{public}}/assets/img/screenshots/fixcolumn.gif" />
-</a>    
+![](https://cdn.learnku.com/uploads/images/202007/12/38389/8aKnpG11g4.gif!large)
+  
 
 ### 设置td标签HTML属性
 
@@ -55,6 +54,9 @@ $grid->showColumnSelector();
 $grid->hideColumns(['field1', ...]);
 ``` 
 
+![](https://cdn.learnku.com/uploads/images/202004/26/38389/MTgikMeV1o.png!large)
+
+
 
 ### 设置列提示信息
 `Grid\Column::help`参数：
@@ -62,9 +64,8 @@ $grid->hideColumns(['field1', ...]);
  - $style `string` 提示窗背景颜色，支持“primary”、“success”、“danger”、“purple”
  - $placement `string` 提示窗位置，支持“top”、“left”、“right”、“bottom”
 
-<a href="{{public}}/assets/img/screenshots/grid-column-help.png" target="_blank">
-    <img class="img" src="{{public}}/assets/img/screenshots/grid-column-help.png" />
-</a>
+![](https://cdn.learnku.com/uploads/images/202004/26/38389/MTgikMeV1o.png!large)
+
 
 ```php
 $grid->column('id')->help('提示信息');
@@ -74,9 +75,9 @@ $grid->column('id')->help('提示信息');
 
 通过`Grid\Column::filter`方法可以给列设置一个过滤器，可以很方便的根据这一列进行数据表格过滤操作，具体使用方法请参考[列过滤器](model-grid-column-filter.md)。
 
-<a href="{{public}}/assets/img/screenshots/grid-column-filter.png" target="_blank">
-    <img class="img" src="{{public}}/assets/img/screenshots/grid-column-filter.png" />
-</a>
+![](https://cdn.learnku.com/uploads/images/202004/26/38389/8zNK7CHS3V.png!large)
+
+
 
 
 ### 扩展列功能

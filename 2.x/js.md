@@ -135,9 +135,8 @@ Dcat.success('更新成功', null, {
 });
 ```
 
-<a href="{{public}}/assets/img/screenshots/toastr.png" target="_blank">
-    <img src="{{public}}/assets/img/screenshots/toastr.png"  style="box-shadow:0 1px 6px 1px rgba(0, 0, 0, 0.12)">
-</a>
+![](https://cdn.learnku.com/uploads/images/202004/26/38389/zmB4EPhS3u.png!large)
+
 
 ### error
 ```js
@@ -202,9 +201,8 @@ Dcat.confirm('确认要删除这行数据吗？', null, function () {
     $.post(...);
 });
 ```
-<a href="{{public}}/assets/img/screenshots/confirm.png" target="_blank">
-    <img width="100%" src="{{public}}/assets/img/screenshots/confirm.png"  style="box-shadow:0 1px 6px 1px rgba(0, 0, 0, 0.12)">
-</a>
+![](https://cdn.learnku.com/uploads/images/202004/26/38389/lp40C74OtV.png!large)
+
 
 
 ### success
@@ -218,9 +216,8 @@ Dcat.swal.success('标题', '内容', {
     ...
 });
 ```
-<a href="{{public}}/assets/img/screenshots/swal-success.png" target="_blank">
-    <img width="100%" src="{{public}}/assets/img/screenshots/swal-success.png"  style="box-shadow:0 1px 6px 1px rgba(0, 0, 0, 0.12)">
-</a>
+![](https://cdn.learnku.com/uploads/images/202004/26/38389/OrhZ4dvA5R.png!large)
+
 
 ### error
 
@@ -233,9 +230,8 @@ Dcat.swal.error('标题', '内容', {
     ...
 });
 ```
-<a href="{{public}}/assets/img/screenshots/swal-error.png" target="_blank">
-    <img width="100%" src="{{public}}/assets/img/screenshots/swal-error.png"  style="box-shadow:0 1px 6px 1px rgba(0, 0, 0, 0.12)">
-</a>
+![](https://cdn.learnku.com/uploads/images/202004/26/38389/lnp47PDecK.png!large)
+
 
 ### warning
 
@@ -248,9 +244,6 @@ Dcat.swal.warning('标题', '内容', {
     ...
 });
 ```
-<a href="{{public}}/assets/img/screenshots/swal-warning.png" target="_blank">
-    <img width="100%" src="{{public}}/assets/img/screenshots/swal-warning.png"  style="box-shadow:0 1px 6px 1px rgba(0, 0, 0, 0.12)">
-</a>
 
 ### info
 
@@ -308,9 +301,8 @@ setTimeout(function () {
 
 效果
 
-<a href="{{public}}/assets/img/screenshots/loading1.png" target="_blank">
-    <img width="100%" src="{{public}}/assets/img/screenshots/loading1.png"  style="box-shadow:0 1px 6px 1px rgba(0, 0, 0, 0.12)">
-</a>
+![](https://cdn.learnku.com/uploads/images/202004/26/38389/FIWAUFg1qn.png!large)
+
 
 更改loading图标的颜色
 
@@ -320,9 +312,7 @@ Dcat.loading({
     color: Dcat.color.primary,
 });
 ```
-<a href="{{public}}/assets/img/screenshots/loading2.png" target="_blank">
-    <img src="{{public}}/assets/img/screenshots/loading2.png"  style="box-shadow:0 1px 6px 1px rgba(0, 0, 0, 0.12)">
-</a>
+![](https://cdn.learnku.com/uploads/images/202004/26/38389/WPIC4wwq5Q.png!large)
 
 
 ### 附着于指定元素
@@ -358,9 +348,8 @@ $('#card').loading({
 
 效果
 
-<a href="{{public}}/assets/img/screenshots/loading3.png" target="_blank">
-    <img src="{{public}}/assets/img/screenshots/loading3.png"  style="box-shadow:0 1px 6px 1px rgba(0, 0, 0, 0.12)">
-</a>
+![](https://cdn.learnku.com/uploads/images/202004/26/38389/ziHL5feEAV.png!large)
+
 
 
 ### 按钮
@@ -374,9 +363,8 @@ $('#submit-button').buttonLoading(false);
 ```
 
 效果
-<a href="{{public}}/assets/img/screenshots/btn-loading.png" target="_blank">
-    <img src="{{public}}/assets/img/screenshots/btn-loading.png"  style="box-shadow:0 1px 6px 1px rgba(0, 0, 0, 0.12)">
-</a>
+![](https://cdn.learnku.com/uploads/images/202004/26/38389/rNMFWAHPqJ.png!large)
+
 
 ### a标签
 
@@ -391,9 +379,7 @@ $('a').buttonLoading();
 $('a').buttonLoading(false);
 ```
 效果
-<a href="{{public}}/assets/img/screenshots/a-loading.png" target="_blank">
-    <img src="{{public}}/assets/img/screenshots/a-loading.png"  style="box-shadow:0 1px 6px 1px rgba(0, 0, 0, 0.12)">
-</a>
+![](https://cdn.learnku.com/uploads/images/202004/26/38389/IE8kGdupKW.png!large)
 
 
 
@@ -437,18 +423,18 @@ Dcat.ready(function () {
                 return false;
             }
         },
-        success: function (data) {
+        success: function (response) {
             // data 为接口返回数据
-            if (! data.status) {
-                Dcat.error(data.message);
+            if (! response.status) {
+                Dcat.error(response.data.message);
 
                 return false;
             }
 
-            Dcat.success(data.message);
+            Dcat.success(response.data.message);
 
 			if (data.redirect) {
-			    Dcat.reload(data.redirect)
+			    Dcat.reload(response.data.value)
 			}
 
             // 中止后续逻辑（默认逻辑）
@@ -489,16 +475,16 @@ $form.on('submit', function () {
 function submit() {
     Dcat.Form({
         form: $form,
-        success: function (data) {
-            if (! data.status) {
-                Dcat.error(data.message);
+        success: function (response) {
+            if (! response.status) {
+                Dcat.error(response.data.message);
 
                 return false;
             }
 
-            Dcat.success(data.message);
+            Dcat.success(response.data.message);
 
-            location.href = data.redirect;
+            location.href = response.data.value;
 
             return false;
         },
@@ -574,12 +560,8 @@ $('#xx-form').form({
 
 效果
 
-<a href="{{public}}/assets/img/screenshots/validate1.png" target="_blank">
-    <img width="60%" src="{{public}}/assets/img/screenshots/validate1.png"  style="box-shadow:0 1px 6px 1px rgba(0, 0, 0, 0.12)">
-</a>
-<a href="{{public}}/assets/img/screenshots/validate2.png" target="_blank">
-    <img width="60%" src="{{public}}/assets/img/screenshots/validate2.png"  style="box-shadow:0 1px 6px 1px rgba(0, 0, 0, 0.12)">
-</a>
+![](https://cdn.learnku.com/uploads/images/202004/26/38389/wJxcYaC9GP.png!large)
+![](https://cdn.learnku.com/uploads/images/202004/26/38389/qdXUaNEMSQ.png!large)
 
 <a name="extend-validator"></a>
 #### 扩展验证规则

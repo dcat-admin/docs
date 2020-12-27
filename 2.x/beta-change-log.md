@@ -57,7 +57,7 @@ php artisan migrate
 
 ### 破坏性变动
 
-**1.图片/文件上传表单`removeable`重命名为`removable`**
+**1.图片/文件上传表单`removable`重命名为`removable`**
 
 ```php
 $form->file('...')->removable();
@@ -573,8 +573,8 @@ $form->image('avatar')->chunked(true);
 // 启用自动保存字段值功能 disableAutoSave 更改为 autoSave
 $form->image('avatar')->autoSave(false);
 
-// 启用删除文件功能 disableRemove 更改为 removeable
-$form->image('avatar')->removeable(false);
+// 启用删除文件功能 disableRemove 更改为 removable
+$form->image('avatar')->removable(false);
 ```
 
 

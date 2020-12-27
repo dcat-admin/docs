@@ -43,9 +43,7 @@ $grid->filter(function (Grid\Filter $filter) {
 ```
 效果
 
-<a href="{{public}}/assets/img/screenshots/filter-right-side.png" target="_blank">
-    <img class="img img-full" src="{{public}}/assets/img/screenshots/filter-right-side.png">
-</a>
+![](https://cdn.learnku.com/uploads/images/202004/26/38389/3g9EdvZTQA.png!large)
 
 
 ### panel
@@ -63,9 +61,8 @@ $grid->filter(function (Grid\Filter $filter) {
 ```
 效果
 
-<a href="{{public}}/assets/img/screenshots/filter-panel.png" target="_blank">
-    <img class="img img-full" src="{{public}}/assets/img/screenshots/filter-panel.png">
-</a>
+![](https://cdn.learnku.com/uploads/images/202004/26/38389/vkPFs0Hnil.png!large)
+
 
 ### 自定义布局 (view)
 
@@ -785,7 +782,6 @@ Filter::extend('customBetween', Filter\Between::class);
 ```
 
 使用：
->扩展过滤器方法后IDE默认是不会自动补全的，这时候可以通过`php artisan admin:ide-helper`生成IDE提示文件。
 
 ```php
 $filter->customBetween('created_at')->datetime();

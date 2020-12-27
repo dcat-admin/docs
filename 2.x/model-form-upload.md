@@ -166,14 +166,14 @@ $form->image('picture')->name(function ($file) {
 $form->image('picture')->uniqueName();
 ```
 
-<a name="removeable"></a>
+<a name="removable"></a>
 ### 禁止页面删除文件 (替换上传)
 
-通过`removeable`方法可以禁止用户从页面点击删除服务器上的文件，可以实现图片覆盖上传效果。
+通过`removable`方法可以禁止用户从页面点击删除服务器上的文件，可以实现图片覆盖上传效果。
 
 
 ```php
-$form->file($column[, $label])->removeable(false);
+$form->file($column[, $label])->removable(false);
 ```
 
 

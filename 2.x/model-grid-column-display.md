@@ -21,7 +21,7 @@ $grid->column('config')
     ->display($view)
     ->copyable()
     ->else()
-    ->emptyString();
+    ->display('');
 ```
 上面写法等同于
 ```php
@@ -33,7 +33,7 @@ $grid->column('config')
         $column->display($view)->copyable();
     })
     ->else(function (Grid\Column $column) {
-        $column->emptyString();
+        $column->display('');
     });
 ```
 
@@ -201,7 +201,8 @@ $grid->column('approved')->bool(['Y' => true, 'N' => false]);
 ```
 
 效果
-![]({{public}}/assets/img/screenshots/column-bool.png)
+![](https://cdn.learnku.com/uploads/images/202007/12/38389/U0OSrJwzyt.png!large)
+
 
 
 
@@ -226,8 +227,8 @@ $grid->column('state')
 ```
 
 效果
+![](https://cdn.learnku.com/uploads/images/202004/30/38389/ByUqo6bZc8.png!large)
 
-![]({{public}}/assets/img/screenshots/grid-column-dot.png)
 
 <a name="expand"></a>
 ### 列展开 (expand)
@@ -260,7 +261,7 @@ $grid->column('content')->expand(function (Grid\Displayers\Expand $expand) {
 
 #### 异步加载
 
-> {tip}  关于异步加载的更具体用法，请参考文档[异步加载](lazy.md)
+> {tip} 更多用法请参考文档[异步加载](lazy.md)
 
 定义渲染类，继承`Dcat\Admin\Support\LazyRenderable`
 
@@ -300,7 +301,7 @@ class Post extends LazyRenderable
 ```php
 $grid->post->display('View')->expand(Post::make(['post_type' => 1]));
 
-// 从 v1.6.0 版本起允许在闭包内返回异步加载类的实例
+// 可以在闭包内返回异步加载类的实例
 $grid->post->expand(function () {
     // 允许在比包内返回异步加载类的实例
 
@@ -310,16 +311,14 @@ $grid->post->expand(function () {
 
 效果
 
-<a href="{{public}}/assets/img/screenshots/expand-lazy-render.gif" target="_blank">
-	![]({{public}}/assets/img/screenshots/expand-lazy-render.gif)
-</a>
+![](https://cdn.learnku.com/uploads/images/202006/14/38389/KMHagem4OZ.gif!large)
 
 
 #### 异步加载工具表单
 
 定义[工具表单](widgets-form.md)类如下
 
-> {tip} 从 `v1.7.0` 开始支持异步渲染包括[工具表单](widgets-form.md)、[图表](widgets-charts.md)在内的绝大部分组件，具体使用请参考[异步加载](lazy.md)
+> {tip} 更多用法请参考[异步加载](lazy.md)
 
 ```php
 <?php
@@ -441,7 +440,7 @@ class Post extends LazyRenderable
 ```php
 $grid->post->display('View')->modal('Post', Post::make(['post_type' => 2]));
 
-// 从 v1.6.0 版本起允许在闭包内返回异步加载类的实例
+// 可以在闭包内返回异步加载类的实例
 $grid->post->modal(function ($modal) {
     $modal->title('自定义弹窗标题');
 
@@ -451,9 +450,7 @@ $grid->post->modal(function ($modal) {
 ```
 
 效果
-<a href="{{public}}/assets/img/screenshots/modal-lazy-render.gif" target="_blank">
-	![]({{public}}/assets/img/screenshots/modal-lazy-render.gif)
-</a>
+![](https://cdn.learnku.com/uploads/images/202006/14/38389/DvvyZUTXpG.gif!large)
 
 
 
@@ -461,7 +458,7 @@ $grid->post->modal(function ($modal) {
 
 定义[工具表单](widgets-form.md)类如下
 
-> {tip} 从 `v1.7.0` 开始支持异步渲染包括[工具表单](widgets-form.md)、[图表](widgets-charts.md)在内的绝大部分组件，具体使用请参考[异步加载](lazy.md)
+> {tip} 更多用法请参考[异步加载](lazy.md)
 
 ```php
 <?php
@@ -559,7 +556,8 @@ $grid->permissions->showTreeInDialog(function (Grid\Displayers\DialogTree $tree)
     }
 });
 ```
-![]({{public}}/assets/img/screenshots/grid-column-tree.png)
+![](https://cdn.learnku.com/uploads/images/202004/26/38389/s1htW08Iko.png!large)
+
 
 ### 内容映射 (using)
 ```php
@@ -590,7 +588,7 @@ $grid->email->prepend('mailto:');
 $grid->arr->prepend('first item');
 ```
 
-从`v1.2.5`版本开始，`prepend`方法允许传入闭包参数
+`prepend`方法允许传入闭包参数
 ```php
 $grid->email->prepend(function ($value, $original) {
     // $value 是当前字段值
@@ -614,7 +612,7 @@ $grid->email->append('@gmail.com');
 $grid->arr->append('last item');
 ```
 
-从`v1.2.5`版本开始，`append`方法允许传入闭包参数
+`append`方法允许传入闭包参数
 ```php
 $grid->email->append(function ($value, $original) {
     // $value 是当前字段值
@@ -720,10 +718,6 @@ class Permission extends Model implements Sortable
 $grid->order->orderable();
 ```
 
-效果
-<a href="{{public}}/assets/img/screenshots/grid-display-orderable.png" target="_blank">
-    <img  src="{{public}}/assets/img/screenshots/grid-display-orderable.png" style="box-shadow:0 1px 6px 1px rgba(0, 0, 0, 0.12)" width="100%">
-</a>
 
 
 ### 链接 (link)
@@ -821,9 +815,7 @@ protected function grid()
 
 效果
 
-<a href="{{public}}/assets/img/screenshots/action-star.png" target="_blank">
-    <img  src="{{public}}/assets/img/screenshots/action-star.png" style="box-shadow:0 1px 6px 1px rgba(0, 0, 0, 0.12)" width="140px">
-</a>
+![](https://cdn.learnku.com/uploads/images/202005/17/38389/g8F7p8gnsE.png!large)
 
 
 ## 帮助方法
