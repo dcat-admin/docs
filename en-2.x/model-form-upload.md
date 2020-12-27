@@ -169,7 +169,7 @@ $form->image('picture')->uniqueName();
 <a name="removable"></a>
 ### Disable page delete files (replace upload)
 
-By using the `removable` method, you can prohibit users from clicking to delete files from the server from the page, which can achieve the effect of image overlay upload.
+The `removable` method allows you to prevent users from deleting files on the server by clicking on them on the page, and allows you to achieve an image overlay upload effect.
 
 
 ```php

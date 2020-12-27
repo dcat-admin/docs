@@ -25,9 +25,8 @@ $grid->fixColumns(2, -2);
 
 result
 
-<a href="{{public}}/assets/img/screenshots/fixcolumn.gif" target="_blank">
-    <img class="img" src="{{public}}/assets/img/screenshots/fixcolumn.gif" />
-</a>    
+![](https://cdn.learnku.com/uploads/images/202007/12/38389/8aKnpG11g4.gif!large)
+
 
 ### Set td tag HTML attributes
 
@@ -55,6 +54,9 @@ $grid->showColumnSelector();
 $grid->hideColumns(['field1', ...]);
 ``` 
 
+![](https://cdn.learnku.com/uploads/images/202004/26/38389/MTgikMeV1o.png!large)
+
+
 
 ### Setting up column prompts
 `Grid\Column::help` parameters.
@@ -62,9 +64,8 @@ $grid->hideColumns(['field1', ...]);
  - $style `string` prompt window background color, support "primary", "success", "danger", "purple" and so on.
  - $placement `string` prompts the window position, supports "top", "left", "right", and "bottom"
 
-<a href="{{public}}/assets/img/screenshots/grid-column-help.png" target="_blank">
-    <img class="img" src="{{public}}/assets/img/screenshots/grid-column-help.png" />
-</a>
+![](https://cdn.learnku.com/uploads/images/202004/26/38389/MTgikMeV1o.png!large)
+
 
 ```php
 $grid->column('id')->help('tip');
@@ -74,9 +75,9 @@ $grid->column('id')->help('tip');
 
 The `Grid\Column::filter` method allows you to set a filter for a column, which makes it easy to filter the data table by that column. Refer to [column filter](model-grid-column-filter.md) for the detailed usage.
 
-<a href="{{public}}/assets/img/screenshots/grid-column-filter.png" target="_blank">
-    <img class="img" src="{{public}}/assets/img/screenshots/grid-column-filter.png" />
-</a>
+![](https://cdn.learnku.com/uploads/images/202004/26/38389/8zNK7CHS3V.png!large)
+
+
 
 
 ### Extended column function

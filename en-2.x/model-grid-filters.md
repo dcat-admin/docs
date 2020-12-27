@@ -43,9 +43,7 @@ $grid->filter(function (Grid\Filter $filter) {
 ```
 result
 
-<a href="{{public}}/assets/img/screenshots/filter-right-side.png" target="_blank">
-    <img class="img img-full" src="{{public}}/assets/img/screenshots/filter-right-side.png">
-</a>
+![](https://cdn.learnku.com/uploads/images/202004/26/38389/3g9EdvZTQA.png!large)
 
 
 ### panel
@@ -63,9 +61,8 @@ $grid->filter(function (Grid\Filter $filter) {
 ```
 result
 
-<a href="{{public}}/assets/img/screenshots/filter-panel.png" target="_blank">
-    <img class="img img-full" src="{{public}}/assets/img/screenshots/filter-panel.png">
-</a>
+![](https://cdn.learnku.com/uploads/images/202004/26/38389/vkPFs0Hnil.png!large)
+
 
 ### Custom layout (view)
 
@@ -785,7 +782,6 @@ Filter::extend('customBetween', Filter\Between::class);
 ```
 
 use：
->After extending the filter method, the IDE will not be completed automatically by default, so you can generate an IDE hint file with `php artisan admin:ide-helper`.
 
 ```php
 $filter->customBetween('created_at')->datetime();

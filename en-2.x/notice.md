@@ -426,7 +426,6 @@ The above code mainly contains `grid`, `detail` and `form`, from these codes, we
 
 namespace Dcat\Admin\Controllers;
 
-use Dcat\Admin\IFrameGrid;
 use Dcat\Admin\Layout\Content;
 use Illuminate\Routing\Controller;
 
@@ -539,7 +538,7 @@ public function index(Content $content)
 
 The result is as follows
 
-![]({{public}}/assets/img/screenshots/users-blue-dark.png)
+![](https://cdn.learnku.com/uploads/images/202005/06/38389/p1lAW4NpQi.png!large)
 
 
 <a name="bootstrap-styles"></a>
