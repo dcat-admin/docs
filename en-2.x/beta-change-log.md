@@ -384,8 +384,8 @@ $form->image('avatar')->chunked(true);
 // Enable auto-save field values, disableAutoSave changed to autoSave
 $form->image('avatar')->autoSave(false);
 
-// Enable the file deletion function, disableRemove changed to removeable
-$form->image('avatar')->removeable(false);
+// Enable the file deletion function, disableRemove changed to removable
+$form->image('avatar')->removable(false);
 ```
 
 

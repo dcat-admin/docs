@@ -139,14 +139,14 @@ Using randomly generated filenames (md5(uniqid()).extension)
 $form->image('picture')->uniqueName();
 ```
 
-<a name="removeable"></a>
+<a name="removable"></a>
 ### Disable page delete files (replace upload)
 
-By using the `removeable` method, you can prohibit users from clicking to delete files from the server from the page, which can achieve the effect of image overlay upload.
+By using the `removable` method, you can prohibit users from clicking to delete files from the server from the page, which can achieve the effect of image overlay upload.
 
 
 ```php
-$form->file($column[, $label])->removeable(false);
+$form->file($column[, $label])->removable(false);
 ```
 
 
