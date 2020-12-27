@@ -424,7 +424,6 @@ class UserController extends AdminController
 
 namespace Dcat\Admin\Controllers;
 
-use Dcat\Admin\IFrameGrid;
 use Dcat\Admin\Layout\Content;
 use Illuminate\Routing\Controller;
 
@@ -537,7 +536,7 @@ public function index(Content $content)
 
 实现效果如下
 
-![]({{public}}/assets/img/screenshots/users-blue-dark.png)
+![](https://cdn.learnku.com/uploads/images/202005/06/38389/p1lAW4NpQi.png!large)
 
 
 <a name="bootstrap-styles"></a>

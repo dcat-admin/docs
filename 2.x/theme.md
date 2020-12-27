@@ -4,8 +4,6 @@
 
 `Dcat Admin`支持主题切换功能，目前内置了四种主题色：`indigo`、`blue`、`blue-light`、`green`，可通过配置参数`admin.layout.color`进行切换。
 
-> {tip} `v1.3.0`版本新增配色`blue-dark` 
-
 打开配置文件`config/admin.php`
 ```php
      'layout' => [

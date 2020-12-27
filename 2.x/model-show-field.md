@@ -90,7 +90,7 @@ $show->email->prepend('mailto:');
 $show->arr->prepend('first item');
 ```
 
-从`v1.2.5`版本开始，`prepend`方法允许传入闭包参数
+`prepend`方法允许传入闭包参数
 ```php
 $show->email->prepend(function ($value, $original) {
     // $value 是当前字段值
@@ -117,7 +117,7 @@ $show->email->append('@gmail.com');
 $show->arr->append('last item');
 ```
 
-从`v1.2.5`版本开始，`append`方法允许传入闭包参数
+`append`方法允许传入闭包参数
 ```php
 $show->email->prepend(function ($value, $original) {
     // $value 是当前字段值

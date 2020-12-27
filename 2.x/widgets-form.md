@@ -119,11 +119,9 @@ class Setting extends Form
     /**
  	 * 设置表单保存成功后执行的JS
  	 *
- 	 * v1.6.5 版本之前请用 buildSuccessScript 方法
- 	 * 
 	 * @return string|void
 	 */
-	protected function addSavedScript()
+	protected function savedScript()
 	{
 	    return <<<JS
 		// data 为接口返回数据
@@ -147,11 +145,9 @@ JS;
 	/**
 	 * 设置表单保存失败后执行的JS
  	 * 
- 	 * v1.6.5 版本之前请用 buildErrorScript 方法 
-	 * 
 	 * @return string|void
 	 */
-	protected function addErrorScript()
+	protected function errorScript()
 	{
 		return <<<JS
 		var errorData = JSON.parse(response.responseText);
