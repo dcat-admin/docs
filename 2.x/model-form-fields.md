@@ -1164,7 +1164,7 @@ $form->tree('permissions')
 // 禁止过滤父节点的值
 $form->tree('permissions')
     ->nodes($permissionModel->allNodes())
-    ->>exceptParentNode(false);
+    ->exceptParentNode(false);
     
 // 默认收缩子节点
 $form->tree('permissions')

@@ -64,7 +64,7 @@ class ComingSoon extends Repository
 
     // 查询编辑页数据
     // 这个方法需要返回一个数组
-    public function edit(Form $form): array
+    public function edit(Form $form)
     {
         // 获取id
         $id = $form->builder()->getResourceId();
@@ -77,7 +77,7 @@ class ComingSoon extends Repository
     // 这个方法用于在修改数据前查询原记录
     // 如果使用了文件上传表单，当文件发生变更时会根据这个原始记录自动删除旧文件
      // 如果不需要此数据返回空数组即可
-    public function getDataWhenUpdating(Form $form): array
+    public function updating(Form $form)
     {
         // 获取id
         $id = $form->builder()->getResourceId();
@@ -104,7 +104,7 @@ class ComingSoon extends Repository
     // 这个方法用于在修改数据前查询原始数据
     // 如果使用了文件上传表单，会根据这个数据自动删除文件
     // 如果不需要此数据返回空数组即可
-    public function getDataWhenDeleting(Form $form): array
+    public function deleting(Form $form)
     {
         $id = $form->builder()->getResourceId();
         
@@ -119,7 +119,7 @@ class ComingSoon extends Repository
 
     // 删除数据
     // $deletingData 是由 getDataWhenDeleting 方法返回的数据
-    public function destroy(Form $form, array $deletingData)
+    public function destroy(Form $form, $deletingData)
     {
         // 注意这里的id可能是多个
         $id = $form->builder()->getResourceId();

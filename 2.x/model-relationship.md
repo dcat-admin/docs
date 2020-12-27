@@ -183,9 +183,7 @@ $form = Form::make(Role::with('permissions'), function (Form $form) {
 
 最终效果如下
 
-<a href="{{public}}/assets/img/screenshots/role-mtm.png" target="_blank">
-    <img class="img img-full" src="{{public}}/assets/img/screenshots/role-mtm.png">
-</a>
+![](https://cdn.learnku.com/uploads/images/202004/26/38389/aeYpYDrUQP.png!large)
 
 
 ### 关联模型名称为驼峰风格
