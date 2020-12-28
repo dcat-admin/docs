@@ -161,9 +161,7 @@ $form->fieldset('分组', function (Form $form) {
 
 效果
 
-<a href="{{public}}/assets/img/screenshots/form-fieldset.png" target="_blank">
-    <img class="img img-full" src="{{public}}/assets/img/screenshots/form-fieldset.png">
-</a>
+![](https://cdn.learnku.com/uploads/images/202005/12/38389/B0tXWUxHDp.png!large)
 
 
 ### 分块布局 (block)
@@ -172,8 +170,13 @@ $form->fieldset('分组', function (Form $form) {
 
 ```php
 $form->block(8, function (Form\BlockForm $form) {
+	// 设置标题
     $form->title('基本设置');
+    
+    // 显示底部提交按钮
     $form->showFooter();
+    
+    // 设置字段宽度
     $form->width(9, 2);
 
     $form->column(6, function (Form\BlockForm $form) {
