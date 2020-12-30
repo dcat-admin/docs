@@ -2,9 +2,8 @@
 
 This feature implements a tree component that can be dragged and dropped to achieve data hierarchy, sorting, and other operations, and here is the basic Usage.
 
-<a href="http://103.39.211.179:8080/admin/auth/permissions" target="_blank">
-    <img class="img img-full" src="{{public}}/assets/img/screenshots/model-tree.png">
-</a>
+![](https://cdn.learnku.com/uploads/images/202004/26/38389/RfWVwRHMs7.png!large)
+
 
 ## Table structures and models
 To use `model-tree`, follow the agreed table structure:

@@ -226,7 +226,7 @@ $form->saving(function (Form $form) {
 
 ### Form response
 
-> {tip} This method is not available in the `creating`, `editing`, `uploading`, `uploaded` events.
+> {tip} This method is not available in `creating` and `editing` events.
 
 Refer to the [Actions and Form Responses](response.md) section of the documentation for detailed usage.
 

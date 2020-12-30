@@ -63,7 +63,7 @@ class ComingSoon extends Repository
 
     // Query edit page data
     // This method needs to return an array.
-    public function edit(Form $form): array
+    public function edit(Form $form)
     {
         // Get id
         $id = $form->builder()->getResourceId();
@@ -76,7 +76,7 @@ class ComingSoon extends Repository
     // This method is used to query the original record before modifying the data.
     // If a file upload form is used, the old file will be automatically deleted based on this original record when the file is changed.
      // If this data is not needed, just return an empty array.
-    public function getDataWhenUpdating(Form $form): array
+    public function getDataWhenUpdating(Form $form)
     {
         // Get id
         $id = $form->builder()->getResourceId();
@@ -103,7 +103,7 @@ class ComingSoon extends Repository
     // This method is used to query the original data before modifying it.
     // If a file upload form is used, files are automatically deleted based on this data.
     // If this data is not needed, just return an empty array.
-    public function getDataWhenDeleting(Form $form): array
+    public function getDataWhenDeleting(Form $form)
     {
         $id = $form->builder()->getResourceId();
         
@@ -118,7 +118,7 @@ class ComingSoon extends Repository
 
     // Delete data
     // $deletingData is the data returned by the getDataWhenDeleting method.
-    public function destroy(Form $form, array $deletingData)
+    public function destroy(Form $form, $deletingData)
     {
         // Note that there may be multiple ids here.
         $id = $form->builder()->getResourceId();
