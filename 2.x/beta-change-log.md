@@ -1,6 +1,77 @@
 # BETA版本更新日志
 
 
+## v2.0.15-beta
+
+发布时间 2021/1/3
+
+升级方法，逐步执行以下命令
+```bash
+composer remove dcat/laravel-admin
+composer require dcat/laravel-admin:"2.0.15-beta"
+php artisan admin:publish --assets --migrations --force
+php artisan migrate
+```
+
+### 功能改进
+
+**1.升级select2到v4.1.x-beta版本**
+
+
+`select`组件升级至`v4.1.x-beta`，使`tags`表单体验更好，并支持了多国语言翻译。
+
+**2.Widgets/Modal增加弹窗垂直居中以及可滚动功能**
+
+用法如下 [#901](https://github.com/jqhph/dcat-admin/pull/901)
+
+```php
+$modal = Modal::make()
+    ->xl()
+    ->centered() // 设置弹窗垂直居中
+    ->scrollable() // 设置弹窗内容可滚动
+    ->title(...)
+    ->body(...);
+```
+
+**3.`Admin::requiredAssets`支持传递动态参数**
+
+```php
+use Dcat\Admin\Admin;
+
+// 注册前端组件别名
+// {lang} 为动态参数
+Admin::asset()->alias('@test', [
+    'js' => ['/vendor/test/js/{lang}.min.js'],
+]);
+
+// {lang} 会被替换为 zh_CN
+Admin::requireAssets('@test', ['lang' => 'zh_CN']);
+```
+
+
+### Bug修复
+
+1. 修复表单`block`布局无法保存数据问题 [#883](https://github.com/jqhph/dcat-admin/issues/883)
+2. 修复`hasMany`表单下使用`currency`失效问题 [#886](https://github.com/jqhph/dcat-admin/issues/886)
+3. 修复数据表单保存后自动跳转到详情页问题 [#893](https://github.com/jqhph/dcat-admin/issues/893)
+4. 修复`editor`表单无法清空数据问题 [#895](https://github.com/jqhph/dcat-admin/issues/895)
+5. 修复`hasMany`表单下使用`tags`的`required`验证异常问题 [#905](https://github.com/jqhph/dcat-admin/issues/905)
+6. 修复多文件上传表单删除单个文件时会导致全部文件被清空问题 [#914](https://github.com/jqhph/dcat-admin/issues/914)
+
+## v2.0.13-beta
+
+发布时间 2020/12/23
+
+升级方法，逐步执行以下命令
+```bash
+composer remove dcat/laravel-admin
+composer require dcat/laravel-admin:"2.0.13-beta"
+php artisan admin:publish --assets --migrations --force
+php artisan migrate
+```
+
+
+
 ## v2.0.14-beta
 
 发布时间 2020/12/24
