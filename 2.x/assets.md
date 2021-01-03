@@ -83,6 +83,8 @@ Admin::asset()->alias('@test', [
 
 // {lang} 会被替换为 zh_CN
 Admin::requireAssets('@test', ['lang' => 'zh_CN']);
+// 也可以这样使用
+Admin::requireAssets('@test?lang=zh_CN');
 ```
 
 
