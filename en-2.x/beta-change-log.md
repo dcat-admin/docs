@@ -1,6 +1,68 @@
 # BETA version update log
 
 
+## v2.0.15-beta
+
+Release date 2021/1/3
+
+To upgrade method, step by step execute the following command
+```bash
+composer remove dcat/laravel-admin
+composer require dcat/laravel-admin:"2.0.15-beta"
+php artisan admin:publish --assets --migrations --force
+php artisan migrate
+```
+
+### Feature improvements
+
+**1. Upgrade select2 to v4.1.x-beta version**
+
+
+Upgrade `select` component to `v4.1.x-beta`, make `tags` form experience better, and support multi-language translation.
+
+**Widgets/Modal added vertical centering and scrollable popups**.
+
+Use as follows [#901](https://github.com/jqhph/dcat-admin/pull/901)
+
+```php
+$modal = Modal::make()
+    ->xl()
+    ->centered() // Set the pop-up window to be vertically centered
+    ->scrollable() // Set the content of the pop-up window to be scrollable
+    ->title(...)
+    ->body(...);
+```
+
+**3. `Admin::requiredAssets` supports passing dynamic parameters**
+
+```php
+use Dcat\Admin\Admin;
+
+// Register front-end component aliases
+// {lang} is a dynamic parameter
+Admin::asset()->alias('@test', [
+    'js' => ['/vendor/test/js/{lang}.min.js'],
+]);
+
+// {lang} will be replaced with zh_CN
+Admin::requireAssets('@test', ['lang' => 'zh_CN']);
+// It can also be used like this
+Admin::requireAssets('@test?lang=zh_CN');
+```
+
+
+### Bug修复
+
+1. Fix the problem that the form `block` layout cannot save data [#883](https://github.com/jqhph/dcat-admin/issues/883)
+2. Fix `currency` failure under `hasMany` form [#886](https://github.com/jqhph/dcat-admin/issues/886)
+3. Repair the problem of automatically jumping to the detail page after saving the data form [#893](https://github.com/jqhph/dcat-admin/issues/893)
+4. Fix the problem that `editor` form can not clear the data [#895](https://github.com/jqhph/dcat-admin/issues/895)
+5. Fix the `required` validation exception of `tags` under `hasMany` form [#905](https://github.com/jqhph/dcat-admin/issues/905)
+6. Repair the problem of all files being emptied when deleting a single file in multi-file upload form [#914](https://github.com/jqhph/dcat-admin/issues/914)
+7. fix the problem that form fields cannot use model accessor
+
+
+
 ## v2.0.14-beta
 
 Release Date 2020/12/24
@@ -24,6 +86,8 @@ In the old version, the error message for file upload failure was not very clear
 1. fix the problem that the form field conflicts with the model `casts` attribute and the abnormal display problem using string splicing in the `display` closure [#876](https://github.com/jqhph/dcat-admin/issues/876)
 2. fix the problem that the dynamic display function of the form cannot be used [#879](https://github.com/jqhph/dcat-admin/issues/879)
 3. fix the problem of not being able to display editing data when using `Block` layout [#877](https://github.com/jqhph/dcat-admin/issues/877)
+
+
 
 ## v2.0.13-beta
 

@@ -70,6 +70,23 @@ Admin::js('@editor-md');
 Admin::css('@editor-md');
 ```
 
+Using Dynamic Parameters
+
+```php
+use Dcat\Admin\Admin;
+
+// Register front-end component aliases
+// {lang} is a dynamic parameter
+Admin::asset()->alias('@test', [
+    'js' => ['/vendor/test/js/{lang}.min.js'],
+]);
+
+// {lang} will be replaced with zh_CN
+Admin::requireAssets('@test', ['lang' => 'zh_CN']);
+// It can also be used like this
+Admin::requireAssets('@test?lang=zh_CN');
+```
+
 
 ### Loading js scripts
 

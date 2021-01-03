@@ -83,7 +83,6 @@ Supported Events
  - `onHidden` Pop-ups with hidden event
  
 UsageExample
-
 ```php
 use Dcat\Admin\Admin;
 
@@ -98,8 +97,32 @@ $modal->onHide(
 console.log('Hidden a pop-up window', target, $(this));	
 JS
 );
-``` 
- 
+```
+
+### Vertical centered (centered)
+
+Set the pop-up window to be vertically centered
+
+```php
+$modal = Modal::make()
+    ->xl()
+    ->centered() // Set the pop-up window to be vertically centered
+    ->title(...)
+    ->body(...);
+```
+
+### Scrollable content (scrollable)
+
+Set the content of the pop-up window to be scrollable
+
+```php
+$modal = Modal::make()
+    ->xl()
+    ->scrollable() // Set the content of the pop-up window to be scrollable
+    ->title(...)
+    ->body(...);
+```
+
 
 
 <a name="form"></a>
