@@ -59,6 +59,7 @@ Admin::requireAssets('@test?lang=zh_CN');
 4. 修复`editor`表单无法清空数据问题 [#895](https://github.com/jqhph/dcat-admin/issues/895)
 5. 修复`hasMany`表单下使用`tags`的`required`验证异常问题 [#905](https://github.com/jqhph/dcat-admin/issues/905)
 6. 修复多文件上传表单删除单个文件时会导致全部文件被清空问题 [#914](https://github.com/jqhph/dcat-admin/issues/914)
+7. 修复表格字段无法使用模型访问器问题
 
 ## v2.0.13-beta
 
