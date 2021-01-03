@@ -99,7 +99,29 @@ JS
 );
 ``` 
  
+### 垂直居中 (centered)
 
+设置弹窗垂直居中
+
+```php
+$modal = Modal::make()
+    ->xl()
+    ->centered() // 设置弹窗垂直居中
+    ->title(...)
+    ->body(...);
+```
+
+### 内容可滚动 (scrollable)
+
+设置弹窗内容可滚动
+
+```php
+$modal = Modal::make()
+    ->xl()
+    ->scrollable() // 设置弹窗内容可滚动
+    ->title(...)
+    ->body(...);
+```
 
 <a name="form"></a>
 ## 表单弹窗

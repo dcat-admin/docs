@@ -70,6 +70,24 @@ Admin::js('@editor-md');
 Admin::css('@editor-md');
 ```
 
+使用动态参数
+
+```php
+use Dcat\Admin\Admin;
+
+// 注册前端组件别名
+// {lang} 为动态参数
+Admin::asset()->alias('@test', [
+    'js' => ['/vendor/test/js/{lang}.min.js'],
+]);
+
+// {lang} 会被替换为 zh_CN
+Admin::requireAssets('@test', ['lang' => 'zh_CN']);
+// 也可以这样使用
+Admin::requireAssets('@test?lang=zh_CN');
+```
+
+
 
 ### 加载js脚本
 
