@@ -980,7 +980,7 @@ $form->switch($column[, $label])
 
 使用这个功能需要在 `config/admin.php` 文件中修改 `map_provider` 的值（目前支持的地图为："tencent", "google", "yandex"，不同地图需要自己申请相应的 KEY 并在 .env 文件中配置，然后需要在`app/Admin/bootstrap.php`中加入以下代码
 ```php
-Form\Field\Map::collectAssets();
+Form\Field\Map::requireAssets();
 ```
 
 使用
