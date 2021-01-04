@@ -183,9 +183,7 @@ $form = Form::make(Role::with('permissions'), function (Form $form) {
 
 The final result is as follows
 
-<a href="{{public}}/assets/img/screenshots/role-mtm.png" target="_blank">
-    <img class="img img-full" src="{{public}}/assets/img/screenshots/role-mtm.png">
-</a>
+![](https://cdn.learnku.com/uploads/images/202004/26/38389/aeYpYDrUQP.png!large)
 
 
 ### Associated model name is camelCase style

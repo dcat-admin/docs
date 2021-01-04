@@ -21,7 +21,7 @@ $grid->column('config')
     ->display($view)
     ->copyable()
     ->else()
-    ->emptyString();
+    ->display('');
 ```
 The above is equivalent to
 ```php
@@ -33,7 +33,7 @@ $grid->column('config')
         $column->display($view)->copyable();
     })
     ->else(function (Grid\Column $column) {
-        $column->emptyString();
+        $column->display('');
     });
 ```
 
@@ -201,7 +201,8 @@ $grid->column('approved')->bool(['Y' => true, 'N' => false]);
 ```
 
 result
-![]({{public}}/assets/img/screenshots/column-bool.png)
+![](https://cdn.learnku.com/uploads/images/202007/12/38389/U0OSrJwzyt.png!large)
+
 
 
 
@@ -226,8 +227,8 @@ $grid->column('state')
 ```
 
 result
+![](https://cdn.learnku.com/uploads/images/202004/30/38389/ByUqo6bZc8.png!large)
 
-![]({{public}}/assets/img/screenshots/grid-column-dot.png)
 
 <a name="expand"></a>
 ### Column expansion (expand)
@@ -260,7 +261,7 @@ $grid->column('content')->expand(function (Grid\Displayers\Expand $expand) {
 
 #### asynchronous loading
 
-> {tip}  For more specific usage of asynchronous loading, please refer to the document [Asynchronous Loading](lazy.md).
+> {tip} For further information, please refer to the document [asynchronous loading](lazy.md)
 
 Define rendering classes that inherit `Dcat\Admin\Support\LazyRenderable`
 
@@ -300,7 +301,7 @@ use
 ```php
 $grid->post->display('View')->expand(Post::make(['post_type' => 1]));
 
-// Allows return of asynchronously loaded class instances within closures starting from v1.6.0
+// Instances of asynchronously loaded classes can be returned within closures
 $grid->post->expand(function () {
     // Allows return of asynchronously loaded class instances within than package
 
@@ -310,16 +311,14 @@ $grid->post->expand(function () {
 
 result
 
-<a href="{{public}}/assets/img/screenshots/expand-lazy-render.gif" target="_blank">
-	![]({{public}}/assets/img/screenshots/expand-lazy-render.gif)
-</a>
+![](https://cdn.learnku.com/uploads/images/202006/14/38389/KMHagem4OZ.gif!large)
 
 
 #### Asynchronous Loading Tool Form
 
 Define the [tools-form](widgets-form.md) class as follows
 
-> {tip} Starting with `v1.7.0`, most components including [tools-form](widgets-form.md), [charts](widgets-charts.md) are supported for asynchronous rendering, see [load asynchronously](lazy.md) for details
+> {tip} See [asynchronous loading](lazy.md) for more information on how to use it.
 
 ```php
 <?php
@@ -441,7 +440,7 @@ use
 ```php
 $grid->post->display('View')->modal('Post', Post::make(['post_type' => 2]));
 
-// Allows return of asynchronously loaded class instances within closures starting from v1.6.0
+// Instances of asynchronously loaded classes can be returned within closures
 $grid->post->modal(function ($modal) {
     $modal->title('Custom pop-up window TITLE');
 
@@ -451,9 +450,7 @@ $grid->post->modal(function ($modal) {
 ```
 
 result
-<a href="{{public}}/assets/img/screenshots/modal-lazy-render.gif" target="_blank">
-	![]({{public}}/assets/img/screenshots/modal-lazy-render.gif)
-</a>
+![](https://cdn.learnku.com/uploads/images/202006/14/38389/DvvyZUTXpG.gif!large)
 
 
 
@@ -461,7 +458,7 @@ result
 
 Define the [tools-form](widgets-form.md) class as follows
 
-> {tip} Starting with `v1.7.0`, most components including [tools-form](widgets-form.md), [charts](widgets-charts.md) are supported for asynchronous rendering, see [load asynchronously](lazy.md) for details
+> {tip} See [asynchronous loading](lazy.md) for more information on how to use it.
 
 ```php
 <?php
@@ -559,7 +556,8 @@ $grid->permissions->showTreeInDialog(function (Grid\Displayers\DialogTree $tree)
     }
 });
 ```
-![]({{public}}/assets/img/screenshots/grid-column-tree.png)
+![](https://cdn.learnku.com/uploads/images/202004/26/38389/s1htW08Iko.png!large)
+
 
 ### Content mapping (using)
 ```php
@@ -590,7 +588,7 @@ $grid->email->prepend('mailto:');
 $grid->arr->prepend('first item');
 ```
 
-As of `v1.2.5`, the `prepend` method allows the passing of closure parameters.
+The `prepend` method allows passing parameters to closures
 ```php
 $grid->email->prepend(function ($value, $original) {
     // $value is the current field value
@@ -614,7 +612,7 @@ $grid->email->append('@gmail.com');
 $grid->arr->append('last item');
 ```
 
-As of `v1.2.5`, the `append` method allows the passing of closure parameters.
+The `append` method allows passing parameters to closures
 ```php
 $grid->email->prepend(function ($value, $original) {
     // $value is the current field value
@@ -720,10 +718,6 @@ use
 $grid->order->orderable();
 ```
 
-result
-<a href="{{public}}/assets/img/screenshots/grid-display-orderable.png" target="_blank">
-    <img  src="{{public}}/assets/img/screenshots/grid-display-orderable.png" style="box-shadow:0 1px 6px 1px rgba(0, 0, 0, 0.12)" width="100%">
-</a>
 
 
 ### Link (link)
@@ -821,9 +815,7 @@ protected function grid()
 
 result
 
-<a href="{{public}}/assets/img/screenshots/action-star.png" target="_blank">
-    <img  src="{{public}}/assets/img/screenshots/action-star.png" style="box-shadow:0 1px 6px 1px rgba(0, 0, 0, 0.12)" width="140px">
-</a>
+![](https://cdn.learnku.com/uploads/images/202005/17/38389/g8F7p8gnsE.png!large)
 
 
 ## Ways to help

@@ -90,7 +90,7 @@ $show->email->prepend('mailto:');
 $show->arr->prepend('first item');
 ```
 
-As of `v1.2.5`, the `prepend` method allows the passing of closure parameters
+The `prepend` method allows passing parameters to closures
 ```php
 $show->email->prepend(function ($value, $original) {
     // $value is the current field value
@@ -117,7 +117,7 @@ $show->email->append('@gmail.com');
 $show->arr->append('last item');
 ```
 
-As of `v1.2.5`, the `append` method allows the passing of closure parameters.
+The `append` method allows passing parameters to closures
 ```php
 $show->email->append(function ($value, $original) {
     // $value is the current field value

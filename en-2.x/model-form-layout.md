@@ -160,9 +160,8 @@ $form->fieldset('分组', function (Form $form) {
 
 result
 
-<a href="{{public}}/assets/img/screenshots/form-fieldset.png" target="_blank">
-    <img class="img img-full" src="{{public}}/assets/img/screenshots/form-fieldset.png">
-</a>
+![](https://cdn.learnku.com/uploads/images/202005/12/38389/B0tXWUxHDp.png!large)
+
 
 
 ### Block layout (block)
@@ -171,8 +170,13 @@ If your form has a lot of fields, you can block your form and allow nested `colu
 
 ```php
 $form->block(8, function (Form\BlockForm $form) {
+	// Set the title
     $form->title('Basic settings');
+
+    // Show bottom submit button    
     $form->showFooter();
+    
+    // Set the field width
     $form->width(9, 2);
 
     $form->column(6, function (Form\BlockForm $form) {

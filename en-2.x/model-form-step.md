@@ -17,9 +17,9 @@ protected function form()
         $form->disableListButton();
     
         $form->multipleSteps()
-            ->remember()
+            ->remember() // remember form steps, not enabled by default
             ->width('950px')
-            ->add('General Information', function (Form\StepForm $step) {
+            ->add('General Information', function ($step) {
                 $info = '<i class="fa fa-exclamation-circle"></i> The form fields support a mix of front-end and back-end validation, and front-end validation supports html form validation and custom validation.';
     
                 $step->html(Alert::make($info)->info());
@@ -44,7 +44,7 @@ protected function form()
                 $step->textarea('description', 'INTRODUCTION');
     
             })
-            ->add('兴趣爱好', function (Form\StepForm $step) {
+            ->add('Hobbies', function ($step) {
                 $step->tags('hobbies', 'preferences')
                     ->options(['sing', 'dance', 'rap', 'play football'])
                     ->required();
@@ -61,7 +61,7 @@ protected function form()
                 });
     
             })
-            ->add('地址', function (Form\StepForm $step) {
+            ->add('Address', function ($step) {
                 $step->text('address', 'street address');
                 $step->text('post_code', 'zip code');
                 $step->tel('tel', ' telephone number');

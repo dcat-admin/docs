@@ -119,11 +119,9 @@ class Setting extends Form
     /**
  	 * Set the JS to be executed after the form is saved.
  	 *
- 	 * Please use the buildSuccessScript method before v1.6.5.
- 	 * 
 	 * @return string|void
 	 */
-	protected function addSavedScript()
+	protected function savedScript()
 	{
 	    return <<<JS
 		// data Return data for the interface
@@ -147,11 +145,9 @@ JS;
 	/**
 	 * Set the JS to be executed after a failed form save
  	 * 
- 	 * Please use the buildErrorScript method before v1.6.5. 
-	 * 
 	 * @return string|void
 	 */
-	protected function addErrorScript()
+	protected function errorScript()
 	{
 		return <<<JS
 		var errorData = JSON.parse(response.responseText);

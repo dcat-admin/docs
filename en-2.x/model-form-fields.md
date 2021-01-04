@@ -1166,7 +1166,7 @@ $form->tree('permissions')
 // Disable filtering of parent node values
 $form->tree('permissions')
     ->nodes($permissionModel->allNodes())
-    ->exceptParentNode(false);    
+    ->exceptParentNode(false);
     
 // Default Collapsed Child Nodes
 $form->tree('permissions')

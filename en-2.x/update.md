@@ -8,11 +8,6 @@ The release of `Dcat Admin` will take into account the release strategy of the m
 
 
 
-> {tip} Only major upgrades like `v1.0.0` to `v2.0.0` may have compatibility issues, while smaller versions are fully compatible.
-
-
-
-
 ### Upgrade command
 upgrade command
 ```bash

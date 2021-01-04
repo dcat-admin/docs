@@ -20,20 +20,21 @@ protected function grid()
         // Set the style
         $grid->combine('top', ['topCost', 'topVist', 'topIncr'])->style('color:#1867c0');
         
-        $grid->content->limit(50);
-        $grid->cost->sortable();
-        $grid->avgMonthCost;
-        $grid->avgQuarterCost->setHeaderAttributes(['style' => 'color:#5b69bc']);
-        $grid->avgYearCost;
-        $grid->avgMonthVist;
-        $grid->avgQuarterVist;
-        $grid->avgYearVist;
-        $grid->incrs->hide();
-        $grid->avgVists->hide();
-        $grid->topCost;
-        $grid->topVist;
-        $grid->topIncr;
-        $grid->date->sortable();
+        $grid->column('content')->limit(50);
+        $grid->column('cost')->sortable();
+        $grid->column('avgMonthCost');
+        $grid->column('avgQuarterCost')->setHeaderAttributes(['style' => 'color:#5b69bc']);
+        $grid->column('avgYearCost');
+        $grid->column('avgMonthVist');
+        $grid->column('avgQuarterVist');
+        $grid->column('avgYearVist');
+        $grid->column('incrs');
+        $grid->column('avgVists');
+        $grid->column('topCost');
+        $grid->column('topVist');
+        $grid->column('topIncr');
+        $grid->column('date')->sortable();
+
     });
 }
 ```

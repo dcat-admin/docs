@@ -136,9 +136,7 @@ Dcat.success('Update SUCCESS', null, {
 });
 ```
 
-<a href="{{public}}/assets/img/screenshots/toastr.png" target="_blank">
-    <img src="{{public}}/assets/img/screenshots/toastr.png"  style="box-shadow:0 1px 6px 1px rgba(0, 0, 0, 0.12)">
-</a>
+![](https://cdn.learnku.com/uploads/images/202004/26/38389/zmB4EPhS3u.png!large)
 
 ### error
 ```js
@@ -203,9 +201,8 @@ Dcat.confirm('Are you sure you want to delete this line of data?？', null, func
     $.post(...);
 });
 ```
-<a href="{{public}}/assets/img/screenshots/confirm.png" target="_blank">
-    <img width="100%" src="{{public}}/assets/img/screenshots/confirm.png"  style="box-shadow:0 1px 6px 1px rgba(0, 0, 0, 0.12)">
-</a>
+![](https://cdn.learnku.com/uploads/images/202004/26/38389/lp40C74OtV.png!large)
+
 
 
 ### success
@@ -219,9 +216,8 @@ Dcat.swal.success('TITLE', 'content', {
     ...
 });
 ```
-<a href="{{public}}/assets/img/screenshots/swal-success.png" target="_blank">
-    <img width="100%" src="{{public}}/assets/img/screenshots/swal-success.png"  style="box-shadow:0 1px 6px 1px rgba(0, 0, 0, 0.12)">
-</a>
+![](https://cdn.learnku.com/uploads/images/202004/26/38389/OrhZ4dvA5R.png!large)
+
 
 ### error
 
@@ -234,9 +230,8 @@ Dcat.swal.error('TITLE', 'content', {
     ...
 });
 ```
-<a href="{{public}}/assets/img/screenshots/swal-error.png" target="_blank">
-    <img width="100%" src="{{public}}/assets/img/screenshots/swal-error.png"  style="box-shadow:0 1px 6px 1px rgba(0, 0, 0, 0.12)">
-</a>
+![](https://cdn.learnku.com/uploads/images/202004/26/38389/lnp47PDecK.png!large)
+
 
 ### warning
 
@@ -249,9 +244,6 @@ Dcat.swal.warning('TITLE', 'content', {
     ...
 });
 ```
-<a href="{{public}}/assets/img/screenshots/swal-warning.png" target="_blank">
-    <img width="100%" src="{{public}}/assets/img/screenshots/swal-warning.png"  style="box-shadow:0 1px 6px 1px rgba(0, 0, 0, 0.12)">
-</a>
 
 ### info
 
@@ -309,9 +301,8 @@ setTimeout(function () {
 
 result
 
-<a href="{{public}}/assets/img/screenshots/loading1.png" target="_blank">
-    <img width="100%" src="{{public}}/assets/img/screenshots/loading1.png"  style="box-shadow:0 1px 6px 1px rgba(0, 0, 0, 0.12)">
-</a>
+![](https://cdn.learnku.com/uploads/images/202004/26/38389/FIWAUFg1qn.png!large)
+
 
 Change the color of the loading icon
 
@@ -321,9 +312,7 @@ Dcat.loading({
     color: Dcat.color.primary,
 });
 ```
-<a href="{{public}}/assets/img/screenshots/loading2.png" target="_blank">
-    <img src="{{public}}/assets/img/screenshots/loading2.png"  style="box-shadow:0 1px 6px 1px rgba(0, 0, 0, 0.12)">
-</a>
+![](https://cdn.learnku.com/uploads/images/202004/26/38389/WPIC4wwq5Q.png!large)
 
 
 ### Attached to the specified element
@@ -359,9 +348,8 @@ $('#card').loading({
 
 result
 
-<a href="{{public}}/assets/img/screenshots/loading3.png" target="_blank">
-    <img src="{{public}}/assets/img/screenshots/loading3.png"  style="box-shadow:0 1px 6px 1px rgba(0, 0, 0, 0.12)">
-</a>
+![](https://cdn.learnku.com/uploads/images/202004/26/38389/ziHL5feEAV.png!large)
+
 
 
 ### buttons
@@ -375,9 +363,8 @@ $('#submit-button').buttonLoading(false);
 ```
 
 result
-<a href="{{public}}/assets/img/screenshots/btn-loading.png" target="_blank">
-    <img src="{{public}}/assets/img/screenshots/btn-loading.png"  style="box-shadow:0 1px 6px 1px rgba(0, 0, 0, 0.12)">
-</a>
+![](https://cdn.learnku.com/uploads/images/202004/26/38389/rNMFWAHPqJ.png!large)
+
 
 ### a tag
 
@@ -392,9 +379,7 @@ $('a').buttonLoading();
 $('a').buttonLoading(false);
 ```
 result
-<a href="{{public}}/assets/img/screenshots/a-loading.png" target="_blank">
-    <img src="{{public}}/assets/img/screenshots/a-loading.png"  style="box-shadow:0 1px 6px 1px rgba(0, 0, 0, 0.12)">
-</a>
+![](https://cdn.learnku.com/uploads/images/202004/26/38389/IE8kGdupKW.png!large)
 
 
 
@@ -438,18 +423,18 @@ Dcat.ready(function () {
                 return false;
             }
         },
-        success: function (data) {
+        success: function (response) {
             // Return data for the interface
-            if (! data.status) {
-                Dcat.error(data.message);
+            if (! response.status) {
+                Dcat.error(response.data.message);
 
                 return false;
             }
 
-            Dcat.success(data.message);
+            Dcat.success(response.data.message);
 
 			if (data.redirect) {
-			    Dcat.reload(data.redirect)
+                Dcat.reload(response.data.value)
 			}
 
             // Abort follow-up logic (default logic)
@@ -490,16 +475,16 @@ $form.on('submit', function () {
 function submit() {
     Dcat.Form({
         form: $form,
-        success: function (data) {
-            if (! data.status) {
-                Dcat.error(data.message);
+        success: function (response) {
+            if (! response.status) {
+                Dcat.error(response.data.message);
 
                 return false;
             }
 
-            Dcat.success(data.message);
+            Dcat.success(response.data.message);
 
-            location.href = data.redirect;
+            location.href = response.data.value;
 
             return false;
         },
@@ -575,12 +560,9 @@ $('#xx-form').form({
 
 result
 
-<a href="{{public}}/assets/img/screenshots/validate1.png" target="_blank">
-    <img width="60%" src="{{public}}/assets/img/screenshots/validate1.png"  style="box-shadow:0 1px 6px 1px rgba(0, 0, 0, 0.12)">
-</a>
-<a href="{{public}}/assets/img/screenshots/validate2.png" target="_blank">
-    <img width="60%" src="{{public}}/assets/img/screenshots/validate2.png"  style="box-shadow:0 1px 6px 1px rgba(0, 0, 0, 0.12)">
-</a>
+![](https://cdn.learnku.com/uploads/images/202004/26/38389/wJxcYaC9GP.png!large)
+![](https://cdn.learnku.com/uploads/images/202004/26/38389/qdXUaNEMSQ.png!large)
+
 
 <a name="extend-validator"></a>
 #### Extended Validation Rules
