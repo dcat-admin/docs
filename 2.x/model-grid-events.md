@@ -22,9 +22,7 @@ Grid::resolving(function (Grid $grid) {
 
     $grid->disableRowSelector();
 
-    $grid->disableTools();
-
-    $grid->disableExport();
+    $grid->disableToolbar();
 });
 
 
