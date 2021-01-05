@@ -981,7 +981,7 @@ Map control to select latitude and longitude, `$latitude`, `$longitude` for the 
 To use this feature you need to change the value of `map_provider` in the `config/admin.php` file (currently supported maps are: "tencent", "google", "yandex"). 
 For different maps, you need to apply your own KEY and configure it in the .env file, then you need to add the following code to `app/Admin/bootstrap.php`.
 ```php
-Form\Field\Map::collectAssets();
+Form\Field\Map::requireAssets();
 ```
 
 use
