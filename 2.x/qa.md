@@ -166,7 +166,27 @@ class User extend Model
 }
 ```
 
-### 14.图片防盗链
+###14.前后台session发生冲突
+
+从`2.0`的版本之后 `admin.session` 中间件不再默认启用，如果您的应用同时有前台和后台，则需要开启 `admin.session` 中间件，否则会造成前后台 `session` 冲突问题。
+
+把配置参数 `admin.route.enable_session_middleware` 的值设置为 `true` 即可开启
+```php
+    'route' => [
+        'domain' => env('ADMIN_ROUTE_DOMAIN'),
+
+        'prefix' => env('ADMIN_ROUTE_PREFIX', 'admin'),
+
+        'namespace' => 'App\\Admin\\Controllers',
+
+        'middleware' => ['web', 'admin'],
+        
+        // 开启 admin.session 中间件
+        'enable_session_middleware' => true,
+    ],
+```
+
+### 15.图片防盗链
 图片请求默认会去掉 `referer` 字段，如果有防盗链要求，可以在配置文件(`config/admin.php`)中设置：
 
 ```

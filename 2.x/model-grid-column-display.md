@@ -385,6 +385,9 @@ $grid->column('content')
     ->modal(function ($modal) {
         // 设置弹窗标题
         $modal->title('标题 '.$this->username);
+        
+       // 自定义图标
+       $modal->icon('feather icon-x');
     
         $card = new Card(null, $this->content);
     

@@ -140,6 +140,23 @@ $form->tab('Basic info', function (Form $form) {
 })
 ```
 
+设置默认显示的 `Tab`
+
+```php
+// 默认显示标题为 标题2 的 Tab
+$form->getTab()->active('标题2');
+// 也可以指定偏移量
+$form->getTab()->activeByIndex(1);
+
+$form->tab('标题1', function ($form) {
+    ...
+});
+
+$form->tab('标题2', function ($form) {
+    ...
+});
+```
+
 
 #### Fieldset布局
 
