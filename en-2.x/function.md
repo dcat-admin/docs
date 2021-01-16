@@ -1,5 +1,57 @@
 # Help function
 
+### admin_exit
+
+`admin_exit` is used to interrupt program execution and respond to data displayed to the browser, instead of `exit` and `die`, the following is a brief description of usage
+
+
+Usage 1, return `Content` layout object, this usage can be used to return error messages to the front end
+```php
+use Dcat\Admin\Widgets\Alert;
+use Dcat\Admin\Layout\Content;
+
+// Interrupt the program and display a custom page to the front end
+admin_exit(
+    Content::make()
+        ->title('title')
+        ->description('description')
+        ->body('Page content 1')
+        ->body(Alert::make('Server error~', 'Error')->danger())
+);
+```
+
+The effect is as follows
+
+! [](https://cdn.learnku.com/uploads/images/202101/11/38389/FLg6C7kwRq.png!large)
+
+Usage 2, returning `json` formatted data, often used for `api` request interception for form submissions, or `api` request interception for `Action`
+
+```php
+use Dcat\Admin\Admin;
+
+admin_exit(
+    Admin::json()
+        ->success('succeeded')
+        ->refresh()
+        ->data([
+            ...
+        ])
+);
+
+// Of course you can also respond directly to the array
+admin_exit([
+   ...
+]);
+```
+
+Usage 3, direct corresponding `Response` object or string
+
+```php
+admin_exit('Hello world');
+
+admin_exit(response('Hello world', 500));
+```
+
 ### admin_color
 
 Get the built-in color. For more information on the use of theme colors, please refer to the [Theme - Colors](theme.md#color) section.

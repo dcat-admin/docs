@@ -167,6 +167,14 @@ $form->disableEditingCheck();
 $form->disableCreatingCheck();
 ```
 
+Customizing Views
+
+```php
+$form->footer(function ($footer) {
+    $footer->view('...' , [...]) ;
+});
+```
+
 ## Common methods
 
 ### Form layout
