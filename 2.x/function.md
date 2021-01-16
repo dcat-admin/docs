@@ -1,5 +1,57 @@
 # 帮助函数
 
+### admin_exist
+
+`admin_exist` 用于中断程序执行，并响应数据到浏览器进行显示，用于代替 `exit` 和 `die`，下面简单介绍下用法
+
+
+用法1，返回 `Content` 布局对象，此用法可用于返回错误信息显示到前端
+```php
+use Dcat\Admin\Widgets\Alert;
+use Dcat\Admin\Layout\Content;
+
+// 中断程序，并显示自定义页面到前端
+admin_exit(
+    Content::make()
+        ->title('标题')
+        ->description('描述')
+        ->body('页面内容1')
+        ->body(Alert::make('服务器出错了~', 'Error')->danger())
+);
+```
+
+效果如下
+
+![](https://cdn.learnku.com/uploads/images/202101/11/38389/FLg6C7kwRq.png!large)
+
+用法2，返回 `json` 格式数据，此用法经常用于表单提交数据的`api`请求拦截，或`Action`的`api`请求拦截
+
+```php
+use Dcat\Admin\Admin;
+
+admin_exit(
+    Admin::json()
+        ->success('成功了')
+        ->refresh()
+        ->data([
+            ...
+        ])
+);
+
+// 当然也可以直接响应数组
+admin_exit([
+   ...
+]);
+```
+
+用法3，直接相应`Response`对象或字符串
+
+```php
+admin_exit('Hello world');
+
+admin_exit(response('Hello world', 500));
+```
+
 ### admin_color
 
 获取内置颜色，关于主题颜色更多用法请参考[主题 - 颜色](theme.md#color)章节

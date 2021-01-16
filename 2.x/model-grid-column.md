@@ -5,6 +5,32 @@
 $grid->column('id')->sortable();
 ```
 
+表格字段支持关联关系表字段以及`json`字段的排序
+
+> 注意，关联关系仅支持`hasOne`以及`belongsTo`两种类型的字段排序，并且不支持多层级嵌套！
+
+```php
+// 关联关系表字段排序
+$grid->column('profile.age')->sortable();
+
+// 指定需要排序的字段名称
+$grid->column('my_age')->sortable('profile.age');
+
+// json字段排序
+$grid->column('options.price')->sortable('options->price');
+// 关联关系表的 json 字段排序
+$grid->column('profile.options.price')->sortable('profile.options->price');
+```
+
+支持`MySql`的```order by cast(`{field}` as {type})```用法
+
+```php
+$grid->column('profile.age')->sortable(null, 'SIGNED');
+
+$grid->column('profile.options.price')->sortable('profile.options->price', 'SIGNED');
+```
+
+
 ### 设置列的宽度 (width)
 设置列的宽度，当字段内容过长时可以使用这个方法限制列宽度
 ```php
