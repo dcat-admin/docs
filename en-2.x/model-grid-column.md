@@ -5,6 +5,32 @@
 $grid->column('id')->sortable();
 ```
 
+Form fields support sorting of relational table fields and `json` fields
+
+> Note that associative relationships only support `hasOne` and `belongsTo` types of field sorting, and do not support multiple levels of nesting!
+
+```php
+// Sorting fields in the association table
+$grid->column('profile.age')->sortable();
+
+// Specify the name of the field to be sorted
+$grid->column('my_age')->sortable('profile.age');
+
+// json field sorting
+$grid->column('options.price')->sortable('options->price');
+// Sort the json fields of the association table
+$grid->column('profile.options.price')->sortable('profile.options->price');
+```
+
+Support ``MySql`` ``order by cast(`{field}` as {type})`` usage
+
+```php
+$grid->column('profile.age')->sortable(null, 'SIGNED');
+
+$grid->column('profile.options.price')->sortable('profile.options->price', 'SIGNED');
+```
+
+
 ### Set the width of the column (width)
 Set the column width, which can be used to limit the column width when the field is too long
 ```php
