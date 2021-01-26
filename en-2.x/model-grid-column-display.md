@@ -385,6 +385,9 @@ $grid->column('content')
     ->modal(function ($modal) {
         // Set pop-up window TITLE
         $modal->title('TITLE '.$this->username);
+
+       // Custom icons
+       $modal->icon('feather icon-x');
     
         $card = new Card(null, $this->content);
     

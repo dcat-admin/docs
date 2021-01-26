@@ -167,6 +167,14 @@ $form->disableEditingCheck();
 $form->disableCreatingCheck();
 ```
 
+自定义视图
+
+```php
+$form->footer(function ($footer) {
+    $footer->view('...', [...]);
+});
+```
+
 ## 常用方法
 
 ### 表单布局

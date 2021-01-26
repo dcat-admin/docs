@@ -166,7 +166,27 @@ class User extend Model
 }
 ```
 
-### 14. Picture security chain
+### 14. Frontend and backend session conflict
+
+Since `2.0` version `admin.session` middleware is no longer enabled by default, if your application has both frontend and backend, you need to enable `admin.session` middleware, otherwise it will cause front and backend `session` conflict problem.
+
+Set the value of the configuration parameter `admin.route.enable_session_middleware` to `true` to enable it
+```php
+    'route' => [
+        'domain' => env('ADMIN_ROUTE_DOMAIN'),
+
+        'prefix' => env('ADMIN_ROUTE_PREFIX', 'admin'),
+
+        'namespace' => 'App\\Admin\\Controllers',
+
+        'middleware' => ['web', 'admin'],
+        
+        // enable admin.session middleware
+        'enable_session_middleware' => true,
+    ],
+```
+
+### 15. Image anti-theft chain
 Image requests will have the `referer` field removed by default, but if you have a security chain requirement, you can set this in the configuration file (`config/admin.php`).
 
 ```

@@ -1,6 +1,231 @@
 # BETA版本更新日志
 
 
+## v2.0.16-beta
+
+发布时间 2021/1/11
+
+升级方法，逐步执行以下命令
+```bash
+composer remove dcat/laravel-admin
+composer require dcat/laravel-admin:"2.0.16-beta"
+php artisan admin:publish --assets --migrations --force
+php artisan migrate
+```
+
+
+### 破坏性变动
+
+**1.表单字段的 `disableHorizontal` 调整为 `horizontal` **
+
+更改表单字段布局方式为`horizontal`，此功能默认启用，用法如下
+
+```php
+// 禁用 horizontal 布局
+$form->text('...')->horizontal(false);
+```
+
+### 功能改进
+
+**1.增强表格字段排序(sortable)功能**
+
+使表格字段支持关联关系表字段以及`json`字段的排序
+
+> 注意，关联关系仅支持`hasOne`以及`belongsTo`两种类型的字段排序，并且不支持多层级嵌套！
+
+```php
+// 关联关系表字段排序
+$grid->column('profile.age')->sortable();
+
+// 指定需要排序的字段名称
+$grid->column('my_age')->sortable('profile.age');
+
+// json字段排序
+$grid->column('options.price')->sortable('options->price');
+// 关联关系表的 json 字段排序
+$grid->column('profile.options.price')->sortable('profile.options->price');
+```
+
+支持`MySql`的```order by cast(`{field}` as {type})```用法
+
+```php
+$grid->column('profile.age')->sortable(null, 'SIGNED');
+
+$grid->column('profile.options.price')->sortable('profile.options->price', 'SIGNED');
+```
+
+
+**2.增加 admin_exist 函数，用于代替 exit**
+
+`admin_exist` 用于中断程序执行，并响应数据到浏览器进行显示，用于代替 `exit` 和 `die`，下面简单介绍下用法
+
+
+用法1，返回 `Content` 布局对象，此用法可用于返回错误信息显示到前端
+```php
+use Dcat\Admin\Widgets\Alert;
+use Dcat\Admin\Layout\Content;
+
+// 中断程序，并显示自定义页面到前端
+admin_exit(
+    Content::make()
+        ->title('标题')
+        ->description('描述')
+        ->body('页面内容1')
+        ->body(Alert::make('服务器出错了~', 'Error')->danger())
+);
+```
+
+效果如下
+
+![](https://cdn.learnku.com/uploads/images/202101/11/38389/FLg6C7kwRq.png!large)
+
+用法2，返回 `json` 格式数据，此用法经常用于表单提交数据的`api`请求拦截，或`Action`的`api`请求拦截
+
+```php
+use Dcat\Admin\Admin;
+
+admin_exit(
+    Admin::json()
+        ->success('成功了')
+        ->refresh()
+        ->data([
+            ...
+        ])
+);
+
+// 当然也可以直接响应数组
+admin_exit([
+   ...
+]);
+```
+
+用法3，直接相应`Response`对象或字符串
+
+```php
+admin_exit('Hello world');
+
+admin_exit(response('Hello world', 500));
+```
+
+
+**3.增加 Show\Field::bool() 和 Show\Field::bold() 方法**
+
+字段值为真显示 `✓`, 否则显示 `✗` [#940](https://github.com/jqhph/dcat-admin/pull/940)
+
+```php
+$show->field('...')->bool();
+```
+
+字段值加粗显示
+
+```php
+$show->field('...')->bold();
+
+// 指定颜色
+$show->field('...')->bold(admin_color()->primary());
+```
+
+
+**4.增加 Form\Footer::view()  方法**
+ 
+通过 `Form\Footer::view()` 方法可以自定义数据表单的底部视图 [#957](https://github.com/jqhph/dcat-admin/pull/957)
+
+```php
+$form->footer(function ($footer) {
+    $footer->view('...', [...]);
+});
+```
+
+
+**5.增加表单默认显示指定 Tab 功能**
+
+```php
+// 默认显示标题为 标题2 的 Tab
+$form->getTab()->active('标题2');
+// 也可以指定偏移量
+$form->getTab()->activeByIndex(1);
+
+$form->tab('标题1', function ($form) {
+    ...
+});
+
+$form->tab('标题2', function ($form) {
+    ...
+});
+```
+
+**6.增加表单 Form\Row::horizontal() 方法**
+
+设置布局为 `horizontal`
+
+```php
+$form->row(function (Form\Row $form) {
+	$form->horizontal();
+
+	...
+});
+```
+
+**7.表格 Modal 增加自定义图标功能**
+
+
+```php
+$grid->column('...')->modal(function ($modal) {
+    // 自定义图标
+    $modal->icon('feather icon-x');
+    
+    return ...;
+});
+```
+
+**8.增加路由域名限制配置**
+
+通过配置参数`admin.route.domain`可以限制路由的域名, 打开配置文件 `config/admin.php`
+
+```php
+    'route' => [
+        'domain' => env('ADMIN_ROUTE_DOMAIN'),
+
+        'prefix' => env('ADMIN_ROUTE_PREFIX', 'admin'),
+
+        'namespace' => 'App\\Admin\\Controllers',
+
+        'middleware' => ['web', 'admin'],
+    ],
+```
+
+
+**9.增加 admin.session 中间件的启用或禁用配置**
+
+从`2.0`的版本之后 `admin.session` 中间件不再默认启用，如果您的应用同时有前台和后台，则需要开启 `admin.session` 中间件，否则会造成前后台 `session` 冲突问题。
+
+把配置参数 `admin.route.enable_session_middleware` 的值设置为 `true` 即可开启
+```php
+    'route' => [
+        'domain' => env('ADMIN_ROUTE_DOMAIN'),
+
+        'prefix' => env('ADMIN_ROUTE_PREFIX', 'admin'),
+
+        'namespace' => 'App\\Admin\\Controllers',
+
+        'middleware' => ['web', 'admin'],
+        
+        // 开启 admin.session 中间件
+        'enable_session_middleware' => true,
+    ],
+```
+
+### BUG修复
+
+1. 修复数据表格`Grid::header`以及`Grid::footer`回调的第一个参数中`Model`被转化为`array`格式问题
+2. 修复切换主题时文件上传按钮颜色无法跟着改变问题 [#938](https://github.com/jqhph/dcat-admin/issues/938)
+3. 修复 `Widgets\Table` 构造方法第三个参数设置无效问题
+4. 修复 `app/Admin/bootstrap.php` 中使用 `config(['admin.layout.color' => '...'])` 覆盖主题色可能无效问题
+5. 修复数据表格过滤器重置关联关系表单字段无效问题 [#949](https://github.com/jqhph/dcat-admin/issues/949)
+6. 修复表格过滤器 `group` 功能显示异常问题 [#929](https://github.com/jqhph/dcat-admin/issues/929)
+7. 修复当页面存在多个 `selectTable` 表单时所有弹窗都只显示第一个设置的 `title` 问题 [#926](https://github.com/jqhph/dcat-admin/issues/926)
+
+
 ## v2.0.15-beta
 
 发布时间 2021/1/3

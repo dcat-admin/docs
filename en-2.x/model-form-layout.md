@@ -140,6 +140,24 @@ $form->tab('Basic info', function (Form $form) {
 ```
 
 
+Set the default display of ``Tab``
+
+```php
+// Show the Tab with the title Title 2 by default
+$form->getTab()->active('Title2');
+// You can also specify an offset
+$form->getTab()->activeByIndex(1);
+
+$form->tab('Heading 1', function ($form) {
+    ...
+});
+
+$form->tab('Title2', function ($form) {
+    ...
+});
+```
+
+
 #### Fieldset Layout
 
 ```php

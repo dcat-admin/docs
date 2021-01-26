@@ -1,6 +1,230 @@
 # BETA version update log
 
 
+## v2.0.16-beta
+
+Release date 2021/1/11
+
+To upgrade, step-by-step execute the following command
+```bash
+composer remove dcat/laravel-admin
+composer require dcat/laravel-admin:"2.0.16-beta"
+php artisan admin:publish --assets --migrations --force
+php artisan migrate
+```
+
+
+### Breaking changes
+
+**1. Adjusted `disableHorizontal` to `horizontal` for form fields **
+
+Change the form field layout to `horizontal`, this is enabled by default and is used as follows
+
+```php
+// Disable the horizontal layout
+$form->text('...')->horizontal(false);
+```
+
+### Feature improvements
+
+**1. Enhance the sortable function of form fields**
+
+Make form fields support sortable for relational table fields and `json` fields
+
+> Note that associative relationships only support `hasOne` and `belongsTo` types of field sorting, and do not support multiple levels of nesting!
+
+```php
+// Sorting fields in the associated table
+$grid->column('profile.age')->sortable();
+
+// Specify the name of the field to be sorted
+$grid->column('my_age')->sortable('profile.age');
+
+// json field sorting
+$grid->column('options.price')->sortable('options->price');
+// Sort the json fields of the association table
+$grid->column('profile.options.price')->sortable('profile.options->price');
+```
+
+Support `MySql` ```order by cast(`{field}` as {type})``` usage
+
+```php
+$grid->column('profile.age')->sortable(null, 'SIGNED');
+
+$grid->column('profile.options.price')->sortable('profile.options->price', 'SIGNED');
+```
+
+
+**2. Add admin_exist function to replace exit**
+
+`admin_exist` is used to interrupt the execution of the program and respond to the browser with data for display, instead of `exit` and `die`, the following is a brief description of usage
+
+
+Usage 1, return `Content` layout object, this usage can be used to return error messages to the front end
+```php
+use Dcat\Admin\Widgets\Alert;
+use Dcat\Admin\Layout\Content;
+
+// Interrupt the program and display a custom page to the front end
+admin_exit(
+    Content::make()
+        ->title('title')
+        ->description('description')
+        ->body('Page content 1')
+        ->body(Alert::make('Server error~', 'Error')->danger())
+);
+```
+
+The effect is as follows
+
+![](https://cdn.learnku.com/uploads/images/202101/11/38389/FLg6C7kwRq.png!large)
+
+Usage 2, returning `json` formatted data, often used for `api` request interception for form submissions, or `api` request interception for `Action`
+
+```php
+use Dcat\Admin\Admin;
+
+admin_exit(
+    Admin::json()
+        ->success('succeeded')
+        ->refresh()
+        ->data([
+            ...
+        ])
+);
+
+// Of course you can also respond directly to the array
+admin_exit([
+   ...
+]);
+```
+
+Usage 3, direct corresponding `Response` object or string
+
+```php
+admin_exit('Hello world');
+
+admin_exit(response('Hello world', 500));
+```
+
+
+**3. Add Show\Field::bool() and Show\Field::bold() methods**
+
+Show `✓` if the field value is true, otherwise show `✗` [#940](https://github.com/jqhph/dcat-admin/pull/940)
+
+```php
+$show->field('...')->bool();
+```
+
+Bolded field values
+
+```php
+$show->field('...') ->bold();
+
+// Specify the color
+$show->field('...') ->bold(admin_color()->primary());
+```
+
+**4. Add Form\Footer::view() method**
+
+The ``Form\Footer::view()` method allows you to customize the bottom view of a data form [#957](https://github.com/jqhph/dcat-admin/pull/957)
+
+```php
+$form->footer(function ($footer) {
+    $footer->view('...' , [...]) ;
+});
+```
+
+
+**5. Add form default to show specified Tab function**
+
+```php
+// Show the Tab with the title Title 2 by default
+$form->getTab()->active('Title2');
+// You can also specify an offset
+$form->getTab()->activeByIndex(1);
+
+$form->tab('Heading 1', function ($form) {
+    ...
+});
+
+$form->tab('Title2', function ($form) {
+    ...
+});
+```
+
+**6. Add form Form\Row::horizontal() method**
+
+Set the layout to ``horizontal``
+
+```php
+$form->row(function (Form\Row $form) {
+	$form->horizontal();
+
+	...
+});
+```
+
+**7. Form Modal adds custom icon functionality**
+
+
+```php
+$grid->column('...') ->modal(function ($modal) {
+    // Custom icons
+    $modal->icon('feather icon-x');
+    
+    return ... ;
+});
+```
+
+
+**8. Add route domain restriction configuration**
+
+You can restrict the domain name of a route by configuring the parameter `admin.route.domain`, opening the configuration file `config/admin.php`
+
+```php
+    'route' => [
+        'domain' => env('ADMIN_ROUTE_DOMAIN'),
+
+        'prefix' => env('ADMIN_ROUTE_PREFIX', 'admin'),
+
+        'namespace' => 'App\\Admin\\Controllers',
+
+        'middleware' => ['web', 'admin'],
+    ],
+```
+
+
+**9. Add enable or disable configuration for admin.session middleware**
+
+After `2.0` version `admin.session` middleware is no longer enabled by default, if your application has both frontend and backend, you need to enable `admin.session` middleware, otherwise it will cause front and backend `session` conflict problem.
+
+Set the value of the configuration parameter `admin.route.enable_session_middleware` to `true` to enable it
+```php
+    'route' => [
+        'domain' => env('ADMIN_ROUTE_DOMAIN'),
+
+        'prefix' => env('ADMIN_ROUTE_PREFIX', 'admin'),
+
+        'namespace' => 'App\Admin\\Controllers',
+
+        'middleware' => ['web', 'admin'],
+        
+        // enable admin.session middleware
+        'enable_session_middleware' => true,
+    ],
+```
+
+### BUG FIXES
+
+1. fix the problem that `Model` is converted to `array` format in the first parameter of `Grid::header` and `Grid::footer` callback of data table
+2. repair the problem that the color of file upload button cannot be changed when switching themes [#938](https://github.com/jqhph/dcat-admin/issues/938)
+3. repair the invalid setting of the third parameter of `Widgets\Table` construction method
+4. fix the problem of using `config(['admin.layout.color' => '...']) in `app/Admin/bootstrap.php` ' Override theme color may be invalid
+5. fix the problem of invalid data table filter reset association form fields [#949](https://github.com/jqhph/dcat-admin/issues/949)
+6. repair the problem of abnormal display of `group` function of table filter [#929](https://github.com/jqhph/dcat-admin/issues/929)
+7. fix the problem that only the first set `title` is displayed in all popups when there are multiple `selectTable` forms on the page [#926](https://github.com/jqhph/dcat-admin/issues/926)
+
 ## v2.0.15-beta
 
 Release date 2021/1/3
