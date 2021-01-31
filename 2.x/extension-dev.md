@@ -378,6 +378,10 @@ $secretFields = OperationLogServiceProvider::setting('secret_fields');
 
 由于当前这个例子中没有使用到服务注册与初始化相关功能，所以这部分内容先略过，有相关需要的同学可以参考[扩展 - 服务注册与初始化](extension-f.md#service)章节。
 
+### 视图 (view)
+
+由于当前这个例子中没有使用到自定义静态资源的功能，所以这部分内容先略过，有相关需要的同学可以参考[扩展 - 视图](extension-f.md#view)章节。
+
 
 
 ### 静态资源

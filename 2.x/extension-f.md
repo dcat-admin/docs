@@ -93,6 +93,24 @@ return [
 
 如果你想完全移除扩展的代码，则直接删除 `dcat-admin-extensions` 目录下对应的扩展文件夹即可。
 
+<a name="view"></a>
+### 视图 (view)
+
+视图的默认目录为`扩展目录/resources/view`
+
+```bash
+├── resources 
+│   ├── ...
+│   └── views # 视图目录
+│       └── index.blade.php # 视图示例文件
+```
+
+只要把视图文件放在上述目录，系统就会自动给视图目录注册别名，别名与扩展名称相同。假设你的扩展包名称为 `dcat-admin/form-step`，则可以通过以下方式加载视图
+
+```php
+return view('dcat-admin.form-step::index');
+```
+
 <a name="assets"></a>
 ### 静态资源
 
