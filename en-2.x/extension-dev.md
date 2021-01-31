@@ -378,6 +378,11 @@ $secretFields = OperationLogServiceProvider::setting('secret_fields');
 Since the current example does not use the service registration and initialization related functions, so this part of the content is skipped, students who need related information can refer to [extension-f.md#service](extension-f.md#service) chapter.
 
 
+### View (view)
+
+Since the current example does not use the function of custom static resources, so this part of the content is skipped first, students with related needs can refer to the [extension - view](extension-f.md#view) chapter.
+
+
 
 ### Static resources
 
