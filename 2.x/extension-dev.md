@@ -52,6 +52,7 @@ php artisan admin:ext-make dcat-admin/operation-log --namespace="Dcat\Admin\Oper
 ├── README.md
 ├── composer.json # composer配置文件
 ├── version.php   # 扩展包版本管理文件
+├── logo.png      # logo
 ├── updates       # 扩展包每个版本对应的表迁移文件
 ├── resources 
 │   ├── lang    # 语言包
@@ -73,6 +74,18 @@ php artisan admin:ext-make dcat-admin/operation-log --namespace="Dcat\Admin\Oper
             └── OperationLogController.php
 ```
 
+然后你还可以设置扩展的`logo`以及扩展名称，设置之后会在扩展管理页面展示，让你的扩展更具容易被人记住！
+
+<a name="logo"></a>
+### 扩展logo
+
+扩展`logo`必须放在扩展的根目录，并且文件名必须是`logo.png`，尺寸建议是`100x100`。
+
+### 扩展名称
+
+扩展名称需要修改`composer.json`里面的`alias`参数，如果不设置则默认展示包名
+
+
 ## 2.启用扩展
 
 扩展创建成功之后就可以在管理页面`http://localhost/admin/auth/extensions` 看到新创建的扩展了，效果如下
@@ -92,6 +105,7 @@ php artisan admin:ext-make dcat-admin/operation-log --namespace="Dcat\Admin\Oper
 ├── README.md
 ├── composer.json # composer配置文件
 ├── version.php   # 扩展包版本管理文件
+├── logo.png      # logo
 ├── updates       # 扩展包每个版本对应的表迁移文件
 ├── resources 
 │   └── lang  # 语言包

@@ -108,6 +108,35 @@ $bootstrap = admin_path('bootstrap.php');
 $url = admin_url('auth/users');
 ```
 
+### admin_route
+
+根据别名获取URL
+
+`app/Admin/routes.php`路由注册如下
+```php
+Route::group([
+    'prefix'        => config('admin.route.prefix'),
+    'namespace'     => config('admin.route.namespace'),
+    'middleware'    => config('admin.route.middleware'),
+], function (Router $router) {
+	// 设置别名
+	$router->resource('users', 'UserController', [
+		'names' => ['index' => 'my-users'],
+	]);
+
+});
+```
+
+根据别名获取URL
+
+```php
+// 获取url
+$url = admin_route('my-users');
+
+// 判断路由
+$isUsers = request()->routeIs(admin_route_name('users'));
+```
+
 ### admin_base_path
 
 获取`Dcat Admin`应用的路由路径：

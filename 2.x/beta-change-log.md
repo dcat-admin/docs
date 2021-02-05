@@ -1,5 +1,171 @@
 # BETA版本更新日志
 
+## v2.0.17-beta
+
+发布时间 2021/2/5
+
+升级方法，逐步执行以下命令，并清除浏览器缓存
+```bash
+composer remove dcat/laravel-admin
+composer require dcat/laravel-admin:"2.0.17-beta"
+php artisan admin:publish --assets --migrations --force
+php artisan migrate
+```
+
+### 功能改进
+
+**1.优化表格排序功能**
+
+支持`orderBy`直接使用关联关系表字段进行排序，注意这里仅支持`一对一`以及`一对多`关联关系
+
+```php
+$grid->model()->orderBy('profile.age');
+```
+
+**2.增加模型树以及树形表格自定义`parent_id`值功能**
+
+模型树以及树形表格可以在`model`中自定义`parent_id`值，默认值为`0`
+```php
+class Category extends Model
+{
+	use ModelTree;
+
+	// 设置默认 parent_id 为 A
+	protected $defaultParentId = 'A';
+}
+```
+
+**3.数据详情 `file` 支持展示多文件**
+
+[#985](https://github.com/jqhph/dcat-admin/pull/985)
+
+```php
+$show->field('...')->files();
+```
+
+效果
+
+![](https://cdn.learnku.com/uploads/images/202102/02/38389/B0a2qZEBUL.png!large)
+
+
+**4.`Form::input`支持数组批量设置**
+
+```php
+$form->submitted(function ($form) {
+    $form->input(['k1' => 'v1', 'k2' => 'v2' ...]);
+});
+```
+
+**5.扩展管理支持`logo`以及`别名展示`**
+
+详细用法参考文档 [扩展](extension-dev.md#logo)
+
+
+**6.增加admin_route方法根据别名获取URL**
+
+`app/Admin/routes.php`路由注册如下
+```php
+Route::group([
+    'prefix'        => config('admin.route.prefix'),
+    'namespace'     => config('admin.route.namespace'),
+    'middleware'    => config('admin.route.middleware'),
+], function (Router $router) {
+	// 设置别名
+	$router->resource('users', 'UserController', [
+		'names' => ['index' => 'my-users'],
+	]);
+
+});
+```
+
+根据别名获取URL
+
+```php
+// 获取url
+$url = admin_route('my-users');
+
+// 判断路由
+$isUsers = request()->routeIs(admin_route_name('users'));
+```
+
+**8.JsonResponse::location 允许不传参**
+
+如果不传参会在`1`秒之后自动刷新当前页面
+
+```php
+return Admin::json()->success('操作成功')->location();
+```
+
+**9.页面布局Layout\Column支持等宽布局**
+
+当列宽度设置为`0`时会使用等宽布局 [#1018](https://github.com/jqhph/dcat-admin/pull/1018)
+
+```php
+use Dcat\Admin\Layout\Row;
+use Dcat\Admin\Layout\Content;
+
+return Content::make()
+	->body(function (Row $row) {
+	    $row->column(0, view('...'));
+	});
+```
+
+**10.页面布局Layout\Row支持no-gutters属性**
+
+`.row`上带有`margin-left: -15px;margin-right: -15px;`属性，你可以在`.row`上上定义`.no-gutters`属性，从而消除这个属性，使页面不会额外宽出`30px`，即`<div class="row no-gutters"...`
+```php
+$content->row(function (Row $row) {
+	// 启用 no-gutters
+	$row->noGutters();
+
+	$row->column(9, function (Column $column) {
+		$column->row($this->card(['col-md-12', 20], '#4DB6AC'));
+		
+		$column->row(function (Row $row) {
+			// 启用 no-gutters
+			$row->noGutters();
+
+			$row->column(4, $this->card(['col-md-4', 30], '#80CBC4'));
+			$row->column(4, $this->card(['col-md-4', 30], '#4DB6AC'));
+			$row->column(4, function (Column $column) {
+				$column->row(function (Row $row) {
+					// 启用 no-gutters
+					$row->noGutters();
+
+					$row->column(6, $this->card(['col-md-6', 30], '#26A69A'));
+					$row->column(6, $this->card(['col-md-6', 30], '#26A69A'));
+				});
+			});
+		});
+	});
+});
+```
+
+效果如下
+
+![](https://cdn.learnku.com/uploads/images/202102/05/38389/4YlO8aOPCW.jpg!large)
+
+**11.表格删除数据后保留URL的get参数**
+
+在之前的版本中，删除数据后会丢失`URL`的`get`参数，导致跳转回表格第一页，这个版本对这个功能进行了优化，删除后依然会保留`URL`的`get`参数 [#961](https://github.com/jqhph/dcat-admin/issues/961)
+
+
+**12.重构文件上传前端代码**
+
+此功能为技术性优化，这个版本对文件上传前端代码进行了重构、拆分代码，使其更易阅读和维护
+
+### BUG修复
+
+1. 修复`MultipleSelect`表单样式异常问题 [#967](https://github.com/jqhph/dcat-admin/issues/967)
+2. 修复加载`markdown`组件后使用`select2`表单异常问题 [#990](https://github.com/jqhph/dcat-admin/issues/990)
+3. 修复文件上传在`Linux`服务器下保存繁体中文文件名丢失问题 [#993](https://github.com/jqhph/dcat-admin/issues/993)
+4. 修复 `Widgets\Dropdown::click` 无法显示默认选项问题
+5. 修复`form`表单中的`number`组件文本内容为空时点击加减按钮出现`NaN`问题  [#995](https://github.com/jqhph/dcat-admin/issues/995)
+6. 修复图片预览失败提示无法使用翻译文件问题
+7. 修复一对一关联关系`Range`表单使用验证规则判断异常问题
+8. 修复多应用情况下路由别名冲突的问题
+
+
 
 ## v2.0.16-beta
 

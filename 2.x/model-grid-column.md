@@ -30,6 +30,18 @@ $grid->column('profile.age')->sortable(null, 'SIGNED');
 $grid->column('profile.options.price')->sortable('profile.options->price', 'SIGNED');
 ```
 
+#### 设置默认排序
+
+```php
+$grid->model()->orderBy('id', 'desc');
+```
+
+这个功能也支持关联关系表字段排序，注意这里仅支持`一对一`以及`一对多`关联关系
+
+```php
+$grid->model()->orderBy('profile.age');
+```
+
 
 ### 设置列的宽度 (width)
 设置列的宽度，当字段内容过长时可以使用这个方法限制列宽度

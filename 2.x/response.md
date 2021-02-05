@@ -8,9 +8,12 @@
 return $this->response()->success('成功！');
 
 // 等同于
+use Dcat\Admin\Admin;
 use Dcat\Admin\Http\JsonResponse;
 
 return JsonResponse::make()->success('成功！');
+
+return Admin::make()->success('成功！');
 ```
 
 如果是在控制器中使用，需要加上`send`方法
@@ -61,10 +64,16 @@ $this->response()->redirect('auth/users');
 
 #### 跳转 (location)
 
-此方法接收一个`string`类型参数
+`1`秒后自动跳转（非局部刷新），此方法接收一个`string`类型参数
 
 ```php
-$this->response()->location('auth/users');
+$this->response()->success('操作成功')->location('auth/users');
+```
+
+如果不传参则刷新当前页面
+
+```php
+$this->response()->success('操作成功')->location();
 ```
 
 #### 刷新当前页面
