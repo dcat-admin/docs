@@ -71,7 +71,9 @@ Route::group([
     'middleware'    => config('admin.route.middleware'),
 ], function (Router $router) {
 	// 设置别名
-	$router->resource('users', 'UserController')->name('users');
+	$router->resource('users', 'UserController', [
+		'names' => ['index' => 'my-users'],
+	]);
 
 });
 ```
@@ -80,7 +82,7 @@ Route::group([
 
 ```php
 // 获取url
-$url = admin_route('users');
+$url = admin_route('my-users');
 
 // 判断路由
 $isUsers = request()->routeIs(admin_route_name('users'));
