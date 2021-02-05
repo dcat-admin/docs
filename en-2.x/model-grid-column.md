@@ -30,6 +30,18 @@ $grid->column('profile.age')->sortable(null, 'SIGNED');
 $grid->column('profile.options.price')->sortable('profile.options->price', 'SIGNED');
 ```
 
+#### set default sort
+
+```php
+$grid->model()->orderBy('id', 'desc');
+```
+
+This function also supports sorting fields in the association table, note that only ``one to one`` and ``one to many`` associations are supported here
+
+```php
+$grid->model()->orderBy('profile.age');
+```
+
 
 ### Set the width of the column (width)
 Set the column width, which can be used to limit the column width when the field is too long

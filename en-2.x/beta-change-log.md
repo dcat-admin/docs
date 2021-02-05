@@ -1,5 +1,171 @@
 # BETA version update log
 
+## v2.0.17-beta
+
+Release date 2021/2/5
+
+To upgrade, step-by-step execute the following commands and clear the browser cache
+```bash
+composer remove dcat/laravel-admin
+composer require dcat/laravel-admin:"2.0.17-beta"
+php artisan admin:publish --assets --migrations --force
+php artisan migrate
+```
+
+### Function improvement
+
+**1. Optimize the table sorting function**
+
+Support `orderBy` to sort directly using related table fields, note that only `one to one` and `one to many` related relationships are supported here
+
+```php
+$grid->model()->orderBy('profile.age');
+```
+
+**2. Add the function of customizing `parent_id` value in the model tree and tree table**
+
+Model tree and tree table can be customized in `model` with `parent_id` value, the default value is `0`.
+```php
+class Category extends Model
+{
+	use ModelTree;
+
+    // Set the default parent_id to A
+	protected $defaultParentId = 'A';
+}
+```
+
+**3. Data details `file` supports displaying multiple files**
+
+[#985](https://github.com/jqhph/dcat-admin/pull/985)
+
+```php
+$show->field('...')->files();
+```
+
+Result
+
+![](https://cdn.learnku.com/uploads/images/202102/02/38389/B0a2qZEBUL.png!large)
+
+
+**4.`Form::input` supports array batch settings**
+
+```php
+$form->submitted(function ($form) {
+    $form->input(['k1' => 'v1', 'k2' => 'v2' ...]);
+});
+```
+
+**5. Extension management supports `logo` and `alternate display`**
+
+Refer to the documentation [extensions](extension-dev.md#logo) for detailed usage
+
+
+**6. Add admin_route method to get URL by alias**
+
+The `app/Admin/routes.php` route is registered as follows
+```php
+Route::group([
+    'prefix'        => config('admin.route.prefix'),
+    'namespace'     => config('admin.route.namespace'),
+    'middleware'    => config('admin.route.middleware'),
+], function (Router $router) {
+	// Set alias
+	$router->resource('users', 'UserController', [
+		'names' => ['index' => 'my-users'],
+	]);
+
+});
+```
+
+Get URL by alias
+
+```php
+// Get the url
+$url = admin_route('my-users');
+
+// Determine the route
+$isUsers = request()->routeIs(admin_route_name('users'));
+```
+
+**JsonResponse::location allows not to pass parameters**
+
+The current page will be automatically refreshed after ``1`` seconds if no parameters are passed
+
+```php
+return Admin::json()->success('operation successful')->location();
+```
+
+**9.Page LayoutLayout\Column support equal width layout**
+
+Equal-width layout is used when the column width is set to `0` [#1018](https://github.com/jqhph/dcat-admin/pull/1018)
+
+```php
+use Dcat\Admin\Layout\Row;
+use Dcat\Admin\Layout\Content;
+
+return Content::make()
+	->body(function (Row $row) {
+	    $row->column(0, view('...'));
+	});
+```
+
+**10. The page layout Layout\Row supports no-gutters property**
+
+`.row` with `margin-left: -15px;margin-right: -15px;` attribute, you can eliminate this attribute by defining the `.no-gutters` attribute on `.row` so that the page is not `30px` extra wide, i.e. `<div class="row no- gutters"... `
+```php
+$content->row(function (Row $row) {
+	// Enable no-gutters
+	$row->noGutters();
+
+	$row->column(9, function (Column $column) {
+		$column->row($this->card(['col-md-12', 20], '#4DB6AC'));
+		
+		$column->row(function (Row $row) {
+			// Enable no-gutters
+			$row->noGutters();
+
+			$row->column(4, $this->card(['col-md-4', 30], '#80CBC4'));
+			$row->column(4, $this->card(['col-md-4', 30], '#4DB6AC'));
+			$row->column(4, function (Column $column) {
+				$column->row(function (Row $row) {
+					// Enable no-gutters
+					$row->noGutters();
+
+					$row->column(6, $this->card(['col-md-6', 30], '#26A69A'));
+					$row->column(6, $this->card(['col-md-6', 30], '#26A69A'));
+				});
+			});
+		});
+	});
+});
+```
+
+The effect is as follows
+
+![](https://cdn.learnku.com/uploads/images/202102/05/38389/4YlO8aOPCW.jpg!large)
+
+**11. Retain the get parameter of the URL after deleting data from the form**
+
+In the previous version, the `get` parameter of the `URL` was lost after deleting data, resulting in jumping back to the first page of the form. This version has optimized this feature, and the `get` parameter of the `URL` is still retained after deletion [#961](https://github.com/jqhph/dcat-admin/issues/ 961)
+
+
+**12. Refactor file upload front-end code**
+
+This feature is a technical optimization, this version refactored the file upload front-end code, split the code to make it easier to read and maintain
+
+### BUG FIXES
+
+1. fix `MultipleSelect` form style exception problem [#967](https://github.com/jqhph/dcat-admin/issues/967)
+2. fix the abnormal problem of using `select2` form after loading `markdown` component [#990](https://github.com/jqhph/dcat-admin/issues/990)
+3. fix the problem of losing traditional Chinese file name saved under `Linux` server when uploading files [#993](https://github.com/jqhph/dcat-admin/issues/993)
+4. fix the problem that `Widgets\Dropdown::click` cannot display default options
+5. fix the problem of `NaN` when clicking the plus/minus button when the text content of `number` component in `form` form is empty [#995](https://github.com/jqhph/dcat-admin/issues/995)
+6. repair the problem that the picture preview fails to indicate that the translation file cannot be used
+7. repair the problem of abnormal judgment of `Range` form of one-to-one association relationship using validation rules
+8. repair the problem of route alias conflict under multiple applications
+
+
 
 ## v2.0.16-beta
 

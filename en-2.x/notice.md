@@ -265,6 +265,67 @@ $content->row(function (Row $row) {
 ----------------------------------
 ```
 
+#### Equal Width Layout
+
+When the column width is set to `0`, the equal-width layout is used
+
+```php
+use Dcat\Admin\Layout\Row;
+use Dcat\Admin\Layout\Content;
+
+return Content::make()
+	->body(function (Row $row) {
+	    $row->column(0, 'foo');
+	    $row->column(0, 'bar');
+	    $row->column(0, 'baz');
+	});
+	
+----------------------------------
+|foo       |bar       |baz       |
+|          |          |          |
+|          |          |          |
+|          |          |          |
+|          |          |          |
+|          |          |          |
+----------------------------------
+```
+
+#### no-gutters
+`.row` with a `margin-left: -15px;margin-right: -15px;` attribute, you can eliminate this attribute by defining the `.no-gutters` attribute on `.row` so that the page is not an extra `30px` wide, i.e. `<div class="row no- gutters"... `
+```php
+$content->row(function (Row $row) {
+	// Enable no-gutters
+	$row->noGutters();
+
+	$row->column(9, function (Column $column) {
+		$column->row($this->card(['col-md-12', 20], '#4DB6AC'));
+		
+		$column->row(function (Row $row) {
+			// Enable no-gutters
+			$row->noGutters();
+
+			$row->column(4, $this->card(['col-md-4', 30], '#80CBC4'));
+			$row->column(4, $this->card(['col-md-4', 30], '#4DB6AC'));
+			$row->column(4, function (Column $column) {
+				$column->row(function (Row $row) {
+					// Enable no-gutters
+					$row->noGutters();
+
+					$row->column(6, $this->card(['col-md-6', 30], '#26A69A'));
+					$row->column(6, $this->card(['col-md-6', 30], '#26A69A'));
+				});
+			});
+		});
+	});
+});
+```
+
+The result is as follows
+
+![](https://cdn.learnku.com/uploads/images/202102/05/38389/4YlO8aOPCW.jpg!large)
+
+
+
 ### Build a page without a menu bar (full)
 
 The page built in the above way defaults to a page with a left menu bar and a top navigation bar.

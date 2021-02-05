@@ -155,7 +155,7 @@ $grid->columns('email', 'username' ...);
 ```php
 $grid->model()->where('id', '>', 100);
 
-$grid->model()->orderBy('id', 'desc');
+$grid->model()->orderBy('profile.age');
 
 // Recycle bin data
 $grid->model()->onlyTrashed();
@@ -174,7 +174,9 @@ protected function grid()
 }
 ```
 
-Other queries can be found in the `eloquent` query.
+Other query methods can be found in the `eloquent` query method
+
+
 
 ### Modify display output (display)
 
