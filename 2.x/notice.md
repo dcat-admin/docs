@@ -265,6 +265,67 @@ $content->row(function (Row $row) {
 ----------------------------------
 ```
 
+#### 等宽布局
+
+当列宽度设置为`0`时会使用等宽布局
+
+```php
+use Dcat\Admin\Layout\Row;
+use Dcat\Admin\Layout\Content;
+
+return Content::make()
+	->body(function (Row $row) {
+	    $row->column(0, 'foo');
+	    $row->column(0, 'bar');
+	    $row->column(0, 'baz');
+	});
+	
+----------------------------------
+|foo       |bar       |baz       |
+|          |          |          |
+|          |          |          |
+|          |          |          |
+|          |          |          |
+|          |          |          |
+----------------------------------
+```
+
+#### no-gutters
+`.row`上带有`margin-left: -15px;margin-right: -15px;`属性，你可以在`.row`上上定义`.no-gutters`属性，从而消除这个属性，使页面不会额外宽出`30px`，即`<div class="row no-gutters"...`
+```php
+$content->row(function (Row $row) {
+	// 启用 no-gutters
+	$row->noGutters();
+
+	$row->column(9, function (Column $column) {
+		$column->row($this->card(['col-md-12', 20], '#4DB6AC'));
+		
+		$column->row(function (Row $row) {
+			// 启用 no-gutters
+			$row->noGutters();
+
+			$row->column(4, $this->card(['col-md-4', 30], '#80CBC4'));
+			$row->column(4, $this->card(['col-md-4', 30], '#4DB6AC'));
+			$row->column(4, function (Column $column) {
+				$column->row(function (Row $row) {
+					// 启用 no-gutters
+					$row->noGutters();
+
+					$row->column(6, $this->card(['col-md-6', 30], '#26A69A'));
+					$row->column(6, $this->card(['col-md-6', 30], '#26A69A'));
+				});
+			});
+		});
+	});
+});
+```
+
+效果如下
+
+![](https://cdn.learnku.com/uploads/images/202102/05/38389/4YlO8aOPCW.jpg!large)
+
+
+
 ### 构建无菜单栏页面 (full)
 
 通过以上方法构建的页面默认是带有左边菜单栏和顶部导航栏的，

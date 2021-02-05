@@ -155,7 +155,7 @@ $grid->columns('email', 'username' ...);
 ```php
 $grid->model()->where('id', '>', 100);
 
-$grid->model()->orderBy('id', 'desc');
+$grid->model()->orderBy('profile.age');
 
 // 回收站数据
 $grid->model()->onlyTrashed();
@@ -174,7 +174,9 @@ protected function grid()
 }
 ```
 
-其它查询方法可以参考`eloquent`的查询方法.
+其它查询方法可以参考`eloquent`的查询方法
+
+
 
 ### 修改显示输出 (display)
 
