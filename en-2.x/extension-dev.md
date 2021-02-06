@@ -51,6 +51,7 @@ After the extension is created, you can see an additional directory `dcat-admin/
 ├── README.md
 ├── composer.json # composer configuration file
 ├── version.php   # Extension Package Version Management Document
+├── logo.png      # logo
 ├── updates       # Table migration files for each version of the extension package
 ├── resources 
 │   ├── lang    # language pack
@@ -72,6 +73,18 @@ After the extension is created, you can see an additional directory `dcat-admin/
             └── OperationLogController.php
 ```
 
+Then you can also set the extension's `logo` and the extension name, which will be displayed on the extension management page after you set it, making your extension more memorable!
+
+<a name="logo"></a
+### Extension logo
+
+The extension `logo` must be placed in the extension's root directory, and the file name must be `logo.png`, with a recommended size of `100x100`.
+
+### Extension name
+
+The extension name needs to be modified with the `alias` parameter in `composer.json`, if not set then the package name is displayed by default
+
+
 ## 2. Enable extensions
 
 Once the extension has been created, you can see the newly created extension on the admin page `http://localhost/admin/auth/extensions` as follows
@@ -91,6 +104,7 @@ The main function of this extension is to record the user's operation records, a
 ├── README.md
 ├── composer.json # composer configuration file
 ├── version.php   # Extension Package Version Management Document
+├── logo.png      # logo
 ├── updates       # Table migration files for each version of the extension package
 ├── resources 
 │   └── lang  # language pack
@@ -376,6 +390,11 @@ $secretFields = OperationLogServiceProvider::setting('secret_fields');
 ### Service registration and initialization
 
 Since the current example does not use the service registration and initialization related functions, so this part of the content is skipped, students who need related information can refer to [extension-f.md#service](extension-f.md#service) chapter.
+
+
+### View (view)
+
+Since the current example does not use the function of custom static resources, so this part of the content is skipped first, students with related needs can refer to the [extension - view](extension-f.md#view) chapter.
 
 
 

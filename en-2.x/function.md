@@ -108,6 +108,35 @@ Get the full url of the route for the `Dcat Admin` application:
 $url = admin_url('auth/users');
 ```
 
+### admin_route
+
+Get URL by alias
+
+The `app/Admin/routes.php` route is registered as follows
+```php
+Route::group([
+    'prefix'        => config('admin.route.prefix'),
+    'namespace'     => config('admin.route.namespace'),
+    'middleware'    => config('admin.route.middleware'),
+], function (Router $router) {
+	// Set aliases
+	$router->resource('users', 'UserController', [
+		'names' => ['index' => 'my-users'],
+	]);
+
+});
+```
+
+Get URL by alias
+
+```php
+// Get the url
+$url = admin_route('my-users');
+
+// Determine the route
+$isUsers = request()->routeIs(admin_route_name('users'));
+```
+
 ### admin_base_path
 
 Get the routing path for the `Dcat Admin` application.

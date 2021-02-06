@@ -93,6 +93,23 @@ If your extension is already installed, you can uninstall the extension through 
 
 If you want to remove the extensions completely, just delete the extensions folder in the `dcat-admin-extensions` directory.
 
+<a name="view"></a>
+### View
+
+The default directory for the view is `extensions/resources/view`
+
+```bash
+├── resources 
+│   ├── ...
+│   └── views # 视图目录
+│       └── index.blade.php # 视图示例文件
+```
+
+As soon as you put the view file in the above directory, the system will automatically register an alias to the view directory, which is the same as the extension name. Suppose your extension package name is `dcat-admin/form-step`, then you can load the view in the following way
+```php
+return view('dcat-admin.form-step::index');
+```
+
 <a name="assets"></a>
 ### Static resources
 

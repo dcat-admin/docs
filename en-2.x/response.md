@@ -8,9 +8,12 @@ You can get the `Dcat\Admin\Http\JsonResponse` object in the class by using `$th
 return $this->response()->success('success！');
 
 // equal to
+use Dcat\Admin\Admin;
 use Dcat\Admin\Http\JsonResponse;
 
 return JsonResponse::make()->success('success！');
+
+return Admin::make()->success('Success!') ;
 ```
 
 If used in a controller, you need to add the `send` method
@@ -61,10 +64,16 @@ $this->response()->redirect('auth/users');
 
 #### Redirect (location)
 
-This method takes an argument of type `string`.
+An automatic redirect ( non-partial refresh ) after `1` seconds, this method takes a `string` type parameter
 
 ```php
-$this->response()->location('auth/users');
+$this->response()->success('operation successful')->location('auth/users');
+```
+
+Refresh the current page if no parameters are passed
+
+```php
+$this->response()->success('operation successful')->location();
 ```
 
 #### Refresh current page
