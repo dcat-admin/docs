@@ -1,5 +1,92 @@
 # BETA版本更新日志
 
+## v2.0.18-beta
+
+发布时间 2021/2/20
+
+升级方法，逐步执行以下命令，并清除浏览器缓存
+```bash
+composer remove dcat/laravel-admin
+composer require dcat/laravel-admin:"2.0.18-beta"
+php artisan admin:publish --assets --migrations --force
+php artisan migrate
+```
+
+### 功能改进
+
+
+**1.增加菜单顶部横向布局 (Horizontal)**
+
+设置配置参数 `admin.layout.horizontal_menu` 的值为 `true` 开启此功能，效果如下
+
+![](https://cdn.learnku.com/uploads/images/202102/20/38389/SpmXMujJ3D.png!large)
+
+**2.权限中间件以及跳过登陆判断时可以填写路由别名并且无需增加前缀**
+
+配置文件以及权限设置路由别名时无需填写路由前缀
+
+```php
+    'permission' => [
+        ...
+    
+        // 跳过权限判断
+        'except' => [
+            // 可以直接填写路由别名，并且无需写路由前缀
+            'custom.users',
+        ],
+
+    ],
+```
+
+**3.数据表格行数据增加 `_index` 字段用于保存行序号**
+
+数据表格行数据增加 `_index` 字段用于保存行序号，从 `0` 开始，用法如下
+
+```php
+// 在 display 回调中使用
+$grid->column('序号')->display(function () {
+    return $this->_index + 1;
+});
+
+
+// 在行操作 action 中使用
+$grid->actions(function ($actions) {
+    $index = $this->_index;
+    
+    ...
+});
+```
+
+
+**4.重命名 markdown 组件静态资源别名，避免与自定义 blade 标签产生冲突**
+
+**5.增加配置参数 `admin.menu.default_icon` 用于设置默认菜单图标**
+
+`admin.menu.default_icon` 用于设置菜单默认图标，默认值为 `feather icon-circle`
+
+**6.增加新的区块位置 `NAVBAR_BEFORE` 以及 `NAVBAR_AFTER`**
+
+```php
+use Dcat\Admin\Admin;
+
+// 往顶部导航栏前输出内容
+admin_inject_section(Admin::SECTION['NAVBAR_BEFORE'], view('...'));
+
+// 往顶部导航栏后输出内容
+admin_inject_section(Admin::SECTION['NAVBAR_AFTER'], view('...'));
+```
+
+**6.优化表格字段选择器代码**
+
+
+### BUG修复
+
+1. 修复扩展管理页面`new`标签显示异常问题 [#1044](https://github.com/jqhph/dcat-admin/issues/1044)
+2. 修复文件上传成功后直接删除报错问题 [#1058](https://github.com/jqhph/dcat-admin/issues/1058)
+3. 修复 `Form::number` 表单在使用 `min` 和 `max` 方法后输入值异常问题
+
+
+
 ## v2.0.17-beta
 
 发布时间 2021/2/5

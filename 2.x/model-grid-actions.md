@@ -59,7 +59,24 @@ public function grid()
 }
 ```
 
+### 获取行序号 (index)
 
+序号从 `0` 开始计算
+
+```php
+// 在 display 回调中使用
+$grid->column('序号')->display(function () {
+    return $this->_index + 1;
+});
+
+
+// 在行操作 action 中使用
+$grid->actions(function ($actions) {
+    $index = $this->_index;
+    
+    ...
+});
+```
 
 ### 获取当前行数据
 
