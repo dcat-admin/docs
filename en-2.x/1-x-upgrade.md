@@ -1,111 +1,110 @@
-# v1.x版本升级指南
+# v1.x Upgrade Guide
 
 
-### 前言
+### Preface
 
-本章节内容只包含 `1.x` 版本中 `API` 改动的部分，不包含新增特性或对用户使用无影响的改动说明， `2.0` 的具体版本变化说明请参考 [2.0有哪些变化？](https://learnku.com/articles/50781?#reply164307)
+This section contains only the `1.x` version of the `API` changes, does not contain new features or changes that do not affect the user's use, `2.0` specific version change description please refer to [what changes in 2.0?] (https://learnku.com/articles/50781?#reply164307)
 
-**预计升级时间：60 分钟**
+**Estimated upgrade time: 60 minutes**
 
 
-### 1.创建新分支，备份配置文件
+### 1. Create a new branch and backup configuration files
 
-创建一个新的分支，然后备份配置文件 `config/admin.php` 命名为 `config/admin.bak.php`，方便后续对比配置变动。
+Create a new branch and backup the configuration file `config/admin.php` named `config/admin.bak.php` to facilitate subsequent comparison of configuration changes.
 
-### 2.更新composer依赖
+### 2. Update composer dependencies
 
-先卸载 `1.x` 版本
+Uninstall `1.x` version first
 ```bash
 composer remove dcat/laravel-admin
 ```
 
-再安装
+Re-installation
 ```
 composer require dcat/laravel-admin:"2.*"
 ```
 
-安装success后
+After installing success
 
-1. 删除 `public/vendors` 目录
-2. 重新发布资源 `php artisan admin:publish --force`
-3. 根据上面备份后的配置文件，把修改过的参数写到新的配置文件 `config/admin.php` 中，这里需要注意的是`1.x`的默认主题色是`indigo`（已被废弃），在新版本中已经替换成`default`了
-4. 调整语言包，新版本中语言包目录由 `zh-CN` 变成了 `zh_CN`，需要把自定义的翻译文件移动到新目录，并且 `菜单TITLE` 的翻译也独立出来到 `menus.php` 中了
-5. 运行数据库迁移命令命令 `php artisan migrate` ，新版本中新增了两个表`admin_settings` 以及 `admin_extensions`
+1. delete the `public/vendors` directory
+2. republish the resource `php artisan admin:publish --force`.
+3. write the modified parameters to the new configuration file `config/admin.php` according to the above backed up configuration file, here it should be noted that the default theme color for `1.x` is `indigo` (deprecated), which has been replaced with `default` in the new version
+4. Adjust the language pack, the language pack directory is changed from `zh-CN` to `zh_CN` in the new version, you need to move the custom translation files to the new directory, and the translation of `menuTITLE` is also separated into `menus.php`.
+5. Run the database migration command `php artisan migrate`, two new tables `admin_settings` and `admin_extensions` have been added in the new version
 
-### 3.全局更改命名空间
+### 3. Global change namespace
 
-1. 全局搜索命名空间 `Dcat\Admin\Controllers` 并替换为 `Dcat\Admin\Http\Controllers`
-2. 全局搜索命名空间 `Dcat\Admin\Auth` 并替换为 `Dcat\Admin\Http\Auth`
+1. Global search namespace `Dcat\Admin\Controllers` and replace it with `Dcat\Admin\Http\Controllers`
+2. global search namespace `Dcat\Admin\Auth` and replace it with `Dcat\Admin\Http\Auth
 
 
-### 4.表格部分变动
+### 4. Form section changes
 
-1.字段隐藏功能调整，旧版本 `responsive` 方法已废弃，在新版本中开启字段隐藏功能方法如下
+1. The field hiding function has been adjusted, the ``responsive`` method has been deprecated in the old version, in the new version the field hiding function is enabled as follows
 
 ```php
-// 开启字段选择器功能
+// Turn on the field selector function
 $grid->showColumnSelector();
 
-// 设置默认隐藏字段
-$grid->hideColumns(['field1', ...]);
+// Set default hidden fields
+$grid->hideColumns(['field1', ...]) ;
 ```
-
-2.表格 `collection`、`fetching` 等方法已被移除，在新版本中可以通过下面的事件代替
+2. The methods `collection` and `fetching` have been removed from the table and can be replaced in the new version by the following events
 
 ```php
 use Dcat\Admin\Grid;
 use Illuminate\Support\Collection;
 
-// 使用 Grid\Events\Fetched 事件代替 collection
+// Use Grid\Events\Fetched event instead of collection
 $grid->listen(Grid\Events\Fetched::class, function ($grid, Collection $rows) {
     $rows->transform(function ($row) {
-        // 更改行数据
+        // Changing row data
         $row['name'] = $row['first_name'].' '.$row['last_name'];
         
         return $row;
     });
 });
 
-// 使用 Grid\Events\Fetching 事件代替 fetching
+// Use Grid\Events\Fetching event instead of fetching
 $grid->listen(Grid\Events\Fetching::class, function ($grid) {
     
 });
 ```
 
-3.表格行相关闭包中允许使用模型
+3. The use of models is allowed in the table row closure function
 
 ```php
 $grid->column('avatar')->display(function ({
-    // 可直接访问模型相关方法
+    // Direct access to model-related methods
     return $this->getAvatar();
 });
 ```
 
 
-4.设置路由前缀方法由 `resource` 调整为 `setResource` 
+4. Set route prefix method from `resource` to `setResource`.
 ```php
 $grid->setResource('auth/users');
 ```
 
-5.树形表格 `tree` 方法即将被废弃，将会移动到扩展中心
+5. Tree form `tree` method will be deprecated soon and will be moved to extension center
 
 
-### 5.表单部分变动
+### 5. Changes to the form section
 
-1.调整表单处理响应方法，旧版本中的`success`、`error`、`redirect` 以及 `location` 方法已被移除，
-在 `2.0` 中我们让表单的响应方法和 `action` 的响应方法统一了起来，详细Usage请参考文档 [表单响应](x)，Example
+1. Adjusted form handling response methods, `success`, `error`, `redirect` and `location` methods have been removed from the old version.
+   In `2.0` we unified the form response methods with the `action` response methods, please refer to the document [form response](x), Example for detailed Usage
 
 ```php
 $form->saving(function (Form $form) {
     return $form
         ->response()
-        ->success('保存success')
-        ->script('console.log("执行JS代码")')
+        ->success('Save success')
+        ->script('console.log("Execution of JS code")')
         ->redirect('auth/users');
 });
 ```
 
-如果是在[工具表单](widgets-form.md)中，Usage如下
+In the case of [tools-form](widgets-form.md), the Usage is as follows
 ```php
 public function handle(array $input)
 {
@@ -115,15 +114,15 @@ public function handle(array $input)
         ->response()
         ->alert()
         ->success('success')
-        ->detail('详细内容');
+        ->detail('Details');
 }
 ```
 
-2.调整表单 `block` 布局功能，并废弃 `setDefaultBlockWidth` 方法，详细Usage请参考文档 [表单block布局](x)，Example
+2. adjust the form `block` layout function, and deprecate the `setDefaultBlockWidth` method, please refer to the document [form block layout](x), Example for detailed Usage
 
 ```php
 $form->block(8, function (Form\BlockForm $form) {
-    $form->title('基本设置');
+    $form->title('Basic Settings');
     $form->showFooter();
     $form->width(9, 2);
 
@@ -142,14 +141,14 @@ $form->block(8, function (Form\BlockForm $form) {
     });
 });
 $form->block(4, function (Form\BlockForm $form) {
-    $form->title('分块2');
+    $form->title('Sub-block 2');
 
     $form->text('nickname');
     $form->number('age');
-    $form->radio('status')->options(['1' => '默认', 2 => '冻结'])->default(1);
+    $form->radio('status')->options(['1' => 'Default', 2 => 'Frozen'])->default(1);
 
     $form->next(function (Form\BlockForm $form) {
-        $form->title('分块3');
+        $form->title('Sub-block 3');
 
         $form->date('birthday');
         $form->date('created_at');
@@ -158,55 +157,55 @@ $form->block(4, function (Form\BlockForm $form) {
 ```
 
 
-3.废弃表单直接提交，只保留 `ajax` 提交的方式，并重命名 `disableAjaxSubmit` 方法为 `ajax`
+3. Deprecate the direct form submission, keep only the `ajax` submission method, and rename the `disableAjaxSubmit` method to `ajax`
 
 ```php
 $form->ajax(false);
 ```
 
-4.废弃分步表单，新版本请使用[分步表单扩展](https://github.com/dcat-admin/form-step)代替
+4. Deprecate step-by-step form, please use [step-by-step form extension](https://github.com/dcat-admin/form-step) instead in new version
 
-6.`map`以及`listbox`也即将废弃，并移动扩展中心
+6. `map` and `listbox` will be deprecated soon, and the extension center will be moved.
 
 
 
-### 6.数据仓库部分变动
+### 6. Data repository part of the changes
 
-1.数据仓库的接口命名做了简化处理，新的 interface 如下
+1. The naming of the data repository interface has been simplified, the new interface is as follows
 
 ```php
 interface Repository
 {
     /**
-     * 获取主键名称.
+     * Get primary key name.
      *
      * @return string
      */
     public function getKeyName();
 
     /**
-     * 获取创建时间字段.
+     * Gets the creation time field.
      *
      * @return string
      */
     public function getCreatedAtColumn();
 
     /**
-     * 获取更新时间字段.
+     * Get the update time field.
      *
      * @return string
      */
     public function getUpdatedAtColumn();
 
     /**
-     * 是否使用软删除.
+     * Whether to use soft delete.
      *
      * @return bool
      */
     public function isSoftDeletes();
 
     /**
-     * 获取Grid表格数据.
+     * Get Grid table data.
      *
      * @param Grid\Model $model
      *
@@ -215,7 +214,7 @@ interface Repository
     public function get(Grid\Model $model);
 
     /**
-     * 获取编辑页面数据.
+     * Get edit page data.
      *
      * @param Form $form
      *
@@ -224,7 +223,7 @@ interface Repository
     public function edit(Form $form);
 
     /**
-     * 获取详情页面数据.
+     * Get detail page data.
      *
      * @param Show $show
      *
@@ -233,7 +232,7 @@ interface Repository
     public function detail(Show $show);
 
     /**
-     * 新增记录.
+     * Add a new record.
      *
      * @param Form $form
      *
@@ -242,7 +241,7 @@ interface Repository
     public function store(Form $form);
 
     /**
-     * 查询更新前的行数据.
+     * Query the row data before the update.
      *
      * @param Form $form
      *
@@ -251,7 +250,7 @@ interface Repository
     public function updating(Form $form);
 
     /**
-     * 更新数据.
+     * Update data.
      *
      * @param Form $form
      *
@@ -260,7 +259,7 @@ interface Repository
     public function update(Form $form);
 
     /**
-     * 删除数据.
+     * Delete Data.
      *
      * @param Form  $form
      * @param array $deletingData
@@ -270,7 +269,7 @@ interface Repository
     public function delete(Form $form, array $deletingData);
 
     /**
-     * 查询删除前的行数据.
+     * Query the row data before deletion.
      *
      * @param Form $form
      *
@@ -283,9 +282,9 @@ interface Repository
 
 2.`EloquentRepository::eloquent()` 重命名为 `EloquentRepository::model()`
 
-### 7.Section变动
+### 7. Section changes
 
-在新版本中 `AdminSection` 已被移除，请使用 `Dcat\Admin\Admin::SECTION` 常量代替
+In the new version `AdminSection` has been removed, please use `Dcat\Admin\Admin::SECTION` constant instead
 
 ```php
 use Dcat\Admin\Admin;
@@ -296,35 +295,35 @@ admin_inject_default_section(Admin::SECTION['HEAD'], function () {
 ```
 
 
-### 8.扩展
+### 8. Extensions
 
-扩展相关变动请参考文档[扩展](extension-install.md)
+For extension-related changes, please refer to the document [extensions](extension-install.md)
 
-### 9.登录逻辑
-1.登录模板，如果你在旧项目中自定义过登录模板，则需要调整登录模板中的`JS`代码
+### 9. Login logic
+1. Login template, if you have customized the login template in the old project, you need to adjust the `JS` code in the login template
 ```js
 Dcat.ready(function () {
-    // ajax表单提交
+    // ajax form submission
     $('#login-form').form({
         validate: true,
     });
 });
 ```
 
-2.登录逻辑，如果重写过登录逻辑，则最后登录success的响应方法需要使用 `sendLoginResponse`
+2. Login logic, if the login logic has been rewritten, the response method for the final login success needs to use `sendLoginResponse`
 
-### 10.其他变动
+### 10. Other changes
 
-1.资源注册
+1. Resource registration
 ```php
 use Dcat\Admin\Admin;
 
-// 注册资源路径别名
+// Registered resource path alias
 Admin::asset()->alias('test', 'assets/test');
 
-Admin::asset()->alias('名称', [ 
+Admin::asset()->alias('Name', [ 
     'js' => [
-        // @test 会判定为别名
+        // @test will be evaluated as an alias
         '@test/test.js',
     ],
     'css' => [
@@ -333,11 +332,11 @@ Admin::asset()->alias('名称', [
 ]);
 
 
-// 加载资源
+// Loading Resources
 Admin::asset()->require('@名称');
-// 仅加载 js
+// Load only js
 Admin::js('@名称');
-// 仅加载 css
+// Load only css
 Admin::css('@名称');
 ```
 
