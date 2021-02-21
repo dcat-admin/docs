@@ -1,5 +1,112 @@
 # BETA version update log
 
+## v2.0.19-beta
+
+Release date 2021/2/21
+
+To upgrade, step-by-step execute the following command and clear the browser cache
+```bash
+composer remove dcat/laravel-admin
+composer require dcat/laravel-admin:"2.0.19-beta"
+php artisan admin:publish --assets --migrations --force
+php artisan migrate
+```
+
+### BUG FIXES
+
+1. fix ``no access`` problem when requesting ``built-in api`` in non-admin role
+2. fix the problem of using time range form in popup window to report error
+
+
+
+
+## v2.0.18-beta
+
+Released on 2021/2/20
+
+To upgrade, run the following commands step by step and clear the browser cache
+```bash
+composer remove dcat/laravel-admin
+composer require dcat/laravel-admin:"2.0.18-beta"
+php artisan admin:publish --assets --migrations --force
+php artisan migrate
+```
+
+### Feature improvements
+
+
+**1. Add horizontal layout at the top of the menu (Horizontal)**
+
+Set the value of the configuration parameter `admin.layout.horizontal_menu` to `true` to enable this feature, the effect is as follows
+
+![](https://cdn.learnku.com/uploads/images/202102/20/38389/SpmXMujJ3D.png!large)
+
+**Permission middleware and skip login judgment can fill in the route alias and do not need to increase the prefix **
+
+Configuration file and permission setting route alias without filling in the route prefix
+
+```php
+    'permission' => [
+        ...
+    
+        // Skip the permissions
+        'except' => [
+            // You can fill in the route alias directly, and you don't need to write the route prefix
+            'custom.users',
+        ],
+
+    ],
+```
+
+**3. Add `_index` field to save row number for data table row data**
+
+The `_index` field is used to save the row number, starting from `0`, and is used as follows
+
+``` php
+// Use in the display callback
+$grid->column('serial number')->display(function () {
+    return $this->_index + 1;
+});
+
+
+// used in a row action
+$grid->actions(function ($actions) {
+    $index = $this->_index;
+    
+    ...
+});
+```
+
+
+**4. Rename markdown component static resource aliases to avoid conflicts with custom blade tags**
+
+**5. Add configuration parameter `admin.menu.default_icon` to set the default menu icon**
+
+`admin.menu.default_icon` is used to set the default menu icon, the default value is `feather icon-circle`
+
+**6. Add new block locations `NAVBAR_BEFORE` and `NAVBAR_AFTER`**
+
+```php
+use Dcat\Admin\Admin;
+
+// Output content to the front of the top navigation bar
+admin_inject_section(Admin::SECTION['NAVBAR_BEFORE'], view('...'));
+
+// Output content after the top navigation bar
+admin_inject_section(Admin::SECTION['NAVBAR_AFTER'], view('...'));
+```
+
+**6. Optimize form field selector code**
+
+
+### BUG FIXES
+
+1. fix the problem of abnormal display of `new` tag on the extension management page [#1044](https://github.com/jqhph/dcat-admin/issues/1044)
+2. fix the problem of error reported after successful file uploading and direct deletion [#1058](https://github.com/jqhph/dcat-admin/issues/1058)
+3. repair the abnormal input value problem of `Form::number` form after using `min` and `max` methods
+
+
+
 ## v2.0.17-beta
 
 Release date 2021/2/5

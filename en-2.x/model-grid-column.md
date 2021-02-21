@@ -66,6 +66,26 @@ result
 ![](https://cdn.learnku.com/uploads/images/202007/12/38389/8aKnpG11g4.gif!large)
 
 
+### Get the row number (index)
+
+The number is counted from ``0``.
+
+``` php
+// Use in the display callback
+$grid->column('number')->display(function () {
+    return $this->_index + 1;
+});
+
+
+// used in a row action
+$grid->actions(function ($actions) {
+    $index = $this->_index;
+    
+    ...
+});
+```
+
+
 ### Set td tag HTML attributes
 
 ```php
