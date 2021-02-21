@@ -183,11 +183,21 @@ Dcat\Admin\Color::extend('orange', [
 
 ### 菜单布局
 
-添加 `sidebar-separate` 到 `admin.layout.body_class` 参数中即可
+#### 顶部横向 (Horizontal)
+
+设置配置参数 `admin.layout.horizontal_menu` 的值为 `true` 开启此功能，效果如下
+
+![](https://cdn.learnku.com/uploads/images/202102/20/38389/SpmXMujJ3D.png!large)
+
+
+
+#### sidebar-separate
+
+添加 `sidebar-separate` 到 `admin.layout.body_class` 参数中
 
 ```php
      'layout' => [
-         'body_class' => 'sidebar-separate',
+         'body_class' => ['sidebar-separate'],
          
          ...
      ],

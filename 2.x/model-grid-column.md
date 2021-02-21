@@ -66,6 +66,26 @@ $grid->fixColumns(2, -2);
 ![](https://cdn.learnku.com/uploads/images/202007/12/38389/8aKnpG11g4.gif!large)
   
 
+### 获取行序号 (index)
+
+序号从 `0` 开始计算
+
+```php
+// 在 display 回调中使用
+$grid->column('序号')->display(function () {
+    return $this->_index + 1;
+});
+
+
+// 在行操作 action 中使用
+$grid->actions(function ($actions) {
+    $index = $this->_index;
+    
+    ...
+});
+```
+
+
 ### 设置td标签HTML属性
 
 ```php

@@ -121,6 +121,17 @@ admin_inject_section(Admin::SECTION['HEAD'], function () {
 admin_inject_section(Admin::SECTION['NAVBAR_USER_PANEL'], view('admin::partials.navbar-user-panel'));
 ```
 
+### 更改顶部导航栏前面内容
+
+```php
+admin_inject_section(Admin::SECTION['NAVBAR_BEFORE'], view('...'));
+```
+### 更改顶部导航栏后面内容
+
+```php
+admin_inject_section(Admin::SECTION['NAVBAR_AFTER'], view('...'));
+```
+
 ### 更改顶部导航栏用户信息面板后面内容
 
 通过`Admin::SECTION['NAVBAR_AFTER_USER_PANEL']`区块可以更改顶部导航栏的用户信息面板后面的内容。
