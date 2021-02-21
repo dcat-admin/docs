@@ -233,7 +233,7 @@ echo Admin::color()->get('primary'); // output #5c6bc6
 
 // Getting Colors by Magic Method
 echo Admin::color()->primary(); // output #5c6bc6
-``` 
+```
 
 #### Color fading
 
