@@ -1,5 +1,25 @@
 # BETA版本更新日志
 
+## v2.0.19-beta
+
+发布时间 2021/2/21
+
+升级方法，逐步执行以下命令，并清除浏览器缓存
+```bash
+composer remove dcat/laravel-admin
+composer require dcat/laravel-admin:"2.0.19-beta"
+php artisan admin:publish --assets --migrations --force
+php artisan migrate
+```
+
+### BUG修复
+
+1. 修复非超管角色下请求 `内置api` 时提示 `无权访问` 问题
+2. 修复在弹窗中使用时间范围表单报错问题
+
+
+
+
 ## v2.0.18-beta
 
 发布时间 2021/2/20
