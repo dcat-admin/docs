@@ -121,6 +121,17 @@ The `Admin::SECTION['NAVBAR_USER_PANEL']` block allows you to change the content
 admin_inject_section(Admin::SECTION['NAVBAR_USER_PANEL'], view('admin::partials.navbar-user-panel'));
 ```
 
+### Change the content in front of the top navigation bar
+
+```php
+admin_inject_section(Admin::SECTION['NAVBAR_BEFORE'], view('...'));
+```
+### Change the content behind the top navigation bar
+
+```php
+admin_inject_section(Admin::SECTION['NAVBAR_AFTER'], view('...'));
+```
+
 ### Changing the content behind the user information panel in the top navigation bar
 
 The `Admin::SECTION['NAVBAR_AFTER_USER_PANEL']` block allows you to change the content behind the user information panel in the top navigation bar.

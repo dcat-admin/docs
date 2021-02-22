@@ -59,7 +59,24 @@ public function grid()
 }
 ```
 
+### Get the row number (index)
 
+The number is counted from ``0``.
+
+```php
+// Use in the display callback
+$grid->column('number')->display(function () {
+    return $this->_index + 1;
+});
+
+
+// used in a row action
+$grid->actions(function ($actions) {
+    $index = $this->_index;
+    
+    ...
+});
+```
 
 ### Get current row data
 

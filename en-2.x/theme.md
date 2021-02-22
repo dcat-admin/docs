@@ -183,11 +183,21 @@ You can configure the menu style by configuring the parameter `admin.layout.side
 
 ### Menu layout
 
-Just add `sidebar-separate` to the `admin.layout.body_class` parameter.
+#### Horizontal top
+
+Set the value of the configuration parameter `admin.layout.horizontal_menu` to `true` to enable this function, with the following effect
+
+![](https://cdn.learnku.com/uploads/images/202102/20/38389/SpmXMujJ3D.png!large)
+
+
+
+#### sidebar-separate
+
+Add `sidebar-separate` to the `admin.layout.body_class` parameter
 
 ```php
      'layout' => [
-         'body_class' => 'sidebar-separate',
+         'body_class' => ['sidebar-separate'],
          
          ...
      ],
@@ -223,7 +233,7 @@ echo Admin::color()->get('primary'); // output #5c6bc6
 
 // Getting Colors by Magic Method
 echo Admin::color()->primary(); // output #5c6bc6
-``` 
+```
 
 #### Color fading
 

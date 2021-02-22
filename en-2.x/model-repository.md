@@ -4,7 +4,7 @@ Data warehouse (`Repository`) is a concrete implementation of the `Dcat Admin` i
 The intervention of `Repository` can make the construction of the page no longer care about the specific implementation of the data read and write functions.
 Developers through the implementation of the `Repository` interface can read and write operations on the data.
 
-> {tip} Of course, for the convenience of the system also retains the ability to use `Model` directly, the underlying layer will automatically convert `Model` to a repository instance, after all, most of the time the direct use of `Model` can also meet our needs.
+> {tip} Of course, for your convenience the system also retains the ability to use `Model` directly, the underlying layer will automatically convert `Model` to a repository instance, after all, most of the time the direct use of `Model` can also meet our needs.
 
 
 Components such as data table `Grid`, data form `Form`, data detail `Show`, `Tree`, etc. no longer depend directly on `Model`, but on a repository that provides simpler and clearer interfaces, the following are all the interfaces of `Repository`.
