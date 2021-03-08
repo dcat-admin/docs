@@ -128,6 +128,7 @@ $form->defaultCreatingChecked();
 5. 修复表单多图上传使用`sortable`功能进行排序会导致页面的图片元素消失不见问题
 6. 修复表单字段`disable`方法设置`false`无效问题
 7. 修复`multipleSelect`表单使用`load`联动加载时无法把所有选中选项传入接口问题 [#1076](https://github.com/jqhph/dcat-admin/issues/1076)
+8. 修复表格规格选择器存在多个0开头选项时选中功能异常问题
 
 
 ## v2.0.19-beta
