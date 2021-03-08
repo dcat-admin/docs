@@ -312,6 +312,22 @@ public function city(Request $request)
 
 `selectTable`、`multipleSelectTable`、`radio`、`checkbox`也可以使用`load`方法联动`select`和`multipleSelect`表单，用法和上面的示例一致。
 
+### 联动多个字段 (loads)
+
+使用`loads`方法可以联动多个字段，用法如下
+
+```php
+$form->select('status')
+    ->options(...)
+    ->loads(['field1', 'field2'], ['/api/field1', '/api/field2']);
+
+$form->select('field1');
+$form->select('field2');
+```
+
+`api`返回的数据格式与`load`方法一致，`selectTable`、`multipleSelectTable`、`radio`、`checkbox`也可以使用`loads`方法联动。
+
+
 <a name="multipleSelect"></a>
 ## 下拉选框多选 (multipleSelect)
 
