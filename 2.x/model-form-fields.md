@@ -275,14 +275,13 @@ public function users(Request $request)
 ```
 
 <a name="selectload"></a>
-## 下拉选框联动
+## 下拉选框联动 (load)
 
 `select`组件支持父子关系的单向联动：
 ```php
 $form->select('province')->options(...)->load('city', '/api/city');
 
 $form->select('city');
-
 ```
 
 其中`load('city', '/api/city');`的意思是，在当前select的选项切换之后，会把当前选项的值通过参数`q`, 调用接口`/api/city`，并把api返回的数据填充为city选择框的选项，其中api`/api/city`返回的数据格式必须符合:
@@ -310,6 +309,8 @@ public function city(Request $request)
     return ChinaArea::city()->where('parent_id', $provinceId)->get(['id', DB::raw('name as text')]);
 }
 ```
+
+`selectTable`、`multipleSelectTable`、`radio`、`checkbox`也可以使用`load`方法联动`select`和`multipleSelect`表单，用法和上面的示例一致。
 
 <a name="multipleSelect"></a>
 ## 下拉选框多选 (multipleSelect)
@@ -419,7 +420,6 @@ public function users(Request $request)
 <a name="select-table"></a>
 ## 表格选择器 (selectTable)
 
-
 ```php
 use App\Admin\Renderable\UserTable;
 use Dcat\Admin\Models\Administrator;
@@ -462,19 +462,13 @@ class UserTable extends LazyRenderable
         // 获取外部传递的参数
         $id = $this->id;
         
-        return Grid::make(new Administrator(), function (Grid $grid) {
+        return Grid::make(Administrator::where('xxx_id', $id), function (Grid $grid) {
             $grid->column('id');
             $grid->column('username');
             $grid->column('name');
             $grid->column('created_at');
             $grid->column('updated_at');
             
-            // 指定行选择器选中时显示的值的字段名称
-			// 指定行选择器选中时显示的值的字段名称
-			// 指定行选择器选中时显示的值的字段名称
-			// 如果表格数据中带有 “name”、“title”或“username”字段，则可以不用设置
-			$grid->rowSelector()->titleColumn('username');
-
             $grid->quickSearch(['id', 'username', 'name']);
 
             $grid->paginate(10);
@@ -494,6 +488,26 @@ class UserTable extends LazyRenderable
 <a href="https://cdn.learnku.com/uploads/images/202008/23/38389/P5hZXiqAj9.gif!large" target="_blank">
 ![](https://cdn.learnku.com/uploads/images/202008/23/38389/P5hZXiqAj9.gif!large)
 </a>
+
+### 设置选中后将保存到表单的字段和显示的字段
+
+```php
+$form->selectTable($field)
+	->from(UserTable::make(['id' => $form->getKey()]))
+	->options(function ($v) { // 设置编辑数据显示
+		if (! $v) {
+			return [];
+		}
+		
+		return Administrator::find($v)->pluck('name', 'id');
+	})
+	->pluck('name', 'id'); // 第一个参数为显示的字段，第二个参数为选中后将保存到表单的字段
+	
+// 上面的代码也可以简化为
+$form->selectTable($field)
+	->from(UserTable::make(['id' => $form->getKey()]))
+	->model(Administrator::class, 'id', 'name'); // 设置编辑数据显示
+```
 
 
 
