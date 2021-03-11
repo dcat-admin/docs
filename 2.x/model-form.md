@@ -154,6 +154,15 @@ $form->footer(function ($footer) {
 
     // 去掉`继续创建`checkbox
     $footer->disableCreatingCheck();
+    
+    // 设置`查看`默认选中
+	$footer->defaultViewChecked();
+
+	// 设置`继续编辑`默认选中
+	$footer->defaultEditingChecked();
+	
+	// 设置`继续创建`默认选中
+	$footer->defaultCreatingChecked();
 });
 
 // 去除整个底部内容
@@ -165,6 +174,15 @@ $form->disableResetButton();
 $form->disableViewCheck();
 $form->disableEditingCheck();
 $form->disableCreatingCheck();
+
+// 设置`查看`默认选中
+$form->defaultViewChecked();
+
+// 设置`继续编辑`默认选中
+$form->defaultEditingChecked();
+
+// 设置`继续创建`默认选中
+$form->defaultCreatingChecked();
 ```
 
 自定义视图

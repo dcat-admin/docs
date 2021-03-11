@@ -1,5 +1,136 @@
 # BETA版本更新日志
 
+## v2.0.20-beta
+
+发布时间 2021/3/8
+
+升级方法，逐步执行以下命令，并清除浏览器缓存
+```bash
+composer remove dcat/laravel-admin
+composer require dcat/laravel-admin:"2.0.20-beta"
+php artisan admin:publish --assets --migrations --force
+php artisan migrate
+```
+
+### 功能改进
+
+**1.`selectTable`表单表格刷新时保留前页的数据状态**
+
+`selectTable`表单表格刷新或翻页后会保留前页选中或取消的数据状态
+
+**2.`selectTable`表单设置显示字段名称功能优化**
+
+在旧版本中，如果想要设置`selectTable`表单选中的字段或显示的字段，需要在`Renderable`对象中设置，非常的麻烦和不便，从当前版本开始，开发者可以直接通过下面的方法设置选中的字段或显示的字段
+
+```php
+$form->selectTabole('user_id')
+	->from(UserTable::make())
+	->pluck('full_name', 'id'); // 第一个参数为显示的字段，第二个参数为选中后将保存到表单的字段
+
+// 也可以直接使用下面的方法
+$form->selectTabole('user_id')
+	->from(UserTable::make())
+	->model(UserModel::class, 'id', 'full_name');
+```
+
+
+**3.`selectTable`、`multipleSelectTable`、`radio`、`checkbox`表单增加`load`方法**
+
+从当前版本开始，`selectTable`、`multipleSelectTable`、`radio`、`checkbox`也可以使用`load`方法联动`select`和`multipleSelect`表单
+
+```php
+$form->radio('type')->options([...])->load('category', 'categories/options');
+
+$form->select('categories');
+```
+
+接口`categories/options`返回格式如下
+
+```json
+[
+    {
+        "id": 9,
+        "text": "xxx"
+    },
+    {
+        "id": 21,
+        "text": "xxx"
+    },
+    ...
+]
+```
+
+
+**4.增加菜单水平布局自动适应页面以及菜单高度变化功能**
+
+启用菜单水平布局功能后，当页面高度或菜单高度发生变动时，页面会自适应、自行调整内容间距
+
+****
+
+
+**5.增加表格`Grid::dropColumn()`方法用于删除设置的列**
+
+```php
+$nameColumn = $grid->column('name');
+
+// 删除名称为 `name` 的列
+$grid->dropColumn('name');
+// 等同于
+$grid->dropColumn($nameColumn);
+```
+
+**6.增加`admin_javascript`函数**
+
+此函数可用于往`php`的配置`array`中添加`JS`代码，用法如下
+
+```php
+$form->text('number')->inputmask([
+	'oncomplete' => admin_javascript('function () {
+		// 这里是js代码
+	    alert('inputmask complete');
+	}'),
+]);
+```
+
+**6.`Form`表单底部可默认勾选`查看`、`继续编辑`、`继续创建`等选项功能**
+
+用法如下 [#1073](https://github.com/jqhph/dcat-admin/pull/1073)
+
+```php
+$form->footer(function (Footer $footer) {
+    // 设置`查看`默认选中
+    $footer->defaultViewChecked();
+
+    // 设置`继续编辑`默认选中
+    $footer->defaultEditingChecked();
+    
+    // 设置`继续创建`默认选中
+    $footer->defaultCreatingChecked();
+});
+
+// 设置`查看`默认选中
+$form->defaultViewChecked();
+
+// 设置`继续编辑`默认选中
+$form->defaultEditingChecked();
+
+// 设置`继续创建`默认选中
+$form->defaultCreatingChecked();
+```
+
+
+### BUG
+
+1. 修复表格使用关联关系字段排序时必须先`with`问题
+2. 修复同个页面无法同时渲染多个异步组件问题
+3. 修复树形表格下删除子节点数据后跳转异常问题 [#1071](https://github.com/jqhph/dcat-admin/issues/1071)
+4. 修复表格导出字段中存在空数组时导出异常问题
+5. 修复表单多图上传使用`sortable`功能进行排序会导致页面的图片元素消失不见问题
+6. 修复表单字段`disable`方法设置`false`无效问题
+7. 修复`multipleSelect`表单使用`load`联动加载时无法把所有选中选项传入接口问题 [#1076](https://github.com/jqhph/dcat-admin/issues/1076)
+8. 修复表格规格选择器存在多个0开头选项时选中功能异常问题
+
+
 ## v2.0.19-beta
 
 发布时间 2021/2/21

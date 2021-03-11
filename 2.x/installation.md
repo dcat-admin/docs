@@ -81,7 +81,7 @@ location / {
 ```
 app/Admin
 ├── Controllers
-│   ├── ExampleController.php
+│   ├── AuthController.php
 │   └── HomeController.php
 ├── Metrics
 │   └── Examples
@@ -97,7 +97,7 @@ app/Admin
 
 1. `app/Admin/routes.php`文件用来配置后台路由。
 2. `app/Admin/bootstrap.php` 是`dcat-admin`的启动文件, 使用方法请参考文件里面的注释.
-3. `app/Admin/Controllers`目录用来存放后台控制器文件，该目录下的`HomeController.php`文件是后台首页的显示控制器，`ExampleController.php`为实例文件。
+3. `app/Admin/Controllers`目录用来存放后台控制器文件，该目录下的`HomeController.php`文件是后台首页的显示控制器，`AuthController.php`为后台管理员登录鉴权控制器。
 4. `app/Admin/Metrics/Examples`里面存放的是`数据统计卡片(Metric Card)`的示例代码.
 
 <a name="assets"></a>
