@@ -1,5 +1,136 @@
 # BETA version update log
 
+## v2.0.20-beta
+
+Release date 2021/3/8
+
+To upgrade, step-by-step execute the following commands and clear the browser cache
+```bash
+composer remove dcat/laravel-admin
+composer require dcat/laravel-admin: "2.0.20-beta"
+php artisan admin:publish --assets --migrations --force
+php artisan migrate
+```
+
+### Feature improvements
+
+**1. `selectTable` form retains the data state of the previous page when the form is refreshed**
+
+`selectTable` form will retain the selected or unselected data state of the previous page after refreshing or paging
+
+**2. `selectTable` form set display field name optimization**
+
+In the old version, if you want to set the selected or displayed fields of `selectTable` form, you need to set them in the `Renderable` object, which is very troublesome and inconvenient, from the current version, developers can set the selected or displayed fields directly by the following method
+
+```php
+$form->selectTabole('user_id')
+	->from(UserTable::make())
+	->pluck('full_name', 'id'); // the first parameter is the field to be displayed, the second parameter is the field that will be saved to the form when selected
+
+// You can also use the following method directly
+$form->selectTabole('user_id')
+	->from(UserTable::make())
+	->model(UserModel::class, 'id', 'full_name');
+```
+
+
+**3.`selectTable`, `multiSelectTable`, `radio`, `checkbox` forms add `load` method**
+
+Starting from the current version, `selectTable`, `multipleSelectTable`, `radio`, `checkbox` can also link `select` and `multipleSelect` forms using the `load` method
+
+```php
+$form->radio('type')->options([...]) ->load('category', 'categories/options');
+
+$form->select('categories');
+```
+
+The interface `categories/options` returns the following format
+
+```json
+[
+    {
+        "id": 9,
+        "text": "xxx"
+    },
+    {
+        "id": 21,
+        "text": "xxx"
+    },
+    ...
+]
+```
+
+
+**4. Add menu horizontal layout automatically adapt to the page and the menu height change function**
+
+Enable the menu horizontal layout function, when the page height or menu height changes, the page will be self-adapting, self-adjusting content spacing
+
+****
+
+
+**5. Add table `Grid::dropColumn()` method to delete set columns**
+
+```php
+$nameColumn = $grid->column('name');
+
+// Delete the column with the name `name`
+$grid->dropColumn('name');
+// Equivalent to
+$grid->dropColumn($nameColumn);
+```
+
+**6. Add the `admin_javascript` function**
+
+This function can be used to add `JS` code to the configuration `array` of `php`, with the following usage
+
+```php
+$form->text('number')->inputmask([
+	'oncomplete' => admin_javascript('function () {
+		// Here is the js code
+	    alert('inputmask complete');
+	}'),
+]);
+```
+
+**6.`Form` form bottom can be checked by default `View`, `Continue editing`, `Continue creating` and other option functions**
+
+Use the following [#1073](https://github.com/jqhph/dcat-admin/pull/1073)
+
+```php
+$form->footer(function (Footer $footer) {
+    // set ``view`` to be selected by default
+    $footer->defaultViewChecked();
+
+    // set `Continue editing` to be checked by default
+    $footer->defaultEditingChecked();
+    
+    // set `Continue creating` to be checked by default
+    $footer->defaultCreatingChecked();
+});
+
+// set `Viewing` to be checked by default
+$form->defaultViewChecked();
+
+// set `Continue editing` to be checked by default
+$form->defaultEditingChecked();
+
+// set `Continue creating` to be checked by default
+$form->defaultCreatingChecked();
+```
+
+
+### BUG
+
+1. fix the problem that the form must be sorted by `with` first when using the correlation field
+2. repair the problem that multiple asynchronous components cannot be rendered at the same time on the same page
+3. repair the problem of abnormal jumping after deleting child node data under tree table [#1071](https://github.com/jqhph/dcat-admin/issues/1071)
+4. repair the abnormal export problem when there is an empty array in the export field of the table
+5. repair the problem that the picture element of the page disappears when using `sortable` function to sort the form multi-picture upload
+6. repair the problem of invalid setting `false` for `disable` method of form fields
+7. repair the problem that `multipleSelect` form cannot pass all selected options into the interface when using `load` linkage loading [#1076](https://github.com/jqhph/dcat-admin/issues/1076)
+8. fix the problem of abnormal selection function when there are multiple options starting with 0 in table specification selector
+
+
 ## v2.0.19-beta
 
 Release date 2021/2/21
