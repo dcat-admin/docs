@@ -154,6 +154,15 @@ $form->footer(function ($footer) {
 
     // Remove `Continue to create `checkbox
     $footer->disableCreatingCheck();
+    
+    // Set `View` to be checked by default
+	$footer->defaultViewChecked();
+
+	// set `Continue editing` to be checked by default
+	$footer->defaultEditingChecked();
+	
+	// set `Continue creating` to be checked by default
+	$footer->defaultCreatingChecked();
 });
 
 // Remove the entire bottom portion
@@ -165,6 +174,15 @@ $form->disableResetButton();
 $form->disableViewCheck();
 $form->disableEditingCheck();
 $form->disableCreatingCheck();
+
+// Set `Viewing` to be checked by default
+$form->defaultViewChecked();
+
+// set `Continue editing` to be checked by default
+$form->defaultEditingChecked();
+
+// set `Continue creating` to be checked by default
+$form->defaultCreatingChecked();
 ```
 
 Customizing Views

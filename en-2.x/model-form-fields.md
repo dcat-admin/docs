@@ -275,7 +275,7 @@ The data structure returned by the interface is
 ```
 
 <a name="selectload"></a>
-## Drop-down box linkage 
+## Dropdown checkbox linkage (load)
 
 The `select` component supports unidirectional linkage of parent-child relationships.
 ```php
@@ -310,6 +310,24 @@ public function city(Request $request)
     return ChinaArea::city()->where('parent_id', $provinceId)->get(['id', DB::raw('name as text')]);
 }
 ```
+
+`selectTable`, `multipleSelectTable`, `radio`, `checkbox` can also use the `load` method to link `select` and `multipleSelect` forms, the usage is the same as the above example.
+
+### Linking multiple fields (loads)
+
+Multiple fields can be linked using the `loads` method, which is used as follows
+
+```php
+$form->select('status')
+    ->options(...)
+    ->loads(['field1', 'field2'], ['/api/field1', '/api/field2']);
+
+$form->select('field1');
+$form->select('field2');
+```
+
+The data format returned by `api` is consistent with the `load` method. `selectTable`, `multiSelectTable`, `radio`, `checkbox` can also be linked using the `loads` method.
+
 
 <a name="multipleSelect"></a>
 ## MultiSelect dropdown boxes (multipleSelect)
@@ -419,7 +437,6 @@ The data structure returned by the interface is
 <a name="select-table"></a>
 ## Table selector (selectTable)
 
-
 ```php
 use App\Admin\Renderable\UserTable;
 use Dcat\Admin\Models\Administrator;
@@ -462,19 +479,13 @@ class UserTable extends LazyRenderable
         // Getting externally passed parameters
         $id = $this->id;
         
-        return Grid::make(new Administrator(), function (Grid $grid) {
+        return Grid::make(Administrator::where('xxx_id', $id), function (Grid $grid) {
             $grid->column('id');
             $grid->column('username');
             $grid->column('name');
             $grid->column('created_at');
             $grid->column('updated_at');
             
-            // Specify the field name of the value to be displayed when the line selector is selected.
-			// Specify the field name of the value to be displayed when the line selector is selected.
-			// Specify the field name of the value to be displayed when the line selector is selected.
-			// If the form data has a "name", "title", or "username" field, you do not have to set this.
-			$grid->rowSelector()->titleColumn('username');
-
             $grid->quickSearch(['id', 'username', 'name']);
 
             $grid->paginate(10);
@@ -495,6 +506,25 @@ result
 ![](https://cdn.learnku.com/uploads/images/202008/23/38389/P5hZXiqAj9.gif!large)
 </a>
 
+### Set the fields that will be saved to the form and displayed when selected
+
+```php
+$form->selectTable($field)
+	->from(UserTable::make(['id' => $form->getKey()]))
+	->options(function ($v) { // set edit data to display
+		if (! $v) {
+			return [];
+		}
+		
+		return Administrator::find($v)->pluck('name', 'id');
+	})
+	->pluck('name', 'id'); // the first parameter is the field to be displayed, the second parameter is the field that will be saved to the form when selected
+	
+// The above code can also be simplified to
+$form->selectTable($field)
+	->from(UserTable::make(['id' => $form->getKey()]))
+	->model(Administrator::class, 'id', 'name'); // set edit data to display
+```
 
 
 ### Multiple Selection (multipleSelectTable)

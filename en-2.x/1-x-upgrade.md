@@ -333,11 +333,11 @@ Admin::asset()->alias('Name', [
 
 
 // Loading Resources
-Admin::asset()->require('@名称');
+Admin::asset()->require('@Name');
 // Load only js
-Admin::js('@名称');
+Admin::js('@Name');
 // Load only css
-Admin::css('@名称');
+Admin::css('@Name');
 ```
 
 

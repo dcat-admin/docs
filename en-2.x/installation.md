@@ -84,7 +84,7 @@ After the installation is complete, the backend installation directory is `app/A
 ```
 app/Admin
 ├── Controllers
-│   ├── ExampleController.php
+│   ├── AuthController.php
 │   └── HomeController.php
 ├── Metrics
 │   └── Examples
@@ -100,7 +100,7 @@ app/Admin
 
 1. `app/Admin/routes.php` file is used to configure background routing.
 2. `app/Admin/bootstrap.php` It is the startup file of `dcat-admin`, please refer to the comments in the file for how to use it.
-3. `app/Admin/Controllers` directory is used to store the background controller file, the `HomeController.php` file in this directory is the display controller of the background home page, `ExampleController.php` is an example file.
+3. `app/Admin/Controllers` directory is used to store the backend controller files, the `HomeController.php` file in this directory is the backend home page display controller, `AuthController.php` is the backend administrator login authentication controller.
 4. `app/Admin/Metrics/Examples` contains the `statistics card (Metric Card)` sample code.
 
 <a name="assets"></a>
