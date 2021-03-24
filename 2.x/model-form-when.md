@@ -62,6 +62,17 @@ $form->radio('check')
 
 `select` 组件的使用方法和`radio`是一样的。
 
+另外需要注意的是，如果使用动态显示功能之后表单不能使用`required`方法，应该使用`required_if`代替，如
+
+```php
+$form->radio('type')
+    ->when([1, 4], function (Form $form) {
+        $form->text('text1')
+            ->rules('required_if:type,1,4') // 使用required_if
+            ->setLabelClass(['asterisk']); // 显示 * 号
+    });
+```
+
 ### 多选组件
 
 多选组件支持两个操作符：`in`、`notIn`
