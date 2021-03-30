@@ -503,10 +503,22 @@ $grid->disablePerPages();
 $grid->addTableClass(['class1', 'class2']);
 ```
 
-### 设置表格文字居中
+### 设置表格文字居中 (text-center)
 
 ```php
 $grid->addTableClass(['table-text-center']);
+```
+
+### 显示横向滚动条 (scrollbarX)
+
+显示表格横向滚动条，默认不显示
+
+```php
+// 启用
+$grid->scrollbarX();
+
+// 禁用
+$grid->scrollbarX(false);
 ```
 
 
