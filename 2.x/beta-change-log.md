@@ -1,5 +1,197 @@
 # BETA版本更新日志
 
+## v2.0.21-beta
+
+发布时间 2021/3/30
+
+升级方法，逐步执行以下命令，并清除浏览器缓存
+```bash
+composer remove dcat/laravel-admin
+composer require dcat/laravel-admin:"2.0.21-beta"
+php artisan admin:update
+```
+
+### 新增功能
+
+**1.增加表格列选择器`ColumnSelector`支持持久化存储功能**
+
+在配置文件`config/admin.php`可以配置存储列选择器状态的方式，支持的存储方式如下
+
+- `Dcat\Admin\Grid\ColumnSelector\SessionStore` 列选择器状态数据保存在`session`中，仅在登陆状态中有效
+- `Dcat\Admin\Grid\ColumnSelector\CacheStore`  列选择器状态数据保存在[Laravel Cache](https://laravel.com/docs/8.x/cache#driver-prerequisites)缓存系统中，最长可保存`300`天，并可以通过`admin.grid.column_selector.store_params.driver`可以配置缓存驱动，默认为`file`
+
+```php
+    'grid' => [
+
+        ...
+
+        'column_selector' => [
+            'store' => Dcat\Admin\Grid\ColumnSelector\SessionStore::class,
+            'store_params' => [
+                'driver' => 'file',
+            ],
+        ],
+    ],
+```
+
+**2.增加表格条件判断(`if`)的终结方法(`end`)**
+
+```php
+$grid->column('status')
+    ->if(...) // 条件1
+    ->display(...)
+    ->display(...)
+    
+    ->if(...) // 条件2
+    ->display(...)
+    ->display(...)
+    
+    ->end() // 终结前面的条件判断
+    ->display(...); // 所有条件都能生效
+```
+
+**3.增加表格行选择器默认选中(`check`)以及禁止更改选中状态(`disable`)功能**
+
+
+通过`check`方法可以设置默认选中的行，此方法接受一个`array`类型或`匿名函数`参数
+
+```php
+// 设置默认选中第 1/3/5 行
+$grid->rowSelector()->check([0, 2, 4]);
+
+// 传递闭包
+$grid->rowSelector()->check(function () {
+    // 设置默认选中第 1/3/5 行
+    return in_array($this->_index, [0, 2, 4]);
+});
+
+// 在闭包中使用当前行其他字段
+$grid->rowSelector()->check(function () {
+    // 设置默认选中 id > 10 的行
+    return $this->id > 10;
+});
+```
+
+通过`disable`方法可以设置禁止更改选中状态的行，此方法接受一个`array`类型或`匿名函数`参数
+
+```php
+// 禁止第 1/3/5 行更改选中状态
+$grid->rowSelector()->disable([0, 2, 4]);
+
+// 传递闭包
+$grid->rowSelector()->disable(function () {
+    // 禁止第 1/3/5 行更改选中状态
+    return in_array($this->_index, [0, 2, 4]);
+});
+
+// 在闭包中使用当前行其他字段
+$grid->rowSelector()->disable(function () {
+    // 禁止 id > 10 的行更改选中状态
+    return $this->id > 10;
+});
+
+// disable 可以和 check 方法一起使用
+$grid->rowSelector()->check([2, 4])->disable([0, 2, 4]);
+```
+
+**4.增加`KeyValue`表单自定义标题翻译功能**
+
+```php
+$form->keyValue(...)->setKeyLabel('键名')->setValueLabel('键值');
+```
+
+
+**5.增加`Grid::scrollbarX`显示表格横向滚动条方法**
+
+显示表格横向滚动条，默认不显示
+
+```php
+// 启用
+$grid->scrollbarX();
+
+// 禁用
+$grid->scrollbarX(false);
+```
+
+
+**6.增加`admin:update`命令**
+从当前版本开始，升级后可以直接运行 `admin:update`，相当于运行
+
+```
+php artisan admin:publish --assets --migrations --lang --force
+php artisan migrate
+``` 
+
+### 功能改进
+
+**1.表单显示编辑数据时兼容驼峰风格的关联关系名称**
+
+在旧版本中，如果需要编辑模型关联关系字段，且模型的关联关系名称为驼峰风格时，需要把名称更改为下划线风格才能正常显示，这对开发者非常不友好。从当前版本开始，可以直接使用驼峰风格的关联关系名称，不需要做任何特殊处理
+```php
+return Form::make(User::with(['myProfile']), function (Form $form) {
+    // 直接使用驼峰风格命名，不需做其他处理
+    $form->text('myProfile.full_name');
+    
+    ...
+});
+```
+
+
+**2.调整工具表单数据设置逻辑，可在`form`方法中获取`default`方法数据**
+
+```php
+use Dcat\Admin\Widgets\Form;
+
+class Setting extends Form
+{
+    public function form()
+    {
+        // 获取 default 方法设置的数据
+        $id = $this->data()->id;
+        $name = $this->data()->name;
+    
+        $this->text('name');
+        
+        ...
+    }
+    
+    public function default()
+    {
+        return [
+            'id' => 1,
+            'name' => 'abc',
+            ...
+        ];
+    }
+}
+```
+
+**3.`hasMany`以及`array`表单支持整体使用`rules`验证规则校验**
+
+```php
+$form->hasMany(...)->rules('size:2');
+```
+
+**4.调整`selectTable`默认占位符为`选择 ...`**
+
+**5.优化表单row布局间距**
+
+[#1092](https://github.com/jqhph/dcat-admin/issues/1092)
+
+
+### BUG
+
+1. 修复 `ModelTree` 删除节点时无法删除间隔一个层级以上的子节点问题
+2. 修复导出功能在部分环境可能会出现异常问题
+3. 修复表单联动(`load`)加载后初始值丢失的问题 [@xqbumu](https://github.com/jqhph/dcat-admin/pull/1103)
+4. 修复文件上传失败后显示提示信息异常问题
+5. 修复数据详情`Show`实例化函数如果传递模型，主键赋值错误的问题  [@jisuye](https://github.com/jqhph/dcat-admin/pull/1112)
+6. 修复表格`setConstraints`方法对快速编辑无效问题 [#1119](https://github.com/jqhph/dcat-admin/issues/1119)
+7. 修复在`iframe`页面中预览图片功能异常问题
+8. 修复`hasMany`以及`array`表单下删除使用`required`验证规则的字段后导致无法提交表单问题
+9. 修复表格`dialogTree`当顶级ID为字符串`0`时加载异常问题 [#1122](https://github.com/jqhph/dcat-admin/issues/1122)
+
+
 ## v2.0.20-beta
 
 发布时间 2021/3/8

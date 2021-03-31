@@ -86,21 +86,21 @@ $grid->actions(function ($actions) {
 ```
 
 
-### 设置td标签HTML属性
+### 设置td标签HTML属性 (setAttributes)
 
 ```php
 $grid->column('email')->setAttributes(['name' => '...'])
 ```
 
 
-### 设置表格头HTML属性
+### 设置表格头HTML属性 (setHeaderAttributes)
 设标题的`html`属性
 ```php
 // 修改颜色
 $grid->column('name')->setHeaderAttributes(['style' => 'color:#5b69bc']);
 ```
 
-### 设置列选择器 (字段显示或隐藏)
+### 设置列选择器 (字段显示或隐藏 showColumnSelector)
 
 此功能默认不启用
 
@@ -114,13 +114,34 @@ $grid->hideColumns(['field1', ...]);
 
 ![](https://cdn.learnku.com/uploads/images/202004/26/38389/MTgikMeV1o.png!large)
 
+<a name="column-selector-store"></a>
+#### 存储驱动 (持久化)
+
+在配置文件`config/admin.php`可以配置存储列选择器状态的方式，支持的存储方式如下
+
+- `Dcat\Admin\Grid\ColumnSelector\SessionStore` 列选择器状态数据保存在`session`中，仅在登陆状态中有效
+- `Dcat\Admin\Grid\ColumnSelector\CacheStore`  列选择器状态数据保存在[Laravel Cache](https://laravel.com/docs/8.x/cache#driver-prerequisites)缓存系统中，最长可保存`300`天，并可以通过`admin.grid.column_selector.store_params.driver`可以配置缓存驱动，默认为`file`
+
+```php
+    'grid' => [
+
+        ...
+
+        'column_selector' => [
+            'store' => Dcat\Admin\Grid\ColumnSelector\SessionStore::class,
+            'store_params' => [
+                'driver' => 'file',
+            ],
+        ],
+    ],
+```
 
 
-### 设置列提示信息
+### 设置列提示信息 (help)
 `Grid\Column::help`参数：
  - $help `string` 提示内容
- - $style `string` 提示窗背景颜色，支持“primary”、“success”、“danger”、“purple”
- - $placement `string` 提示窗位置，支持“top”、“left”、“right”、“bottom”
+ - $style `string` 提示窗背景颜色，支持`green`、 `blue`、`red`、`purple`
+ - $placement `string` 提示窗位置，支持`top`、`left`、`right`、`bottom`
 
 ![](https://cdn.learnku.com/uploads/images/202004/26/38389/MTgikMeV1o.png!large)
 

@@ -14,7 +14,24 @@
 composer update dcat/laravel-admin
 ```
 
-升级成功之后一般需要重新发布语言包、配置文件、前端静态资源等文件，然后清理浏览器缓存
+升级成功之后需要运行 `admin:update` 命令进行重新发布语言包、配置文件、前端静态资源等文件，然后**清理浏览器缓存**
+
+```bash
+# 发布 语言包、配置文件、前端静态资源、数据迁移文件等
+php artisan admin:update
+```
+
+运行 `admin:update`，相当于运行
+
+```
+php artisan admin:publish --assets --migrations --lang --force
+php artisan migrate
+``` 
+
+#### 发布文件命令
+
+> 运行 `admin:update` 后一般不需要运行 `admin:publish` 命令
+
 ```bash
 php artisan admin:publish --force
 ```

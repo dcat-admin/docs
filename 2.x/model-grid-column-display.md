@@ -49,7 +49,20 @@ $grid->column('config')
     ->else(...);
 ```
 
-
+终结条件判断`end`
+```php
+$grid->column('status')
+    ->if(...) // 条件1
+    ->display(...)
+    ->display(...)
+    
+    ->if(...) // 条件2
+    ->display(...)
+    ->display(...)
+    
+    ->end() // 终结前面的条件判断
+    ->display(...); // 所有条件都能生效
+```
 
 
 ## 列显示

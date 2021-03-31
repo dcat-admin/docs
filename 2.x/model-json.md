@@ -16,6 +16,12 @@ $form->keyValue('column_name');
 $form->keyValue('column_name')->rules('required|min:5');
 ```
 
+自定义键名以及键值标题翻译
+
+```php
+$form->keyValue(...)->setKeyLabel('键名')->setValueLabel('键值');
+```
+
 ## 固定键值对象 (embeds)
 
 ![]({{public}}/assets/img/screenshots/embeds.png)

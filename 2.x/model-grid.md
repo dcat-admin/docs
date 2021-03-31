@@ -359,12 +359,55 @@ use Dcat\Admin\Admin;
 $grid->rowSelector()->background(Admin::color()->dark20());
 ```
 
-#### 设置checkbox选择框形状
-默认圆形。
+#### 设置默认选中 (check)
+
+> Since `v2.0.21`
+
+通过`check`方法可以设置默认选中的行，此方法接受一个`array`类型或`匿名函数`参数
+
 ```php
-// 设置为正方形
-$grid->rowSelector()->circle(false);
+// 设置默认选中第 1/3/5 行
+$grid->rowSelector()->check([0, 2, 4]);
+
+// 传递闭包
+$grid->rowSelector()->check(function () {
+    // 设置默认选中第 1/3/5 行
+    return in_array($this->_index, [0, 2, 4]);
+});
+
+// 在闭包中使用当前行其他字段
+$grid->rowSelector()->check(function () {
+    // 设置默认选中 id > 10 的行
+    return $this->id > 10;
+});
 ```
+
+#### 禁止更改选中状态 (disable)
+
+> Since `v2.0.21`
+
+通过`disable`方法可以设置禁止更改选中状态的行，此方法接受一个`array`类型或`匿名函数`参数
+
+```php
+// 禁止第 1/3/5 行更改选中状态
+$grid->rowSelector()->disable([0, 2, 4]);
+
+// 传递闭包
+$grid->rowSelector()->disable(function () {
+    // 禁止第 1/3/5 行更改选中状态
+    return in_array($this->_index, [0, 2, 4]);
+});
+
+// 在闭包中使用当前行其他字段
+$grid->rowSelector()->disable(function () {
+    // 禁止 id > 10 的行更改选中状态
+    return $this->id > 10;
+});
+
+// disable 可以和 check 方法一起使用
+$grid->rowSelector()->check([2, 4])->disable([0, 2, 4]);
+```
+
 
 ### 设置行操作按钮
 ```php
@@ -460,10 +503,22 @@ $grid->disablePerPages();
 $grid->addTableClass(['class1', 'class2']);
 ```
 
-### 设置表格文字居中
+### 设置表格文字居中 (text-center)
 
 ```php
 $grid->addTableClass(['table-text-center']);
+```
+
+### 显示横向滚动条 (scrollbarX)
+
+显示表格横向滚动条，默认不显示
+
+```php
+// 启用
+$grid->scrollbarX();
+
+// 禁用
+$grid->scrollbarX(false);
 ```
 
 
