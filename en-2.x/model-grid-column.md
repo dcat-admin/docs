@@ -86,21 +86,21 @@ $grid->actions(function ($actions) {
 ```
 
 
-### Set td tag HTML attributes
+### Set td tag HTML attributes (setAttributes)
 
 ```php
 $grid->column('email')->setAttributes(['name' => '...'])
 ```
 
 
-### Set the table header HTML attributes
+### Set Table Header HTML Attributes (setHeaderAttributes)
 Set the `html` attribute of TITLE
 ```php
 // Change Color
 $grid->column('name')->setHeaderAttributes(['style' => 'color:#5b69bc']);
 ```
 
-### Set column selector (field show or hide)
+### Set the column selector (field show or hide showColumnSelector)
 
 This feature is not enabled by default.
 
@@ -114,13 +114,35 @@ $grid->hideColumns(['field1', ...]);
 
 ![](https://cdn.learnku.com/uploads/images/202004/26/38389/MTgikMeV1o.png!large)
 
+<a name="column-selector-store"></a
+#### Storage driver (persistent)
+
+In the configuration file `config/admin.php` you can configure the way to store the column selector state, the supported storage methods are as follows
+
+-### Set column prompt message
+- `Dcat\Admin\Grid\ColumnSelector\SessionStore` Column selector state data is stored in `session`, valid only in login state
+- `Dcat\Admin\Grid\ColumnSelector\CacheStore\ Column selector state data is stored in [Laravel Cache](https://laravel.com/docs/8.x/cache#driver-prerequisites) cache system for up to `300` days and can be configured with `admin.grid.column_selector.store_params.driver` which defaults to `file`
+
+```php
+    'grid' => [
+
+        ...
+
+        'column_selector' => [
+            'store' => Dcat\Admin\Grid\ColumnSelector\SessionStore::class,
+            'store_params' => [
+                'driver' => 'file',
+            ],
+        ],
+    ],
+```
 
 
-### Setting up column prompts
+### Set column prompt message (help)
 `Grid\Column::help` parameters.
  - $help `string` prompt content
- - $style `string` prompt window background color, support "primary", "success", "danger", "purple" and so on.
- - $placement `string` prompts the window position, supports "top", "left", "right", and "bottom"
+ - $style `string` The background color of the prompt, supports `green`, `blue`, `red`, `purple`.
+ - $placement `string` The position of the prompt, supports `top`, `left`, `right`, `bottom`
 
 ![](https://cdn.learnku.com/uploads/images/202004/26/38389/MTgikMeV1o.png!large)
 

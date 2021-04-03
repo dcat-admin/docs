@@ -1,5 +1,197 @@
 # BETA version update log
 
+## v2.0.21-beta
+
+Release date 2021/3/30
+
+To upgrade, step-by-step execute the following commands and clear the browser cache
+```bash
+composer remove dcat/laravel-admin
+composer require dcat/laravel-admin: "2.0.21-beta"
+php artisan admin:update
+```
+
+### New features
+
+**1. Add table column selector `ColumnSelector` to support persistent storage**
+
+In the configuration file `config/admin.php` you can configure the way to store the state of the column selector, the supported storage methods are as follows
+
+- `Dcat\Admin\Grid\ColumnSelector\SessionStore` ColumnSelector state data is stored in `session`, only valid in the login state
+- `Dcat\Admin\Grid\ColumnSelector\CacheStore` Column selector state data is stored in [Laravel Cache](https://laravel.com/docs/8.x/cache#driver-prerequisites) cache system for up to `300` days and can be configured with `admin.grid.column_selector.store_params.driver` which defaults to `file`
+
+```php
+    'grid' => [
+
+        ...
+
+        'column_selector' => [
+            'store' => Dcat\Admin\Grid\ColumnSelector\SessionStore::class,
+            'store_params' => [
+                'driver' => 'file',
+            ],
+        ],
+    ],
+```
+
+**2. Add an end method (`end`) to the form conditional judgment (`if`) **
+
+``` php
+$grid->column('status')
+    ->if(...) // Condition 1
+    ->display(...)
+    ->display(...)
+    
+    ->if(...) // condition 2
+    ->display(...)
+    ->display(...)
+    
+    ->end() // end the previous condition
+    ->display(...) ; // All conditions are valid
+```
+
+**3. Add the default check (`check`) and disable (`disable`) functions of the table row selector**
+
+
+The `check` method can be used to set the default selected rows, this method accepts an `array` type or an `anonymous function` parameter
+
+``` php
+// Set the default check for rows 1/3/5
+$grid->rowSelector()->check([0, 2, 4]);
+
+// Pass the closure
+$grid->rowSelector()->check(function () {
+    // set the default to check rows 1/3/5
+    return in_array($this->_index, [0, 2, 4]);
+});
+
+// Use other fields of the current row in the closure
+$grid->rowSelector()->check(function () {
+    // set the default to check rows with id > 10
+    return $this->id > 10;
+});
+```
+
+The ``disable`` method allows you to set the rows that are not allowed to change their check status, this method accepts an ``array`` type or an ``anonymous function`` parameter
+
+``` php
+// Disable row 1/3/5 from being selected
+$grid->rowSelector()->disable([0, 2, 4]);
+
+// Pass the closure
+$grid->rowSelector()->disable(function () {
+    // disable row 1/3/5 from changing selection status
+    return in_array($this->_index, [0, 2, 4]);
+});
+
+// Use other fields of the current row in the closure
+$grid->rowSelector()->disable(function () {
+    // disable the selected state for rows with id > 10
+    return $this->id > 10;
+});
+
+// disable can be used in conjunction with the check method
+$grid->rowSelector()->check([2, 4])->disable([0, 2, 4]);
+```
+
+**4. Add `KeyValue` form custom title translation function**
+
+``` php
+$form->keyValue(...) ->setKeyLabel('keyName')->setValueLabel('keyValue');
+```
+
+
+**5. Add `Grid::scrollbarX` method to show horizontal scrollbar of table**
+
+Show the horizontal scrollbar of the grid, not by default
+
+``` php
+// Enable
+$grid->scrollbarX();
+
+// Disable
+$grid->scrollbarX(false);
+```
+
+
+**6. Add `admin:update` command**
+Starting from the current version, you can run `admin:update` directly after upgrading, which is equivalent to running
+
+```
+php artisan admin:publish --assets --migrations --lang --force
+php artisan migrate
+``` 
+
+### Feature improvements
+
+**1. Form display is compatible with hump style association names when editing data**
+
+In the old version, if you need to edit a model association field and the model association name is hump style, you need to change the name to underscore style to display it properly, which is very unfriendly to developers. Starting from the current version, you can use the hump style association names directly without any special handling
+```php
+return Form::make(User::with(['myProfile']), function (Form $form) {
+    // Directly use camel style naming, no need to do anything else
+    $form->text('myProfile.full_name');
+    
+    ...
+});
+```
+
+
+**2. Adjust the tool form data setting logic to get `default` method data in the `form` method**
+
+```php
+use Dcat\Admin\Widgets\Form;
+
+class Setting extends Form
+{
+    public function form()
+    {
+        // 获取 default 方法设置的数据
+        $id = $this->data()->id;
+        $name = $this->data()->name;
+    
+        $this->text('name');
+        
+        ...
+    }
+    
+    public function default()
+    {
+        return [
+            'id' => 1,
+            'name' => 'abc',
+            ...
+        ];
+    }
+}
+```
+
+**3.`hasMany` and `array` forms support overall validation using `rules` validation rules**
+
+``` php
+$form->hasMany(...) ->rules('size:2');
+```
+
+**4. Adjust the default placeholder for `selectTable` to `select ... `**
+
+**5. Optimize form row layout spacing**
+
+[#1092](https://github.com/jqhph/dcat-admin/issues/1092)
+
+
+### BUG
+
+1. fix the problem that `ModelTree` can't delete the child nodes with more than one level of interval when deleting nodes
+2. repair the problem that the export function may be abnormal in some environments
+3. repair the problem that the initial value of form linkage (`load`) is lost after loading [@xqbumu](https://github.com/jqhph/dcat-admin/pull/1103)
+4. repair the problem of abnormal display of prompt information after file upload failure
+5. repair the problem of incorrect primary key assignment if the data details `Show` instantiation function passes the model [@jisuye](https://github.com/jqhph/dcat-admin/pull/1112)
+6. fix the problem that the table `setConstraints` method is invalid for quick editing [#1119](https://github.com/jqhph/dcat-admin/issues/1119)
+7. fix the problem of abnormal preview image function in `iframe` page
+8. fix the problem that the form cannot be submitted after the fields with `required` validation rules are deleted in `hasMany` and `array` forms
+9. fix the abnormal loading problem of table `dialogTree` when the top ID is string `0` [#1122](https://github.com/jqhph/dcat-admin/issues/1122)
+
+
 ## v2.0.20-beta
 
 Release date 2021/3/8
