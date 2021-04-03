@@ -1,5 +1,22 @@
 # BETA版本更新日志
 
+## v2.0.22-beta
+
+发布时间 2021/4/1
+
+升级方法，逐步执行以下命令，并清除浏览器缓存
+```bash
+composer remove dcat/laravel-admin
+composer require dcat/laravel-admin:"2.0.22-beta"
+php artisan admin:update
+```
+
+### BUG修复
+
+1. 修复部分功能缺失`CSRF_TOKEN`报错问题
+2. 修复菜单自动适应高度功能报错问题
+
+
 ## v2.0.21-beta
 
 发布时间 2021/3/30
