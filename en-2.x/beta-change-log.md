@@ -1,5 +1,22 @@
 # BETA version update log
 
+## v2.0.22-beta
+
+Release date 2021/4/1
+
+To upgrade, step-by-step execute the following command and clear the browser cache
+```bash
+composer remove dcat/laravel-admin
+composer require dcat/laravel-admin: "2.0.22-beta"
+php artisan admin:update
+```
+
+### BUG FIXES
+
+1. repair some functions missing `CSRF_TOKEN` error problem
+2. fix the error reported by menu auto-adaptation height function
+
+
 ## v2.0.21-beta
 
 Release date 2021/3/30
