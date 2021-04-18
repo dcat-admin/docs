@@ -11,6 +11,7 @@
   - [视图与自定义页面](custom-page.md)
   - [JS组件](js.md)
   - [多应用 (多后台)](multi-app.md)
+  - [Laravel Octane](laravel-octane.md)
   - [常见问题](qa.md)
 - ## 数据表格
   - [基本使用](model-grid.md)

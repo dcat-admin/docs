@@ -139,6 +139,7 @@ $grid->withBorder();
 $grid->withBorder(false);
 ```
 
+
 ## 基本使用方法
 
 ### 添加列 (column)
@@ -442,7 +443,7 @@ $grid->showDeleteButton();
 
 ```
 
-### 设置批量操作按钮
+### 设置批量操作按钮 (batchActions)
 ```php
 // 禁用
 $grid->disableBatchActions();
@@ -455,7 +456,7 @@ $grid->disableBatchDelete();
 $grid->showBatchDelete();
 ```
 
-### 设置工具栏
+### 设置工具栏 (toolbar)
 ```php
 // 禁用
 $grid->disableToolbar();
@@ -463,7 +464,7 @@ $grid->disableToolbar();
 $grid->showToolbar();
 ```
 
-### 设置刷新按钮
+### 设置刷新按钮 (refresh)
 ```php
 // 禁用
 $grid->disableRefreshButton();
@@ -471,13 +472,26 @@ $grid->disableRefreshButton();
 $grid->showRefreshButton();
 ```
 
-### 设置分页功能
+### 设置分页功能 (paginate)
 ```php
 // 禁用
 $grid->disablePagination();
 // 显示
 $grid->showPagination();
 ```
+
+#### 简化分页 (simplePaginate)
+
+启用 `simplePaginate` 功能后会使用`Laravel`的[simplePaginate](https://laravel.com/docs/8.x/pagination#simple-pagination)功能进行分页，当数据量较大时可以大幅提升页面的响应速度，但需要注意的是，使用此功能后将不会查询数据表的**总行数**。
+
+```php
+// 启用
+$grid->simplePaginate();
+
+// 禁用
+$grid->simplePaginate(false);
+```
+
 
 #### 设置每页显示行数
 
