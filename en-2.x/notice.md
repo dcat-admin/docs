@@ -503,6 +503,9 @@ class AdminController extends Controller
         //        'create' => 'Create',
     ];
 
+    // Specify the language pack name, the default corresponds to the current controller name
+    protected $translation;
+    
     // Back to page TITLE
     protected function title()
     {

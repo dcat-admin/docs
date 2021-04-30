@@ -1204,6 +1204,21 @@ $form->tree('permissions')
     ->expand(false);
 ```
 
+The `tree` form does not allow parent nodes to be selected individually by default, you can turn this on with `treeState(false)`
+
+```php
+$form->tree('xxx')
+    ->treeState(false) # Allow separate selection of parent nodes
+    ->setTitleColumn('title')
+    ->nodes(...) ;
+```
+
+Effects
+
+![](https://cdn.learnku.com/uploads/images/202104/30/38389/oChwzky2BT.gif!large)
+
+
+
 <a name="table"></a>
 ## Table form (table)
 

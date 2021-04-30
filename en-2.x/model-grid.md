@@ -139,6 +139,7 @@ Disable border mode
 $grid->withBorder(false);
 ```
 
+
 ## Basic usage
 
 ### Adding columns (column)
@@ -441,7 +442,7 @@ $grid->showDeleteButton();
 
 ```
 
-### Setting the batch operation button
+### Set the batchActions button (batchActions)
 ```php
 // Disable
 $grid->disableBatchActions();
@@ -454,7 +455,7 @@ $grid->disableBatchDelete();
 $grid->showBatchDelete();
 ```
 
-### Setting the toolbar
+### Setting the toolbar (toolbar)
 ```php
 // Disable
 $grid->disableToolbar();
@@ -462,7 +463,7 @@ $grid->disableToolbar();
 $grid->showToolbar();
 ```
 
-### Setting the refresh button
+### Setting the refresh button (refresh)
 ```php
 // Disable
 $grid->disableRefreshButton();
@@ -470,13 +471,26 @@ $grid->disableRefreshButton();
 $grid->showRefreshButton();
 ```
 
-### Setting up pagination
+### Setting up pagination (paginate)
 ```php
 // Disable
 $grid->disablePagination();
 // show
 $grid->showPagination();
 ```
+
+#### Simple Pagination (simplePaginate)
+
+Enabling the `simplePaginate` function will use the [simplePaginate](https://laravel.com/docs/8.x/pagination#simple-pagination) function of `Laravel` for pagination, which can greatly improve the page response speed when the data volume is large. However, it is important to note that the **total rows** of the data table will not be queried after using this feature.
+
+```php
+// Enable
+$grid->simplePaginate();
+
+// Disable
+$grid->simplePaginate(false);
+```
+
 
 #### Set the number of rows per page
 

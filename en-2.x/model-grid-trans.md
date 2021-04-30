@@ -7,6 +7,34 @@ All the places in the data table where the fields are used will automatically re
 ### Language package name
 If the controller is `UserProfileController`, the corresponding language package is `resources/lang/{current language}/user-profile.php` (needs to be converted to lower case strikethrough style).
 
+If you want to change the name of the language pack, you can do so in the following two ways
+
+Method 1
+```php
+use Dcat\Admin\Http\Controllers\AdminController;
+
+class UserController extends AdminController
+{
+    /**
+     * Specify the name of the translation file
+     * 
+     * @var string 
+     */
+    protected $translation = 'user1';
+    
+    ...
+}
+```
+
+Method 2
+```php
+use Dcat\Admin\Admin;
+
+Admin::translation('user1');
+```
+
+
+
 
 ### Example
 Now suppose that the language package `resources/lang/zh_CN/user-profile.php` contains the following:
