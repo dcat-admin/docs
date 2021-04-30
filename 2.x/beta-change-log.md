@@ -1,5 +1,234 @@
 # BETA版本更新日志
 
+## v2.0.24-beta
+
+发布时间 2021/4/30
+
+升级方法，逐步执行以下命令，并清除浏览器缓存
+```bash
+composer remove dcat/laravel-admin
+composer require dcat/laravel-admin:"2.0.24-beta"
+php artisan admin:update # 不会覆盖翻译文件 menu.php 以及 global.php
+```
+
+### 新增功能
+
+**1.增加创建或编辑角色以及权限时可直接绑定菜单功能**
+
+在角色和权限的创建以及编辑页面可以直接绑定菜单，此功能默认开启，可以通过配置参数`admin.menu.role_bind_menu`以及`admin.menu.permission_bind_menu`进行关闭，效果如下
+
+![](https://cdn.learnku.com/uploads/images/202104/30/38389/OUgvZVSA5l.jpg!large)
+
+**2.新增`Form\Tree::treeStatus()`方法，允许单独选择父节点**
+
+用法
+```php
+$form->tree('xxx')
+    ->treeState(false) # 允许单独选择父节点
+    ->setTitleColumn('title')
+    ->nodes(...);
+```
+
+效果
+![](https://cdn.learnku.com/uploads/images/202104/30/38389/oChwzky2BT.gif!large)
+
+### BUG修复
+
+1. 修复多应用情况下无法使用域名区分应用问题
+2. 修复`Admin::pjax()`方法未声明为`static`问题
+3. 修复`grid filter checkbox`只能选中多个选项后只有单个选项生效问题 [@outer199](https://github.com/jqhph/dcat-admin/pull/1174)
+4. 修复菜单默认图标设置无效问题
+5. 修复`php7.4`或以上版本中使用`embeds`表单时报错问题 [#1204](https://github.com/jqhph/dcat-admin/issues/1204)
+6. 修复分步表单下使用`$form->list(...)->limit(...);`参数校验不通过后刷新页面报错问题 [#1206](https://github.com/jqhph/dcat-admin/issues/1206)
+7. 修复禁用`pjax`后编辑和创建完成后无法进行跳转问题 [#1208](https://github.com/jqhph/dcat-admin/issues/1208)
+
+## v2.0.23-beta
+
+发布时间 2021/4/18
+
+升级方法，逐步执行以下命令，并清除浏览器缓存
+```bash
+composer remove dcat/laravel-admin
+composer require dcat/laravel-admin:"2.0.23-beta"
+php artisan admin:update
+```
+
+### 新增功能
+
+**1.增加对`Laravel Octane`的支持**
+
+[Laravel Octane](https://github.com/laravel/octane) 是一个基于 `Swoole/RoadRunner` 驱动的可以提升 `Laravel` 框架性能的项目，安装后可以大幅提升`Laravel`项目的性能，`Dcat Admin`也兼容了`Laravel Octane`环境，只需在配置文件`config/octane.php`中加入如下配置即可：
+
+```php
+
+    'listeners' => [
+        ...,
+
+        RequestReceived::class => [
+            ...Octane::prepareApplicationForNextOperation(),
+            ...Octane::prepareApplicationForNextRequest(),
+            
+            // 开启对 Dcat Admin 的支持
+            Dcat\Admin\Octane\Listeners\FlushAdminState::class,
+        ],
+        
+        ...
+    ],    
+```
+
+> [Laravel Octane](https://github.com/laravel/octane)目前仍处于`beta`版本阶段，关于[Laravel Octane](https://github.com/laravel/octane)的安装与更多介绍请前往文档 https://github.com/laravel/octane 查看。
+
+
+
+**2.增加表格简化分页（`simplePaginate`）功能**
+
+启用 `simplePaginate` 功能后会使用`Laravel`的[simplePaginate](https://laravel.com/docs/8.x/pagination#simple-pagination)功能进行分页，当数据量较大时可以大幅提升页面的响应速度，但需要注意的是，使用此功能后将不会查询数据表的**总行数**。
+
+```php
+// 启用
+$grid->simplePaginate();
+
+// 禁用
+$grid->simplePaginate(false);
+```
+
+### 功能改进
+
+**1.重构翻译功能**
+
+在过去版本中，当使用[异步表单](lazy.md)以及[异步表格](lazy.md)功能时无法自动对字段名称进行翻译，从当前版本开始可以通过`translation`属性指定翻译文件的路径进行自动翻译，用法如下
+
+```php
+<?php
+
+namespace App\Admin\Forms;
+
+use Dcat\Admin\Traits\LazyWidget;
+use Dcat\Admin\Widgets\Form;
+use Dcat\Admin\Contracts\LazyRenderable;
+
+class MyForm extends Form implements LazyRenderable
+{
+    use LazyWidget;
+    
+    /**
+     * 指定翻译文件名称
+     * 
+     * @var string 
+     */
+    protected $translation = 'my-form';
+    
+    public function form()
+    {
+        $this->text('field1');
+        $this->text('field2');
+        
+        ...
+    }
+    
+    ...
+}
+```
+
+语言包`resources/lang/{locale}/my-form.php`内容如下
+```php
+<?php
+
+return [
+    'fields' => [
+        'field1' => '字段1',
+        'field2' => '字段2',
+        
+        ...
+    ],
+];
+```
+
+并且在控制器中也可以指定当前翻译文件的路径
+
+```php
+use Dcat\Admin\Http\Controllers\AdminController;
+
+class UserController extends AdminController
+{
+    /**
+     * 指定翻译文件名称
+     * 
+     * @var string 
+     */
+    protected $translation = 'user1';
+    
+    ...
+}
+```
+
+当然也可以通过`Admin::translation()`方法指定
+
+```php
+use Dcat\Admin\Admin;
+
+Admin::translation('user');
+```
+
+
+**2.增加表格相关配置参数**
+
+增加数个表格相关的配置文件参数`admin.grid.*`:
+
+```php
+    'grid' => [
+
+        // 表格行操作类
+        'grid_action_class' => Dcat\Admin\Grid\Displayers\DropdownActions::class,
+
+        // 表格批量操作类
+        'batch_action_class' => Dcat\Admin\Grid\Tools\BatchActions::class,
+
+        // 表格分页类
+        'paginator_class' => Dcat\Admin\Grid\Tools\Paginator::class,
+
+        // 表格行默认的几个操作类配置
+        'actions' => [
+            'view' => Dcat\Admin\Grid\Actions\Show::class,
+            'edit' => Dcat\Admin\Grid\Actions\Edit::class,
+            'quick_edit' => Dcat\Admin\Grid\Actions\QuickEdit::class,
+            'delete' => Dcat\Admin\Grid\Actions\Delete::class,
+            'batch_delete' => Dcat\Admin\Grid\Tools\BatchDelete::class,
+        ],
+
+        ...
+    ],
+```
+
+
+**3.移除禁用表格分页后显示表格页脚信息**
+
+从当前版本开始，如果禁用了表格的分页功能，将不会再显示表格的页脚信息。
+
+**4.优化 `Filter::panel()` 布局间距**
+
+
+**5.优化文件发布功能，发布语言包文件时将不再覆盖`menu.php`以及`global.php`文件**
+
+从当前版本开始，当使用`admin:update`以及`admin:publish --force`命令文件时，将不再覆盖`menu.php`以及`global.php`文件。
+
+**6.更新`Tinymce`版本至`5.6.2`**
+
+[@wk1025](https://github.com/jqhph/dcat-admin/pull/1154)
+
+### BUG修复
+
+1. 修复数据表格中字段类型为`Object`时报错问题 [@xiaohuilam](https://github.com/jqhph/dcat-admin/pull/1154)
+2. 修复文件上传失败仍然提示上传成功问题
+3. 修复权限判断中间件匹配时没有使用传入的`$request`对象问题 [@asmodai1985](https://github.com/jqhph/dcat-admin/pull/1157)
+4. 修复表单`rules`方法第二个参数设置`message`无效问题
+5. 修复`Helper::array()`会把`0`转为空数组问题
+6. 修复行选择器无法选中树形表格子级行问题
+7. 修复`KeyValue::setValueLabel()`方法无效问题
+8. 修复`hasmany`以及`table`表单删除选项时会重置表单问题
+9. 修复表格行操作编辑按钮文本显示错误问题 [@GemaDynamic](https://github.com/jqhph/dcat-admin/pull/1174)
+10. 修复树形表格子级行无法正常使用表单弹窗问题 [#813](https://github.com/jqhph/dcat-admin/issues/1174)
+
 ## v2.0.22-beta
 
 发布时间 2021/4/1

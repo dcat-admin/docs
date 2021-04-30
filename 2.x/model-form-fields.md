@@ -1202,6 +1202,21 @@ $form->tree('permissions')
     ->expand(false);
 ```
 
+`tree`表单默认不允许单独选中父节点，可以通过`treeState(false)`开启这个功能
+
+```php
+$form->tree('xxx')
+    ->treeState(false) # 允许单独选择父节点
+    ->setTitleColumn('title')
+    ->nodes(...);
+```
+
+效果
+
+![](https://cdn.learnku.com/uploads/images/202104/30/38389/oChwzky2BT.gif!large)
+
+
+
 <a name="table"></a>
 ## 表格表单 (table)
 

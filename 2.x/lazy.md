@@ -269,6 +269,9 @@ use Dcat\Admin\Models\Administrator;
 
 class UserTable extends LazyRenderable
 {
+    // 指定翻译文件名称
+    protected $translation = 'user';
+    
     public function grid(): Grid
     {
         return Grid::make(new Administrator(), function (Grid $grid) {
@@ -463,6 +466,9 @@ use Dcat\Admin\Widgets\Form;
 class UserProfile extends Form implements LazyRenderable
 {
     use LazyWidget;
+    
+    // 指定翻译文件名称
+    protected $translation = 'user-profile';
 
     public function handle(array $input)
     {

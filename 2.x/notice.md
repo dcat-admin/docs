@@ -500,6 +500,9 @@ class AdminController extends Controller
         //        'edit'   => 'Edit',
         //        'create' => 'Create',
     ];
+    
+    // 指定语言包名称，默认与当前控制器名称相对应
+    protected $translation;
 
     // 返回页面标题
     protected function title()

@@ -7,6 +7,34 @@
 ### 语言包名称
 语言包名称需要与控制器名相对应，假如控制器名`UserProfileController`，则对应的语言包为`resources/lang/{当前语言}/user-profile.php`（需要转化为小写中划线风格）。
 
+如果想要更改语言包的名称，可以通过下面两种方式进行更改
+
+方式1
+```php
+use Dcat\Admin\Http\Controllers\AdminController;
+
+class UserController extends AdminController
+{
+    /**
+     * 指定翻译文件名称
+     * 
+     * @var string 
+     */
+    protected $translation = 'user1';
+    
+    ...
+}
+```
+
+方式2
+```php
+use Dcat\Admin\Admin;
+
+Admin::translation('user1');
+```
+
+
+
 
 ### 示例
 现在假设语言包`resources/lang/zh_CN/user-profile.php`内容如下：
