@@ -174,5 +174,23 @@ return [
     ],
 ```
 
+### 使用不同域名区分应用
+
+默认是通过路由前缀区分应用的，如果想要使用域名区分应用，只需要更改如下配置即可
+
+```php
+    'route' => [
+        'domain' => 'dev.dcat.com', // 配置你的域名
+
+        'prefix' => '', // 路由前缀建议设置为空
+
+        'namespace' => 'App\\Admin\\Controllers',
+
+        'middleware' => ['web', 'admin'],
+    ],
+```
+
+
+
 
 

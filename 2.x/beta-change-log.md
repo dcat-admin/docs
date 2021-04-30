@@ -1,5 +1,47 @@
 # BETA版本更新日志
 
+## v2.0.24-beta
+
+发布时间 2021/4/30
+
+升级方法，逐步执行以下命令，并清除浏览器缓存
+```bash
+composer remove dcat/laravel-admin
+composer require dcat/laravel-admin:"2.0.24-beta"
+php artisan admin:update # 不会覆盖翻译文件 menu.php 以及 global.php
+```
+
+### 新增功能
+
+**1.增加创建或编辑角色以及权限时可直接绑定菜单功能**
+
+在角色和权限的创建以及编辑页面可以直接绑定菜单，此功能默认开启，可以通过配置参数`admin.menu.role_bind_menu`以及`admin.menu.permission_bind_menu`进行关闭，效果如下
+
+![](https://cdn.learnku.com/uploads/images/202104/30/38389/OUgvZVSA5l.jpg!large)
+
+**2.新增`Form\Tree::treeStatus()`方法，允许单独选择父节点**
+
+用法
+```php
+$form->tree('xxx')
+    ->treeState(false) # 允许单独选择父节点
+    ->setTitleColumn('title')
+    ->nodes(...);
+```
+
+效果
+![](https://cdn.learnku.com/uploads/images/202104/30/38389/oChwzky2BT.gif!large)
+
+### BUG修复
+
+1. 修复多应用情况下无法使用域名区分应用问题
+2. 修复`Admin::pjax()`方法未声明为`static`问题
+3. 修复`grid filter checkbox`只能选中多个选项后只有单个选项生效问题 [@outer199](https://github.com/jqhph/dcat-admin/pull/1174)
+4. 修复菜单默认图标设置无效问题
+5. 修复`php7.4`或以上版本中使用`embeds`表单时报错问题 [#1204](https://github.com/jqhph/dcat-admin/issues/1204)
+6. 修复分步表单下使用`$form->list(...)->limit(...);`参数校验不通过后刷新页面报错问题 [#1206](https://github.com/jqhph/dcat-admin/issues/1206)
+7. 修复禁用`pjax`后编辑和创建完成后无法进行跳转问题 [#1208](https://github.com/jqhph/dcat-admin/issues/1208)
+
 ## v2.0.23-beta
 
 发布时间 2021/4/18
