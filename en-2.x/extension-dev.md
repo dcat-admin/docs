@@ -75,7 +75,7 @@ After the extension is created, you can see an additional directory `dcat-admin/
 
 Then you can also set the extension's `logo` and the extension name, which will be displayed on the extension management page after you set it, making your extension more memorable!
 
-<a name="logo"></a
+<a name="logo"></a>
 ### Extension logo
 
 The extension `logo` must be placed in the extension's root directory, and the file name must be `logo.png`, with a recommended size of `100x100`.
