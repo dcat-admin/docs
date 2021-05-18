@@ -49,7 +49,20 @@ $grid->column('config')
     ->else(...);
 ```
 
-
+End condition judgments `end`
+```php
+$grid->column('status')
+    ->if(...) // Condition 1
+    ->display(...)
+    ->display(...)
+    
+    ->if(...) // condition 2
+    ->display(...)
+    ->display(...)
+    
+    ->end() // end the previous condition
+    ->display(...) ; // All conditions are valid
+```
 
 
 ## Column display

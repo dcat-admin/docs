@@ -16,6 +16,12 @@ $form->keyValue('column_name');
 $form->keyValue('column_name')->rules('required|min:5');
 ```
 
+Custom key names and translations of key titles
+
+```php
+$form->keyValue(...) ->setKeyLabel('KeyName')->setValueLabel('KeyValue');
+```
+
 ## Fixed key-value objects (embeds)
 
 ![]({{public}}/assets/img/screenshots/embeds.png)

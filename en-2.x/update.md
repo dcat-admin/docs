@@ -14,7 +14,24 @@ upgrade command
 composer update dcat/laravel-admin
 ```
 
-After upgrading success, it is usually necessary to redistribute the language package, configuration files, front-end static resources, etc., and then clear the browser cache.
+After successful upgrade, you need to run ``admin:update`` to republish the language pack, configuration files, front-end static resources and other files, and then **clean the browser cache**
+
+```bash
+# Publish language packs, configuration files, front-end static resources, data migration files, etc.
+php artisan admin:update
+```
+
+Running ``admin:update`` is equivalent to running
+
+```bash
+php artisan admin:publish --assets --migrations --lang --force
+php artisan migrate
+```
+
+#### publish file command
+
+> After running ``admin:update`'' you don't usually need to run the ``admin:publish`'' command
+
 ```bash
 php artisan admin:publish --force
 ```

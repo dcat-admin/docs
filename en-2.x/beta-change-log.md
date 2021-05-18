@@ -1,5 +1,443 @@
 # BETA version update log
 
+## v2.0.24-beta
+
+Release date 2021/4/30
+
+To upgrade, step-by-step execute the following command and clear the browser cache
+```bash
+composer remove dcat/laravel-admin
+composer require dcat/laravel-admin: "2.0.24-beta"
+php artisan admin:update # will not overwrite the translation files menu.php and global.php
+```
+
+### New features
+
+**1. Add the ability to bind menus directly when creating or editing roles and permissions**
+
+This feature is enabled by default and can be disabled by configuring the parameters `admin.menu.role_bind_menu` and `admin.menu.permission_bind_menu`, the effect is as follows
+
+! [](https://cdn.learnku.com/uploads/images/202104/30/38389/OUgvZVSA5l.jpg!large)
+
+**2. New `Form\Tree::treeStatus()` method to allow separate parent node selection**
+
+Usage
+```php
+$form->tree('xxx')
+    ->treeState(false) # allow separate parent selection
+    ->setTitleColumn('title')
+    ->nodes(...) ;
+```
+
+Effects
+! [](https://cdn.learnku.com/uploads/images/202104/30/38389/oChwzky2BT.gif!large)
+
+### BUG FIX
+
+1. fix the problem of not being able to use domain name to distinguish applications in case of multiple applications
+2. fix the problem that `Admin::pjax()` method is not declared as `static`.
+3. repair the problem that only a single option takes effect after `grid filter checkbox` can only select multiple options [@outer199](https://github.com/jqhph/dcat-admin/pull/1174)
+4. fix the problem that the default icon setting of menu is invalid
+5. repair the problem of error when using `embeds` form in `php7.4` or above [#1204](https://github.com/jqhph/dcat-admin/issues/1204)
+6. fix the problem of using `$form->list(...)' under step-by-step form ->limit(...) Refresh the page with error after the parameter check does not pass [#1206](https://github.com/jqhph/dcat-admin/issues/1206)
+7. fix the problem of not being able to jump after editing and creating after disabling `pjax` [#1208](https://github.com/jqhph/dcat-admin/issues/1208)
+
+## v2.0.23-beta
+
+Released on 2021/4/18
+
+To upgrade, execute the following commands step by step and clear the browser cache
+```bash
+composer remove dcat/laravel-admin
+composer require dcat/laravel-admin: "2.0.23-beta"
+php artisan admin:update
+```
+
+### New features
+
+**1. Add support for `Laravel Octane`**
+
+[Laravel Octane](https://github.com/laravel/octane) is a `Swoole/RoadRunner` driven project that can improve the performance of the `Laravel` framework, after installation it can significantly improve the performance of `Laravel` projects, ` Dcat Admin` is also compatible with the `Laravel Octane` environment, just add the following configuration to the configuration file `config/octane.php`.
+
+```php
+
+    'listeners' => [
+        ... ,
+
+        RequestReceived::class => [
+            ... .Octane::prepareApplicationForNextOperation(),
+            ... .Octane::prepareApplicationForNextRequest(),
+            
+            // Enable support for Dcat Admin
+            Dcat\Admin\Octane\Listeners\FlushAdminState::class,
+        class],
+        
+        ...
+    ],    
+```
+
+> [Laravel Octane](https://github.com/laravel/octane) is still in `beta` phase, for installation and more information about [Laravel Octane](https://github.com/laravel/octane) Please go to the documentation at https://github.com/laravel/octane for more information.
+
+
+
+**2. Add `simplePaginate` feature** to tables
+
+Enabling `simplePaginate` function will use `Laravel`'s [simplePaginate](https://laravel.com/docs/8.x/pagination#simple-pagination) function for pagination, which can greatly improve the page response speed when the data volume is large. However, it is important to note that the **total rows** of the data table will not be queried after using this feature.
+
+```php
+// Enable
+$grid->simplePaginate();
+
+// Disable
+$grid->simplePaginate(false);
+```
+
+### Functional improvements
+
+**1. Refactor translation function**
+
+In past versions, the field names could not be translated automatically when using the [asynchronous forms](lazy.md) and [asynchronous forms](lazy.md) functions, but from the current version onwards you can specify the path to the translation file for automatic translation using the ``translation`'' attribute, as follows
+
+```php
+<?php
+
+namespace App\Admin\Forms;
+
+use Dcat\Admin\Traits\LazyWidget;
+use Dcat\Admin\Widgets\Form;
+use Dcat\Admin\Contracts\LazyRenderable;
+
+class MyForm extends Form implements LazyRenderable
+{
+    use LazyWidget;
+    
+    /**
+     * Specify the translation file name
+     * 
+     * @var string 
+     */
+    protected $translation = 'my-form';
+    
+    public function form()
+    {
+        $this->text('field1');
+        $this->text('field2');
+        
+        ...
+    }
+    
+    ...
+}
+```
+
+The language package `resources/lang/{locale}/my-form.php` has the following contents
+```php
+<?php
+
+return [
+    'fields' => [
+        'field1' => 'field1',
+        'field2' => 'field2',
+        
+        ...
+    ],
+];
+```
+
+And you can also specify the path to the current translation file in the controller
+
+```php
+use Dcat\Admin\Http\Controllers\AdminController;
+
+class UserController extends AdminController
+{
+    /**
+     * Specify the name of the translation file
+     * 
+     * @var string 
+     */
+    protected $translation = 'user1';
+    
+    ...
+}
+```
+
+Of course it can also be specified via the `Admin::translation()` method
+
+```php
+use Dcat\Admin\Admin;
+
+Admin::translation('user');
+```
+
+
+**2. Add form-related configuration parameters**
+
+Add several form-related configuration file parameters `admin.grid.*`:
+
+```php
+    'grid' => [
+
+        // table row action class
+        'grid_action_class' => Dcat\Admin\Grid\Displayers\DropdownActions::class,
+
+        // Grid batch action class
+        'batch_action_class' => Dcat\Admin\Grid\Tools\BatchActions::class,
+
+        // Table paginator class
+        'paginator_class' => Dcat\Admin\Grid\Tools\Paginator::class,
+
+        // The default configuration of several action classes for the grid row
+        'actions' => [
+            'view' => Dcat\Admin\Grid\Actions\Show::class,
+            'edit' => Dcat\Admin\Grid\Actions\Edit::class,
+            'quick_edit' => Dcat\Admin\Grid\Actions\QuickEdit::class,
+            'delete' => Dcat\Admin\Grid\Actions\Delete::class,
+            'batch_delete' => Dcat\Admin\Grid\Tools\BatchDelete::class,
+        ],
+
+        ...
+    ],
+```
+
+
+**3. Remove display of table footer information after disabling table paging**
+
+Starting from the current version, the table footer information will no longer be displayed if paging of the table is disabled.
+
+**4. Optimize `Filter::panel()` layout spacing**
+
+
+**5. Optimize the file publishing function, the `menu.php` and `global.php` files will no longer be overwritten when publishing language pack files**
+
+Starting from the current version, the `menu.php` and `global.php` files are no longer overwritten when using the `admin:update` and `admin:publish --force` command files.
+
+**6. Update `Tinymce` version to `5.6.2` **
+
+[@wk1025](https://github.com/jqhph/dcat-admin/pull/1154)
+
+### BUG FIXES
+
+1. fix the problem of error when field type is `Object` in data table [@xiaohuilam](https://github.com/jqhph/dcat-admin/pull/1154)
+2. fix the problem that file upload fails and still prompts successful upload
+3. repair the problem of not using the incoming `$request` object when matching the middleware of permission judgment [@asmodai1985](https://github.com/jqhph/dcat-admin/pull/1157)
+4. fix the problem of invalid setting `message` for the second parameter of `rules` method of the form
+5. fix the problem that `Helper::array()` converts `0` to an empty array
+6. fix the problem that the row selector cannot select sub-level rows of tree table
+7. Fix the problem that `KeyValue::setValueLabe
+8. fix the problem that `hasmany` and `table` form resets the form when deleting options
+9. fix the problem of displaying wrong text of edit button for table row operation [@GemaDynamic](https://github.com/jqhph/dcat-admin/pull/1174)
+10. fix the problem that sub-level rows of tree table can't use form pop-up window properly [#813](https://github.com/jqhph/dcat-admin/issues/1174)
+
+## v2.0.22-beta
+
+Release date 2021/4/1
+
+To upgrade, step-by-step execute the following command and clear the browser cache
+```bash
+composer remove dcat/laravel-admin
+composer require dcat/laravel-admin: "2.0.22-beta"
+php artisan admin:update
+```
+
+### BUG FIXES
+
+1. repair some functions missing `CSRF_TOKEN` error problem
+2. fix the error reported by menu auto-adaptation height function
+
+
+## v2.0.21-beta
+
+Release date 2021/3/30
+
+To upgrade, step-by-step execute the following commands and clear the browser cache
+```bash
+composer remove dcat/laravel-admin
+composer require dcat/laravel-admin: "2.0.21-beta"
+php artisan admin:update
+```
+
+### New features
+
+**1. Add table column selector `ColumnSelector` to support persistent storage**
+
+In the configuration file `config/admin.php` you can configure the way to store the state of the column selector, the supported storage methods are as follows
+
+- `Dcat\Admin\Grid\ColumnSelector\SessionStore` ColumnSelector state data is stored in `session`, only valid in the login state
+- `Dcat\Admin\Grid\ColumnSelector\CacheStore` Column selector state data is stored in [Laravel Cache](https://laravel.com/docs/8.x/cache#driver-prerequisites) cache system for up to `300` days and can be configured with `admin.grid.column_selector.store_params.driver` which defaults to `file`
+
+```php
+    'grid' => [
+
+        ...
+
+        'column_selector' => [
+            'store' => Dcat\Admin\Grid\ColumnSelector\SessionStore::class,
+            'store_params' => [
+                'driver' => 'file',
+            ],
+        ],
+    ],
+```
+
+**2. Add an end method (`end`) to the form conditional judgment (`if`) **
+
+``` php
+$grid->column('status')
+    ->if(...) // Condition 1
+    ->display(...)
+    ->display(...)
+    
+    ->if(...) // condition 2
+    ->display(...)
+    ->display(...)
+    
+    ->end() // end the previous condition
+    ->display(...) ; // All conditions are valid
+```
+
+**3. Add the default check (`check`) and disable (`disable`) functions of the table row selector**
+
+
+The `check` method can be used to set the default selected rows, this method accepts an `array` type or an `anonymous function` parameter
+
+``` php
+// Set the default check for rows 1/3/5
+$grid->rowSelector()->check([0, 2, 4]);
+
+// Pass the closure
+$grid->rowSelector()->check(function () {
+    // set the default to check rows 1/3/5
+    return in_array($this->_index, [0, 2, 4]);
+});
+
+// Use other fields of the current row in the closure
+$grid->rowSelector()->check(function () {
+    // set the default to check rows with id > 10
+    return $this->id > 10;
+});
+```
+
+The ``disable`` method allows you to set the rows that are not allowed to change their check status, this method accepts an ``array`` type or an ``anonymous function`` parameter
+
+``` php
+// Disable row 1/3/5 from being selected
+$grid->rowSelector()->disable([0, 2, 4]);
+
+// Pass the closure
+$grid->rowSelector()->disable(function () {
+    // disable row 1/3/5 from changing selection status
+    return in_array($this->_index, [0, 2, 4]);
+});
+
+// Use other fields of the current row in the closure
+$grid->rowSelector()->disable(function () {
+    // disable the selected state for rows with id > 10
+    return $this->id > 10;
+});
+
+// disable can be used in conjunction with the check method
+$grid->rowSelector()->check([2, 4])->disable([0, 2, 4]);
+```
+
+**4. Add `KeyValue` form custom title translation function**
+
+``` php
+$form->keyValue(...) ->setKeyLabel('keyName')->setValueLabel('keyValue');
+```
+
+
+**5. Add `Grid::scrollbarX` method to show horizontal scrollbar of table**
+
+Show the horizontal scrollbar of the grid, not by default
+
+``` php
+// Enable
+$grid->scrollbarX();
+
+// Disable
+$grid->scrollbarX(false);
+```
+
+
+**6. Add `admin:update` command**
+Starting from the current version, you can run `admin:update` directly after upgrading, which is equivalent to running
+
+```
+php artisan admin:publish --assets --migrations --lang --force
+php artisan migrate
+``` 
+
+### Feature improvements
+
+**1. Form display is compatible with hump style association names when editing data**
+
+In the old version, if you need to edit a model association field and the model association name is hump style, you need to change the name to underscore style to display it properly, which is very unfriendly to developers. Starting from the current version, you can use the hump style association names directly without any special handling
+```php
+return Form::make(User::with(['myProfile']), function (Form $form) {
+    // Directly use camel style naming, no need to do anything else
+    $form->text('myProfile.full_name');
+    
+    ...
+});
+```
+
+
+**2. Adjust the tool form data setting logic to get `default` method data in the `form` method**
+
+```php
+use Dcat\Admin\Widgets\Form;
+
+class Setting extends Form
+{
+    public function form()
+    {
+        // 获取 default 方法设置的数据
+        $id = $this->data()->id;
+        $name = $this->data()->name;
+    
+        $this->text('name');
+        
+        ...
+    }
+    
+    public function default()
+    {
+        return [
+            'id' => 1,
+            'name' => 'abc',
+            ...
+        ];
+    }
+}
+```
+
+**3.`hasMany` and `array` forms support overall validation using `rules` validation rules**
+
+``` php
+$form->hasMany(...) ->rules('size:2');
+```
+
+**4. Adjust the default placeholder for `selectTable` to `select ... `**
+
+**5. Optimize form row layout spacing**
+
+[#1092](https://github.com/jqhph/dcat-admin/issues/1092)
+
+
+### BUG
+
+1. fix the problem that `ModelTree` can't delete the child nodes with more than one level of interval when deleting nodes
+2. repair the problem that the export function may be abnormal in some environments
+3. repair the problem that the initial value of form linkage (`load`) is lost after loading [@xqbumu](https://github.com/jqhph/dcat-admin/pull/1103)
+4. repair the problem of abnormal display of prompt information after file upload failure
+5. repair the problem of incorrect primary key assignment if the data details `Show` instantiation function passes the model [@jisuye](https://github.com/jqhph/dcat-admin/pull/1112)
+6. fix the problem that the table `setConstraints` method is invalid for quick editing [#1119](https://github.com/jqhph/dcat-admin/issues/1119)
+7. fix the problem of abnormal preview image function in `iframe` page
+8. fix the problem that the form cannot be submitted after the fields with `required` validation rules are deleted in `hasMany` and `array` forms
+9. fix the abnormal loading problem of table `dialogTree` when the top ID is string `0` [#1122](https://github.com/jqhph/dcat-admin/issues/1122)
+
+
 ## v2.0.20-beta
 
 Release date 2021/3/8

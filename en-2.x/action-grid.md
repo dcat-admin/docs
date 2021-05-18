@@ -89,7 +89,6 @@ The `getSelectedKeysScript` method can be used to generate `JS` code that gets t
 
 Here's a simple demonstration
 
-Translated with www.DeepL.com/Translator (free version)
 ```php
 use Dcat\Admin\Grid\BatchAction
 

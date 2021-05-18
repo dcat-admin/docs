@@ -10,6 +10,7 @@
   - [View and custom page](custom-page.md)
   - [JS Components](js.md)
   - [multi-app (multi-backend)](multi-app.md)
+  - [Laravel Octane](laravel-octane.md)
   - [FAQ](qa.md)
 - ## Data tables
   - [basic use](model-grid.md)

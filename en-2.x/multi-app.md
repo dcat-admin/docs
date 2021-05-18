@@ -174,5 +174,19 @@ For custom users and permissions, you can refer to the way to change the menu ab
     ],
 ```
 
+### Use different domain names to distinguish applications
 
+By default, applications are distinguished by routing prefixes. If you want to distinguish applications using domain names, you just need to change the following configuration
+
+```php
+    'route' => [
+        'domain' => 'dev.dcat.com', // configure your domain name
+
+        'prefix' => '', // the route prefix is recommended to be set to empty
+
+        'namespace' => 'App\\Admin\\Controllers',
+
+        'middleware' => ['web', 'admin'],
+    ],
+```
 

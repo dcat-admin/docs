@@ -139,6 +139,7 @@ Disable border mode
 $grid->withBorder(false);
 ```
 
+
 ## Basic usage
 
 ### Adding columns (column)
@@ -359,11 +360,53 @@ use Dcat\Admin\Admin;
 $grid->rowSelector()->background(Admin::color()->dark20());
 ```
 
-#### set the checkbox selection box shape
-Default Round
+#### set default check (check)
+
+> Since `v2.0.21`
+
+The ``check`` method allows you to set the default selected row, which accepts an ``array`` type or an ``anonymous function`` argument
+
 ```php
-// Set to square
-$grid->rowSelector()->circle(false);
+// Set the default check for rows 1/3/5
+$grid->rowSelector()->check([0, 2, 4]);
+
+// Pass the closure
+$grid->rowSelector()->check(function () {
+    // set the default to check rows 1/3/5
+    return in_array($this->_index, [0, 2, 4]);
+});
+
+// Use other fields of the current row in the closure
+$grid->rowSelector()->check(function () {
+    // set the default to check rows with id > 10
+    return $this->id > 10;
+});
+```
+
+#### Disable changing the check state (disable)
+
+> Since `v2.0.21`
+
+The `disable` method allows you to set the row whose selected state is disabled, and accepts an `array` type or an `anonymous function` argument
+
+```php
+// disable row 1/3/5 from changing selection status
+$grid->rowSelector()->disable([0, 2, 4]);
+
+// Pass the closure
+$grid->rowSelector()->disable(function () {
+    // disable row 1/3/5 from changing selection status
+    return in_array($this->_index, [0, 2, 4]);
+});
+
+// Use other fields of the current row in the closure
+$grid->rowSelector()->disable(function () {
+    // disable the selected state for rows with id > 10
+    return $this->id > 10;
+});
+
+// disable can be used in conjunction with the check method
+$grid->rowSelector()->check([2, 4])->disable([0, 2, 4]);
 ```
 
 ### Set row action buttons
@@ -399,7 +442,7 @@ $grid->showDeleteButton();
 
 ```
 
-### Setting the batch operation button
+### Set the batchActions button (batchActions)
 ```php
 // Disable
 $grid->disableBatchActions();
@@ -412,7 +455,7 @@ $grid->disableBatchDelete();
 $grid->showBatchDelete();
 ```
 
-### Setting the toolbar
+### Setting the toolbar (toolbar)
 ```php
 // Disable
 $grid->disableToolbar();
@@ -420,7 +463,7 @@ $grid->disableToolbar();
 $grid->showToolbar();
 ```
 
-### Setting the refresh button
+### Setting the refresh button (refresh)
 ```php
 // Disable
 $grid->disableRefreshButton();
@@ -428,13 +471,26 @@ $grid->disableRefreshButton();
 $grid->showRefreshButton();
 ```
 
-### Setting up pagination
+### Setting up pagination (paginate)
 ```php
 // Disable
 $grid->disablePagination();
 // show
 $grid->showPagination();
 ```
+
+#### Simple Pagination (simplePaginate)
+
+Enabling the `simplePaginate` function will use the [simplePaginate](https://laravel.com/docs/8.x/pagination#simple-pagination) function of `Laravel` for pagination, which can greatly improve the page response speed when the data volume is large. However, it is important to note that the **total rows** of the data table will not be queried after using this feature.
+
+```php
+// Enable
+$grid->simplePaginate();
+
+// Disable
+$grid->simplePaginate(false);
+```
+
 
 #### Set the number of rows per page
 
@@ -460,12 +516,23 @@ The `css` style can be added to table `table` through `addTableClass`.
 $grid->addTableClass(['class1', 'class2']);
 ```
 
-### Set table text centering
+### Set table text centering (text-center)
 
 ```php
 $grid->addTableClass(['table-text-center']);
 ```
 
+### Show horizontal scrollbar (scrollbarX)
+
+Show the horizontal scrollbar of the table, which is not displayed by default
+
+```php
+// Enable
+$grid->scrollbarX();
+
+// Disable
+$grid->scrollbarX(false);
+```
 
 ### Setting the form outer container
 ```php

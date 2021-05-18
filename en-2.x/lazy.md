@@ -269,6 +269,9 @@ use Dcat\Admin\Models\Administrator;
 
 class UserTable extends LazyRenderable
 {
+    // Specify the name of the translation file
+    protected $translation = 'user';
+    
     public function grid(): Grid
     {
         return Grid::make(new Administrator(), function (Grid $grid) {
@@ -464,6 +467,9 @@ class UserProfile extends Form implements LazyRenderable
 {
     use LazyWidget;
 
+    // Specify the name of the translation file
+    protected $translation = 'user-profile';
+    
     public function handle(array $input)
     {
         return $this->response()->success('Save successfully');

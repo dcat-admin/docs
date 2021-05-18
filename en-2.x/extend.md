@@ -1,9 +1,9 @@
 # Developing extensions
 
 ## New Release Preview
-``Dcat Admin'' plans to go live with the plug-in marketplace feature in ``2.0'' version, which will refactor the entire extension functionality to enhance the user experience.
-The new extension system will allow users to `install', `update' and `uninstall' plug-ins with just a few clicks of the mouse from the administration page.
-The new extension system will allow users to `install', `update' and `uninstall' plug-ins with just a few mouse clicks from the administration page.
+``Dcat Admin`` plans to go live with the plug-in marketplace feature in ``2.0`` version, which will refactor the entire extension functionality to enhance the user experience.
+The new extension system will allow users to `install`, `update` and `uninstall` plug-ins with just a few clicks of the mouse from the administration page.
+The new extension system will allow users to `install`, `update` and `uninstall` plug-ins with just a few mouse clicks from the administration page.
 
 The `Dcat Admin` team will work hard to build an ecosystem that benefits both developers and users, thanks for your support!
 

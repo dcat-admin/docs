@@ -62,6 +62,17 @@ $form->radio('check')
 
 The `select` component is used in the same way as `radio`.
 
+Also note that if the form cannot use the `required` method after using the dynamic display feature, you should use `required_if` instead, as in
+
+```php
+$form->radio('type')
+    ->when([1, 4], function (Form $form) {
+        $form->text('text1')
+            ->rules('required_if:type,1,4') // use required_if
+            ->setLabelClass(['asterisk']); // show * number
+    });
+```
+
 ### Multiple choice components
 
 Multiple choice components support two operators: `in`、`notIn`
