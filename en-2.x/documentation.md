@@ -6,6 +6,7 @@
   - [Version upgrade](update.md)
   - [Quick Start](quick-start.md)
   - [Required Reading Before Development](notice.md)
+  - [static resource](assets.md)
   - [Theme and color](theme.md)
   - [View and custom page](custom-page.md)
   - [JS Components](js.md)
@@ -33,6 +34,7 @@
   - [Field translation](model-grid-trans.md)
   - [head and feet](model-grid-header.md)
   - [softdelete](model-grid-softdelete.md)
+  - [asynchronous-rendering](model-grid-async.md)
 - ## Data Sheet
   - [basic use](model-form.md)
   - [image/file upload](model-form-upload.md)

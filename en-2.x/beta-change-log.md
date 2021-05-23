@@ -1,5 +1,59 @@
 # BETA version update log
 
+## v2.1.0-beta
+
+Release date 2021/5/23
+
+To upgrade, step-by-step execute the following commands and clear the browser cache
+```bash
+composer remove dcat/laravel-admin
+composer require dcat/laravel-admin: "2.1.0-beta"
+php artisan admin:update # will not overwrite the translation files menu.php and global.php
+```
+
+### New features
+
+**1. Add table asynchronous rendering feature**
+
+When the table on a page displays a particularly large amount of data (many columns and many rows) and loads more components, it may lag, so you can use the table asynchronous rendering feature to effectively reduce the page lag: the
+
+```php
+// Enable asynchronous rendering of tables
+$grid->async();
+```
+
+Note that there is no need to enable this feature if the page is not visibly stuttering, and that it is not available if there are multiple data tables on the page! Refer to [datagrid - asynchronous rendering](model-grid-async.md) for detailed usage
+
+
+### Feature improvements
+
+
+**1. Support for `Laravel Octane 1.x` version**
+
+This version adapts the changes related to `Laravel Octane 1.x` version, refer to [Laravel Octane](laravel-octane.md) for the specific usage.
+
+
+**2. Call `expand(false)` to disable automatic pop-up filter sidebar**
+
+```php
+// disable automatic popup filter sidebar
+$grid->filter()->expand(false);
+```
+
+**3. Upgrade `tinymce` to `v5.8.0` version**
+
+[@yiming0](https://github.com/jqhph/dcat-admin/pull/1263)
+
+
+**4. Automatically clear the menu cache after binding the menu to the permissions and roles pages**
+
+
+### BUG FIXES
+
+1. fix `withConstraints` method invalid for detail page `url` problem [#1232](https://github.com/jqhph/dcat-admin/issues/1232)
+2. fix the problem that the form value is converted into an associated array when the multi-image/file upload form deletes pictures
+3. fix the problem that Baidu map component cannot be used after `https` is enabled [#1162](https://github.com/jqhph/dcat-admin/issues/1162)
+
 ## v2.0.24-beta
 
 Release date 2021/4/30
