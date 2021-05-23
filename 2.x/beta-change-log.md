@@ -1,5 +1,59 @@
 # BETA版本更新日志
 
+## v2.1.0-beta
+
+发布时间 2021/5/23
+
+升级方法，逐步执行以下命令，并清除浏览器缓存
+```bash
+composer remove dcat/laravel-admin
+composer require dcat/laravel-admin:"2.1.0-beta"
+php artisan admin:update # 不会覆盖翻译文件 menu.php 以及 global.php
+```
+
+### 新增功能
+
+**1.增加表格异步渲染功能**
+
+当页面的表格展示的数据特别多（列多行多），并且加载的组件也较多时，可能会出现卡顿的现象，此时可以使用表格异步渲染功能，可以有效地减轻页面卡顿的情况：
+
+```php
+// 启用表格异步渲染功能
+$grid->async();
+```
+
+需要注意的是，如果页面没有出现明显的卡顿现象，则无需启用此功能，并且如果页面中存在多个数据表格，那么也无法使用此功能！详细用法参考[数据表格 - 异步渲染](model-grid-async.md)
+
+
+### 功能改进
+
+
+**1.支持`Laravel Octane 1.x`版本**
+
+此次版本适配了`Laravel Octane 1.x`版本的相关变动，具体用法参考[Laravel Octane](laravel-octane.md)。
+
+
+**2.调用`expand(false)`可以禁止自动弹出过滤器侧栏**
+
+```php
+// 禁止自动弹出过滤器侧边栏
+$grid->filter()->expand(false);
+```
+
+**3.升级`tinymce`至`v5.8.0`版本**
+
+[@yiming0](https://github.com/jqhph/dcat-admin/pull/1263)
+
+
+**4.权限以及角色页面绑定菜单后自动清除菜单缓存**
+
+
+### BUG修复
+
+1. 修复`withConstraints`方法对详情页`url`无效问题 [#1232](https://github.com/jqhph/dcat-admin/issues/1232)
+2. 修复多图/文件上传表单删除图片时表单值会转化成关联数组问题
+3. 修复百度地图组件在启用`https`后无法使用问题 [#1162](https://github.com/jqhph/dcat-admin/issues/1162)
+
 ## v2.0.24-beta
 
 发布时间 2021/4/30
