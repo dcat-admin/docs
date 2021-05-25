@@ -37,7 +37,11 @@ This version adapts the changes related to `Laravel Octane 1.x` version, refer t
 
 ```php
 // disable automatic popup filter sidebar
-$grid->filter()->expand(false);
+$grid->filter(function ($filter) {
+    $filter->expand(false);
+    
+    ...
+});
 ```
 
 **3. Upgrade `tinymce` to `v5.8.0` version**
