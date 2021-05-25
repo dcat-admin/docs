@@ -37,7 +37,11 @@ $grid->async();
 
 ```php
 // 禁止自动弹出过滤器侧边栏
-$grid->filter()->expand(false);
+$grid->filter(function ($filter) {
+    $filter->expand(false);
+    
+    ...
+});
 ```
 
 **3.升级`tinymce`至`v5.8.0`版本**
