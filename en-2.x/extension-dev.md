@@ -107,7 +107,7 @@ The main function of this extension is to record the user's operation records, a
 ├── logo.png      # logo
 ├── updates       # Table migration files for each version of the extension package
 ├── resources 
-│   └── lang  # language pack
+│   └── lang  # language pack
 └── src
     ├── OperationLogServiceProvider.php # Extension package service provider
     ├── Setting.php  # Extension Settings Form

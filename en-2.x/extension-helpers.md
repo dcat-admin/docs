@@ -3,7 +3,7 @@
 In the latest version of the new developer-oriented help tools have been added to provide help in development to improve efficiency, currently provides `scaffolding`, `database command line` and `artisan command line` three tools, if there are better ideas for other utilities, welcome to provide suggestions.
 
 Installation:
-```php
+```bash
 composer require dcat-admin-ext/helpers
 
 php artisan admin:import helpers
