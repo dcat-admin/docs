@@ -47,8 +47,10 @@ class WangEditor extends Field
     </div>
 </div>
 
+<!-- script标签加上 "init" 属性后会自动使用 Dcat.init() 方法动态监听元素生成 -->
 <script require="@wang-editor" init="{!! $selector !!}">
     var E = window.wangEditor
+    // id 变量是 Dcat.init() 自动生成的，是一个唯一的随机字符串
     var editor = new E('#' + id);
     editor.config.zIndex = 0
     editor.config.uploadImgShowBase64 = true
