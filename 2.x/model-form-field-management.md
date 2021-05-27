@@ -11,7 +11,7 @@
 
 > 为了方便演示，示例中直接使用CDN链接。实际开发中需要先下载前端库文件[wangEditor](https://github.com/wangfupeng1988/wangEditor/releases)到服务器，解压到目录`public/vendor/wangEditor-4.7.1`。
 
-新建组件类`app/Admin/Extensions/WangEditor.php`。
+新建组件类`app/Admin/Extensions/Form/WangEditor.php`。
 
 ```php
 <?php
@@ -152,7 +152,7 @@ $form->ckeditor('content');
 
 先将[codemirror](http://codemirror.net/codemirror.zip)库下载并解压到前端资源目录下，比如放在`public/packages/codemirror-5.20.2`目录下。
 
-新建组件类`app/Admin/Extensions/PHPEditor.php`:
+新建组件类`app/Admin/Extensions/Form/PHPEditor.php`:
 
 ```php
 <?php
