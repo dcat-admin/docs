@@ -280,7 +280,13 @@ class PHPEditor extends Field
 	// $data是当前表单的编辑数据，数据格式是 array
 	protected function formatFieldData($data)
 	{
-		return (array) parent::formatFieldData($data);
+	    // 获取到当前字段值
+		$value = parent::formatFieldData($data);
+		
+		// 处理字段值
+		...
+		
+		return $value;
 	}
 }
 ```
