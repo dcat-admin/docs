@@ -80,7 +80,7 @@ $form->text('title')->width(8, 2);
 ```php
 use Dcat\Admin\Support\Helper;
 
-$form->mutipleFile('files')->saving(function ($paths) {
+$form->multipleFile('files')->saving(function ($paths) {
     $paths = Helper::array($paths);
     
     // 获取数据库当前行的其他字段
@@ -95,11 +95,11 @@ $form->mutipleFile('files')->saving(function ($paths) {
 ### 修改表单数据显示 (customFormat)
 通过`customFormat`方法可以改变从外部注入到表单的字段值。
 
-如下例子中，`mutipleFile`字段要求待渲染的字段值为数组格式，我们可以通过`customFormat`方法把从数据库查出的字段值转化为`array`格式
+如下例子中，`multipleFile`字段要求待渲染的字段值为数组格式，我们可以通过`customFormat`方法把从数据库查出的字段值转化为`array`格式
 ```php
 use Dcat\Admin\Support\Helper;
 
-$form->mutipleFile('files')->saving(function ($paths) {
+$form->multipleFile('files')->saving(function ($paths) {
     $paths = Helper::array($paths);
     
     return json_encode($paths);
