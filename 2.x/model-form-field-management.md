@@ -7,11 +7,11 @@
 
 ### 集成富文本编辑器wangEditor
 
-[wangEditor](http://www.wangeditor.com/)是一个优秀的国产的轻量级富文本编辑器，如果`dcat-admin`自带的基于`ckeditor`的编辑器组件使用上有问题，可以通过下面的步骤可以集成它，并覆盖掉`ckeditor`：
+[wangEditor](http://www.wangeditor.com/)是一个优秀的国产的轻量级富文本编辑器，如果`dcat-admin`自带的基于`ckeditor`的编辑器组件使用上有问题，可以通过下面的步骤可以集成它，并覆盖掉默认的`editor`：
 
-先下载前端库文件[wangEditor](https://github.com/wangfupeng1988/wangEditor/releases)，解压到目录`public/vendor/wangEditor-3.0.9`。
+> 为了方便演示，示例中直接使用CDN链接。实际开发中需要先下载前端库文件[wangEditor](https://github.com/wangfupeng1988/wangEditor/releases)到服务器，解压到目录`public/vendor/wangEditor-4.7.1`。
 
-然后新建组件类`app/Admin/Extensions/WangEditor.php`。
+新建组件类`app/Admin/Extensions/WangEditor.php`。
 
 ```php
 <?php
@@ -27,7 +27,7 @@ class WangEditor extends Field
 ```
 
 新建视图文件`resources/views/admin/wang-editor.blade.php`：
-```php
+```html
 <div class="{{$viewClass['form-group']}}">
 
     <label class="{{$viewClass['label']}} control-label">{{$label}}</label>
@@ -42,7 +42,7 @@ class WangEditor extends Field
 
         <input type="hidden" name="{{$name}}" value="{{ old($column, $value) }}" />
 
-		@include('admin::form.help-block')
+        @include('admin::form.help-block')
 
     </div>
 </div>
@@ -50,10 +50,10 @@ class WangEditor extends Field
 <script require="@wang-editor" init="{!! $selector !!}">
     var E = window.wangEditor
     var editor = new E('#' + id);
-    editor.customConfig.zIndex = 0
-    editor.customConfig.uploadImgShowBase64 = true
-    editor.customConfig.onchange = function (html) {
-        $this.parents('.form-field').find('input[name={{ $name }}]').val(html);
+    editor.config.zIndex = 0
+    editor.config.uploadImgShowBase64 = true
+    editor.config.onchange = function (html) {
+        $this.parents('.form-field').find('input[type="hidden"]').val(html);
     }
     editor.create()
 </script>
@@ -69,8 +69,8 @@ use Dcat\Admin\Form;
 
 // 注册前端组件别名
 Admin::asset()->alias('@wang-editor', [
-    'js' => ['/vendor/wangEditor-3.0.9/release/wangEditor.min.js'],
-    'css' => ['/vendor/wangEditor-3.0.9/release/wangEditor.min.css'],
+    // 为了方便演示效果，这里直接加载CDN链接，实际开发中可以下载到服务器加载
+    'js' => ['https://cdn.jsdelivr.net/npm/wangeditor@4.7.1/dist/wangEditor.min.js'],
 ]);
 
 Form::extend('editor', WangEditor::class);
@@ -78,10 +78,8 @@ Form::extend('editor', WangEditor::class);
 
 调用:
 
-```
-
+```php
 $form->editor('body');
-
 ```
 
 ### 集成富文本编辑器ckeditor
@@ -202,7 +200,7 @@ class PHPEditor extends Field
     Editor.on("change", function (Editor, changes) {
         let val = Editor.getValue();
         //console.log(val);
-        $this.parents('.form-field').find('input[name={{ $name }}]').val(val);
+        $this.parents('.form-field').find('input[type="hidden"]').val(val);
     });
 </script>
 ```
