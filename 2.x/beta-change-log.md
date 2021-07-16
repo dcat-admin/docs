@@ -1,5 +1,122 @@
 # BETA版本更新日志
 
+## v2.1.1-beta
+
+发布时间 2021/7/12
+
+升级方法，逐步执行以下命令，并清除浏览器缓存
+```bash
+composer remove dcat/laravel-admin
+composer require dcat/laravel-admin:"2.1.1-beta"
+php artisan admin:update # 不会覆盖翻译文件 menu.php 以及 global.php
+```
+
+### 新增功能
+
+**1.增加模型树expand方法控制是否展开所有子节点数据**
+
+默认展开所有子节点数据
+
+```php
+// 展开子节点数据
+$tree->expand();
+
+// 收起所有子节点数据
+$tree->expand(false);
+```
+
+**2.增加文件上传表单下载功能**
+
+```php
+$form->file('...')->downloadable();
+```
+
+
+**3.增加高德地图表单**
+
+在配置文件`config/admin.php`中设置 [#1331 @gaizhixin](https://github.com/jqhph/dcat-admin/pull/1331)
+```php
+    'map' => [
+        'provider' => 'amap',
+        'keys' => [
+            // 配置高德地图的key
+            'amap' => 'key',
+        ],
+    ],
+```
+
+
+**4.新增addElementClass方法用于给表单字段设置自定义class**
+
+```php
+// 如果不希望添加前缀，则第二个参数设置为false
+$form->text(...)->addElementClass(['class1', 'class2'], false);
+```
+
+**5.增加表格批量操作设置下拉菜单分割线功能**
+
+支持以下两种方式
+
+```php
+// 方式1
+$grid->batchActions(function ($batch) {
+    $batch->add(...);
+    
+    // 显示分割线
+    $batch->divider();
+    
+    ...
+});
+
+// 方式2
+use Dcat\Admin\Grid\Tools\ActionDivider;
+
+$grid->batchActions([
+    new Action1(),
+    ...
+    new ActionDivider(),
+    ...
+]);
+```
+
+### 功能改进
+
+
+**1.table表单支持自定义view**
+
+```php
+$this->table(...)->setView('...');
+```
+
+**2.优化菜单收缩后的操作体验以及UI**
+
+当菜单收缩后，光标移动上去后自动展开如果点击了菜单，跳转后会自动收缩回去；并且修复了`mini-logo`显示异常的问题
+
+
+**3.数据表格行操作列当没有任何操作按钮时不再显示空的下拉菜单**
+
+数据表格行操作列当没有任何操作按钮时不再显示空的下拉菜单 [#1327 @jiangyuntao](https://github.com/jqhph/dcat-admin/pull/1331)
+
+**4.优化图片上传表单图片的显示效果**
+
+[#1366 @ShermanTsang](https://github.com/jqhph/dcat-admin/pull/1366)
+
+### BUG修复
+
+1. 修复树形表格(`tree`)展开子节点时如果无数据`Grid::__toString()`会报错问题
+2. 修复启用数据表格异步渲染功能后减少筛选条件无效问题
+3. 修复表格异步渲染筛选项数量显示异常问题
+4. 修复设置表单字段`class`会覆盖默认`class`问题
+5. 修复关闭`debug`模式后访问无权限页面会显示异常报文问题
+6. 修复配置文件自定义批量删除按钮后 `Grid::disableBatchDelete` 失效问题
+7. 修复菜单缩进后三级菜单无法隐藏问题
+8. 修复当设置为无路由前缀时，内置的权限系统点击`新增权限`报错的问题 
+9. 修复当禁用内置权限系统时没有禁用掉权限中间件无效问题
+10. 修复`select`以及`selectTable`的`model`传递了第二个参数为非`id`时无法显示编辑数据的问题
+11. 修复部分表单设置大小样式未生效的问题 [#1361 @Abbotton](https://github.com/jqhph/dcat-admin/pull/1361)
+12. 修复表格排序功能无法兼容`Grid\Model::latest`以及`oldest`方法问题
+
+
 ## v2.1.0-beta
 
 发布时间 2021/5/23
