@@ -1,10 +1,128 @@
 # BETA version update log
 
+## v2.1.1-beta
+
+Release date 2021/7/12
+
+To upgrade, execute the following commands step by step and clear your browser cache
+```bash
+composer remove dcat/laravel-admin
+composer require dcat/laravel-admin:"2.1.1-beta"
+php artisan admin:update # The translation files menu.php and global.php will not be overwritten
+```
+
+### New features
+
+**1. Add model tree expand method to control whether to expand all child node data**
+
+Expand all child node data by default
+
+```php
+// Expand the child node data
+$tree->expand();
+
+// Collapse all child node data
+$tree->expand(false);
+```
+
+**2. Add file upload form download function**
+
+```php
+$form->file('...')->downloadable();
+```
+
+
+**3. Add the Gaudet map form**
+
+Set in the configuration file `config/admin.php` [#1331 @gaizhixin](https://github.com/jqhph/dcat-admin/pull/1331)
+```php
+    'map' => [
+        'provider' => 'amap',
+        'keys' => [
+            // Configure the key of Gaode Map
+            'amap' => 'key',
+        ],
+    ],
+```
+
+
+**4. New addElementClass method for setting custom classes to form fields**
+
+```php
+// If you don't want to add a prefix, set the second parameter to false
+$form->text(...)->addElementClass(['class1', 'class2'], false);
+```
+
+**5. Add table batch operation to set the drop-down menu split line function**
+
+Support the following two ways
+
+```php
+// Way 1
+$grid->batchActions(function ($batch) {
+    $batch->add(...);
+    
+    // Show split line
+    $batch->divider();
+    
+    ...
+});
+
+// Way 2
+use Dcat\Admin\Grid\Tools\ActionDivider;
+
+$grid->batchActions([
+    new Action1(),
+    ...
+    new ActionDivider(),
+    ...
+]);
+```
+
+### Feature improvements
+
+
+**1.table form support custom view**
+
+```php
+$this->table(...)->setView('...');
+```
+
+**2. Optimize the operation experience and UI after menu shrinkage**
+
+When the menu shrinks, the cursor moves up and automatically expands if the menu is clicked, it will automatically shrink back after jumping; and fixes the problem of `mini-logo` being shown incorrectly.
+
+
+**3. Data table row action column no longer shows empty dropdown menu when there is no action button**
+
+Data table row action column no longer shows empty dropdown menu when there is no action button [#1327 @jiangyuntao](https://github.com/jqhph/dcat-admin/pull/1331)
+
+**4. Optimize display of image upload form images**
+
+[#1366 @ShermanTsang](https://github.com/jqhph/dcat-admin/pull/1366)
+
+### BUG FIXES
+
+1. repair the problem that `Grid::__toString()` will report an error if there is no data when the tree table (`tree`) expands its sub-nodes
+2. repair the problem of invalid filtering conditions reduction after enabling asynchronous rendering function of data table
+3. repair the problem of abnormal display of the number of filtering items in asynchronous rendering of the table
+4. repair the problem that setting `class` of form fields will overwrite the default `class`.
+5. repair the problem of displaying abnormal messages when visiting the page without authority after closing `debug` mode
+6. repair the problem that `Grid::disableBatchDelete` fails after the configuration file custom batch delete button
+7. repair the problem that tertiary menu cannot be hidden after menu indentation
+8. repair the problem that the built-in permission system reports error when clicking `Add permission` when it is set to no route prefix
+9. repair the problem of not disabling the authority middleware when the built-in authority system is disabled.
+10. repair the problem that editing data cannot be displayed when the second parameter of `select` and `model` of `selectTable` is not `id`.
+11. fix the problem that some forms setting size style does not take effect [#1361 @Abbotton](https://github.com/jqhph/dcat-admin/pull/1361)
+12. fix the problem that the table sorting function is not compatible with `Grid\Model::latest` and `oldest` methods
+
+
 ## v2.1.0-beta
 
 Release date 2021/5/23
 
 To upgrade, step-by-step execute the following commands and clear the browser cache
+
 ```bash
 composer remove dcat/laravel-admin
 composer require dcat/laravel-admin: "2.1.0-beta"

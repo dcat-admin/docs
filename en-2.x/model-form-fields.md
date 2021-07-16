@@ -7,6 +7,7 @@ There are a number of form components built into `model-form` to help you build 
 
 <a name="value"></a>
 ### Set the value of the form (value)
+
 ```php
 $form->text('title')->value('text...');
 ```
