@@ -1,5 +1,69 @@
 # BETA版本更新日志
 
+## v2.1.2-beta
+
+发布时间 2021/7/12
+
+升级方法，逐步执行以下命令，并清除浏览器缓存
+```bash
+composer remove dcat/laravel-admin
+composer require dcat/laravel-admin:"2.1.2-beta"
+php artisan admin:update # 不会覆盖翻译文件 menu.php 以及 global.php
+```
+
+### 功能改进
+
+**1.增加 Grid\Model::apply() 方法**
+
+此方法可以应用数据表格的快捷搜索和筛选过滤的查询条件，用法示例如下
+
+在旧版本中，使用快捷搜索和筛选过滤的查询条件非常的麻烦
+```php
+$grid->header(function ($collection) use ($grid) {
+    $query = Model::query();
+
+    // 拿到表格筛选 where 条件数组进行遍历
+    $grid->model()->getQueries()->unique()->each(function ($value) use (&$query) {
+        if (in_array($value['method'], ['paginate', 'get', 'orderBy', 'orderByDesc'], true)) {
+            return;
+        }
+
+        $query = call_user_func_array([$query, $value['method']], $value['arguments'] ?? []);
+    });
+
+    // 查出统计数据
+    $data = $query->get();
+
+    // 自定义组件
+    return new Card($data);
+});
+```
+
+从当前版本开始可以使用`apply`方法简化上面的代码
+```php
+$grid->header(function ($collection) use ($grid) {
+    $query = Model::query();
+
+    // 拿到表格筛选 where 条件数组进行遍历
+    $grid->model()->apply($query);
+
+    // 查出统计数据
+    $data = $query->get();
+
+    // 自定义组件
+    return new Card($data);
+});
+```
+
+
+
+### BUG修复
+
+1. 修复数据表格无法禁用批量删除按钮问题
+2. 修复高德地图表单有坐标时没有缩放问题  [#1377 @gzxy-0102](https://github.com/jqhph/dcat-admin/pull/1377)
+3. 修复文件上传表单下载按钮不显示问题 [#1405](https://github.com/jqhph/dcat-admin/issues/1405)
+4. 修复数据表格使用了`simplePaginate`后数据筛选参数不生效问题 [#1405](https://github.com/jqhph/dcat-admin/issues/1405)
+
 ## v2.1.1-beta
 
 发布时间 2021/7/12
