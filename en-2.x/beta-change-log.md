@@ -1,5 +1,69 @@
 # BETA version update log
 
+## v2.1.2-beta
+
+Release date 2021/7/12
+
+To upgrade, step-by-step execute the following commands and clear the browser cache
+```bash
+composer remove dcat/laravel-admin
+composer require dcat/laravel-admin: "2.1.2-beta"
+php artisan admin:update # will not overwrite the translation files menu.php and global.php
+```
+
+### Feature improvements
+
+**1. Add Grid\Model::apply() method**
+
+This method can be used to apply quick search and filtering query criteria to a data table.
+
+In the old version, it was very troublesome to use the quick search and filtering query criteria
+```php
+$grid->header(function ($collection) use ($grid) {
+    $query = Model::query();
+
+    // Get the table filter where condition array to iterate through
+    $grid->model()->getQueries()->unique()->each(function ($value) use (&$query) {
+        if (in_array($value['method'], ['paginate', 'get', 'orderBy', 'orderByDesc'], true)) {
+            return;
+        }
+
+        $query = call_user_func_array([$query, $value['method']], $value['arguments'] ? []);
+    });
+
+    // Find out the statistics
+    $data = $query->get();
+
+    // Customize the component
+    return new Card($data);
+});
+```
+
+Starting with the current version you can use the `apply` method to simplify the above code
+```php
+$grid->header(function ($collection) use ($grid) {
+    $query = Model::query();
+
+    // Get the table filter where condition array to iterate through
+    $grid->model()->apply($query);
+
+    // Find out the statistics
+    $data = $query->get();
+
+    // Customize the component
+    return new Card($data);
+});
+```
+
+
+
+### BUG FIXES
+
+1. fix the problem that data form can't disable bulk delete button
+2. fix the problem that Gaode map form does not zoom when it has coordinates [#1377 @gzxy-0102](https://github.com/jqhph/dcat-admin/pull/1377)
+3. repair the problem that the download button of file upload form is not displayed [#1405](https://github.com/jqhph/dcat-admin/issues/1405)
+4. fix the problem of data filtering parameters not taking effect after using `simplePaginate` in data table [#1405](https://github.com/jqhph/dcat-admin/issues/1405)
+
 ## v2.1.1-beta
 
 Release date 2021/7/12
