@@ -252,6 +252,16 @@ $form->saving(function (Form $form) {
 });
 ```
 
+也可以通过抛出异常的形式展示错误信息
+
+```php
+$form->submitted(function ($form) {
+    throw new \Exception('禁止访问');
+});
+```
+
+![](https://cdn.learnku.com/uploads/images/202109/14/38389/S0KtwNRYGK.png!large)
+
 ### 返回字段验证出错信息
 
 通过`responseValidationMessages`方法可以很方便的返回字段验证出错信息，而不需要使用`Laravel validation`功能。
