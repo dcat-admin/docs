@@ -1,5 +1,21 @@
 # BETA版本更新日志
 
+## v2.1.4-beta
+
+发布时间 2021/9/16
+
+升级方法，逐步执行以下命令，最后清除**浏览器缓存**
+```bash
+composer remove dcat/laravel-admin
+composer require dcat/laravel-admin:"2.1.4-beta"
+php artisan admin:update # 不会覆盖翻译文件 menu.php 以及 global.php
+```
+
+### BUG修复
+
+1. 修复管理员列表点击查看权限弹窗展示为空问题
+2. 修复数据表格关联关系表字段`非equal`查询均不生效问题
+3. 修复数据表格`column`使用`if`方法后无法在`displayer`中取得原始字段值问题
 
 ## v2.1.3-beta
 
