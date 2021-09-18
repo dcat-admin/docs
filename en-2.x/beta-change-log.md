@@ -1,5 +1,99 @@
 # BETA version update log
 
+## v2.1.4-beta
+
+Release date 2021/9/16
+
+To upgrade, execute the following commands step by step, and finally clear the **browser cache**
+```bash
+composer remove dcat/laravel-admin
+composer require dcat/laravel-admin: "2.1.4-beta"
+php artisan admin:update # will not overwrite the translation files menu.php and global.php
+```
+
+### BUG FIXES
+
+1. fix the problem that the pop-up window of admin list is empty when you click to view permission
+2. fix the problem that `non-equal` query for the fields in the data table is not effective
+3. repair the problem that the original field value cannot be obtained in `displayer` after using `if` method for data table `column`.
+
+## v2.1.3-beta
+
+Release date 2021/9/14
+
+To upgrade, run the following commands step by step, and finally clear the **browser cache**
+```bash
+composer remove dcat/laravel-admin
+composer require dcat/laravel-admin: "2.1.3-beta"
+php artisan admin:update # will not overwrite the translation files menu.php and global.php
+```
+
+### Functional improvements
+
+**1. Refactored in-line editing of data tables**
+
+The current version refactored the `UI` style of the in-line edit form for `editable`, `checkbox` and `radio` to show the form in a popup window. And a new in-line editing form `textarea` has been added, with the following effect.
+
+! [](https://cdn.learnku.com/uploads/images/202109/14/38389/mX4Za4nj1y.png!large)
+! [](https://cdn.learnku.com/uploads/images/202109/14/38389/9A2GdY3nSx.png!large)
+! [](https://cdn.learnku.com/uploads/images/202109/14/38389/6Bo4phkB3f.png!large)
+! [](https://cdn.learnku.com/uploads/images/202109/14/38389/wViO5EoPBg.png!large)
+
+
+**2. Add `favicon` parameter to configuration file**
+
+From the current version, you can configure `favicon` link in `config/admin.php` with the parameter `favicon`.
+
+**3. Support displaying the `message` of exceptions thrown when submitting data forms**
+
+As of the current version, if an exception is thrown when submitting a form, it will look like this
+```php
+$form->submitted(function ($form) {
+    throw new \Exception('Access forbidden');
+});
+```
+
+Then you will see the following message in the page
+
+! [](https://cdn.learnku.com/uploads/images/202109/14/38389/S0KtwNRYGK.png!large)
+
+
+**5. Optimize the use of `array` and `table` forms in tool forms**
+
+In the old version of `Widgtet/Form`, if you use `array` and `table` forms, and if you use file upload form in `array` and `table` forms, you need to customize the file upload address in order to upload properly, so this version has optimized this function, and after the updated version, you don't need to customize the upload address anymore.
+```php
+$this->array('...' , function ($form) {
+    // No need to customize the upload address
+    $form->image('img');
+});
+```
+
+**4. Add support for `addElementClass` method on data form `html`**
+
+In the old version, the `class` set by `addElementClass` did not work for the `html` method, so this has been improved in the new version
+```php
+$form->html(...) ->addElementClass(['class1', ...]) ;
+```
+
+**5. Data form image upload form does not check if image exists when accessing thumbnails**
+
+[@zhaiyuxin103](https://github.com/jqhph/dcat-admin/pull/1455)
+
+
+### BUG FIXES
+
+1. fix the problem that data forms cannot be merged correctly when using closure validation rules [#1429 @Edwin](https://github.com/jqhph/dcat-admin/pull/1429)
+2. fix the problem that the file name generated after the `sequenceName` method is enabled for file upload has a duplicate suffix
+3. repair the problem that files cannot be uploaded after setting `required` validation rules for one-to-one fields in file upload form
+4. repair the problem of blank filtering sidebar under some operations [#1445 @Abbotton](https://github.com/jqhph/dcat-admin/pull/1445)
+5. fix the problem of invalid second parameter specified in `model` method of `selectTable`, `multipleSelectTable` and other fields [#1460 @hhniao](https://github.com/jqhph/dcat-admin/pull/1460)
+6. fix the problem of not being able to translate the text of `dimensions` verification failure prompt in the image upload form
+7. fix the problem that the picture upload form cannot be submitted after using picture upload form in `array`, `table` and `hasMany` forms and setting `dimensions` validation rules
+8. repair the problem that only the first picture can be previewed in multi-picture upload
+9. repair the problem that the dynamic display of the form does not take effect if the field value has decimal point
+
+
+
 ## v2.1.2-beta
 
 Release date 2021/7/12
