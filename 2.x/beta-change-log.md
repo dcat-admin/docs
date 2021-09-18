@@ -1,5 +1,99 @@
 # BETA版本更新日志
 
+## v2.1.4-beta
+
+发布时间 2021/9/16
+
+升级方法，逐步执行以下命令，最后清除**浏览器缓存**
+```bash
+composer remove dcat/laravel-admin
+composer require dcat/laravel-admin:"2.1.4-beta"
+php artisan admin:update # 不会覆盖翻译文件 menu.php 以及 global.php
+```
+
+### BUG修复
+
+1. 修复管理员列表点击查看权限弹窗展示为空问题
+2. 修复数据表格关联关系表字段`非equal`查询均不生效问题
+3. 修复数据表格`column`使用`if`方法后无法在`displayer`中取得原始字段值问题
+
+## v2.1.3-beta
+
+发布时间 2021/9/14
+
+升级方法，逐步执行以下命令，最后清除**浏览器缓存**
+```bash
+composer remove dcat/laravel-admin
+composer require dcat/laravel-admin:"2.1.3-beta"
+php artisan admin:update # 不会覆盖翻译文件 menu.php 以及 global.php
+```
+
+### 功能改进
+
+**1.重构数据表格行内编辑功能**
+
+当前版本重构了`editable`、`checkbox`和`radio`等三种行内编辑表单的`UI`样式，改为在弹窗中展示表单。并且增加了新的行内编辑表单`textarea`，效果如下：
+
+![](https://cdn.learnku.com/uploads/images/202109/14/38389/mX4Za4nj1y.png!large)
+![](https://cdn.learnku.com/uploads/images/202109/14/38389/9A2GdY3nSx.png!large)
+![](https://cdn.learnku.com/uploads/images/202109/14/38389/6Bo4phkB3f.png!large)
+![](https://cdn.learnku.com/uploads/images/202109/14/38389/wViO5EoPBg.png!large)
+
+
+**2.配置文件增加`favicon`参数**
+
+从当前版本开始可以在`config/admin.php`中配置`favicon`链接，参数名为`favicon`
+
+**3.数据表单提交时支持展示被抛出异常的`message`**
+
+从当前版本开始，假如提交表单时抛出异常如下
+```php
+$form->submitted(function ($form) {
+    throw new \Exception('禁止访问');
+});
+```
+
+那么将可以在页面中看到如下提示
+
+![](https://cdn.learnku.com/uploads/images/202109/14/38389/S0KtwNRYGK.png!large)
+
+
+**5.优化`array`、`table`表单在工具表单中的使用**
+
+在旧版本`Widgtet/Form`中如果使用了`array`、`table`表单，并且在`array`、`table`表单中使用了文件上传表单时，需要自定义文件上传地址才能正常上传，所以此次版本对这个功能做了优化，更新版本之后将不需要再自定义上传地址
+```php
+$this->array('...', function ($form) {
+    // 无需自定义上传地址
+    $form->image('img');
+});
+```
+
+**4.增加数据表单`html`对`addElementClass`方法的支持**
+
+在旧版本中，`addElementClass`设置的`class`无法对`html`方法生效，所以新版中对此做了改进
+```php
+$form->html(...)->addElementClass(['class1', ...]);
+```
+
+**5.数据表单图片上传表单访问缩略图时不检查图片是否存在**
+
+[@zhaiyuxin103](https://github.com/jqhph/dcat-admin/pull/1455)
+
+
+### BUG修复
+
+1. 修复数据表单使用闭包验证规则时无法正确合并问题 [#1429 @Edwin](https://github.com/jqhph/dcat-admin/pull/1429)
+2. 修复文件上传启用`sequenceName`方法后生成的文件名带有重复后缀问题
+3. 修复文件上传表单上传一对一字段设置`required`验证规则后无法上传文件问题
+4. 修复某些操作下出现空白筛选边栏的问题 [#1445 @Abbotton](https://github.com/jqhph/dcat-admin/pull/1445)
+5. 修复`selectTable`、`multipleSelectTable`等字段的`model`方法指定第二个参数无效问题 [#1460 @hhniao](https://github.com/jqhph/dcat-admin/pull/1460)
+6. 修复无法翻译图片上传表单`dimensions`验证失败提示文案问题
+7. 修复当在`array`、`table`以及`hasMany`表单中使用图片上传表单，并且设置`dimensions`验证规则后无法提交问题
+8. 修复多图上传只能预览第一个图片问题
+9. 修复表单动态展示如果字段值带小数点时不生效问题
+
+
+
 ## v2.1.2-beta
 
 发布时间 2021/7/12

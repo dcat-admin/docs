@@ -14,9 +14,7 @@ $grid->column('nickname')->editable(true);
 ```
 
 效果
-<a href="{{public}}/assets/img/screenshots/editable.gif" target="_blank">
-    <img  src="{{public}}/assets/img/screenshots/editable.gif" style="box-shadow:0 1px 6px 1px rgba(0, 0, 0, 0.12)" width="100%">
-</a>
+![](https://cdn.learnku.com/uploads/images/202109/14/38389/mX4Za4nj1y.png!large)
 
 
 ### 开关 (switch)
@@ -150,6 +148,8 @@ $grid->column('options')->radio([
 $grid->column('options')->radio([...], true);
 ```
 
+![](https://cdn.learnku.com/uploads/images/202109/14/38389/6Bo4phkB3f.png!large)
+
 ### 多选框 (checkbox)
 ```php
 $grid->column('options')->checkbox([
@@ -171,3 +171,11 @@ $grid->column('options')->checkbox([...], true);
 
 ![]({{public}}/assets/img/screenshots/grid-column-checkbox.png)
 
+
+### textarea
+
+```php
+$grid->column('...')->textarea();
+```
+
+![](https://cdn.learnku.com/uploads/images/202109/14/38389/wViO5EoPBg.png!large)
