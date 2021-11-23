@@ -27,7 +27,7 @@ When running the command, you may be prompted to enter a directory to store your
 
 
 ```php
-php artisan admin:ext-make gank --namespace="Dcat\Admin\Extension\Gank"
+php artisan admin:ext-make dcat-admin-extensions/gank --namespace="Dcat\Admin\Extension\Gank"
 ```
 
 The `dcat-admin-extensions/gank` is the package name, and the `namespace` option is the top-level namespace used by the package, after running this command, the directory `dcat-admin-extensions/gank` will be generated in the extension directory set in `config/admin.php` and the following document structure:
