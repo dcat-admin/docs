@@ -116,7 +116,7 @@ class Gank extends Extension
     // custom properties
     public static $categoryColorsMap = [
         'App'      => 'var(--purple)',
-        'Front End''     => 'var(--primary)',
+        'Front End'     => 'var(--primary)',
         'Recommendation' => 'var(--primary-dark)',
         'Welfare'   => 'var(--blue)',
         'Explosion'     => 'var(--danger)',
