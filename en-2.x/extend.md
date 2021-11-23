@@ -66,7 +66,7 @@ The functionality of this extension is primarily used to display the contents of
     ├── routes
     │   └── web.php
     └── src
-        ├── Gank.php
+        ├── Setting.php
         ├── GankServiceProvider.php
         └── Http
             └── Controllers
