@@ -179,7 +179,7 @@ The second way to add a menu is used here, adding the following code to the `boo
 Admin::menu()->add([
     [
         'id'            => 1,
-        'title'         => `Dry Fish Camp`,
+        'title'         => 'Dry Fish Camp',
         'icon'          => ' fa-newspaper-o',
         'uri'           => 'gank',
         'parent_id'     => 0,
