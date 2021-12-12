@@ -1,6 +1,131 @@
 # BETA version update log
 
-## v2.1.4-beta
+## v2.1.6-beta
+
+Release date 2021/12/12
+
+To upgrade, run the following commands step by step, and finally clear the **browser cache**
+```bash
+composer remove dcat/laravel-admin
+composer require dcat/laravel-admin: "2.1.6-beta"
+php artisan admin:update # will not overwrite the translation files menu.php and global.php
+```
+
+### New features
+
+**1. Add `Form::autocomplete()` form**
+
+[#1514 @Edwin](https://github.com/jqhph/dcat-admin/pull/1514) This form allows you to search for form values while filling out the form and display the results in a dropdown list, using the following
+
+```php
+$form->autocomplete($column[, $label])->options(['foo', 'bar', ...]) ;
+```
+
+The effect is as follows
+! [](https://cdn.learnku.com/uploads/images/202112/12/38389/ArVNSvChag.png!large)
+
+It is also possible to get data from the remote API
+``` php
+// the first parameter of the ajax function is the ajax url, the second parameter is the valueField (optional), and the third parameter is the groupField (optional)
+$form->autocomplete($column[, $label])->ajax('/countries', 'name', 'region');
+```
+
+The remote API server-side request parameter is query, and the sample code is as follows
+```php
+class CountryController extends AdminController
+{
+    public function search()
+    {
+        $countries = Country::when(request('query'), function ($query, $value) {
+            $query->where('name', 'like', "%{$value}%");
+        })->get();
+
+        return Admin::json($countries->toArray());
+    }
+}
+```
+
+For more usage refer to the document [Data Forms - Field Usage - autocomplete](model-form-fields.md#autocomplete)
+
+
+**2. Image/file upload support for `arttribute` method**
+[#1510 @iwzh](https://github.com/jqhph/dcat-admin/pull/1510) The `attribute` method allows you to set attributes to a hidden field form for file uploads, used as follows
+
+```php
+$form->file($column)->attribute(['foo' => 'bar', ...]) ;
+```
+
+**3. Add `between` table header filter to data table**
+[#1510 @iwzh](https://github.com/jqhph/dcat-admin/pull/1510) is used as follows
+
+``` php
+$grid->column('created_at')->filter(
+    Grid\Column\Filter\Between::make()->datetime()
+);
+```
+
+**4. Add `depthColumn` to the model tree to save the current hierarchy**
+
+[#1549 @weiwait](https://github.com/jqhph/dcat-admin/pull/1510)
+
+Use the following
+``` php
+class Category extends Model
+{
+    use ModelTree;
+    
+    // Defining the depthColumn property will save the current row's hierarchy in the data table
+    protected $depthColumn = 'depth';
+}
+```
+
+**5. Form `Row` layout can be set independently of width**
+[#1530 @iwzh](https://github.com/jqhph/dcat-admin/pull/1530) is used as follows
+
+``` php
+$form->row(function ($row) {
+    // Set the default width for all fields
+    $row->defaultWidth(3);
+    
+    // Set the width of each field independently
+    $row->width(4)->text(...) ;
+});
+```
+
+### Functional improvements
+
+**1. Adjust the parameter type accepted by the rows method callback function when exporting data from a data table to Collection**
+[#1584 @jourdon](https://github.com/jqhph/dcat-admin/pull/1584) is used as follows
+
+```php
+use Illuminate\Support\Collection;
+
+$grid->export()->rows(function (Collection $rows) {
+    foreach ($rows as $index => &$row) {
+       // The format of $row is the model
+       dd($row);
+    }
+
+    return $rows;
+});
+```
+
+
+### BUG FIXES
+
+1. fix the problem of uploading image thumbnails with OSS [#1499 @jorry2008](https://github.com/jqhph/dcat-admin/pull/1499)
+2. fix the problem that the default item of data table filter cannot be set to `0` [#1506 @liushoukun](https://github.com/jqhph/dcat-admin/pull/1506)
+3. repair the problem of abnormal validation rules of one-to-one correlation form [#1516](https://github.com/jqhph/dcat-admin/issues/1516)
+4. fix the problem that when uploading form files, you can't continue to drag and drop the files if they have been added [#1541 @hmilyfyj](https://github.com/jqhph/dcat-admin/pull/1541)
+5. fix the problem of style loss when paginator is switched under `LazyRenderable` [#1539 @jyiL](https://github.com/jqhph/dcat-admin/pull/1539)
+6. fix the problem of wrong data type of paging `perPage` when using MongoDB for data table [#1555 @SmallRuralDog](https://github.com/jqhph/dcat-admin/pull/1555)
+7. fix the problem that `pjax` can't initialize `a` tag again after the page is rendered with `pjax` [#1576 @xyzzxy123](https://github.com/jqhph/dcat-admin/pull/1576)
+8. fix the invalid parameter of `refresh` of `Column::switch()` method of data table [#1595 @wxfjamdc](https://github.com/jqhph/dcat-admin/pull/1595)
+9. fix the problem that uploading multiple pictures will cause the old picture thumbnails to be deleted [#1556](https://github.com/jqhph/dcat-admin/issues/1556)
+
+
+## v2.1.5-beta
+
 
 Release date 2021/9/16
 
