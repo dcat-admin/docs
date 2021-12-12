@@ -586,6 +586,90 @@ $form->checkbox($column[, $label])
 $form->checkbox('column')->canCheckAll();
 ```
 
+<a name="autocomplete"></a>
+## autocomplete
+
+此表单可以在填写表单时进行对表单值进行搜索，并把结果展示在下拉列表中，用法如下
+
+```php
+$form->autocomplete($column[, $label])->options(['foo', 'bar', ...]);
+
+// 设置分组名称
+$form->autocomplete($column[, $label])->groups([
+    [
+        'label' => 'group name',
+        'options' => ['foo', 'bar', ...],
+    ],
+]);
+```
+
+效果如下
+![](https://cdn.learnku.com/uploads/images/202112/12/38389/ArVNSvChag.png!large)
+
+### 从远程API获取数据
+
+也可以从远程API中获取数据
+```php
+// ajax 函数的第一个参数为 ajax url, 第二个参数为 valueField（可选）, 第三个参数为 groupField（可选）
+$form->autocomplete($column[, $label])->ajax('/countries', 'name', 'region');
+```
+
+远程API 服务端的请求参数为query，示例代码如下：
+```php
+class CountryController extends AdminController
+{
+    public function search()
+    {
+        $countries = Country::when(request('query'), function ($query, $value) {
+            $query->where('name', 'like', "%{$value}%");
+        })->get();
+
+        return Admin::json($countries->toArray());
+    }
+}
+```
+
+### 自定义 autocomplete 的设置：
+详细设置请参考： [devbridge/jQuery-Autocomplete](https://github.com/devbridge/jQuery-Autocomplete)
+```
+$js = <<<JS
+    function (suggestion) {
+        alert('You selected: ' + suggestion.value + ', ' + suggestion.data);
+    }
+JS;
+
+$form->autocomplete($column[, $label])->configs([
+    'minChars' => 5,
+    'noCache' => true,
+    'onSelect' => JavaScript::make($js),
+]);
+```
+
+configs 同样也支持闭包：
+```
+$form->autocomplete($column[, $label])->configs(function($model, $value){
+    return [
+        ....
+    ];
+});
+```
+
+### 表单联动
+autocomplete 的联动逻辑和select的刚好相反。
+depends 需要写在受影响的字段，不限上级字段类型，上级字段的值将同时上传到API。
+```
+$form->select('region')->options([
+    'asia',
+    'Africa',
+    'America',
+    'Europe',
+]);
+
+$form->autocomplete('country')->ajax('/countries', 'name', 'region');
+
+// 将会发出 /states?query={query}&region={region}&country={country}  的请求
+$form->autocomplete('addr')->ajax('/states', 'name')->depends(['region', 'country']);
+```
 
 
 <a name="email"></a>
