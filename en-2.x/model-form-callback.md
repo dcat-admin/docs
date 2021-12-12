@@ -252,6 +252,17 @@ $form->saving(function (Form $form) {
 });
 ```
 
+Error messages can also be displayed in the form of exceptions thrown
+
+```php
+$form->submitted(function ($form) {
+    throw new \Exception('Access prohibited');
+});
+```
+
+![](https://cdn.learnku.com/uploads/images/202109/14/38389/S0KtwNRYGK.png!large)
+
+
 ### Return field validation error message
 
 The `responseValidationMessages` method makes it easy to return field validation error messages without using the `Laravel validation` feature.

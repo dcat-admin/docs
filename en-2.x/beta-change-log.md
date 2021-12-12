@@ -1,5 +1,339 @@
 # BETA version update log
 
+## v2.1.4-beta
+
+Release date 2021/9/16
+
+To upgrade, execute the following commands step by step, and finally clear the **browser cache**
+```bash
+composer remove dcat/laravel-admin
+composer require dcat/laravel-admin: "2.1.4-beta"
+php artisan admin:update # will not overwrite the translation files menu.php and global.php
+```
+
+### BUG FIXES
+
+1. fix the problem that the pop-up window of admin list is empty when you click to view permission
+2. fix the problem that `non-equal` query for the fields in the data table is not effective
+3. repair the problem that the original field value cannot be obtained in `displayer` after using `if` method for data table `column`.
+
+## v2.1.3-beta
+
+Release date 2021/9/14
+
+To upgrade, run the following commands step by step, and finally clear the **browser cache**
+```bash
+composer remove dcat/laravel-admin
+composer require dcat/laravel-admin: "2.1.3-beta"
+php artisan admin:update # will not overwrite the translation files menu.php and global.php
+```
+
+### Functional improvements
+
+**1. Refactored in-line editing of data tables**
+
+The current version refactored the `UI` style of the in-line edit form for `editable`, `checkbox` and `radio` to show the form in a popup window. And a new in-line editing form `textarea` has been added, with the following effect.
+
+! [](https://cdn.learnku.com/uploads/images/202109/14/38389/mX4Za4nj1y.png!large)
+! [](https://cdn.learnku.com/uploads/images/202109/14/38389/9A2GdY3nSx.png!large)
+! [](https://cdn.learnku.com/uploads/images/202109/14/38389/6Bo4phkB3f.png!large)
+! [](https://cdn.learnku.com/uploads/images/202109/14/38389/wViO5EoPBg.png!large)
+
+
+**2. Add `favicon` parameter to configuration file**
+
+From the current version, you can configure `favicon` link in `config/admin.php` with the parameter `favicon`.
+
+**3. Support displaying the `message` of exceptions thrown when submitting data forms**
+
+As of the current version, if an exception is thrown when submitting a form, it will look like this
+```php
+$form->submitted(function ($form) {
+    throw new \Exception('Access forbidden');
+});
+```
+
+Then you will see the following message in the page
+
+! [](https://cdn.learnku.com/uploads/images/202109/14/38389/S0KtwNRYGK.png!large)
+
+
+**5. Optimize the use of `array` and `table` forms in tool forms**
+
+In the old version of `Widgtet/Form`, if you use `array` and `table` forms, and if you use file upload form in `array` and `table` forms, you need to customize the file upload address in order to upload properly, so this version has optimized this function, and after the updated version, you don't need to customize the upload address anymore.
+```php
+$this->array('...' , function ($form) {
+    // No need to customize the upload address
+    $form->image('img');
+});
+```
+
+**4. Add support for `addElementClass` method on data form `html`**
+
+In the old version, the `class` set by `addElementClass` did not work for the `html` method, so this has been improved in the new version
+```php
+$form->html(...) ->addElementClass(['class1', ...]) ;
+```
+
+**5. Data form image upload form does not check if image exists when accessing thumbnails**
+
+[@zhaiyuxin103](https://github.com/jqhph/dcat-admin/pull/1455)
+
+
+### BUG FIXES
+
+1. fix the problem that data forms cannot be merged correctly when using closure validation rules [#1429 @Edwin](https://github.com/jqhph/dcat-admin/pull/1429)
+2. fix the problem that the file name generated after the `sequenceName` method is enabled for file upload has a duplicate suffix
+3. repair the problem that files cannot be uploaded after setting `required` validation rules for one-to-one fields in file upload form
+4. repair the problem of blank filtering sidebar under some operations [#1445 @Abbotton](https://github.com/jqhph/dcat-admin/pull/1445)
+5. fix the problem of invalid second parameter specified in `model` method of `selectTable`, `multipleSelectTable` and other fields [#1460 @hhniao](https://github.com/jqhph/dcat-admin/pull/1460)
+6. fix the problem of not being able to translate the text of `dimensions` verification failure prompt in the image upload form
+7. fix the problem that the picture upload form cannot be submitted after using picture upload form in `array`, `table` and `hasMany` forms and setting `dimensions` validation rules
+8. repair the problem that only the first picture can be previewed in multi-picture upload
+9. repair the problem that the dynamic display of the form does not take effect if the field value has decimal point
+
+
+
+## v2.1.2-beta
+
+Release date 2021/7/12
+
+To upgrade, step-by-step execute the following commands and clear the browser cache
+```bash
+composer remove dcat/laravel-admin
+composer require dcat/laravel-admin: "2.1.2-beta"
+php artisan admin:update # will not overwrite the translation files menu.php and global.php
+```
+
+### Feature improvements
+
+**1. Add Grid\Model::apply() method**
+
+This method can be used to apply quick search and filtering query criteria to a data table.
+
+In the old version, it was very troublesome to use the quick search and filtering query criteria
+```php
+$grid->header(function ($collection) use ($grid) {
+    $query = Model::query();
+
+    // Get the table filter where condition array to iterate through
+    $grid->model()->getQueries()->unique()->each(function ($value) use (&$query) {
+        if (in_array($value['method'], ['paginate', 'get', 'orderBy', 'orderByDesc'], true)) {
+            return;
+        }
+
+        $query = call_user_func_array([$query, $value['method']], $value['arguments'] ? []);
+    });
+
+    // Find out the statistics
+    $data = $query->get();
+
+    // Customize the component
+    return new Card($data);
+});
+```
+
+Starting with the current version you can use the `apply` method to simplify the above code
+```php
+$grid->header(function ($collection) use ($grid) {
+    $query = Model::query();
+
+    // Get the table filter where condition array to iterate through
+    $grid->model()->apply($query);
+
+    // Find out the statistics
+    $data = $query->get();
+
+    // Customize the component
+    return new Card($data);
+});
+```
+
+
+
+### BUG FIXES
+
+1. fix the problem that data form can't disable bulk delete button
+2. fix the problem that Gaode map form does not zoom when it has coordinates [#1377 @gzxy-0102](https://github.com/jqhph/dcat-admin/pull/1377)
+3. repair the problem that the download button of file upload form is not displayed [#1405](https://github.com/jqhph/dcat-admin/issues/1405)
+4. fix the problem of data filtering parameters not taking effect after using `simplePaginate` in data table [#1405](https://github.com/jqhph/dcat-admin/issues/1405)
+
+## v2.1.1-beta
+
+Release date 2021/7/12
+
+To upgrade, execute the following commands step by step and clear your browser cache
+```bash
+composer remove dcat/laravel-admin
+composer require dcat/laravel-admin:"2.1.1-beta"
+php artisan admin:update # The translation files menu.php and global.php will not be overwritten
+```
+
+### New features
+
+**1. Add model tree expand method to control whether to expand all child node data**
+
+Expand all child node data by default
+
+```php
+// Expand the child node data
+$tree->expand();
+
+// Collapse all child node data
+$tree->expand(false);
+```
+
+**2. Add file upload form download function**
+
+```php
+$form->file('...')->downloadable();
+```
+
+
+**3. Add the Gaudet map form**
+
+Set in the configuration file `config/admin.php` [#1331 @gaizhixin](https://github.com/jqhph/dcat-admin/pull/1331)
+```php
+    'map' => [
+        'provider' => 'amap',
+        'keys' => [
+            // Configure the key of Gaode Map
+            'amap' => 'key',
+        ],
+    ],
+```
+
+
+**4. New addElementClass method for setting custom classes to form fields**
+
+```php
+// If you don't want to add a prefix, set the second parameter to false
+$form->text(...)->addElementClass(['class1', 'class2'], false);
+```
+
+**5. Add table batch operation to set the drop-down menu split line function**
+
+Support the following two ways
+
+```php
+// Way 1
+$grid->batchActions(function ($batch) {
+    $batch->add(...);
+    
+    // Show split line
+    $batch->divider();
+    
+    ...
+});
+
+// Way 2
+use Dcat\Admin\Grid\Tools\ActionDivider;
+
+$grid->batchActions([
+    new Action1(),
+    ...
+    new ActionDivider(),
+    ...
+]);
+```
+
+### Feature improvements
+
+
+**1.table form support custom view**
+
+```php
+$this->table(...)->setView('...');
+```
+
+**2. Optimize the operation experience and UI after menu shrinkage**
+
+When the menu shrinks, the cursor moves up and automatically expands if the menu is clicked, it will automatically shrink back after jumping; and fixes the problem of `mini-logo` being shown incorrectly.
+
+
+**3. Data table row action column no longer shows empty dropdown menu when there is no action button**
+
+Data table row action column no longer shows empty dropdown menu when there is no action button [#1327 @jiangyuntao](https://github.com/jqhph/dcat-admin/pull/1331)
+
+**4. Optimize display of image upload form images**
+
+[#1366 @ShermanTsang](https://github.com/jqhph/dcat-admin/pull/1366)
+
+### BUG FIXES
+
+1. repair the problem that `Grid::__toString()` will report an error if there is no data when the tree table (`tree`) expands its sub-nodes
+2. repair the problem of invalid filtering conditions reduction after enabling asynchronous rendering function of data table
+3. repair the problem of abnormal display of the number of filtering items in asynchronous rendering of the table
+4. repair the problem that setting `class` of form fields will overwrite the default `class`.
+5. repair the problem of displaying abnormal messages when visiting the page without authority after closing `debug` mode
+6. repair the problem that `Grid::disableBatchDelete` fails after the configuration file custom batch delete button
+7. repair the problem that tertiary menu cannot be hidden after menu indentation
+8. repair the problem that the built-in permission system reports error when clicking `Add permission` when it is set to no route prefix
+9. repair the problem of not disabling the authority middleware when the built-in authority system is disabled.
+10. repair the problem that editing data cannot be displayed when the second parameter of `select` and `model` of `selectTable` is not `id`.
+11. fix the problem that some forms setting size style does not take effect [#1361 @Abbotton](https://github.com/jqhph/dcat-admin/pull/1361)
+12. fix the problem that the table sorting function is not compatible with `Grid\Model::latest` and `oldest` methods
+
+
+## v2.1.0-beta
+
+Release date 2021/5/23
+
+To upgrade, step-by-step execute the following commands and clear the browser cache
+
+```bash
+composer remove dcat/laravel-admin
+composer require dcat/laravel-admin: "2.1.0-beta"
+php artisan admin:update # will not overwrite the translation files menu.php and global.php
+```
+
+### New features
+
+**1. Add table asynchronous rendering feature**
+
+When the table on a page displays a particularly large amount of data (many columns and many rows) and loads more components, it may lag, so you can use the table asynchronous rendering feature to effectively reduce the page lag: the
+
+```php
+// Enable asynchronous rendering of tables
+$grid->async();
+```
+
+Note that there is no need to enable this feature if the page is not visibly stuttering, and that it is not available if there are multiple data tables on the page! Refer to [datagrid - asynchronous rendering](model-grid-async.md) for detailed usage
+
+
+### Feature improvements
+
+
+**1. Support for `Laravel Octane 1.x` version**
+
+This version adapts the changes related to `Laravel Octane 1.x` version, refer to [Laravel Octane](laravel-octane.md) for the specific usage.
+
+
+**2. Call `expand(false)` to disable automatic pop-up filter sidebar**
+
+```php
+// disable automatic popup filter sidebar
+$grid->filter(function ($filter) {
+    $filter->expand(false);
+    
+    ...
+});
+```
+
+**3. Upgrade `tinymce` to `v5.8.0` version**
+
+[@yiming0](https://github.com/jqhph/dcat-admin/pull/1263)
+
+
+**4. Automatically clear the menu cache after binding the menu to the permissions and roles pages**
+
+
+### BUG FIXES
+
+1. fix `withConstraints` method invalid for detail page `url` problem [#1232](https://github.com/jqhph/dcat-admin/issues/1232)
+2. fix the problem that the form value is converted into an associated array when the multi-image/file upload form deletes pictures
+3. fix the problem that Baidu map component cannot be used after `https` is enabled [#1162](https://github.com/jqhph/dcat-admin/issues/1162)
+
 ## v2.0.24-beta
 
 Release date 2021/4/30

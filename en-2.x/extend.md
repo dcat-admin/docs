@@ -26,7 +26,7 @@ The `Dcat Admin` package will be installed with `composer`, so first create a `c
 When running the command, you may be prompted to enter a directory to store your extensions, you can add a configuration `'extension_dir' => admin_path('Extensions')` in `config/admin.php` so that the extensions will be stored in `app/Admin/` Extensions directory, but you can also put it in any other directory.
 
 
-```php
+```bash
 php artisan admin:extend dcat-admin-extensions/gank --namespace="Dcat\Admin\Extension\Gank"
 ```
 
@@ -547,7 +547,7 @@ After installation, you can import extensions by running the following commands.
 > Generally, you don't need to import views, database migration files, and language packs. If you want to import other files, you need to define them by the extension developer.
 > Also this command allows repeat execution.
 
-```php
+```bash
 php artisan admin:import Dcat\Admin\Extension\Gank\Gank
 ```
 

@@ -7,6 +7,7 @@ There are a number of form components built into `model-form` to help you build 
 
 <a name="value"></a>
 ### Set the value of the form (value)
+
 ```php
 $form->text('title')->value('text...');
 ```
@@ -80,7 +81,7 @@ The `saving` method allows you to change the format of the data to be saved.
 ```php
 use Dcat\Admin\Support\Helper;
 
-$form->mutipleFile('files')->saving(function ($paths) {
+$form->multipleFile('files')->saving(function ($paths) {
     $paths = Helper::array($paths);
     
     // Get other fields of the current row of the database
@@ -95,11 +96,11 @@ $form->mutipleFile('files')->saving(function ($paths) {
 ### Modify form data display (customFormat)
 The `customFormat` method can be used to change the value of a field injected into the form from an external source.
 
-In the following example the `mutipleFile` field requires that the field values to be rendered be in array format, we can convert the field values from the database to `array` format by using the `customFormat` method.
+In the example below, the `multiFile` field requires the field values to be rendered in array format, and we can convert the field values from the database to `array` format using the `customFormat` method
 ```php
 use Dcat\Admin\Support\Helper;
 
-$form->mutipleFile('files')->saving(function ($paths) {
+$form->multipleFile('files')->saving(function ($paths) {
     $paths = Helper::array($paths);
     
     return json_encode($paths);
