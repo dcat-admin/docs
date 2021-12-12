@@ -65,6 +65,9 @@ class Category extends Model
     
     // 标题字段名称，默认值为 title
     protected $titleColumn = 'name';
+    
+    // Since v2.1.6-beta，定义depthColumn属性后，将会在数据表保存当前行的层级
+    protected $depthColumn = 'depth';
 }
 ```
 

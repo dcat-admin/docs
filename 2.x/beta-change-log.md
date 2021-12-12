@@ -1,6 +1,130 @@
 # BETA版本更新日志
 
-## v2.1.4-beta
+## v2.1.6-beta
+
+发布时间 2021/12/12
+
+升级方法，逐步执行以下命令，最后清除**浏览器缓存**
+```bash
+composer remove dcat/laravel-admin
+composer require dcat/laravel-admin:"2.1.6-beta"
+php artisan admin:update # 不会覆盖翻译文件 menu.php 以及 global.php
+```
+
+### 新增功能
+
+**1.增加`Form::autocomplete()`表单**
+
+[#1514 @Edwin](https://github.com/jqhph/dcat-admin/pull/1514) 此表单可以在填写表单时进行对表单值进行搜索，并把结果展示在下拉列表中，用法如下
+
+```php
+$form->autocomplete($column[, $label])->options(['foo', 'bar', ...]);
+```
+
+效果如下
+![](https://cdn.learnku.com/uploads/images/202112/12/38389/ArVNSvChag.png!large)
+
+也可以从远程API中获取数据
+```php
+// ajax 函数的第一个参数为 ajax url, 第二个参数为 valueField（可选）, 第三个参数为 groupField（可选）
+$form->autocomplete($column[, $label])->ajax('/countries', 'name', 'region');
+```
+
+远程API 服务端的请求参数为query，示例代码如下：
+```php
+class CountryController extends AdminController
+{
+    public function search()
+    {
+        $countries = Country::when(request('query'), function ($query, $value) {
+            $query->where('name', 'like', "%{$value}%");
+        })->get();
+
+        return Admin::json($countries->toArray());
+    }
+}
+```
+
+更多用法参考文档[数据表单 - 字段使用 - autocomplete](model-form-fields.md#autocomplete)
+
+
+**2.图片/文件上传支持`arttribute`方法**
+[#1510 @iwzh](https://github.com/jqhph/dcat-admin/pull/1510) 通过`attribute`方法可以给文件上传的隐藏域表单设置属性，用法如下
+
+```php
+$form->file($column)->attribute(['foo' => 'bar', ...]);
+```
+
+**3.数据表格增加`between`表头过滤器**
+[#1510 @iwzh](https://github.com/jqhph/dcat-admin/pull/1510) 用法如下
+
+```php
+$grid->column('created_at')->filter(
+    Grid\Column\Filter\Between::make()->datetime()
+);
+```
+
+**4.模型树增加`depthColumn`用于保存当前层级**
+
+[#1549 @weiwait](https://github.com/jqhph/dcat-admin/pull/1510)
+
+用法如下
+```php
+class Category extends Model
+{
+    use ModelTree;
+    
+    // 定义depthColumn属性后，将会在数据表保存当前行的层级
+    protected $depthColumn = 'depth';
+}
+```
+
+**5.表单`Row`布局可独立设置宽度**
+[#1530 @iwzh](https://github.com/jqhph/dcat-admin/pull/1530) 用法如下
+
+```php
+$form->row(function ($row) {
+    // 给所有字段设置默认宽度
+    $row->defaultWidth(3);
+    
+    // 每个字段独立设置宽度
+    $row->width(4)->text(...);
+});
+```
+
+### 功能改进
+
+**1.调整数据表格导出数据时rows方法回调函数接受的参数类型为Collection**
+[#1584 @jourdon](https://github.com/jqhph/dcat-admin/pull/1584) 用法如下
+
+```php
+use Illuminate\Support\Collection;
+
+$grid->export()->rows(function (Collection $rows) {
+    foreach ($rows as $index => &$row) {
+       // $row 的格式为模型
+       dd($row);
+    }
+
+    return $rows;
+});
+```
+
+
+### BUG修复
+
+1. 修复使用OSS上传图片缩略图报错问题 [#1499 @jorry2008](https://github.com/jqhph/dcat-admin/pull/1499)
+2. 修复数据表格筛选默认项不能设置为`0`问题 [#1506 @liushoukun](https://github.com/jqhph/dcat-admin/pull/1506)
+3. 修复一对一关联关系表单验证规则异常问题 [#1516](https://github.com/jqhph/dcat-admin/issues/1516)
+4. 修复表单文件上传时，若已添加过文件则无法继续拖拽上传问题 [#1541 @hmilyfyj](https://github.com/jqhph/dcat-admin/pull/1541)
+5. 修复分页器在`LazyRenderable`下切换时导致样式丢失的问题 [#1539 @jyiL](https://github.com/jqhph/dcat-admin/pull/1539)
+6. 修复数据表格使用MongoDB时分页`perPage`数据类型错误问题 [#1555 @SmallRuralDog](https://github.com/jqhph/dcat-admin/pull/1555)
+7. 修复页面使用`pjax`渲染后`pjax`无法再次初始化`a`标签问题 [#1576 @xyzzxy123](https://github.com/jqhph/dcat-admin/pull/1576)
+8. 修复数据表格`Column::switch()`方法`refresh`参数无效问题 [#1595 @wxfjamdc](https://github.com/jqhph/dcat-admin/pull/1595)
+9. 修复多图片上传上传多个图片会导致旧图片缩略图被删除问题 [#1556](https://github.com/jqhph/dcat-admin/issues/1556)
+
+
+## v2.1.5-beta
 
 发布时间 2021/9/16
 
