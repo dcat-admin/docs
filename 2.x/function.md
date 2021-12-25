@@ -1,5 +1,18 @@
 # 帮助函数
 
+### admin_redirect
+> Since `v2.1.7-beta`
+
+跳转到指定`url`，此函数可用于代替`redirect`函数，支持`pjax`以及`ajax`请求
+
+```php
+// 不需要添加admin前缀
+return admin_redirect('auth/users');
+
+// 如果想要跳转到非admin前缀的链接，需要传递完整url链接
+return admin_redirect(url('users'));
+```
+
 ### admin_exist
 
 `admin_exist` 用于中断程序执行，并响应数据到浏览器进行显示，用于代替 `exit` 和 `die`，下面简单介绍下用法
