@@ -1,5 +1,35 @@
 # BETA version update log
 
+## v2.1.7-beta
+
+Release date 2021/12/25
+
+To upgrade, execute the following commands step by step, and finally clear the **browser cache**
+```bash
+composer remove dcat/laravel-admin
+composer require dcat/laravel-admin: "2.1.7-beta"
+php artisan admin:update # will not overwrite the translation files menu.php and global.php
+```
+
+### New features
+
+**1. Add `admin_redirect` function**
+
+This function can be used instead of the `redirect` function to support `pjax` and `ajax` requests
+
+```php
+// no need to add the admin prefix
+return admin_redirect('auth/users');
+
+// If you want to jump to a link that is not prefixed with admin, you need to pass the full url link
+return admin_redirect(url('users'));
+```
+
+### BUG FIX
+
+1. fix `destroyThumbnail` problem when using file upload form to delete files
+2. fix the problem that row data cannot be deleted when `hasMany`/`array`/`table` form field name is the same as subform field name
+
 ## v2.1.6-beta
 
 Release date 2021/12/12
