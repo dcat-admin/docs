@@ -1,5 +1,37 @@
 # BETA版本更新日志
 
+## v2.1.7-beta
+
+发布时间 2021/12/25
+
+升级方法，逐步执行以下命令，最后清除**浏览器缓存**
+```bash
+composer remove dcat/laravel-admin
+composer require dcat/laravel-admin:"2.1.7-beta"
+php artisan admin:update # 不会覆盖翻译文件 menu.php 以及 global.php
+```
+
+### 新增功能
+
+**1.增加`admin_redirect`函数**
+
+跳转到指定`url`，此函数可用于代替`redirect`函数，支持`pjax`以及`ajax`请求
+
+```php
+// 不需要添加admin前缀
+return admin_redirect('auth/users');
+
+// 如果想要跳转到非admin前缀的链接，需要传递完整url链接
+return admin_redirect(url('users'));
+```
+
+### BUG修复
+
+1. 修复使用文件(file)上传表单删除文件时会报`destroyThumbnail`问题
+2. 修复当`hasMany`/`array`/`table`表单字段名与子表单字段名一样时无法删除行数据问题
+
+
+
 ## v2.1.6-beta
 
 发布时间 2021/12/12
