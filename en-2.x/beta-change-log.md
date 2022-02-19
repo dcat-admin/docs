@@ -1,4 +1,59 @@
-# BETA version update log
+# BETA version changelog
+
+## v2.2.0-beta
+
+Release date 2022/2/20
+
+To upgrade, run the following commands step by step, and finally clear the **browser cache**
+```bash
+composer remove dcat/laravel-admin
+composer require dcat/laravel-admin: "2.2.0-beta"
+php artisan admin:update # will not overwrite the translation files menu.php and global.php
+```
+
+### New features
+
+**1. Added support for Laravel version 9.x**
+
+
+**2. Support for using `table` forms in `hasMany` and `array` forms**
+
+Use the following
+
+```php
+$form->array($field, function ($form) {
+    $form->table('table_json', function ($form) {
+        $form->text('title');
+        
+        ...
+    });
+});
+```
+
+**3. Data table filter add findInSet method**
+
+[#1639 @guanguans](https://github.com/jqhph/dcat-admin/pull/1639) sql: ` ... WHERE FIND_IN_SET("$input", $column)`, example
+
+```php
+$grid->filter(function ($filter) {
+$filter->findInSet($field);
+});
+```
+
+
+**4. Tweak code generator to select default directory logic**
+
+[#1627 @Edwin](https://github.com/jqhph/dcat-admin/pull/1514) The new version will use the directory set by the configuration parameter `admin.directory` as the default directory, which is `Admin` by default.
+
+
+### BUG FIXES
+
+1. fix the problem that `table` form does not support `help` method [#1616 @jcbt](https://github.com/jqhph/dcat-admin/pull/1616)
+2. repair the problem that the default application home page is inaccessible when registering extension route after enabling multiple applications
+3. fix the problem of not being able to hide the reset button of pop-up form [#1631 @Sparkinzy](https://github.com/jqhph/dcat-admin/pull/1631)
+4. fix `autocomplete` error reported by js component when the field value is digital [#1661 @Sparkinzy](https://github.com/jqhph/dcat-admin/pull/1661)
+5. fix the problem that permission management form can't read routing information when setting route prefix as "/"
+
 
 ## v2.1.7-beta
 
