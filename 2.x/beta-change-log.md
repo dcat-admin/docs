@@ -1,5 +1,60 @@
 # BETA版本更新日志
 
+## v2.2.0-beta
+
+发布时间 2022/2/20
+
+升级方法，逐步执行以下命令，最后清除**浏览器缓存**
+```bash
+composer remove dcat/laravel-admin
+composer require dcat/laravel-admin:"2.2.0-beta"
+php artisan admin:update # 不会覆盖翻译文件 menu.php 以及 global.php
+```
+
+### 新增功能
+
+**1.增加对Laravel9.x版本的支持**
+
+
+**2.支持在`hasMany`以及`array`表单中使用`table`表单**
+
+用法如下
+
+```php
+$form->array($field, function ($form) {
+    $form->table('table_json', function ($form) {
+        $form->text('title');
+        
+        ...
+    });
+});
+```
+
+**3.数据表格过滤器增加findInSet方法**
+
+[#1639 @guanguans](https://github.com/jqhph/dcat-admin/pull/1639) sql: ` ... WHERE FIND_IN_SET("$input", $column)`，示例
+
+```php
+$grid->filter(function ($filter) {
+    $filter->findInSet($field);
+});
+```
+
+
+**4.调整代码生成器选择默认目录逻辑**
+
+[#1627 @Edwin](https://github.com/jqhph/dcat-admin/pull/1514) 新版本将会根据配置参数`admin.directory`设置的目录作为默认目录，默认为`Admin`。
+
+
+### BUG修复
+
+1. 修复`table`表单不支持`help`方法问题 [#1616 @jcbt](https://github.com/jqhph/dcat-admin/pull/1616)
+2. 修复启用多应用后注册扩展路由会导致默认应用首页无法访问问题
+3. 修复无法隐藏弹窗表单重置按钮问题 [#1631 @Sparkinzy](https://github.com/jqhph/dcat-admin/pull/1631)
+4. 修复`autocomplete`当字段值为数字时js组件报错问题 [#1661 @Sparkinzy](https://github.com/jqhph/dcat-admin/pull/1661)
+5. 修复设置路由前缀为"/"时权限管理表单无法读取路由信息问题
+
+
 ## v2.1.7-beta
 
 发布时间 2021/12/25
