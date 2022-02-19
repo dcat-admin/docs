@@ -210,6 +210,13 @@ $filter->month('column', $label);
 $filter->year('column', $label);
 ```
 
+<a name="findinset"></a>
+### findInSet
+`sql: ... WHERE FIND_IN_SET("$input", $column)`：
+```php
+$filter->findInSet('column', $label);
+```
+
 <a name="where"></a>
 ### 复杂查询where
 
