@@ -587,6 +587,90 @@ Enable Select All
 $form->checkbox('column')->canCheckAll();
 ```
 
+<a name="autocomplete"></a
+## autocomplete
+
+This form allows you to search for form values while filling out the form and display the results in a dropdown list, as follows
+
+```php
+$form->autocomplete($column[, $label])->options(['foo', 'bar', ...]) ;
+
+// Set the group name
+$form->autocomplete($column[, $label])->groups([
+    [
+        'label' => 'group name',
+        'options' => ['foo', 'bar', ...] ,
+    ],
+]);
+```
+
+The effect is as follows
+! [](https://cdn.learnku.com/uploads/images/202112/12/38389/ArVNSvChag.png!large)
+
+### Fetching data from remote APIs
+
+It is also possible to fetch data from a remote API
+```php
+// the first parameter of the ajax function is the ajax url, the second parameter is the valueField (optional), and the third parameter is the groupField (optional)
+$form->autocomplete($column[, $label])->ajax('/countries', 'name', 'region');
+```
+
+The remote API server-side request parameter is query, and the sample code is as follows
+```php
+class CountryController extends AdminController
+{
+    public function search()
+    {
+        $countries = Country::when(request('query'), function ($query, $value) {
+            $query->where('name', 'like', "%{$value}%");
+        })->get();
+
+        return Admin::json($countries->toArray());
+    }
+}
+```
+
+### Custom autocomplete settings.
+For detailed settings, see: [devbridge/jQuery-Autocomplete](https://github.com/devbridge/jQuery-Autocomplete)
+```
+$js = <<<JS
+    function (suggestion) {
+        alert('You selected: ' + suggestion.value + ', ' + suggestion.data);
+    }
+JS;
+
+$form->autocomplete($column[, $label])->configs([
+    'minChars' => 5,
+    'noCache' => true,
+    'onSelect' => JavaScript::make($js),
+]);
+```
+
+configs also supports closures.
+```
+$form->autocomplete($column[, $label])->configs(function($model, $value){
+    return [
+        ....
+    ];
+});
+```
+
+### Form linkage
+The linkage logic of autocomplete is just the opposite of select's.
+depends needs to be written to the affected field, regardless of the parent field type, and the value of the parent field will be uploaded to the API at the same time.
+```
+$form->select('region')->options([
+    'asia',
+    'Africa',
+    'America',
+    'Europe',
+]);
+
+$form->autocomplete('country')->ajax('/countries', 'name', 'region');
+
+// A request for /states?query={query}&region={region}&country={country} will be sent
+$form->autocomplete('addr')->ajax('/states', 'name')->depends(['region', 'country']);
+```
 
 
 <a name="email"></a>

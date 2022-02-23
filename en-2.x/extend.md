@@ -27,7 +27,7 @@ When running the command, you may be prompted to enter a directory to store your
 
 
 ```bash
-php artisan admin:extend dcat-admin-extensions/gank --namespace="Dcat\Admin\Extension\Gank"
+php artisan admin:ext-make dcat-admin-extensions/gank --namespace="Dcat\Admin\Extension\Gank"
 ```
 
 The `dcat-admin-extensions/gank` is the package name, and the `namespace` option is the top-level namespace used by the package, after running this command, the directory `dcat-admin-extensions/gank` will be generated in the extension directory set in `config/admin.php` and the following document structure:
@@ -46,7 +46,7 @@ The `dcat-admin-extensions/gank` is the package name, and the `namespace` option
     ├── routes
     │   └── web.php
     └── src
-        ├── Gank.php
+        ├── Setting.php
         ├── GankServiceProvider.php
         └── Http
             └── Controllers
@@ -66,7 +66,7 @@ The functionality of this extension is primarily used to display the contents of
     ├── routes
     │   └── web.php
     └── src
-        ├── Gank.php
+        ├── Setting.php
         ├── GankServiceProvider.php
         └── Http
             └── Controllers
@@ -116,7 +116,7 @@ class Gank extends Extension
     // custom properties
     public static $categoryColorsMap = [
         'App'      => 'var(--purple)',
-        'Front End''     => 'var(--primary)',
+        'Front End'     => 'var(--primary)',
         'Recommendation' => 'var(--primary-dark)',
         'Welfare'   => 'var(--blue)',
         'Explosion'     => 'var(--danger)',
@@ -179,7 +179,7 @@ The second way to add a menu is used here, adding the following code to the `boo
 Admin::menu()->add([
     [
         'id'            => 1,
-        'title'         => `Dry Fish Camp`,
+        'title'         => 'Dry Fish Camp',
         'icon'          => ' fa-newspaper-o',
         'uri'           => 'gank',
         'parent_id'     => 0,

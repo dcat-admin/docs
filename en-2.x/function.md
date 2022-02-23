@@ -1,5 +1,18 @@
 # Help function
 
+### admin_redirect
+> Since `v2.1.7-beta`
+
+Jump to the specified `url`, this function can be used instead of the `redirect` function to support `pjax` and `ajax` requests
+
+```php
+// no need to add the admin prefix
+return admin_redirect('auth/users');
+
+// If you want to jump to a link that is not prefixed with admin, you need to pass the full url link
+return admin_redirect(url('users'));
+```
+
 ### admin_exit
 
 `admin_exit` is used to interrupt program execution and respond to data displayed to the browser, instead of `exit` and `die`, the following is a brief description of usage

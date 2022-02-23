@@ -1,9 +1,9 @@
-# 安装
+# Installation
 
 <a name="env"></a>
 ## Requirements
 + PHP >= `7.1`
-+ Laravel `5.5.0` ~ `8.*`
++ Laravel `5.5.0` ~ `9.*`
 + Fileinfo PHP Extension
 
 <a name="start"></a>
@@ -15,7 +15,7 @@
 First you need to install `laravel`, if you already have it installed you can skip this step.
 ```bash
 composer create-project --prefer-dist laravel/laravel ProjectName 7.*
-# 或
+# or
 composer create-project --prefer-dist laravel/laravel ProjectName
 ```
 

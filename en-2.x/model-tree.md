@@ -65,6 +65,10 @@ class Category extends Model
     
     // TITLE field name, default value is title
     protected $titleColumn = 'name';
+    
+    // Since v2.1.6-beta，Defining the depthColumn property will save the current row's hierarchy in the data table
+    protected $depthColumn = 'depth';
+
 }
 ```
 
