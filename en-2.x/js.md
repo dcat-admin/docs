@@ -6,7 +6,7 @@ The `Dcat Admin` has built-in components for some common JS functions, which can
 
 The callback function set by the `Dcat.ready` method is executed after all `JS` scripts have been loaded.
 
-> {tip} The `Dcat.ready` method is only required when writing `JS` code in a template file, and is not required when adding `JS` code in `php` code using the `Dcat\Admin\Admin::script` method. The `Dcat.ready` method is not required when adding `JS` code in `php` code using the `Dcat AdminAdminAdmin::script` method.
+> {tip} The `Dcat.ready` method is only required when writing `JS` code in a template file, and is not required when adding `JS` code in `php` code using the `Dcat\Admin\Admin::script` method. 
 
 ```html
 <div>...</div>
