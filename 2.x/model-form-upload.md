@@ -456,6 +456,17 @@ JS
 );
 ```
 
+<a name="override"></a>
+### 覆盖上传 (override)
+
+通过 `override` 方法可以实现文件覆盖上传。
+
+```php
+$form->file('file')->override();
+
+$form->image('img')->override();
+```
+
 
 <a name="imagefun"></a>
 ## 图片上传内置方法
