@@ -1,6 +1,11 @@
 # BETA版本更新日志
 
-## 升级版本
+## v2.2.1-beta
+
+发布时间 2022/6/26
+
+
+### 升级版本
 
 逐步执行以下命令，最后清除**浏览器缓存**
 ```bash
@@ -8,10 +13,6 @@ composer remove dcat/laravel-admin
 composer require dcat/laravel-admin:"2.2.1-beta"
 php artisan admin:update # 不会覆盖翻译文件 menu.php 以及 global.php
 ```
-
-## v2.2.1-beta
-
-发布时间 2022/6/26
 
 ### 新增功能
 
