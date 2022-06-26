@@ -1,5 +1,97 @@
 # BETA版本更新日志
 
+## v2.2.1-beta
+
+发布时间 2022/6/26
+
+
+### 升级版本
+
+逐步执行以下命令，最后清除**浏览器缓存**
+```bash
+composer remove dcat/laravel-admin
+composer require dcat/laravel-admin:"2.2.1-beta"
+php artisan admin:update # 不会覆盖翻译文件 menu.php 以及 global.php
+```
+
+### 新增功能
+
+**1. 日夜模式切换支持多开场景 ([#1672 by @ReedSun](https://github.com/jqhph/dcat-admin/pull/1672))**
+
+**2. 表单增加 `override` 方法实现文件覆盖 ([#1706 by @laradocs](https://github.com/jqhph/dcat-admin/pull/1706))**
+
+```php
+$form->file('file')->override();
+
+$form->image('img')->override();
+```
+
+**3. 支持嵌套资源型控制器 ([#1725 by @lddtime](https://github.com/jqhph/dcat-admin/pull/1725))**
+
+**4. 支持在array/hasMany表单中使用when控制表单显示功能 ([#1776 by @rainhon](https://github.com/jqhph/dcat-admin/pull/1776))**
+
+```php
+$form->array($column, function ($form) {
+    $form->radio('radio')
+        ->when([1, 4], function (Form $form) {
+            $form->text('text1');
+            $form->text('text2');
+            $form->text('text3');
+        })
+        ->when(2, function (Form $form) {
+            $form->editor('editor');
+        })
+        ->when(3, function (Form $form) {
+            $form->image('image');
+        })
+        ->options([...])
+        ->default(1);
+});
+```
+
+**5. 页面组件 `tab` 刷新后可选中对应选项 ([#1689 by @iljalukin](https://github.com/jqhph/dcat-admin/pull/1689))**
+
+```php
+use Dcat\Admin\Widgets\Tab;
+
+$tab = new Tab();
+
+$tab->add('tab1', ..., 'id1');
+$tab->add('tab2', ..., 'id2');
+```
+
+**6. 页面组件 `table` 没有数据时显示 `No data.` ([#1678 by @shacky](https://github.com/jqhph/dcat-admin/pull/1678))**
+
+
+### BUG 修复
+
+1. 修复 laravel9 中代码生成器报错问题
+2. 修复  Laravel9 发布语言文件路径错误 ([#1688 by @laradocs](https://github.com/jqhph/dcat-admin/pull/1688))
+3. 修复 `tab` 选项卡重复加载后不选中错误 ([#1689 by @iljalukin](https://github.com/jqhph/dcat-admin/pull/1689))
+
+4. 修复代码生成器提交失败保存状态 ([#1690 @by laradocs](https://github.com/jqhph/dcat-admin/pull/1690))
+
+5. 修复 `HasMany`表单中使用 `map` 字段错误问题 ([#1701 by @mojiajuzi](https://github.com/jqhph/dcat-admin/pull/1701))
+
+6. 修复代码生成器生成 Laravel9 语言文件路径错误 ([#1711 by @laradocs](https://github.com/jqhph/dcat-admin/pull/1711))
+
+7. 修复上传文件 `options` 被覆盖错误 ([#1747 by @laradocs](https://github.com/jqhph/dcat-admin/pull/1747))
+
+8. 修复 Grid 中 `editable` 方法触发 `xss` 错误 ([#1755 by @laradocs](https://github.com/jqhph/dcat-admin/pull/1755))
+
+9. 修复 Form 中 `number` 调用 `disable` 方法对自增减按钮失效 ([#1771 @by @laradocs](https://github.com/jqhph/dcat-admin/pull/1771))
+
+10. 修复 Form 中使用 `layout` 布局后 `HasMany` 字段删除子字段后验证规则依然生效问题([#1781 @by laradocs](https://github.com/jqhph/dcat-admin/pull/1781))
+
+11. 修复 PHP8.1 中触发 `ltrim` 和 `htmlentities` 方法异常 ([#1783 by @laradocs](https://github.com/jqhph/dcat-admin/pull/1783))
+
+12. 修复 Grid 使用`$grid->column('xxx.xxx')`无法导出关联模型字段值问题 ([#1740 by @xyzzxy123](https://github.com/jqhph/dcat-admin/pull/1740))
+
+13. 修复项目路径中含有`Admin`造成代码生成器无法正常解析命名空间的问题  ([#1778 by @GMD170629](https://github.com/jqhph/dcat-admin/pull/1778))
+
+14. 修复 `embeds` 字段无法上传文件问题 ([#1770 by @pianzhou2021](https://github.com/jqhph/dcat-admin/pull/1770))
+
+
 ## v2.2.0-beta
 
 发布时间 2022/2/20
