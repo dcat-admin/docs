@@ -456,6 +456,18 @@ JS
 );
 ```
 
+<a name="override"></a>
+### 覆盖上传 (override)
+
+The `override` method enables file override uploads.
+
+```php
+$form->file('file')->override();
+
+$form->image('img')->override();
+```
+
+
 
 <a name="imagefun"></a>
 ## Picture uploading built-in method
