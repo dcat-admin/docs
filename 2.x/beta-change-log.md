@@ -28,7 +28,7 @@ $form->image('img')->override();
 
 **3. 支持嵌套资源型控制器 ([#1725 by @lddtime](https://github.com/jqhph/dcat-admin/pull/1725))**
 
-**4. 支持在array/hasMany表单中使用when控制表单显示功能 [#1776 by @rainhon](https://github.com/jqhph/dcat-admin/pull/1776))**
+**4. 支持在array/hasMany表单中使用when控制表单显示功能 ([#1776 by @rainhon](https://github.com/jqhph/dcat-admin/pull/1776))**
 
 ```php
 $form->array($column, function ($form) {
@@ -85,7 +85,7 @@ $tab->add('tab2', ..., 'id2');
 
 11. 修复 PHP8.1 中触发 `ltrim` 和 `htmlentities` 方法异常 ([#1783 by @laradocs](https://github.com/jqhph/dcat-admin/pull/1783))
 
-12. 修复 Grid 使用`$grid->column('xxx.xxx')`无法到处关联模型字段值问题 ([#1740 by @xyzzxy123](https://github.com/jqhph/dcat-admin/pull/1740))
+12. 修复 Grid 使用`$grid->column('xxx.xxx')`无法导出关联模型字段值问题 ([#1740 by @xyzzxy123](https://github.com/jqhph/dcat-admin/pull/1740))
 
 13. 修复项目路径中含有`Admin`造成代码生成器无法正常解析命名空间的问题  ([#1778 by @GMD170629](https://github.com/jqhph/dcat-admin/pull/1778))
 
