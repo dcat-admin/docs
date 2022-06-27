@@ -1,5 +1,24 @@
 # BETA版本更新日志
 
+## v2.2.2-beta
+
+发布时间 2022/6/27
+
+
+### 升级版本
+
+逐步执行以下命令，最后清除**浏览器缓存**
+```bash
+composer remove dcat/laravel-admin
+composer require dcat/laravel-admin:"2.2.2-beta"
+php artisan admin:update # 不会覆盖翻译文件 menu.php 以及 global.php
+```
+
+### BUG 修复
+
+1. 修复 Grid 表格当字段值为`0`时无法显示问题
+
+
 ## v2.2.1-beta
 
 发布时间 2022/6/26
