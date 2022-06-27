@@ -1,5 +1,97 @@
 # BETA version changelog
 
+## v2.2.1-beta
+
+Release Date 2022/6/26
+
+
+### Upgrade Version
+
+Execute the following command step by step, and finally clear the **browser cache**
+```bash
+composer remove dcat/laravel-admin
+composer require dcat/laravel-admin: "2.2.1-beta"
+php artisan admin:update # will not overwrite the translation files menu.php and global.php
+```
+
+### New features
+
+**1. Day/Night mode switch supports multiple opening scenarios ([#1672 by @ReedSun](https://github.com/jqhph/dcat-admin/pull/1672))**
+
+**2. Add `override` method to forms to implement file override ([#1706 by @laradocs](https://github.com/jqhph/dcat-admin/pull/1706))**
+
+```php
+$form->file('file')->override();
+
+$form->image('img')->override();
+```
+
+**3. Support for nested resource-based controllers ([#1725 by @lddtime](https://github.com/jqhph/dcat-admin/pull/1725))**
+
+**4. Support for using when to control form display in array/hasMany forms ([#1776 by @rainhon](https://github.com/jqhph/dcat-admin/pull/1776))**
+
+```php
+$form->array($column, function ($form) {
+    $form->radio('radio')
+        ->when([1, 4], function (Form $form) {
+            $form->text('text1');
+            $form->text('text2');
+            $form->text('text3');
+        })
+        ->when(2, function (Form $form) {
+            $form->editor('editor');
+        })
+        ->when(3, function (Form $form) {
+            $form->image('image');
+        })
+        ->options([...])
+        ->default(1);
+});
+```
+
+**5. page component `tab` refreshes to check the corresponding option ([#1689 by @iljalukin](https://github.com/jqhph/dcat-admin/pull/1689))**
+
+```php
+use Dcat\Admin\Widgets\Tab;
+
+$tab = new Tab();
+
+$tab->add('tab1', ... , 'id1');
+$tab->add('tab2', ... , 'id2'); $tab->add('tab2', ... , 'id2');
+```
+
+**6. Page component `table` shows `No data.` ([#1678 by @shacky](https://github.com/jqhph/dcat-admin/pull/1678))**
+
+
+### Bug fixes
+
+1. fix the code generator error problem in laravel9
+2. fix Laravel9 release language file path error ([#1688 by @laradocs](https://github.com/jqhph/dcat-admin/pull/1688))
+3. fix `tab` tab unchecked error after repeated loading ([#1689 by @iljalukin](https://github.com/jqhph/dcat-admin/pull/1689))
+
+4. fix code generator commit failure save state ([#1690 @by laradocs](https://github.com/jqhph/dcat-admin/pull/1690))
+
+5. fix `map` field error in `HasMany` form ([#1701 by @mojiajuzi](https://github.com/jqhph/dcat-admin/pull/1701))
+
+6. fix code generator to generate Laravel9 language file path error ([#1711 by @laradocs](https://github.com/jqhph/dcat-admin/pull/1711))
+
+7. fix overwritten upload file `options` error ([#1747 by @laradocs](https://github.com/jqhph/dcat-admin/pull/1747))
+
+8. fix `editable` method triggering `xss` error in Grid ([#1755 by @laradocs](https://github.com/jqhph/dcat-admin/pull/1755))
+
+9. fix `number` call `disable` method in Form not working for self-increment/decrement button ([#1771 @by @laradocs](https://github.com/jqhph/dcat-admin/pull/1771))
+
+10. fix validation rule still works after deleting subfields of `HasMany` field in Form using `layout` layout ([#1781 @by laradocs](https://github.com/jqhph/dcat-admin/pull/1781))
+
+11. fix PHP8.1 exception for triggering `ltrim` and `htmlentities` methods ([#1783 by @laradocs](https://github.com/jqhph/dcat-admin/pull/1783))
+
+12. fix Grid using `$grid->column('xxx.xxx')` can't associate model field values everywhere ([#1740 by @xyzzxy123](https://github.com/jqhph/dcat-admin/pull/1740))
+
+13. fix the problem that the code generator can't resolve the namespace normally because the project path contains `Admin` ([#1778 by @GMD170629](https://github.com/jqhph/dcat-admin/pull/1778))
+
+14. fix the problem that `embeds` field can't upload files ([#1770 by @pianzhou2021](https://github.com/jqhph/dcat-admin/pull/1770))
+
+
 ## v2.2.0-beta
 
 Release date 2022/2/20
